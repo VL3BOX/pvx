@@ -8,24 +8,20 @@
             </el-select>
         </div>
         <div class="m-search">
-            <el-input class="u-search" placeholder="请输入搜索内容" v-model="search" size="mini" @keyup.enter.native="goItemPage">
+            <!-- @keyup.enter.native="search_data" -->
+            <el-input class="u-search" placeholder="请输入搜索内容" v-model="search" size="mini">
                 <span slot="prepend">关键词</span>
-                <el-button slot="append" icon="el-icon-search" @click="goItemPage"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="search_data"></el-button>
             </el-input>
         </div>
 
         <div class="m-price-list" v-if="groups && groups.length && isEmpty">
             <!-- <div v-for="i in 2" :key="'wrapper' + i"> -->
-            <el-row class="m-item" :gutter="20" v-for="(group, key) in groups" :key="key">
+            <el-row class="m-item" :gutter="30" v-for="(group, key) in groups" :key="key">
                 <div :span="24" class="u-group-title" v-text="group.label"></div>
                 <el-col :span="6" v-for="(item, k) in group.items" :key="k">
-                    <a
-                        :href="`/item/view/${item.item_id}`"
-                        target="_blank"
-                        v-if="item"
-                        class="u-item"
-                        :class="`u-item-${key}`"
-                    >
+                    <!-- :href="`http://localhost:6090/item/view/${item.item_id}`" target="_blank"  -->
+                    <div @click="goItemPage(item.item_id)" v-if="item" class="u-item" :class="`u-item-${key}`">
                         <div class="u-icon">
                             <img :src="icon_url(item.icon)" />
                         </div>
@@ -35,7 +31,7 @@
                             </span>
                             <span class="u-price">
                                 <span class="u-trending" :class="showItemTrendingClass(item)">{{
-                                    showItemTrending(item)
+                                        showItemTrending(item)
                                 }}</span>
                                 <template v-if="item.sub_days_0_price">
                                     <span>今日：</span>
@@ -45,21 +41,22 @@
                                     <span>昨日：</span>
                                     <GamePrice :price="item.sub_days_1_price" />
                                 </template>
-                                <template
-                                    v-else-if="
-                                        !item.sub_days_0_price && !item.sub_days_1_price && item.sub_days_2_price
-                                    "
-                                >
+                                <template v-else-if="
+                                    !item.sub_days_0_price && !item.sub_days_1_price && item.sub_days_2_price
+                                ">
                                     <span>前日：</span>
                                     <GamePrice :price="item.sub_days_2_price" />
                                 </template>
                                 <span v-else>暂无价目</span>
                             </span>
                         </div>
-                    </a>
+                    </div>
                 </el-col>
             </el-row>
             <!-- </div> -->
+        </div>
+        <div class="m-price-empty" v-else>
+            <el-alert class="u-alert" title="没有对应的物品" type="info" center show-icon @close="close_alert"></el-alert>
         </div>
     </div>
 </template>
@@ -79,6 +76,7 @@ export default {
     data() {
         return {
             groups: [],
+            allGroups: [],
             server: "蝶恋花",
             loading: false,
             search: "",
@@ -105,7 +103,6 @@ export default {
         // 获取星标物品
         get_data() {
             if (!this.server) return;
-
             this.loading = true;
             getItemPrice({
                 server: this.server,
@@ -113,15 +110,47 @@ export default {
             })
                 .then((data) => {
                     data = data.data;
-                    this.groups = Object.values(data.data) || [];
+                    const arr = Object.values(data.data) || []
+                    this.groups = arr;
+                    this.allGroups = arr;
                 })
                 .finally(() => {
                     this.loading = false;
                 });
         },
-        goItemPage: function () {
+        goItemPage: function (id) {
             let host = location.origin;
-            window.open(`${host}/item/#/search/${this.search}?page=1`, "_blank");
+            window.open(`${host}/item/view/${id}`, "_blank");
+            sessionStorage.setItem('server_name', this.server)
+        },
+        //搜索物品
+        search_data() {
+            let arr = []
+            let goodsArr = []
+            if (this.search) {
+                this.allGroups.forEach(item => {
+                    goodsArr = item.items.filter(goodsItem => goodsItem.label.indexOf(this.search) !== -1)
+                    if (goodsArr.length > 0) {
+                        arr.push({
+                            ...item,
+                            items: goodsArr
+                        })
+                    }
+                })
+            } else {
+                arr = this.allGroups
+            }
+            this.groups = arr
+            // this.groups = this.search ? this.allGroups.map(item => {
+            //     return {
+            //         ...item,
+            //         items: item.items.filter(goodsItem => goodsItem.label.indexOf(this.search) !== -1)
+            //     }
+            // }) : this.allGroups
+        },
+        //关闭提示框
+        close_alert() {
+            this.search = ''
         },
         icon_url: function (id) {
             return iconLink(id, this.client);
@@ -157,6 +186,14 @@ export default {
             handler() {
                 this.get_data();
             },
+        },
+        search: {
+            immediate: true,
+            handler(val, oldval) {
+                console.log(val, oldval);
+                this.search_data();
+            },
+            deep: true,
         },
     },
     mounted: function () {

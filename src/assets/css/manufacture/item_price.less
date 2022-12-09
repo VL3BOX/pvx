@@ -76,9 +76,8 @@
         .db;
         .clearfix;
         .mb(10px);
-        // background-color: #fff;
+        cursor: pointer;
         transition: 0.1s ease-in-out;
-
         &:hover {
             background-color: #ceefff;
         }
@@ -91,23 +90,24 @@
     }
 
     .u-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         .fz(12px, 32px);
         .bold;
     }
 
     .u-name {
         .db;
-        .fl;
-        max-width: 80px;
+        // max-width: 180px;
         overflow: hidden;
         .nobreak;
     }
 
     .u-price {
-        .fr;
         color: @color;
+        white-space: nowrap;
     }
-
     .u-trending {
         &.up {
             color: #fc3c3c;
