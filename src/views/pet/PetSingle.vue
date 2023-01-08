@@ -79,10 +79,7 @@
                     </div>
                     <div class="u-meta u-lucky-dates" v-if="luckyDateList.length != 0">
                         <span class="u-meta-label">福缘日期：</span>
-                        <a
-                            class="u-meta u-link u-lucky-dates"
-                            @click="luckyDateShow = true"
-                        >
+                        <a class="u-meta u-link u-lucky-dates" @click="luckyDateShow = true">
                             <i class="el-icon-date"></i>点击查看
                         </a>
                     </div>
@@ -151,7 +148,7 @@ import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import dayjs from "dayjs";
-import PetMap from "@jx3box/jx3box-petmap/src/components/PetMap.vue";
+import PetMap from "@/components/pet/PetMap.vue";
 
 export default {
     name: "PetSingle",
@@ -198,7 +195,7 @@ export default {
             return {
                 client: this.client,
             };
-        }
+        },
     },
     watch: {
         id() {
@@ -315,28 +312,29 @@ export default {
         getPetLuckyReverse: function (petID) {
             getPetLuckyReverse().then((res) => {
                 const now = new Date();
-                let data = {};   // key 是 距离今天的天数, value 是 object，用于取最近
+                let data = {}; // key 是 距离今天的天数, value 是 object，用于取最近
                 let currentPetLucky = res.data.std[petID];
                 if (currentPetLucky) {
                     currentPetLucky.forEach((item) => {
                         let month = parseInt(item.slice(0, -2));
                         let day = parseInt(item.slice(-2));
                         let obj = {
-                            "month": month,
-                            "day": day,
-                            "isToday": (month == now.getMonth() + 1 && day == now.getDate()),
-                            "isClosest": false,
+                            month: month,
+                            day: day,
+                            isToday: month == now.getMonth() + 1 && day == now.getDate(),
+                            isClosest: false,
                         };
 
                         let itemDate = new Date();
-                        itemDate.setMonth(month - 1, day)
+                        itemDate.setMonth(month - 1, day);
                         let diff = Math.ceil((itemDate - now) / (1000 * 3600 * 24));
-                        if (diff < 0)
-                            diff += 365;    // 已过了的加一年
-                        data[diff] = obj;    // 算距离今天的天数
+                        if (diff < 0) diff += 365; // 已过了的加一年
+                        data[diff] = obj; // 算距离今天的天数
                     });
-                    data[Math.min(...Object.keys(data))].isClosest = true;    // 标记最近的那个
-                    this.luckyDateList = Object.values(data).sort((lhs, rhs) => lhs.month - rhs.month || lhs.day - rhs.day); // 按月日排序
+                    data[Math.min(...Object.keys(data))].isClosest = true; // 标记最近的那个
+                    this.luckyDateList = Object.values(data).sort(
+                        (lhs, rhs) => lhs.month - rhs.month || lhs.day - rhs.day
+                    ); // 按月日排序
                 }
             });
         },
