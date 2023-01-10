@@ -42,7 +42,7 @@
 <script>
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import Wiki from "@/components/wiki/Wiki.vue";
-import { getAdventure, getSerendipityAchievementIds } from "@/service/adventure";
+import { getAdventure, getSerendipityAchievementId } from "@/service/adventure";
 import task from "@/components/adventure/task.vue";
 import Serendipity from "@/components/common/serendipity.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
@@ -101,8 +101,8 @@ export default {
                     this.loading = false;
                     postStat(this.type, this.id);
                 });
-            getSerendipityAchievementIds().then((res) => {
-                this.achieve_id = res.data[this.id];
+            getSerendipityAchievementId(this.id).then((res) => {
+                this.achieve_id = res.data.achievement_id;
             });
         },
         goSearch() {

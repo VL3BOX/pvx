@@ -20,8 +20,11 @@ function getAdventureTask(id) {
 function getSerendipityAchievementIds() {
     return axios.get(`${__dataPath}pvx/serendipity/output/serendipity.json`);
 }
+function getSerendipityAchievementId(dwId){
+    return $node().get(`/serendipity/${dwId}/achievement`);
+}
 function getUserSchool() {
     return $team().get("api/team/my-game-roles");
 }
 
-export { getAdventures, getAdventure, getAdventureTask, getSerendipityAchievementIds, getUserSchool };
+export { getAdventures, getAdventure, getAdventureTask, getSerendipityAchievementIds, getSerendipityAchievementId, getUserSchool };
