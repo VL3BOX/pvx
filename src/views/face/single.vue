@@ -20,7 +20,13 @@
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" v-if="!!post.original"/>
+            <Avatar
+                :uid="post.user_id"
+                :url="post.user_avatar"
+                :frame="post.user_avatar_frame"
+                class="u-avatar"
+                v-if="!!post.original"
+            />
             <h2 class="u-title">{{ post.title || "无标题" }}</h2>
             <div class="u-info">
                 <div class="u-author">
@@ -53,6 +59,11 @@
         </div>
 
         <div class="m-single-pics" v-if="previewSrcList && previewSrcList.length > 0">
+            <!-- 动态改为当前图片 -->
+            <div class="u-bg">
+                <img :src="showPic(activePic)">
+                <div class="u-mask"></div>
+            </div>
             <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always">
                 <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
                     <div class="m-face-pic">
@@ -198,6 +209,10 @@ export default {
         canEdit: function () {
             return User.isEditor() || this.post?.user_id == User.getInfo().uid;
         },
+        // TODO:改为当前图片
+        activePic: function () {
+            return this.previewSrcList[0];
+        },
     },
     watch: {},
     created: function () {
@@ -225,26 +240,27 @@ export default {
         showBodyTypeLabel(val) {
             return bodyMap[val];
         },
-        handlePreviewImage(index){
+        handlePreviewImage(index) {
             setTimeout(() => {
-                const imageViewerChild = this.$refs.previewImage[index].$children[0]
-                imageViewerChild && imageViewerChild.reset()
-                imageViewerChild && (imageViewerChild.index = index)
-            }, 0)
-
+                const imageViewerChild = this.$refs.previewImage[index].$children[0];
+                imageViewerChild && imageViewerChild.reset();
+                imageViewerChild && (imageViewerChild.index = index);
+            }, 0);
         },
         getData() {
             if (this.id) {
                 this.loading = true;
-                getOneFaceInfo(this.id).then((res) => {
-                    this.post = this.$store.state.faceSingle = res.data.data;
-                    document.title = this.post.title;
-                    this.getAccessoryList();
-                    //获取作者作品
-                    this.getRandomFaceList();
-                }).catch(err => {
-                    this.loading = false;
-                })
+                getOneFaceInfo(this.id)
+                    .then((res) => {
+                        this.post = this.$store.state.faceSingle = res.data.data;
+                        document.title = this.post.title;
+                        this.getAccessoryList();
+                        //获取作者作品
+                        this.getRandomFaceList();
+                    })
+                    .catch((err) => {
+                        this.loading = false;
+                    });
 
                 getStat("face", this.id).then((res) => {
                     this.stat = res.data;
