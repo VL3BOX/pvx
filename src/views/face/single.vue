@@ -64,7 +64,7 @@
                 <img :src="showPic(activePic)">
                 <div class="u-mask"></div>
             </div>
-            <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always">
+            <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
                 <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
                     <div class="m-face-pic">
                         <el-image
@@ -99,6 +99,7 @@
                 >
             </div>
         </div>
+
         <!-- 数据区 -->
         <div class="m-single-data" v-if="has_buy && facedata">
             <el-divider content-position="left">独家数据分析</el-divider>
@@ -121,6 +122,14 @@
                     >
                 </li>
             </ul>
+        </div>
+        <!-- 上传作者区域 -->
+        <div class="m-author">
+            <el-divider content-position="left">上传作者</el-divider>
+            <a class="u-author-info" :href="authorLink(post.user_id)" target="_blank">
+                <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" />
+                <div class="u-name">{{ post.display_name }}</div>
+            </a>
         </div>
         <!--作者随机作品-->
         <div class="m-random-list">
@@ -191,6 +200,7 @@ export default {
             },
             payBtnLoading: false,
             randomList: [],
+            carouselActive:0
         };
     },
     computed: {
@@ -209,9 +219,8 @@ export default {
         canEdit: function () {
             return User.isEditor() || this.post?.user_id == User.getInfo().uid;
         },
-        // TODO:改为当前图片
         activePic: function () {
-            return this.previewSrcList[0];
+            return this.previewSrcList[this.carouselActive];
         },
     },
     watch: {},
@@ -239,6 +248,9 @@ export default {
         },
         showBodyTypeLabel(val) {
             return bodyMap[val];
+        },
+        carouselChange(val){
+            this.carouselActive=val
         },
         handlePreviewImage(index) {
             setTimeout(() => {
