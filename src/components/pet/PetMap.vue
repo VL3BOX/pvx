@@ -29,7 +29,7 @@ export default {
         };
     },
     mounted() {
-        if (this.originDatas) {
+        if (this.originDatas?.length) {
             this.$emit("loaded", true);
         }
     },
