@@ -81,7 +81,7 @@ export default {
                             label: "坐骑大全",
                             icon: "el-icon-files",
                             key: "horse",
-                            status: false,
+                            status: true,
                         },
                         {
                             path: "/exterior",
