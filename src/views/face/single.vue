@@ -15,9 +15,9 @@
             </el-input>
         </div>
         <!-- 海报banner -->
-        <div class="m-banner" v-if="post.banner">
+        <!-- <div class="m-banner" v-if="post.banner">
             <img :src="showThumbnail(post.banner)" />
-        </div>
+        </div> -->
         <!-- 基本信息 -->
         <div class="m-header">
             <Avatar
@@ -61,7 +61,7 @@
         <div class="m-single-pics" v-if="previewSrcList && previewSrcList.length > 0">
             <!-- 动态改为当前图片 -->
             <div class="u-bg">
-                <img :src="showPic(activePic)">
+                <img :src="showPic(activePic)" />
                 <div class="u-mask"></div>
             </div>
             <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
@@ -200,7 +200,7 @@ export default {
             },
             payBtnLoading: false,
             randomList: [],
-            carouselActive:0
+            carouselActive: 0,
         };
     },
     computed: {
@@ -249,8 +249,8 @@ export default {
         showBodyTypeLabel(val) {
             return bodyMap[val];
         },
-        carouselChange(val){
-            this.carouselActive=val
+        carouselChange(val) {
+            this.carouselActive = val;
         },
         handlePreviewImage(index) {
             setTimeout(() => {
