@@ -1,0 +1,185 @@
+.m-pet-navigation {
+	.pr;
+	.mb(10px);
+    display: flex;
+    .u-input {
+        .ml(20px);
+        // .w(360px);
+        flex:1;
+    }
+}
+
+.m-pet-links {
+	.pa;
+	.rt(20px);
+
+	.u-link {
+		.fz(14px);
+
+		i {
+			.mr(2px);
+			.y;
+		}
+
+		.underline(@color-link);
+	}
+
+	em {
+		margin: 0 5px;
+	}
+}
+
+.m-pet-content {
+	justify-content: space-between;
+	margin-bottom: 30px;
+    .pr;
+
+	.m-pet-card {
+		.mb(0);
+	}
+}
+
+.m-pet-info {
+	flex: 1;
+	min-height: 476px - 20px;
+	background: #f5f7fa;
+	border-radius: 15px;
+	padding: 10px 30px;
+	font-size: 18px;
+	letter-spacing: 2px;
+
+	.u-title {
+	}
+
+	.u-name {
+	}
+
+	.u-type {
+		.fz(14px);
+
+		&:before {
+			content: "(";
+		}
+
+		&:after {
+			content: ")";
+		}
+
+		.ml(10px);
+	}
+
+	.u-stars {
+		.fz(18px);
+		.ml(10px);
+		color: #fbc324;
+	}
+
+	.u-metas {
+		border-top: 1px dashed #ddd;
+		margin-top: 10px;
+		padding-top: 10px;
+
+		.u-lucky-dates {
+			cursor: pointer;
+		}
+	}
+
+	.u-meta {
+		.lh(2.5);
+	}
+
+	.u-meta-label {
+		.bold;
+	}
+
+	.u-shop {
+		i {
+			.dbi;
+			// .y(1px);
+		}
+	}
+
+	.u-price {
+		display: inline-flex;
+	}
+
+	.u-price-item {
+		display: inline-flex;
+		align-items: center;
+
+		i {
+			.size(24px);
+		}
+
+		.fz(15px);
+	}
+
+	.u-rewards {
+		.mr(10px);
+	}
+
+	.u-icon-rewards {
+		background: url("@{game_icons}exteriorbox3-16.png") no-repeat 0 0;
+	}
+
+	.u-icon-coin {
+		background: url("@{game_icons}money-121.png") no-repeat 0 0;
+	}
+}
+
+.m-pet-wiki {
+	margin-top: 10px;
+}
+
+.m-pet-skills {
+	display: flex;
+
+	.u-skill {
+		.mr(10px);
+		.pointer;
+	}
+}
+
+.m-pet-skill {
+	border-radius: 3px;
+	border: 1px solid #132221;
+	background: rgba(#132221f3);
+	padding: 10px;
+
+	.u-skill-name {
+		color: #ff0;
+	}
+
+	.u-skill-desc {
+		color: #eee;
+	}
+}
+
+.m-lucky-dates-dialog {
+	.u-lucky-dates-item {
+		margin: 2px;
+	}
+
+	.u-lucky-dates-description {
+		margin-top: 0px;
+		margin-bottom: 8px;
+		color: #999999;
+	}
+}
+
+@media screen and (max-width: @phone) {
+	.m-pet-content {
+		justify-content: center;
+		margin-bottom: 15px;
+		flex-wrap: wrap;
+		.m-pet-card {
+			.mb(15px);
+			.mr(0);
+		}
+	}
+	.m-pet-info {
+		width: 100%;
+	}
+}
+
+

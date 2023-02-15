@@ -1,0 +1,68 @@
+.m-horse-card {
+    width: 160px;
+    height: 274px;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 20px;
+    margin: 0 10px 20px;
+    color: #24292e;
+    cursor: pointer;
+    .u-image {
+        background-image: radial-gradient(#24292e, #24292e);
+        width: 160px;
+        height: 160px;
+        border-radius: 10px;
+        transition: all 0.5s;
+    }
+    .u-name {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .u-desc {
+        margin-top: 2px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #999;
+    }
+    &.white-color {
+        .u-image {
+            background-image: radial-gradient(#24292e 80%, #fff);
+        }
+    }
+    &.green-color {
+        .u-image {
+            background-image: radial-gradient(#24292e 80%, #00d24b);
+        }
+    }
+    &.blue-color {
+        .u-image {
+            background-image: radial-gradient(#24292e 80%, #007eff);
+        }
+    }
+    &.purple-color {
+        .u-image {
+            background-image: radial-gradient(#24292e 80%, #fe2dfe);
+        }
+    }
+    &.orange-color {
+        .u-image {
+            background-image: radial-gradient(#24292e 80%, #ffa500);
+        }
+    }
+    &:hover {
+        .u-image {
+            transform: scale(1.05);
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-horse-card {
+        width: 100%;
+        text-align: center;
+        .u-image {
+            margin: 0 auto;
+        }
+    }
+}
