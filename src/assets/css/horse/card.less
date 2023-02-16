@@ -1,3 +1,4 @@
+@import "./common.less";
 .m-horse-card {
     width: 160px;
     height: 274px;
@@ -9,6 +10,7 @@
     cursor: pointer;
     .u-image {
         background-image: radial-gradient(#24292e, #24292e);
+        background-color: #24292e;
         width: 160px;
         height: 160px;
         border-radius: 10px;
@@ -25,31 +27,7 @@
         font-weight: 400;
         color: #999;
     }
-    &.white-color {
-        .u-image {
-            background-image: radial-gradient(#24292e 80%, #fff);
-        }
-    }
-    &.green-color {
-        .u-image {
-            background-image: radial-gradient(#24292e 80%, #00d24b);
-        }
-    }
-    &.blue-color {
-        .u-image {
-            background-image: radial-gradient(#24292e 80%, #007eff);
-        }
-    }
-    &.purple-color {
-        .u-image {
-            background-image: radial-gradient(#24292e 80%, #fe2dfe);
-        }
-    }
-    &.orange-color {
-        .u-image {
-            background-image: radial-gradient(#24292e 80%, #ffa500);
-        }
-    }
+
     &:hover {
         .u-image {
             transform: scale(1.05);

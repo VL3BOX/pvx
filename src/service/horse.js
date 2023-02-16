@@ -4,7 +4,7 @@ import axios from "axios";
 // const $ = axios.create({
 //     baseURL : 'http://localhost:9002/'
 // })
-const $ = $node()
+const $ = $node();
 
 function getHorses(params) {
     return $.get("/horses", {
@@ -12,33 +12,22 @@ function getHorses(params) {
     });
 }
 
-function getHorse(horseid, params) {
-    return $.get(`/horse/${horseid}`, {
-        params
-    });
-}
-
-
-function getShopInfo({ item_type, item_id, client = "std" }) {
-    return $.get(`/shop`, {
-        params: {
-            client,
-            itemType: item_type,
-            itemId: item_id,
-        },
+function getHorse(params) {
+    return $.get(`/horse`, {
+        params,
     });
 }
 
 function getAttrs(params) {
-    return $.get('/horse/attrs', {
-        params
-    })
+    return $.get("/horse/attrs", {
+        params,
+    });
 }
 
 function getFeeds(params) {
-  return $.get('/horse/feeds ', {
-      params
-  })
+    return $.get("/horse/feeds ", {
+        params,
+    });
 }
 
-export { getHorses, getHorse, getAttrs, getShopInfo, getFeeds };
+export { getHorses, getHorse, getAttrs, getFeeds };

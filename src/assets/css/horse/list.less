@@ -1,5 +1,6 @@
 .horse-list-wrapper {
     .horse-list-content {
+        margin-top: 50px;
         .horse-title-wrap {
             display: flex;
             justify-content: space-between;
@@ -32,9 +33,29 @@
     }
 }
 
+@media screen and (max-width: @ipad) {
+  .horse-list-wrapper {
+      .horse-list-content {
+        margin-top: 130px;
+          .horse-title-wrap {
+              padding: 0;
+          }
+          .horse-list {
+              &.card-wrap {
+                  .list-content {
+                      .more-btn {
+                          width: calc(100% - 20px);
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
 @media screen and (max-width: @phone) {
     .horse-list-wrapper {
         .horse-list-content {
+          margin-top: 170px;
             .horse-title-wrap {
                 padding: 0;
             }

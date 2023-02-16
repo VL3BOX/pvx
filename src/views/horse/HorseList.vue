@@ -289,10 +289,11 @@ export default {
             await getFeeds().then((res) => {
                 const arr = res.data.map((item) => {
                     const start = item.tip.indexOf("【");
-                    const end = item.tip.indexOf("】") + 1;
-                    item.feed = item.tip.slice(start, end);
+                    const end = item.tip.indexOf("】");
+                    item.feed = item.tip.slice(start + 1, end);
                     return item;
                 });
+                this.feeds = JSON.parse(JSON.stringify(arr));
                 const newArr = [];
                 arr.forEach((item) => {
                     const index = newArr.findIndex((nItem) => nItem.feed === item.feed);

@@ -1,12 +1,12 @@
 <template>
-    <div class="m-horse-card hvr-ripple-out" :class="getColorByQuality(item.Quality) + '-color'">
+    <div class="m-horse-card" :class="`u-quality-bg--` + item.Quality" @click="go(item)">
         <img v-if="item.ImgPath" :src="getImgSrc(item.ImgPath)" class="u-image" />
         <div v-else class="u-image"></div>
         <div class="u-name">{{ item.Name }}</div>
         <div class="u-desc">ID: {{ item.ID }}</div>
         <div class="u-desc">类型: {{ getType(item) }}</div>
         <div class="u-desc">等级: {{ item.Level }}</div>
-        <div v-if="item.SubType===15" class="u-desc">{{ item.MoveSpeedDesc }}</div>
+        <div v-if="item.SubType === 15" class="u-desc">{{ item.MoveSpeedDesc }}</div>
     </div>
 </template>
 
@@ -23,12 +23,18 @@ export default {
         return {};
     },
     computed: {
-        client: function () {
+        client () {
             return this.$store.state.client;
         },
     },
     methods: {
-        getImgSrc: function (path) {
+        go(item) {
+            const id = item.ItemID;
+            // 2 马具 1 坐骑
+            const type = item.SubType === 15 ? 1 : 2;
+            this.$router.push(`/${id}/${type}`);
+        },
+        getImgSrc(path) {
             if (path) {
                 let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
                 let name = img[1].replace(/\\/g, "/");
@@ -62,29 +68,6 @@ export default {
                 }
             }
             return type;
-        },
-        getColorByQuality(quality) {
-            let colorName = "white";
-            if (quality) {
-                switch (quality) {
-                    case 1:
-                        colorName = "white";
-                        break;
-                    case 2:
-                        colorName = "green";
-                        break;
-                    case 3:
-                        colorName = "blue";
-                        break;
-                    case 4:
-                        colorName = "purple";
-                        break;
-                    case 5:
-                        colorName = "orange";
-                        break;
-                }
-            }
-            return colorName;
         },
     },
 };

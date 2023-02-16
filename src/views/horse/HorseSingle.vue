@@ -1,389 +1,407 @@
 <template>
-    <div class="v-pet-single" v-if="pet" v-loading="loading">
-        <div class="m-pet-navigation">
-            <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
-                >返回列表</el-button
-            >
-            <el-input placeholder="请输入宠物名字搜索" v-model="search" class="u-input" @keyup.enter.native="goSearch">
-                <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
-            </el-input>
+    <div class="horse-single-wrapper">
+        <div class="back-wrap">
+            <el-button @click="goBack">返回列表</el-button>
         </div>
-        <div class="m-pet-content flex">
-            <div class="m-pet-links">
-                <a class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
-                    ><i class="el-icon-collection-tag"></i>物品信息</a
-                >
-                <template v-if="achievement_id">
-                    <em> | </em>
-                    <a class="u-link u-achievement" :href="getLink('cj', achievement_id)" target="_blank"
-                        ><i class="el-icon-trophy"></i>成就信息</a
-                    >
-                </template>
-            </div>
-            <petCard :petObject="pet" :lucky="luckyList"></petCard>
-            <div class="m-pet-info">
-                <h1 class="u-title">
-                    <span class="u-name">{{ pet.Name }}</span>
-                    <span class="u-type">{{ getPetType(pet.Class) }} · {{ getPetSource(pet.Source) }}</span>
-                    <i class="u-stars">
-                        <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
-                    </i>
-                </h1>
-
-                <!-- 宠物技能 -->
-                <div class="m-pet-skills">
-                    <div class="u-skill" v-for="(skill, index) in petSkills" :key="index">
-                        <el-popover trigger="hover" popper-class="m-pet-skill" :visible-arrow="false" placement="top">
-                            <div class="u-skill-pop">
-                                <div class="u-skill-name">{{ skill.Name }}</div>
-                                <div class="u-skill-desc">{{ skill.Desc }}</div>
+        <div class="horse-single-content" v-loading="loading">
+            <!-- 主要信息 -->
+            <div class="main-info-wrapper">
+                <div v-if="item.ID" class="title">{{ item.Name }} 的信息</div>
+                <el-row v-if="item.ID" class="main-info-wrap" :gutter="20">
+                    <el-col class="main-img-wrap" :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
+                        <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
+                            <img v-if="item.ImgPath" :src="getImgSrc(item.ImgPath)" class="u-image" />
+                            <div v-else class="u-image"></div>
+                        </div>
+                    </el-col>
+                    <el-col class="main-info-content" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
+                        <div class="info-wrap">
+                            <div class="info-item">ID: {{ item.ID }}</div>
+                            <div class="info-item name">{{ item.Name }}</div>
+                            <div class="info-item">
+                                分类:
+                                {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
                             </div>
-                            <img
-                                slot="reference"
-                                class="u-skill-icon"
-                                :src="iconLink(skill.IconID)"
-                                :alt="skill.Name"
-                            />
-                        </el-popover>
-                    </div>
-                </div>
-
-                <div class="u-metas">
-                    <div class="u-meta u-score"><span class="u-meta-label">宠物分数：</span>{{ pet.Score }}</div>
-                    <div class="u-meta u-desc">
-                        <span class="u-meta-label">宠物说明：</span>
-                        <span class="u-meta-value">
-                            <template v-for="(item, index) in getPetDesc(pet.Desc)">
-                                <span :key="index" v-html="item.text"></span>
-                            </template>
-                        </span>
-                    </div>
-                    <div class="u-meta u-source">
-                        <span class="u-meta-label">获取线索：</span>
-                        <template v-for="item in getPetDesc(pet.OutputDes)">
-                            <span :key="item.text">{{ cleanResourceText(item.text) }}</span>
-                        </template>
-                    </div>
-                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
-                        <span class="u-meta-label">商城价格：</span>
-                        <span class="u-price">
-                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0"
-                                >积分<b>{{ shopInfo.RewardsPrice }}</b
-                                ><i class="u-icon-rewards"></i
-                            ></el-tag>
-                            <el-tag class="u-price-item u-coin"
-                                >通宝<b>{{ shopInfo.CoinPrice }}</b
-                                ><i class="u-icon-coin"></i
-                            ></el-tag>
-                        </span>
-                    </div>
-                    <div class="u-meta u-lucky-dates" v-if="luckyDateList.length != 0">
-                        <span class="u-meta-label">福缘日期：</span>
-                        <a class="u-meta u-link u-lucky-dates" @click="luckyDateShow = true">
-                            <i class="el-icon-date"></i>点击查看
+                            <div class="info-item">品质: {{ item.Level }}</div>
+                            <div v-if="type !== '2'" class="info-item">跑速: {{ speedName }}</div>
+                            <div v-if="type !== '2'" class="info-item">饲料: {{ feedName }}</div>
+                            <div v-if="basicAttrs.length" class="info-list">
+                                <div class="title">基础属性</div>
+                                <div class="basic-list">
+                                    <div class="item" v-for="item in basicAttrs" :key="item.id">
+                                        {{ item.desc }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="magicAttrs.length" class="info-list">
+                                <div class="title">特殊属性</div>
+                                <div class="list">
+                                    <div class="u-attr" v-for="(attr, index) in magicAttrs" :key="index">
+                                        <el-tooltip trigger="hover" placement="top">
+                                            <div class="u-attr-pop" slot="content">
+                                                <div class="u-attr-name" v-if="attr.name">
+                                                    {{
+                                                        (attr.name || "") +
+                                                        (Number(attr.level) ? attr.level + "级" : "")
+                                                    }}
+                                                </div>
+                                                <div class="u-attr-desc">{{ attr.desc }}</div>
+                                            </div>
+                                            <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
+                                        </el-tooltip>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="u-link" :href="getLink('item', this.id)" target="_blank">
+                                <i class="el-icon-collection-tag"></i>
+                                物品信息
+                            </a>
+                        </div>
+                    </el-col>
+                </el-row>
+                <div v-else>无此信息</div>
+            </div>
+            <!-- 同类坐骑 - 普通坐骑 -->
+            <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
+                <div class="title">同类坐骑</div>
+                <same-list :list="sameList"></same-list>
+            </div>
+            <!-- 捕获地图 -->
+            <!--攻略-->
+            <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
+                <WikiPanel :wiki-post="wiki_post">
+                    <template slot="head-title">
+                    <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
+                        <span class="u-txt">物品攻略</span>
+                    </template>
+                    <template slot="head-actions">
+                        <a class="el-button el-button--primary" :href="publish_url(`item/${id}`)">
+                            <i class="el-icon-edit"></i>
+                            <span>完善物品攻略</span>
                         </a>
-                    </div>
-                </div>
+                    </template>
+                    <template slot="body">
+                        <div class="m-wiki-compatible" v-if="compatible">
+                            <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
+                                class="s-link"
+                                :href="publish_url(`item/${id}`)"
+                                >参与修订</a
+                            >。
+                        </div>
+                        <Article :content="wiki_post.post.content" />
+                        <div class="m-wiki-signature">
+                            <i class="el-icon-edit"></i>
+                            本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
+                        </div>
+                        <Thx
+                            class="m-thx"
+                            :postId="id"
+                            postType="item"
+                            :postTitle="wiki_post.source.Name"
+                            :userId="author_id"
+                            :adminBoxcoinEnable="true"
+                            :userBoxcoinEnable="true"
+                            :authors="authors"
+                            mode="wiki"
+                            :key="'item-thx-' + id"
+                            :client="client"
+                        />
+                    </template>
+                </WikiPanel>
+
+                <!-- 历史版本 -->
+                <WikiRevisions type="item" :source-id="id" />
+
+                <!-- 百科评论 -->
+                <WikiComments type="item" :source-id="id" />
+            </div>
+            <div class="m-wiki-post-empty" v-else>
+                <i class="el-icon-s-opportunity"></i>
+                <span>暂无攻略，我要</span>
+                <a class="s-link" :href="publish_url(`item/${id}`)">完善攻略</a>
             </div>
         </div>
-        <!-- 宠物羁绊 -->
-        <div class="m-pet-fetters" v-if="medalList && medalList.length">
-            <div class="u-header">
-                <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
-                <span class="u-txt">宠物羁绊</span>
-            </div>
-            <!-- 羁绊信息 -->
-            <petFetters :info="item" v-for="item in medalList" :key="item.ID" />
-        </div>
-        <!-- 宠物地图 -->
-        <div class="m-pet-map" v-show="mapDisplay">
-            <div class="u-header">
-                <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
-                <span class="u-txt">宠物地图</span>
-            </div>
-            <!-- 地图组件 -->
-            <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />
-        </div>
-        <!-- 宠物攻略 -->
-        <div class="m-pet-wiki">
-            <Wiki
-                source_type="item"
-                :source_id="item_id"
-                :type="type"
-                :id="id"
-                title="宠物攻略"
-                :source_title="title"
-            ></Wiki>
-        </div>
-        <div class="m-pvx-comment">
-            <Comment :id="id" :category="type" order="desc" />
-        </div>
-        <el-dialog class="m-lucky-dates-dialog" title="福缘日期" :visible.sync="luckyDateShow" width="50%">
-            <div class="u-lucky-dates-description">
-                <el-icon class="el-icon-info" name="el-icon-info"></el-icon>
-                红色显示为当日福缘，蓝色显示为距离今日最近的福缘日期
-            </div>
-            <!-- 颜色（type）：优先今日（红色danger），距离今日最近的（蓝色默认），其他（灰色info）-->
-            <el-tag
-                class="u-lucky-dates-item"
-                v-for="(item, index) in luckyDateList"
-                :key="index"
-                :type="item.isToday ? 'danger' : item.isClosest ? '' : 'info'"
-            >
-                {{ item.month }} 月 {{ item.day }} 日
-            </el-tag>
-        </el-dialog>
     </div>
 </template>
 
 <script>
-import { getPet, getPets, getShopInfo, getPetSkill, getSkill } from "@/service/pet";
-import { getPetLucky, getPetLuckyReverse } from "@/service/pet";
-import petCard from "@/components/pet/PetCard.vue";
-import petFetters from "@/components/pet/PetFetters.vue";
-import Wiki from "@/components/wiki/Wiki.vue";
-import petType from "@/assets/data/pet_type.json";
-import petSource from "@/assets/data/pet_source.json";
-import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
-import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
-import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import dayjs from "dayjs";
-import PetMap from "@/components/pet/PetMap.vue";
+import { getHorse, getHorses } from "@/service/horse";
+import { iconLink, getLink, publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
+import SameList from "@/components/horse/SameList.vue";
 
+import { postStat } from "@jx3box/jx3box-common/js/stat.js";
+import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
+
+import Article from "@jx3box/jx3box-editor/src/Article.vue";
+import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
+import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
-    name: "PetSingle",
-    props: [],
-    components: {
-        petCard,
-        petFetters,
-        Wiki,
-        Comment,
-        PetMap,
-    },
-    data: function () {
+    name: "Single",
+    inject: ["__imgRoot"],
+    components: { SameList, WikiPanel, WikiRevisions, WikiComments, Article },
+    data() {
         return {
-            type: "pet",
-            pet: "",
-            petSkills: [],
-            shopInfo: "",
-            luckyList: [],
-            luckyDateList: [],
-            luckyDateShow: false,
-            medalList: [],
-            mapDisplay: false,
             loading: false,
-            search: "",
+            sameLoading: false,
+            item: {},
+            sameList: [],
+
+            wiki_post: {
+                source: {},
+                post: null,
+            },
+            compatible: false,
+            is_empty: true,
         };
     },
     computed: {
-        id: function () {
+        id() {
             return this.$route.params.id;
         },
-        item_id: function () {
-            return this.pet?.ItemTabType + "_" + this.pet?.ItemTabIndex;
+        type() {
+            return this.$route.params.type;
         },
-        achievement_id: function () {
-            return this.petWiki?.achievement_id;
-        },
-        client: function () {
+        client() {
             return this.$store.state.client;
         },
-        title: function () {
-            return this.pet?.Name;
+        basicAttrs() {
+            const attrs = this.item.MagicAttributes;
+            return attrs && attrs.length ? attrs.filter((item) => !item.icon) : [];
         },
-        params: function () {
-            return {
-                client: this.client,
-            };
+        magicAttrs() {
+            const attrs = this.item.MagicAttributes;
+            return attrs && attrs.length
+                ? attrs
+                      .filter((item) => item.icon)
+                      .map((mItem) => {
+                          mItem.iconUrl = iconLink(mItem.icon);
+                          return mItem;
+                      })
+                : [];
+        },
+        typeName() {
+            const item = this.item;
+            // SubType 15为坐骑 23 为马具
+            // DetailType 0普通坐骑，非0奇趣坐骑
+            // DetailType 0头饰，1鞍饰，2足饰，3马饰
+            let type = "";
+            if (item.SubType === 15) {
+                if (item.DetailType === 0) {
+                    type = "普通坐骑";
+                } else {
+                    type = "奇趣坐骑";
+                }
+            } else if (item.SubType === 23) {
+                if (item.DetailType === 0) {
+                    type = "头饰";
+                } else if (item.DetailType === 1) {
+                    type = "鞍饰";
+                } else if (item.DetailType === 2) {
+                    type = "足饰";
+                } else if (item.DetailType === 3) {
+                    type = "马饰";
+                } else {
+                    type = "马具";
+                }
+            }
+            return type;
+        },
+        modeName() {
+            // 双骑
+            let name = "";
+            const item = this.item;
+            if (item.SubType === 15) {
+                if (item.MagicAttributes && item.MagicAttributes.length) {
+                    name = item.MagicAttributes.find((attr) => attr.id === "15650")
+                        ? item.MagicAttributes.find((attr) => attr.id === "15650").name
+                        : "单骑";
+                }
+            }
+            return name;
+        },
+        feedName() {
+            const item = this.item;
+            let feed = "";
+            if (item.SubType === 15 && item.Feed) {
+                const start = item.Feed.FeedTip.indexOf("【");
+                const end = item.Feed.FeedTip.indexOf("】");
+                feed = item.Feed.FeedTip.slice(start, end + 1);
+            }
+            return feed;
+        },
+        speedName() {
+            const item = this.item;
+            let speed = "";
+            if (item.MoveSpeed) {
+                speed = item.MoveSpeedDesc.split("移动速度提高")[1];
+            }
+            return speed;
+        },
+
+        //wiki相关
+        post_id: function () {
+            return this.$route.params.post_id;
+        },
+        isRevision: function () {
+            return !!this.$route.params.post_id;
+        },
+        author_id: function () {
+            return ~~this.wiki_post?.post?.user_id;
+        },
+        user_name: function () {
+            return this.wiki_post?.post?.user_nickname;
+        },
+        updated_at: function () {
+            return ts2str(this.wiki_post?.post?.updated);
+        },
+        fav_title: function () {
+            return this.wiki_post?.source?.Name;
+        },
+        authors: function () {
+            if (!this.isRevision) {
+                return (
+                    this.wiki_post?.users
+                        ?.filter((user) => user.id)
+                        ?.map((user) => {
+                            return {
+                                user_id: user.id,
+                                user_avatar: user.avatar,
+                                display_name: user.nickname,
+                            };
+                        }) || []
+                );
+            }
+            return [];
         },
     },
     watch: {
-        id() {
-            this.getPetInfo();
+        id: {
+            handler() {
+                this.loadData();
+            },
+        },
+        post_id: {
+            handler() {
+                this.loadRevision();
+            },
         },
     },
     methods: {
-        // 获取宠物详情
-        getPetInfo: function () {
-            this.loading = true;
-            getPet(this.id, this.params)
-                .then((res) => {
-                    this.pet = res.data;
-                    this.medalList = res.data.medal_list;
-                    this.loadPetSkills(res.data.__skills);
-                    this.getShopInfo();
-                    this.getPetMedal();
-                })
-                .finally(() => {
-                    this.loading = false;
-                    postStat(this.type, this.id);
-                });
-        },
-        // 获取宠物技能信息
-        loadPetSkills: function (data) {
-            const levelIds = [];
-            const skillIds = [];
-
-            this.petSkills = [];
-
-            for (const key in data) {
-                // 技能等级
-                if (key.startsWith("Level") && data[key]) {
-                    levelIds.push(data[key]);
-                }
-                // 技能id
-                if (key.startsWith("SkillID") && data[key]) {
-                    skillIds.push(data[key]);
-                }
-            }
-
-            getSkill({
-                ids: skillIds.join(","),
-                client: this.client,
-            }).then((skillRes) => {
-                levelIds.forEach((level, index) => {
-                    let skills = skillRes.data.filter((skill) => skill.Level === level);
-
-                    const skill = skills.find((_skill) => _skill.SkillID === skillIds[index]);
-
-                    if (skill) {
-                        this.petSkills.push(skill);
-                    }
-                });
-            });
-        },
-        // 获取宠物商城价格
-        getShopInfo() {
-            const params = {
-                item_type: this.pet.ItemTabType,
-                item_id: this.pet.ItemTabIndex,
-            };
-            getShopInfo(params).then((res) => {
-                this.shopInfo = res?.data || "";
-            });
-        },
-        // 获取宠物种类
-        getPetType: function (typeId) {
-            const _petType = petType.find((item) => item.class === typeId);
-            return _petType?.name || "";
-        },
-        // 获取宠物途径
-        getPetSource: function (sourceId) {
-            const _petSource = petSource.find((item) => ~~sourceId === ~~item.source);
-            return _petSource?.name || "";
-        },
-        // 获取宠物描述
-        getPetDesc: function (str) {
-            const regex = /<text>text=(.*?)font=(\d+).*?<\/text>/gimsy;
-            let matches = [];
-            let match;
-            while ((match = regex.exec(str))) {
-                matches.push(match);
-            }
-
-            // 格式化分段
-            let result = [];
-            for (let group of matches) {
-                result.push({
-                    font: ~~group[2],
-                    text: group[1].slice(1, -2).replace(/[\\n]/g, ""),
-                });
-            }
-            return result;
-        },
         goBack() {
             this.$router.push({ name: "list" });
         },
-        goItem() {
-            const { ItemTabType, ItemTabIndex } = this.pet;
-            const link = getLink("item", `${ItemTabType}_${ItemTabIndex}`);
-
-            window.open(link, "_blank");
+        getHorse() {
+            const params = {
+                id: this.id,
+                client: this.client,
+            };
+            if (this.type === "2") {
+                params.type = 2;
+            }
+            this.loading = true;
+            getHorse(params)
+                .then((res) => {
+                    this.loading = false;
+                    this.item = res.data || {};
+                    let name = res.data.Name;
+                    if (this.typeName === "普通坐骑") {
+                        name = res.data.Name.split("·")[0];
+                    }
+                    if (this.type !== "2" && name) {
+                        this.getSameHorses(name);
+                    }
+                })
+                .catch(() => {
+                    this.loading = false;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
-        // 获取福缘宠物id
-        getPetLucky: function () {
-            getPetLucky().then((res) => {
-                let data = res.data.std;
-                let dateIndex = dayjs(new Date()).format("MDD");
-                this.luckyList = data[dateIndex];
-            });
+        getSameHorses(name) {
+            const params = {
+                page: 1,
+                pageSize: 50,
+                client: this.client,
+                keyword: name,
+            };
+            this.sameLoading = true;
+            getHorses(params)
+                .then((res) => {
+                    this.sameLoading = false;
+                    this.sameList = res.data.list
+                        .filter((item) => item.ID !== this.item.ID)
+                        .map((item) => {
+                            item.imgUrl = this.getImgSrc(item.ImgPath);
+                            if (item.MagicAttributes && item.MagicAttributes.length) {
+                                item.MagicAttributes.map((mItem) => {
+                                    mItem.iconUrl = iconLink(mItem.icon);
+                                    return mItem;
+                                });
+                            }
+                            return item;
+                        });
+                })
+                .catch(() => {
+                    this.sameLoading = false;
+                });
         },
-        // 通过宠物ID获取所有福缘日期
-        getPetLuckyReverse: function (petID) {
-            getPetLuckyReverse().then((res) => {
-                const now = new Date();
-                let data = {}; // key 是 距离今天的天数, value 是 object，用于取最近
-                let currentPetLucky = res.data.std[petID];
-                if (currentPetLucky) {
-                    currentPetLucky.forEach((item) => {
-                        let month = parseInt(item.slice(0, -2));
-                        let day = parseInt(item.slice(-2));
-                        let obj = {
-                            month: month,
-                            day: day,
-                            isToday: month == now.getMonth() + 1 && day == now.getDate(),
-                            isClosest: false,
-                        };
+        getImgSrc(path) {
+            if (path) {
+                let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
+                let name = img[1].replace(/\\/g, "/");
 
-                        let itemDate = new Date();
-                        itemDate.setMonth(month - 1, day);
-                        let diff = Math.ceil((itemDate - now) / (1000 * 3600 * 24));
-                        if (diff < 0) diff += 365; // 已过了的加一年
-                        data[diff] = obj; // 算距离今天的天数
-                    });
-                    data[Math.min(...Object.keys(data))].isClosest = true; // 标记最近的那个
-                    this.luckyDateList = Object.values(data).sort(
-                        (lhs, rhs) => lhs.month - rhs.month || lhs.day - rhs.day
-                    ); // 按月日排序
-                }
-            });
+                if (img[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";
+                return this.__imgRoot + `homeland/${this.client}` + name + ".png";
+            }
         },
         getLink,
-        // 获取宠物羁绊的宠物
-        getPetMedal() {
-            const ids = new Set();
-            // 将每个羁绊的宠物id取出来
-            this.medalList.forEach((item) => {
-                item.pets = [];
-                for (const key in item) {
-                    if (key.includes("PetIndex") && item[key]) {
-                        item.pets = [...item.pets, item[key]];
-                        ids.add(item[key]);
-                    }
-                }
-            });
-            getPets({ ids: [...ids].join(","), client: this.client }).then((res) => {
-                const list = res.data.list;
-                // 将羁绊的宠物放入对应的羁绊中
-                this.medalList.map((item) => {
-                    const petList = list.filter((pet) => item.pets.includes(pet.Index));
-                    this.$set(item, "petList", petList);
-                    return item;
+        //百科相关
+        publish_url: publishLink,
+        loadData: function () {
+            // 获取最新攻略
+            if (this.id) {
+                wiki.mix({ type: "item", id: this.id, client: this.client }, { supply: 1 }).then((res) => {
+                    const { post, source, compatible, isEmpty, users } = res;
+                    this.wiki_post = {
+                        post: post,
+                        source: source,
+                        users,
+                    };
+                    this.is_empty = isEmpty;
+                    this.compatible = compatible;
                 });
+            }
+            this.triggerStat();
+        },
+        loadRevision: function () {
+            // 获取指定攻略
+            wiki.getById(this.post_id, { type: "item" }).then((res) => {
+                this.wiki_post = res?.data?.data;
             });
+            this.triggerStat();
         },
-        mapLoaded(visible) {
-            this.mapDisplay = visible;
-        },
-        goSearch() {
-            this.$router.push({ name: "list", params: { search: this.search } });
-        },
-        iconLink,
-        cleanResourceText: function (str) {
-            return str && str.startsWith("获取线索：") ? str.replace("获取线索：", "") : str;
+        triggerStat: function () {
+            if (this.client == "origin") {
+                postStat("origin_item", this.id);
+            } else {
+                postStat("item", this.id);
+            }
         },
     },
-    created: function () {
-        this.getPetLucky();
-        this.getPetLuckyReverse(this.id);
-    },
-    mounted: function () {
-        this.getPetInfo();
+    mounted() {
+        this.getHorse();
+        if (this.post_id) {
+            this.loadRevision();
+        } else {
+            this.loadData();
+        }
     },
 };
 </script>
 
 <style lang="less">
-@import "~@/assets/css/pet/single.less";
-@import "~@/assets/css/pet/map.less";
+@import "~@/assets/css/horse/single.less";
+@import "~@/assets/css/horse/map.less";
 </style>
