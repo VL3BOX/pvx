@@ -4,9 +4,24 @@
         <div v-else class="u-image"></div>
         <div class="u-name">{{ item.Name }}</div>
         <div class="u-desc">ID: {{ item.ID }}</div>
-        <div class="u-desc">类型: {{ getType(item) }}</div>
-        <div class="u-desc">等级: {{ item.Level }}</div>
-        <div v-if="item.SubType === 15" class="u-desc">{{ item.MoveSpeedDesc }}</div>
+        <div class="u-desc">{{ getType(item) + (item.SubType === 15 ? (" · " + item.modeName + " · " + item.speed) : "") }}</div>
+        <!-- <div class="u-desc">等级: {{ item.Level }}</div> -->
+        <!-- <div v-if="item.SubType === 15" class="u-desc">{{ item.MoveSpeedDesc }}</div> -->
+        <div class="u-desc">
+            <div class="u-attr-wrap">
+                <div class="u-attr" v-for="(attr, index) in item.MagicAttributes || []" :key="index">
+                    <el-tooltip trigger="hover" placement="top">
+                        <div class="u-attr-pop" slot="content">
+                            <div class="u-attr-name" v-if="attr.name">
+                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
+                            </div>
+                            <div class="u-attr-desc">{{ attr.desc }}</div>
+                        </div>
+                        <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
+                    </el-tooltip>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -23,7 +38,7 @@ export default {
         return {};
     },
     computed: {
-        client () {
+        client() {
             return this.$store.state.client;
         },
     },

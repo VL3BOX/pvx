@@ -66,7 +66,7 @@
                 <div class="title">同类坐骑</div>
                 <same-list :list="sameList"></same-list>
             </div>
-            <!-- 捕获地图 -->
+            <!-- 捕获地图 预留 -->
             <!--攻略-->
             <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
                 <WikiPanel :wiki-post="wiki_post">

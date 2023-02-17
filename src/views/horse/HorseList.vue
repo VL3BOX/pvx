@@ -14,6 +14,9 @@
                     }}
                 </h2>
                 <div v-if="showSwitch" class="operate-wrap">
+                    <span v-show="listType === 'card'" class="operate-btn" @click="isLine = !isLine">
+                        {{ isLine ? "多行展示" : "一行展示" }}
+                    </span>
                     <el-tooltip
                         :content="listType === 'card' ? '卡片模式' : '列表模式'"
                         class="theme-tooltips"
@@ -31,9 +34,10 @@
                 </div>
             </div>
             <div class="horse-list" :class="[listType + '-wrap']" v-loading="loading">
-                <div v-if="listType === 'card'" class="list-content">
+                <div v-if="listType === 'card'" class="list-content" :class="isLine && 'line-list-content'">
                     <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
                     <el-button
+                        v-show="!isLine"
                         class="more-btn"
                         :disabled="!hasNextPage"
                         @click="loadData"
@@ -81,6 +85,7 @@ export default {
             loading: false,
             listType: "card",
             showSwitch: true,
+            isLine: true,
             feeds: [],
             list: [],
             query: {
@@ -155,15 +160,25 @@ export default {
         },
     },
     watch: {
+        isLine(bol) {
+            // 变为一行时，如果不是第一页，重新请求第一页
+            if (bol && this.query.page !== 1) {
+                this.query.page = 1;
+                this.query.pageSize = 20;
+                this.findList();
+            }
+        },
         listType: {
             handler(type) {
-                this.query.page = 1;
-                if (type === "card") {
-                    this.showCount();
-                    this.findList();
-                } else {
-                    this.query.pageSize = 20;
-                    this.findList();
+                if (this.query.page !== 1) {
+                    this.query.page = 1;
+                    if (type === "card") {
+                        this.showCount();
+                        this.findList();
+                    } else {
+                        this.query.pageSize = 20;
+                        this.findList();
+                    }
                 }
             },
         },
