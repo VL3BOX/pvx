@@ -188,15 +188,13 @@ export default {
         // },
         listType: {
             handler(type) {
-                if (this.query.page !== 1) {
-                    this.query.page = 1;
-                    if (type === "card") {
-                        this.showCount();
-                        this.findList();
-                    } else {
-                        this.query.pageSize = 20;
-                        this.findList();
-                    }
+                this.query.page = 1;
+                if (type === "card") {
+                    this.showCount();
+                    this.findList();
+                } else {
+                    this.query.pageSize = 20;
+                    this.findList();
                 }
             },
         },
