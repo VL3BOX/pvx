@@ -28,6 +28,40 @@
                         color: #d16400;
                     }
                 }
+                .list-type-wrapper {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    border-radius: 30px;
+                    padding: 3px;
+                    background-color: #fff;
+                    .list-type-item {
+                        font-size: 13px;
+                        background-color: #fff;
+                        color: #bbb;
+                        padding: 5px 15px;
+                        text-align: center;
+                        cursor: pointer;
+                        &:hover {
+                            font-weight: bold;
+                            color: #d16400;
+                        }
+                        &:first-of-type {
+                            border-top-left-radius: 30px;
+                            border-bottom-left-radius: 30px;
+                        }
+                        &:last-of-type {
+                            border-top-right-radius: 30px;
+                            border-bottom-right-radius: 30px;
+                        }
+                        &.active {
+                            font-weight: bold;
+                            color: #fff;
+                            border-radius: 30px;
+                            background: #d16400;
+                        }
+                    }
+                }
             }
         }
         .horse-list {
@@ -48,7 +82,7 @@
                         justify-content: flex-start;
                         flex-wrap: nowrap;
                         img {
-                          max-width: 160px !important;
+                            max-width: 160px !important;
                         }
                     }
                 }

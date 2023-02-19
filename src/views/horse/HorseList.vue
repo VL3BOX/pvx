@@ -14,14 +14,10 @@
                     }}
                 </h2>
                 <div v-if="showSwitch" class="operate-wrap">
-                    <span v-show="listType === 'card'" class="operate-btn" @click="isLine = !isLine">
+                    <!-- <span v-show="listType === 'card'" class="operate-btn" @click="isLine = !isLine">
                         {{ isLine ? "多行展示" : "一行展示" }}
-                    </span>
-                    <el-tooltip
-                        :content="listType === 'card' ? '卡片模式' : '列表模式'"
-                        class="theme-tooltips"
-                        placement="top"
-                    >
+                    </span> -->
+                    <!-- <el-tooltip :content="listType === 'card' ? '卡片模式' : '列表模式'" placement="top">
                         <el-switch
                             v-model="listType"
                             active-value="card"
@@ -30,14 +26,26 @@
                             inactive-icon-class="el-icon-s-order"
                             active-color="#d16400"
                         />
-                    </el-tooltip>
+                    </el-tooltip> -->
+                    <div class="list-type-wrapper">
+                        <div
+                            class="list-type-item"
+                            :class="listType === type.value && 'active'"
+                            v-for="type in listTypes"
+                            :key="type.value"
+                            @click="listType = type.value"
+                        >
+                            {{ type.label }}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="horse-list" :class="[listType + '-wrap']" v-loading="loading">
-                <div v-if="listType === 'card'" class="list-content" :class="isLine && 'line-list-content'">
+                <!-- :class="isLine && 'line-list-content'" -->
+                <div v-if="listType === 'card'" class="list-content">
                     <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
+                    <!-- v-show="!isLine" -->
                     <el-button
-                        v-show="!isLine"
                         class="more-btn"
                         :disabled="!hasNextPage"
                         @click="loadData"
@@ -84,8 +92,18 @@ export default {
         return {
             loading: false,
             listType: "card",
+            listTypes: [
+                {
+                    value: "list",
+                    label: "列表",
+                },
+                {
+                    value: "card",
+                    label: "卡片",
+                },
+            ],
             showSwitch: true,
-            isLine: true,
+            // isLine: true,
             feeds: [],
             list: [],
             query: {
@@ -160,14 +178,14 @@ export default {
         },
     },
     watch: {
-        isLine(bol) {
-            // 变为一行时，如果不是第一页，重新请求第一页
-            if (bol && this.query.page !== 1) {
-                this.query.page = 1;
-                this.query.pageSize = 20;
-                this.findList();
-            }
-        },
+        // isLine(bol) {
+        //     // 变为一行时，如果不是第一页，重新请求第一页
+        //     if (bol && this.query.page !== 1) {
+        //         this.query.page = 1;
+        //         this.query.pageSize = 20;
+        //         this.findList();
+        //     }
+        // },
         listType: {
             handler(type) {
                 if (this.query.page !== 1) {
