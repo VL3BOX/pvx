@@ -1,5 +1,5 @@
 <template functional>
-  <div class="m-list-head">
+  <div class="m-list-head list-sticky-head">
     <div>名称</div>
     <div>类型</div>
     <div>骑乘</div>

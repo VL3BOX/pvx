@@ -4,11 +4,17 @@
     .grid-layout;
     font-size: 14px;
     font-weight: bold;
-    height: 2rem;
+    padding: 15px 0;
     margin-bottom: 16px;
     border-bottom: 1px dashed #d7dae2;
     column-gap: 8px;
     color: #666;
+    background-color: #f2f5f6;
+    &.list-sticky-head {
+        position: sticky;
+        top: 180px;
+        z-index: 5;
+    }
 }
 
 @media screen and (max-width: @phone) {

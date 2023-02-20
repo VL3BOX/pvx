@@ -30,12 +30,12 @@
                     <div class="list-type-wrapper">
                         <div
                             class="list-type-item"
-                            :class="listType === type.value && 'active'"
-                            v-for="type in listTypes"
-                            :key="type.value"
-                            @click="listType = type.value"
+                            :class="listType === item.value && 'active'"
+                            :key="item.value"
+                            v-for="item in listTypes"
+                            @click="listType = item.value"
                         >
-                            {{ type.label }}
+                            {{ item.label }}
                         </div>
                     </div>
                 </div>
@@ -188,15 +188,13 @@ export default {
         // },
         listType: {
             handler(type) {
-                if (this.query.page !== 1) {
-                    this.query.page = 1;
-                    if (type === "card") {
-                        this.showCount();
-                        this.findList();
-                    } else {
-                        this.query.pageSize = 20;
-                        this.findList();
-                    }
+                this.query.page = 1;
+                if (type === "card") {
+                    this.showCount();
+                    this.findList();
+                } else {
+                    this.query.pageSize = 20;
+                    this.findList();
                 }
             },
         },

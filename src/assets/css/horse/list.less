@@ -10,24 +10,24 @@
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                .el-switch__label {
-                    i {
-                        font-size: 20px;
-                    }
-                    &.is-active {
-                        color: #d16400;
-                    }
-                }
-                .operate-btn {
-                    margin-right: 15px;
-                    font-size: 16px;
-                    font-weight: bold;
-                    color: #a5a5a5;
-                    cursor: pointer;
-                    &:hover {
-                        color: #d16400;
-                    }
-                }
+                // .el-switch__label {
+                //     i {
+                //         font-size: 20px;
+                //     }
+                //     &.is-active {
+                //         color: #d16400;
+                //     }
+                // }
+                // .operate-btn {
+                //     margin-right: 15px;
+                //     font-size: 16px;
+                //     font-weight: bold;
+                //     color: #a5a5a5;
+                //     cursor: pointer;
+                //     &:hover {
+                //         color: #d16400;
+                //     }
+                // }
                 .list-type-wrapper {
                     display: flex;
                     justify-content: flex-end;
@@ -67,10 +67,9 @@
         .horse-list {
             position: relative;
             width: 100%;
-            overflow-y: hidden;
-            overflow-x: auto;
             &.card-wrap {
                 .list-content {
+                    position: relative;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -91,7 +90,7 @@
     }
 }
 
-@media screen and (max-width: @ipad) {
+@media screen and (max-width: 899px) {
     .horse-list-wrapper {
         .horse-list-content {
             margin-top: 130px;
