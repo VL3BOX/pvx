@@ -27,6 +27,14 @@
                 >
                     <faceItem v-for="item in item.list" :key="item.id" :item="item" />
                 </div>
+                <el-alert
+                    v-if="item.list == 0"
+                    class="m-archive-null"
+                    :title="alertTitle"
+                    type="info"
+                    center
+                    show-icon
+                ></el-alert>
             </div>
         </template>
         <template v-if="showAllList">
@@ -173,14 +181,16 @@ export default {
         isNoRes() {
             let type = this.params.body_type;
             if (!type) {
-                return (
-                    this.list_type[0].list.length == 0 &&
-                    this.list_type[1].list.length == 0 &&
-                    this.list_type[2].list.length == 0 &&
-                    this.list_type[3].list.length == 0
-                );
+                return false;
+                // return (
+                //     this.list_type[0].list.length == 0 &&
+                //     this.list_type[1].list.length == 0 &&
+                //     this.list_type[2].list.length == 0 &&
+                //     this.list_type[3].list.length == 0
+                // );
             }
-            return this.list.length > 0;
+            console.log(this.list.length);
+            return this.list.length > 0 ? false : true;
         },
         setActive(val) {
             this.active = val;
