@@ -1,10 +1,10 @@
 <template>
     <div class="m-recommend-item">
-        <router-link class="u-face" :to="`/${item.id}`" target="_blank">
+        <a class="u-face" :href="item.link" target="_blank">
             <i class="u-img">
                 <img class="u-pic" :src="item.img" loading="lazy" />
             </i>
-        </router-link>
+        </a>
     </div>
 </template>
 
