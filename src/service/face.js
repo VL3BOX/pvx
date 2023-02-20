@@ -1,4 +1,4 @@
-import { $next, $pay } from "@jx3box/jx3box-common/js/https";
+import { $next, $pay, $cms } from "@jx3box/jx3box-common/js/https";
 
 /**
  * 获取捏脸列表
@@ -133,6 +133,20 @@ function getRandomFace(params) {
         params: params,
     });
 }
+// 捏脸海报
+function getSliders(type, client, per = 10) {
+    let _params = {
+        client: client,
+        type: type,
+        source_type: "face",
+    };
+    if (per) {
+        _params.per = per;
+    }
+    return $cms({ mute: true }).get(`/api/cms/news/v2`, {
+        params: _params,
+    });
+}
 export {
     getFaceList,
     getOneFaceInfo,
@@ -149,4 +163,5 @@ export {
     getDownHistory,
     getRandomFace,
     getFaceOld,
+    getSliders,
 };

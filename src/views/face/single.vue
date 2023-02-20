@@ -1,10 +1,8 @@
 <template>
     <div class="v-face-single" v-loading="loading">
         <div class="m-navigation">
-            <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
-                >返回列表</el-button
-            >
-            <el-input
+            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <!-- <el-input
                 placeholder="请输入搜索内容"
                 v-model="search"
                 class="input-with-select"
@@ -12,7 +10,7 @@
             >
                 <span slot="prepend">关键词</span>
                 <el-button slot="append" icon="el-icon-search" @click="getFaceList"></el-button>
-            </el-input>
+            </el-input> -->
         </div>
         <!-- 海报banner -->
         <!-- <div class="m-banner" v-if="post.banner">
@@ -55,10 +53,10 @@
                 </div>
             </div>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
-            <el-divider content-position="left"> <i class="el-icon-pie-chart"></i> 预览</el-divider>
         </div>
 
-        <div class="m-single-pics" v-if="previewSrcList && previewSrcList.length > 0">
+        <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
+            <el-divider content-position="left"> <i class="el-icon-pie-chart"></i> 预览</el-divider>
             <!-- 动态改为当前图片 -->
             <div class="u-bg">
                 <img :src="showPic(activePic)" />
@@ -79,8 +77,9 @@
                 </el-carousel-item>
             </el-carousel>
         </div>
+
         <!-- 购买区 -->
-        <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
+        <div class="m-face-pay m-single-content-box" v-if="post.price_type && post.price_type != 0 && !has_buy">
             <div class="m-face-pay-info">
                 价格：
                 <el-tag effect="plain" type="warning">
@@ -101,12 +100,12 @@
         </div>
 
         <!-- 数据区 -->
-        <div class="m-single-data" v-if="has_buy && facedata">
+        <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
             <el-divider content-position="left">独家数据分析</el-divider>
             <facedata v-if="facedata" :data="facedata" />
         </div>
         <!--下载区-->
-        <div class="m-face-files" v-if="has_buy && downFileList && downFileList.length > 0">
+        <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
             <el-divider content-position="left">原始文件列表</el-divider>
             <ul class="m-face-files-list">
                 <li v-for="item in downFileList" :key="item.id">
@@ -124,7 +123,7 @@
             </ul>
         </div>
         <!-- 上传作者区域 -->
-        <div class="m-author">
+        <div class="m-author m-single-content-box">
             <el-divider content-position="left">上传作者</el-divider>
             <a class="u-author-info" :href="authorLink(post.user_id)" target="_blank">
                 <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" />
@@ -132,7 +131,7 @@
             </a>
         </div>
         <!--作者随机作品-->
-        <div class="m-random-list">
+        <div class="m-random-list m-single-content-box">
             <el-divider content-position="left">作者其他作品</el-divider>
             <div class="u-list">
                 <a class="u-item" :href="`/face/` + item.id" target="_blank" v-for="item in randomList" :key="item.id">
@@ -149,7 +148,7 @@
         </div>
         <!-- 点赞 -->
         <Thx
-            class="m-thx"
+            class="m-thx m-single-content-box"
             :postId="id"
             postType="face"
             :postTitle="post.title || '无标题'"
@@ -158,7 +157,7 @@
             :userBoxcoinEnable="true"
         />
         <!-- 评论 -->
-        <div>
+        <div class="m-single-content-box">
             <el-divider content-position="left">讨论</el-divider>
             <Comment :id="id" category="face" />
         </div>

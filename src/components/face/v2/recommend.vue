@@ -1,0 +1,71 @@
+<template>
+    <div class="m-recommend-item">
+        <router-link class="u-face" :to="`/${item.id}`" target="_blank">
+            <i class="u-img">
+                <img class="u-pic" :src="item.img" loading="lazy" />
+            </i>
+        </router-link>
+    </div>
+</template>
+
+<script>
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
+import User from "@jx3box/jx3box-common/js/user";
+import { setPost } from "@/service/share";
+import { showMinibanner, showBanner, showAvatar, authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+export default {
+    name: "item",
+    props: ["item"],
+    data: function () {
+        return {
+            search: "",
+            markmap: {
+                newbie: "热门",
+                advanced: "推荐",
+                recommended: "精选",
+            },
+            isEditor: User.isEditor(),
+        };
+    },
+    computed: {
+        author: function () {
+            return this.item.display_name || "匿名";
+        },
+        imgLink: function () {
+            return this.item.images?.[0] || __imgPath + "image/face/null2.png";
+        },
+    },
+    methods: {
+        hasMark: function (item, key) {
+            return item.mark?.includes(key);
+        },
+        setMark: function (item, key) {
+            let hasKey = item.mark?.includes(key);
+            item.mark = hasKey ? [] : [key];
+            let msg = hasKey ? "取消" : "设置";
+            msg += this.markmap[key];
+            msg += "成功";
+
+            setPost(item.ID, {
+                mark: item.mark,
+            }).then((res) => {
+                this.$notify({
+                    title: "成功",
+                    message: msg,
+                    type: "success",
+                });
+            });
+        },
+        showThumb: function (url) {
+            return getThumbnail(url, 360);
+        },
+        showAvatar,
+        authorLink,
+        onAuthorClick() {
+            if (!this.item.original) {
+                window.open(this.item.author_link, "_blank");
+            }
+        },
+    },
+};
+</script>
