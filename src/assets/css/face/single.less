@@ -34,6 +34,7 @@
 .m-header {
     padding: 10px 0;
     text-align: center;
+    .mb(10px);
     h2 {
         .fz(32px, 1.5);
         font-weight: 300;
@@ -195,6 +196,11 @@
     .m-carousel {
         .pr;
         .z(1);
+        .mb(30px);
+    }
+    .u-desc{
+        padding-bottom:20px;
+        .fz(14px);
     }
 }
 .m-single-header {
@@ -233,7 +239,7 @@
     }
 }
 .m-face-files {
-    // .mb(40px);
+    padding-bottom:20px;
 }
 .m-face-files-list {
     list-style: none;
@@ -246,6 +252,10 @@
         display: flex;
         justify-content: space-between;
         padding: 5px 0;
+
+        &:last-child{
+            border-bottom: none;
+        }
     }
     .u-label {
         .fz(12px,28px);
@@ -291,6 +301,10 @@
             align-items: center;
             color: #999;
         }
+        transition: all .3s;
+        &:hover{
+            transform: scale(1.1);
+        }
     }
     .u-name {
         .fz(12px,2.3);
@@ -312,6 +326,7 @@
 
 .m-thx {
     .mt(30px);
+    padding:20px;
 }
 
 .el-carousel__item.is-active {

@@ -1,6 +1,6 @@
 <template>
     <div class="m-recommend-item">
-        <a class="u-face" :href="item.link" target="_blank">
+        <a class="u-face" :href="getFaceLink(item)" target="_blank">
             <i class="u-img">
                 <img class="u-pic" :src="item.img" loading="lazy" />
             </i>
@@ -65,6 +65,9 @@ export default {
             if (!this.item.original) {
                 window.open(this.item.author_link, "_blank");
             }
+        },
+        getFaceLink(item) {
+            return item.source_id ? `/face/${item.source_id}` : item.link;
         },
     },
 };

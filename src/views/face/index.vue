@@ -39,7 +39,7 @@
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main"><router-view></router-view></div>
-            <Footer></Footer>
+            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>

@@ -5,7 +5,7 @@
             name="捏脸妆容"
             slug="share"
             root="/share"
-            :publishEnable="true"
+            :publishEnable="false"
             :feedbackEnable="true"
             :crumbEnable="true"
         >

@@ -52,11 +52,10 @@
                     }}</i>
                 </div>
             </div>
-            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
         <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
-            <el-divider content-position="left"> <i class="el-icon-pie-chart"></i> 预览</el-divider>
+            <el-divider content-position="left"><i class="el-icon-video-camera"></i> 预览</el-divider>
             <!-- 动态改为当前图片 -->
             <div class="u-bg">
                 <img :src="showPic(activePic)" />
@@ -76,6 +75,9 @@
                     </div>
                 </el-carousel-item>
             </el-carousel>
+
+            <el-divider content-position="left"><i class="el-icon-collection-tag"></i> 说明</el-divider>
+            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
         <!-- 购买区 -->
