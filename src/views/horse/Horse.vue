@@ -12,7 +12,7 @@
                 </keep-alive>
             </div>
             <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
-            <Footer></Footer>
+            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>
