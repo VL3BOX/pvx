@@ -148,18 +148,24 @@ export default {
                     options: [
                         {
                             key: "feed",
-                            type: "select",
-                            name: "喂养方式",
-                            multiple: true,
+                            type: "checkbox",
+                            name: "喂食饲料",
                             options: [],
                         },
-                        {
-                            key: "attr",
-                            type: "select",
-                            name: "属性",
-                            filterable: true,
-                            remote: "getAttrList",
-                        },
+                        // {
+                        //     key: "feed",
+                        //     type: "select",
+                        //     name: "喂食饲料",
+                        //     multiple: true,
+                        //     options: [],
+                        // },
+                        // {
+                        //     key: "attr",
+                        //     type: "select",
+                        //     name: "属性",
+                        //     filterable: true,
+                        //     remote: "getAttrList",
+                        // },
                     ],
                 },
                 {

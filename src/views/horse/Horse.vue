@@ -11,6 +11,7 @@
                     <router-view></router-view>
                 </keep-alive>
             </div>
+            <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
             <Footer></Footer>
         </Main>
     </div>
@@ -18,20 +19,21 @@
 
 <script>
 import Nav from "@/components/Nav.vue";
+import PvxBacktop from "@/components/PvxBacktop.vue";
 import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
-import { __imgPath,__dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Horse",
-    provide : {
-        __imgRoot : __imgPath + 'homeland/',
-        __dataRoot : __dataPath + 'pvx/'
+    provide: {
+        __imgRoot: __imgPath + "homeland/",
+        __dataRoot: __dataPath + "pvx/",
     },
     data: function () {
         return {};
     },
     computed: {},
     methods: { getAppIcon },
-    components: { Nav },
+    components: { Nav, PvxBacktop },
 };
 </script>
 

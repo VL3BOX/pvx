@@ -23,17 +23,19 @@
                         >
                     </el-radio-group>
                 </template>
-                <template v-if="item.type === 'filter'">
+                <template v-if="item.type === 'filter' && item.options.length">
                     <el-popover
                         :placement="isPhone() ? 'right' : 'bottom'"
-                        width="280"
+                        width="320"
                         trigger="click"
                         v-model="filterValue"
                     >
                         <div class="filter-content">
                             <div class="filter-item" v-for="fItem in item.options" :key="fItem.key">
                                 <el-select
+                                    v-if="fItem.type === 'select'"
                                     :id="fItem.remote"
+                                    class="select-wrapper"
                                     v-model="formData[fItem.key]"
                                     :multiple="fItem.multiple"
                                     :collapse-tags="fItem.multiple"
@@ -47,7 +49,6 @@
                                     @focus="selectFocus"
                                     style="width: 100%"
                                 >
-                                    <!-- currentOptions -->
                                     <el-option
                                         v-for="option in fItem.remote ? fItem.options : fItem.options"
                                         :key="option.value"
@@ -58,7 +59,27 @@
                                     >
                                     </el-option>
                                 </el-select>
+                                <div v-if="fItem.type === 'checkbox'" class="check-box-wrapper">
+                                    <div class="name">{{ fItem.name }}</div>
+                                    <el-checkbox-group
+                                        v-model="checkboxArr"
+                                        @change="checkboxChange($event, fItem.key)"
+                                    >
+                                        <el-checkbox-button
+                                            v-for="option in fItem.options"
+                                            :label="option.value"
+                                            :key="option.value"
+                                        >
+                                            {{ option.label }}
+                                        </el-checkbox-button>
+                                    </el-checkbox-group>
+                                </div>
                             </div>
+                            <el-row v-if="item.options.length">
+                                <el-col :offset="20" :span="4">
+                                    <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                                </el-col>
+                            </el-row>
                         </div>
                         <div class="filter-img" :class="filterValue && 'active'" slot="reference">
                             <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
@@ -101,6 +122,7 @@ export default {
             currentMethod: "",
             currentOptions: [],
             selectLoading: "",
+            checkboxArr: [],
         };
     },
     watch: {
@@ -136,6 +158,13 @@ export default {
         isPhone,
         selectFocus(e) {
             this.currentMethod = e.target.id;
+        },
+        checkboxChange(value, key) {
+            this.formData[key] = value.join(",");
+        },
+        reset() {
+            this.checkboxArr = [];
+            this.formData = {};
         },
         async remoteMethod(query) {
             const currentMethod = this.currentMethod;
