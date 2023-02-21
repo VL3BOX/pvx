@@ -203,7 +203,6 @@ export default {
                 this.query.page = 1;
                 if (type === "card") {
                     this.showCount();
-                    this.findList();
                 } else {
                     this.query.pageSize = 20;
                     this.findList();
@@ -214,7 +213,13 @@ export default {
             deep: true,
             handler() {
                 this.query.page = 1;
-                this.findList();
+                console.log(1111111);
+                if (this.listType === "card") {
+                    this.showCount();
+                } else {
+                    this.query.pageSize = 20;
+                    this.findList();
+                }
             },
         },
     },
@@ -364,10 +369,11 @@ export default {
             });
         },
         // 按宽度显示个数
-        showCount() {
+        showCount(bol = true) {
             this.$nextTick(() => {
                 const listWidth = this.$refs.listRef?.clientWidth;
                 this.query.pageSize = Math.floor(listWidth / 220) * 4;
+                bol && this.findList();
             });
         },
         jdugeType() {
@@ -388,11 +394,7 @@ export default {
         };
         this.getFeedList().then(() => {
             if (this.listType === "card") {
-                this.showCount();
-                // 此处设置了初始化的值，改变了search，会自动触发查询，不再挂载后手动请求。
-                // this.findList();
-            } else {
-                // this.findList();
+                this.showCount(false);
             }
         });
         this.getAttrList();
