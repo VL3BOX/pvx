@@ -152,6 +152,12 @@ export default {
                             name: "喂食饲料",
                             options: [],
                         },
+                        {
+                            key: "attr",
+                            type: "checkbox",
+                            name: "属性",
+                            options: [],
+                        },
                         // {
                         //     key: "feed",
                         //     type: "select",
@@ -213,17 +219,24 @@ export default {
         },
     },
     methods: {
-        async getAttrList(params) {
+        async getAttrList(params = {}) {
             await getAttrs().then((res) => {
-                const data = res.data.concat([{ name: "双骑" }, { name: "渡水" }]);
-                const options = data
-                    .filter((item) => item.name.indexOf(params.name) > -1)
-                    .map((item) => {
-                        return {
-                            label: item.name,
-                            value: item.name,
-                        };
-                    });
+                // const data = res.data.concat([{ name: "双骑" }, { name: "渡水" }]);
+                // const options = data
+                //     .filter((item) => item.name.indexOf(params.name) > -1)
+                //     .map((item) => {
+                //         return {
+                //             label: item.name,
+                //             value: item.name,
+                //         };
+                //     });
+                const data = res.data;
+                const options = data.map((item) => {
+                    return {
+                        label: item.name,
+                        value: item.name,
+                    };
+                });
                 this.searchProps[1].options[1].options = options;
             });
         },
@@ -382,6 +395,7 @@ export default {
                 // this.findList();
             }
         });
+        this.getAttrList();
     },
 };
 </script>

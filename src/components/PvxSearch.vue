@@ -26,7 +26,7 @@
                 <template v-if="item.type === 'filter' && item.options.length">
                     <el-popover
                         :placement="isPhone() ? 'right' : 'bottom'"
-                        width="320"
+                        :width="!isPhone() && 420"
                         trigger="click"
                         v-model="filterValue"
                     >
@@ -62,8 +62,8 @@
                                 <div v-if="fItem.type === 'checkbox'" class="check-box-wrapper">
                                     <div class="name">{{ fItem.name }}</div>
                                     <el-checkbox-group
-                                        v-model="checkboxArr"
-                                        @change="checkboxChange($event, fItem.key)"
+                                        v-model="checkboxData[fItem.key]"
+                                        @change="checkboxChange(fItem.key)"
                                     >
                                         <el-checkbox-button
                                             v-for="option in fItem.options"
@@ -122,7 +122,7 @@ export default {
             currentMethod: "",
             currentOptions: [],
             selectLoading: "",
-            checkboxArr: [],
+            checkboxData: {},
         };
     },
     watch: {
@@ -146,6 +146,7 @@ export default {
                         const options = item.options;
                         options.forEach((oItem) => {
                             formData[oItem.key] = "";
+                            this.$set(this.checkboxData, oItem.key, []);
                         });
                     }
                 });
@@ -159,12 +160,16 @@ export default {
         selectFocus(e) {
             this.currentMethod = e.target.id;
         },
-        checkboxChange(value, key) {
+        checkboxChange(key) {
+            const value = this.checkboxData[key];
             this.formData[key] = value.join(",");
         },
         reset() {
-            this.checkboxArr = [];
+            for (let key in this.checkboxData) {
+                this.checkboxData[key] = [];
+            }
             this.formData = {};
+            this.filterValue = false;
         },
         async remoteMethod(query) {
             const currentMethod = this.currentMethod;
