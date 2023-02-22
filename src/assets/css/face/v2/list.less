@@ -18,10 +18,14 @@
         }
     }
 }
+.m-main {
+    .pt(0);
+}
 .m-face {
+    // .pr;
     .u-type {
-        margin: 40px 0 20px 0;
         .flex;
+        margin: 40px 0 20px 0;
         justify-content: space-between;
         align-items: center;
         .u-all {
@@ -37,12 +41,19 @@
         color: #24292e;
     }
     .u-recommend-title {
-        margin: 40px 0 20px 0;
+        margin: 20px 0 20px 0;
     }
 }
 
 //顶部按钮+搜索区域等
 .m-share-tabs {
+    /* 兼容chorme */
+    position: -webkit-sticky;
+    position: sticky;
+    top: 64px;
+    z-index: 3;
+    background-color: #f3f5f6;
+    padding: 20px 0;
     .u-tabs {
         .flex;
     }
@@ -115,6 +126,72 @@
             }
         }
     }
+    .u-right-btn {
+        .pa;
+        right: 0;
+    }
+}
+.m-recommend-list-box,
+.m-face-list {
+    .pr;
+    .u-shade-btn {
+        .pa;
+        top: 50%;
+        z-index: 2;
+        .flex;
+        .flex(x);
+        align-items: center;
+        .size(40px);
+        .r(30px);
+        visibility: hidden;
+        background-color: rgba(0, 0, 0, 0.7);
+        i {
+            color: #fff;
+        }
+        &:hover {
+            background-color: #6b52ff;
+            i {
+                color: #fff;
+            }
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+    .u-shade-btn-right {
+        right: 0;
+    }
+
+    .u-shade {
+        .pa;
+        z-index: 2;
+        .w(100%);
+        .h(200px);
+        .flex;
+        justify-content: space-between;
+        align-items: center;
+        .u-shade-btn {
+            .flex;
+            .flex(x);
+            align-items: center;
+            .size(40px);
+            .r(30px);
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            i {
+                color: #fff;
+            }
+            &:hover {
+                background-color: #6b52ff;
+                i {
+                    color: #fff;
+                }
+                svg {
+                    fill: #fff;
+                }
+            }
+        }
+    }
 }
 
 // 编辑推荐
@@ -123,6 +200,7 @@
     .flex;
     overflow-x: hidden;
     overflow-y: hidden;
+    scroll-behavior: smooth;
     // .h(200px);
     .w(100%);
     .m-recommend-item {
@@ -134,9 +212,6 @@
             .pr;
             .size(420px,200px);
             background-color: #f5f8fa;
-            border: 1px dashed #e6f0fb;
-            transition: all 0.2s ease-in-out;
-            border: 1px solid #000;
             .r(4px);
             .u-pic {
                 // .full;
@@ -153,13 +228,22 @@
         }
     }
 }
+.m-face-list {
+    .u-shade {
+        .h(224px);
+    }
+}
 //分体型list
 .m-share-list {
     // .mt(20px);
     .flex;
     overflow-x: hidden;
     overflow-y: hidden;
+    scroll-behavior: smooth;
     .w(100%);
+}
+.u-all-type {
+    margin-top: 20px !important;
 }
 //单个体型全部list
 .m-share-allList {
@@ -167,7 +251,7 @@
     .mr(-30px);
     display: inline-flex;
     flex-wrap: wrap;
-    justify-content: center;
+    // justify-content: center;
     .m-share-item {
         .pr;
         .mb(30px);
@@ -287,6 +371,7 @@
 .u-tabs-span {
     display: flex;
     align-items: center;
+    color: #949494;
 }
 .u-icon-img {
     .size(24px);
@@ -295,10 +380,18 @@
 .m-archive-more {
     .mb(10px);
     .w(100%);
+    background-color: #6b52ff;
+    &:hover {
+        background-color: #6b52ff;
+        border-color: #6b52ff;
+    }
 }
 
 .m-archive-pages {
     overflow-x: auto;
+    .active {
+        background-color: #6b52ff !important;
+    }
 }
 
 @media screen and (max-width: @ipad) {
@@ -309,9 +402,14 @@
         .u-title {
             .fz(24px);
         }
+        .u-recommend-title,
+        .u-all-type {
+            margin-top: 0 !important;
+        }
     }
     // 顶部切换
     .m-share-tabs {
+        .pb(10px);
         .u-tabs {
             .flex;
             .flex(x);
@@ -326,6 +424,10 @@
                 .fz(12px);
             }
             .mb(10px);
+        }
+        .u-right-btn {
+            .pr;
+            .mt(20px);
         }
     }
     // 编辑推荐

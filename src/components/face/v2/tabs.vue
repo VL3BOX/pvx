@@ -7,18 +7,20 @@
             <div class="u-tabs-btn right">
                 <i class="el-icon-arrow-right"></i>
             </div> -->
-            <div
-                class="u-tab-item"
-                v-for="item in body_types"
-                :key="item.value"
-                @click="clickTabs(item)"
-                :class="{
-                    active: item.value == active,
-                }"
-            >
-                <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
-                <span class="u-tabs-span">{{ item.label }}</span>
+            <div v-for="item in body_types" :key="item.value">
+                <div
+                    class="u-tab-item"
+                    @click="clickTabs(item)"
+                    :class="{
+                        active: item.value == active,
+                    }"
+                    v-if="item.client && item.client.indexOf(client) != -1"
+                >
+                    <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
+                    <span class="u-tabs-span">{{ item.label }}</span>
+                </div>
             </div>
+
             <div class="u-tabs-filter">
                 <el-popover placement="bottom-end" trigger="click" width="90" v-model="filterOpen">
                     <div class="u-tabs-marks">
@@ -31,6 +33,14 @@
             </div>
             <div class="u-tabs-search">
                 <el-input placeholder="请输入搜索内容" v-model="title" suffix-icon="el-icon-search" class="u-search" />
+            </div>
+            <div class="u-right-btn">
+                <a href="/publish/#/face">
+                    <div class="u-tab-item">
+                        <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
+                        <span class="u-tabs-span"><i class="el-icon-edit"></i> 发布</span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -69,6 +79,9 @@ export default {
                 _params.filter_empty_images = true;
             }
             return _params;
+        },
+        client() {
+            return this.$store.state.client;
         },
     },
     methods: {

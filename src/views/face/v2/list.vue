@@ -2,43 +2,45 @@
     <div class="v-share-list m-face" v-loading="loading">
         <faceTabs @change="handleFaceTabChange" :body_types="body_types" :active="active" @setActive="setActive" />
 
-        <template>
-            <div class="u-title u-recommend-title">编辑推荐</div>
-            <div
-                class="m-recommend-list"
-                @mousewheel="crosswiseScrool($event, 'recommend')"
-                @wheel="crosswiseScrool($event, 'recommend')"
-                id="recommend"
-            >
-                <faceRecommend v-for="item in slidersList" :key="item.id" :item="item"></faceRecommend>
+        <template v-if="!showAllList">
+            <div class="m-recommend-list-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
+                <div class="u-title u-recommend-title">编辑推荐</div>
+                <div class="u-shade-btn u-shade-btn-left" @click="crosswiseScrool($event, 'recommend', 1, 840)">
+                    <i class="el-icon-arrow-left"></i>
+                </div>
+                <div class="u-shade-btn u-shade-btn-right" @click="crosswiseScrool($event, 'recommend', -1, 840)">
+                    <i class="el-icon-arrow-right"></i>
+                </div>
+                <div class="m-recommend-list" id="recommend">
+                    <faceRecommend v-for="item in slidersList" :key="item.id" :item="item"></faceRecommend>
+                </div>
             </div>
         </template>
         <template v-if="!showAllList">
-            <div v-for="(item, index) in list_type" :key="'l' + index">
-                <div class="u-type">
+            <div
+                v-for="(item, index) in list_type"
+                :key="'l' + index"
+                class="m-face-list"
+                @mouseenter="mouseenter($event)"
+                @mouseleave="mouseleave($event)"
+            >
+                <div class="u-type" v-if="item.client.indexOf(client) != -1 && item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
-                <div
-                    class="m-share-list"
-                    @mousewheel="crosswiseScrool($event, 'nav')"
-                    @wheel="crosswiseScrool($event, 'nav' + index)"
-                    :id="'nav' + index"
-                >
+                <div class="u-shade-btn u-shade-btn-left" @click="crosswiseScrool($event, 'nav' + index, 1, 600)">
+                    <i class="el-icon-arrow-left"></i>
+                </div>
+                <div class="u-shade-btn u-shade-btn-right" @click="crosswiseScrool($event, 'nav' + index, -1, 600)">
+                    <i class="el-icon-arrow-right"></i>
+                </div>
+                <div class="m-share-list" :id="'nav' + index">
                     <faceItem v-for="item in item.list" :key="item.id" :item="item" />
                 </div>
-                <el-alert
-                    v-if="item.list == 0"
-                    class="m-archive-null"
-                    :title="alertTitle"
-                    type="info"
-                    center
-                    show-icon
-                ></el-alert>
             </div>
         </template>
         <template v-if="showAllList">
-            <div class="u-type">
+            <div class="u-type u-all-type">
                 <div class="u-title">{{ body_types_name() }}</div>
             </div>
             <div class="m-share-allList">
@@ -88,31 +90,36 @@ export default {
                 {
                     value: "",
                     label: "全部",
+                    client: ["std", "origin"],
                 },
                 {
                     value: 1,
                     label: "成男",
+                    client: ["std", "origin"],
                 },
                 {
                     value: 2,
                     label: "成女",
+                    client: ["std", "origin"],
                 },
                 {
                     value: 5,
                     label: "正太",
+                    client: ["std"],
                 },
                 {
                     value: 6,
                     label: "萝莉",
+                    client: ["std", "origin"],
                 },
             ],
             active: "",
             list: [],
             list_type: [
-                { name: "成男脸型", list: [], value: 1 },
-                { name: "成女脸型", list: [], value: 2 },
-                { name: "正太脸型", list: [], value: 5 },
-                { name: "萝莉脸型", list: [], value: 6 },
+                { name: "成男脸型", list: [], value: 1, client: ["std", "origin"] },
+                { name: "成女脸型", list: [], value: 2, client: ["std", "origin"] },
+                { name: "正太脸型", list: [], value: 5, client: ["std"] },
+                { name: "萝莉脸型", list: [], value: 6, client: ["std", "origin"] },
             ],
             page: 1,
             // per_page: 14,
@@ -130,6 +137,7 @@ export default {
             return publishLink("face");
         },
         client() {
+            // return "origin";
             return this.$store.state.client;
         },
         params({ tabsData }) {
@@ -181,19 +189,35 @@ export default {
         isNoRes() {
             let type = this.params.body_type;
             if (!type) {
-                return false;
-                // return (
-                //     this.list_type[0].list.length == 0 &&
-                //     this.list_type[1].list.length == 0 &&
-                //     this.list_type[2].list.length == 0 &&
-                //     this.list_type[3].list.length == 0
-                // );
+                // return false;
+                return (
+                    this.list_type[0].list.length == 0 &&
+                    this.list_type[1].list.length == 0 &&
+                    this.list_type[2].list.length == 0 &&
+                    this.list_type[3].list.length == 0
+                );
             }
             console.log(this.list.length);
             return this.list.length > 0 ? false : true;
         },
         setActive(val) {
             this.active = val;
+            document.documentElement.scrollTop = 0;
+        },
+        mouseenter(e) {
+            if (isPhone()) {
+                return;
+            }
+            // console.log(e.target.getElementsByClassName("u-shade-btn"));
+            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "visible";
+            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "visible";
+        },
+        mouseleave(e) {
+            if (isPhone()) {
+                return;
+            }
+            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "hidden";
+            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "hidden";
         },
         body_types_name() {
             let type = this.params.body_type;
@@ -221,7 +245,12 @@ export default {
                     let params = clone(this.params);
                     params.pageSize = 14;
                     params.body_type = e;
-                    this.getFaceList(params);
+                    if (e == 5) {
+                        // if (this.client == "origin") this.getFaceList(params);
+                        if (this.client == "std") this.getFaceList(params);
+                    } else {
+                        this.getFaceList(params);
+                    }
                 });
             } else {
                 let params = clone(this.params);
@@ -268,28 +297,36 @@ export default {
             this.page = 1;
             this.tabsData = data;
         },
-        crosswiseScrool(event, id) {
+        crosswiseScrool(event, id, detail, distance) {
             if (isPhone()) {
                 return;
             }
             event.preventDefault();
             // 获取要绑定事件的元素
             const nav = document.getElementById(id);
-            // 获取滚动方向
-            const detail = event.wheelDelta || event.detail;
-            // 定义滚动方向，其实也可以在赋值的时候写
-            const moveForwardStep = 1;
-            const moveBackStep = -1;
+
             // 定义滚动距离
-            let step = 0;
-            // 判断滚动方向,这里的100可以改，代表滚动幅度，也就是说滚动幅度是自定义的
-            if (detail < 0) {
-                step = moveForwardStep * 100;
-            } else {
-                step = moveBackStep * 100;
-            }
+            // let step = distance / 60,
+            // total = 0;
+            let step = detail * (distance || 200);
+
             // 对需要滚动的元素进行滚动操作
-            nav.scrollLeft += step;
+            nav.scrollLeft += -step;
+
+            function smoothRight() {
+                if (total < distance) {
+                    total += step;
+                    nav.scrollLeft += total;
+                    setTimeout(smoothRight, 1);
+                }
+            }
+            function smoothLeft() {
+                if (total < distance) {
+                    total += step;
+                    nav.scrollLeft -= total;
+                    setTimeout(smoothLeft, 1);
+                }
+            }
         },
     },
 };

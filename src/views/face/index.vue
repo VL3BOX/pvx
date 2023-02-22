@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb
+        <!-- <Breadcrumb
             name="捏脸分享"
             slug="face"
             root="/face"
@@ -35,9 +35,9 @@
                     </el-button>
                 </div>
             </template>
-        </Breadcrumb>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true">
+        </Breadcrumb> -->
+        <LeftSidebar style="top: 64px"><Nav></Nav></LeftSidebar>
+        <Main :withoutRight="true" style="margin-top: 64px">
             <div class="m-main"><router-view></router-view></div>
             <!-- <Footer></Footer> -->
         </Main>
