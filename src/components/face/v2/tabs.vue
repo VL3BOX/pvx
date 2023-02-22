@@ -36,10 +36,7 @@
             </div>
             <div class="u-right-btn">
                 <a href="/publish/#/face">
-                    <div class="u-tab-item">
-                        <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
-                        <span class="u-tabs-span"><i class="el-icon-edit"></i> 发布</span>
-                    </div>
+                    <el-button type="primary" size="medium" class="u-btn">发布</el-button>
                 </a>
             </div>
         </div>

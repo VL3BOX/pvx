@@ -8,9 +8,40 @@
                 class="input-with-select"
                 @keyup.enter.native="getFaceList"
             >
-                <span slot="prepend">关键词</span>
+                <span slot="prepend">关键词</span> 
                 <el-button slot="append" icon="el-icon-search" @click="getFaceList"></el-button>
             </el-input> -->
+            <div class="u-right-btn">
+                <div v-if="isSinglePage && isEditor" class="m-face-btn-box">
+                    <div class="m-face-btn-box">
+                        <el-button
+                            type="danger"
+                            class="u-btn"
+                            :class="isStar ? 'off' : 'on'"
+                            :icon="!isStar ? 'el-icon-star-off' : 'el-icon-star-on'"
+                            size="medium"
+                            @click="starSet"
+                        >
+                            {{ starText }}
+                        </el-button>
+                        <el-button
+                            type="danger"
+                            class="u-btn"
+                            :class="status !== 1 ? 'top' : 'bottom'"
+                            :icon="status !== 1 ? 'el-icon-top' : 'el-icon-bottom'"
+                            size="medium"
+                            @click="statusSet"
+                        >
+                            {{ statusText }}
+                        </el-button>
+                    </div>
+                </div>
+                <div class="m-face-btn-box">
+                    <a href="/publish/#/face">
+                        <el-button type="primary" size="medium" class="u-publish u-btn">发布</el-button>
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- 海报banner -->
         <!-- <div class="m-banner" v-if="post.banner">
@@ -167,7 +198,19 @@
 </template>
 
 <script>
-import { getOneFaceInfo, payFace, loopPayStatus, getAccessoryList, getDownUrl, getRandomFace } from "@/service/face.js";
+const single_pages = ["single"];
+import {
+    getOneFaceInfo,
+    payFace,
+    loopPayStatus,
+    getAccessoryList,
+    getDownUrl,
+    getRandomFace,
+    setStar,
+    cancelStar,
+    onlineFace,
+    offlineFace,
+} from "@/service/face.js";
 import { getStat, postStat } from "@jx3box/jx3box-common/js/stat";
 import facedata from "@jx3box/jx3box-facedat/src/Facedat.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
@@ -202,6 +245,7 @@ export default {
             payBtnLoading: false,
             randomList: [],
             carouselActive: 0,
+            isEditor: User.isEditor(),
         };
     },
     computed: {
@@ -222,6 +266,22 @@ export default {
         },
         activePic: function () {
             return this.previewSrcList[this.carouselActive];
+        },
+        isSinglePage: function () {
+            return single_pages.includes(this.$route.name);
+        },
+        //上下架状态
+        status: function () {
+            return this.$store.state.faceSingle?.status || 1;
+        },
+        statusText: function () {
+            return this.status !== 1 ? "上架" : "下架";
+        },
+        isStar: function () {
+            return this.$store.state.faceSingle?.star || 0;
+        },
+        starText: function () {
+            return this.isStar ? "取消精选" : "精选";
         },
     },
     watch: {},
@@ -359,6 +419,99 @@ export default {
         },
         showPic(url) {
             return resolveImagePath(url);
+        },
+        starSet() {
+            this.$confirm("确认" + (this.isStar ? "取消精选" : "精选") + "该捏脸？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+                beforeClose: (action, instance, done) => {
+                    if (action === "confirm") {
+                        instance.confirmButtonLoading = true;
+                        if (this.isStar) {
+                            //取精
+                            cancelStar(this.id)
+                                .then(() => {
+                                    this.$store.state.faceSingle.star = 0;
+                                    done();
+                                    this.$notify({
+                                        title: "成功",
+                                        message: "取消精选成功",
+                                        type: "success",
+                                    });
+                                })
+                                .finally(() => {
+                                    instance.confirmButtonLoading = false;
+                                });
+                        } else {
+                            //精
+                            setStar(this.id)
+                                .then(() => {
+                                    this.$store.state.faceSingle.star = 1;
+                                    done();
+                                    this.$notify({
+                                        title: "成功",
+                                        message: "精选成功",
+                                        type: "success",
+                                    });
+                                })
+                                .finally(() => {
+                                    instance.confirmButtonLoading = false;
+                                });
+                        }
+                    } else {
+                        instance.confirmButtonLoading = false;
+                        done();
+                    }
+                },
+            });
+        },
+        statusSet() {
+            //上下架操作，根据是否isEditor，在接口内调用管理和作者分别的接口
+            this.$confirm("确认" + (this.status == 1 ? "下架" : "上架") + "该捏脸？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+                beforeClose: (action, instance, done) => {
+                    if (action === "confirm") {
+                        instance.confirmButtonLoading = true;
+                        if (this.status == 1) {
+                            //下架
+                            offlineFace(this.id, this.isEditor)
+                                .then(() => {
+                                    this.$store.state.faceSingle.status = 2;
+                                    done();
+                                    this.$notify({
+                                        title: "成功",
+                                        message: "下架成功",
+                                        type: "success",
+                                    });
+                                })
+                                .finally(() => {
+                                    instance.confirmButtonLoading = false;
+                                });
+                        } else {
+                            //上架
+                            onlineFace(this.id, this.isEditor)
+                                .then(() => {
+                                    this.$store.state.faceSingle.status = 1;
+                                    done();
+                                    this.$notify({
+                                        title: "成功",
+                                        message: "上架成功",
+                                        type: "success",
+                                    });
+                                })
+                                .finally(() => {
+                                    instance.confirmButtonLoading = false;
+                                });
+                        }
+                    } else {
+                        instance.confirmButtonLoading = false;
+                        done();
+                    }
+                },
+            });
         },
     },
 };
