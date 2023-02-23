@@ -38,7 +38,9 @@
                 </div>
                 <div class="m-face-btn-box">
                     <a href="/publish/#/face">
-                        <el-button type="primary" size="medium" class="u-publish u-btn">发布</el-button>
+                        <el-button type="primary" size="medium" class="u-publish u-btn" icon="el-icon-edit"
+                            >发布</el-button
+                        >
                     </a>
                 </div>
             </div>

@@ -24,8 +24,8 @@
             <div class="u-tabs-filter">
                 <el-popover placement="bottom-end" trigger="click" width="90" v-model="filterOpen">
                     <div class="u-tabs-marks">
-                        <el-checkbox-button v-model="star" class="u-star">精选</el-checkbox-button>
-                        <el-checkbox-button v-model="price_type" class="u-star">免费</el-checkbox-button>
+                        <el-checkbox-button v-model="star" class="u-star">只看精选</el-checkbox-button>
+                        <el-checkbox-button v-model="price_type" class="u-star">只看免费</el-checkbox-button>
                         <el-checkbox-button v-model="filter_empty_images" class="u-star">不看无图片</el-checkbox-button>
                     </div>
                     <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
@@ -36,7 +36,7 @@
             </div>
             <div class="u-right-btn">
                 <a href="/publish/#/face">
-                    <el-button type="primary" size="medium" class="u-btn">发布</el-button>
+                    <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>
                 </a>
             </div>
         </div>
