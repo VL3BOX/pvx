@@ -91,22 +91,22 @@ export default {
                 if (arrow === 1) {
                     // 向右
                     if (list.scrollLeft < nowLeft + step) {
-                        list.scrollLeft += step / 100;
+                        list.scrollLeft += Math.ceil(step / 100);
                     } else {
                         clearInterval(timer);
                     }
-                    if (list.scrollLeft + wrapperWidth === width) {
+                    if (Math.ceil(list.scrollLeft + wrapperWidth) >= width) {
                         this.isInRight = true;
                         clearInterval(timer);
                     }
                 } else if (arrow === -1) {
                     // 向左
                     if (list.scrollLeft > nowLeft + step) {
-                        list.scrollLeft += step / 100;
+                        list.scrollLeft += Math.floor(step / 100);
                     } else {
                         clearInterval(timer);
                     }
-                    if (list.scrollLeft === 0) {
+                    if (list.scrollLeft <= 0) {
                         this.isInLeft = true;
                         clearInterval(timer);
                     }
@@ -128,93 +128,5 @@ export default {
 </script>
 
 <style lang="less">
-.cross-wrapper {
-    position: relative;
-    width: 100%;
-    .list {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-wrap: nowrap;
-        overflow: hidden;
-        .item {
-            flex-grow: 0;
-            flex-shrink: 0;
-        }
-        .item:last-of-type {
-            margin-right: 0 !important;
-        }
-    }
-    .cross {
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        height: 100%;
-        background-color: #b3b2b2;
-        opacity: 0.9;
-        cursor: pointer;
-        z-index: 1;
-        i {
-            font-size: 20px;
-            color: #d9d9d9;
-        }
-        &.cross-left {
-            left: 0;
-        }
-        &.cross-right {
-            right: 0;
-        }
-        &.active {
-            background-color: @active-color;
-            i {
-                color: #fff;
-            }
-        }
-        &:hover {
-            opacity: 1;
-        }
-    }
-    &:hover {
-        & > .cross {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        & > .cross-left {
-            animation: toRight 0.3s;
-        }
-        & > .cross-right {
-            animation: toLeft 0.3s;
-        }
-    }
-}
-@media screen and (max-width: @phone) {
-    .cross-wrapper {
-        .list {
-            overflow-x: auto;
-        }
-        &:hover {
-            & > .cross {
-                display: none;
-            }
-        }
-    }
-}
-@keyframes toRight {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
-@keyframes toLeft {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
+@import "~@/assets/css/horse/cross.less";
 </style>
