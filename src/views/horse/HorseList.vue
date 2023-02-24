@@ -1,50 +1,26 @@
 <template>
     <div class="horse-list-wrapper" ref="listRef">
+        <div v-if="showSwitch" class="operate-wrap">
+            <div class="list-type-wrapper">
+                <div
+                    class="list-type-item"
+                    :class="listType === item.value && 'active'"
+                    :key="item.value"
+                    v-for="item in listTypes"
+                    @click="listType = item.value"
+                >
+                    {{ item.label }}
+                </div>
+            </div>
+        </div>
         <!-- 搜索 -->
         <PvxSearch :items="searchProps" :initValue="initValue" @search="searchEvent($event)"></PvxSearch>
         <!-- 预留抓马播报 -->
         <!-- 列表 -->
         <div class="horse-list-content">
-            <div class="horse-title-wrap">
-                <h2>
-                    {{
-                        searchProps[0].options.find((item) => item.type === search.type)
-                            ? searchProps[0].options.find((item) => item.type === search.type).name
-                            : "全部"
-                    }}
-                </h2>
-                <div v-if="showSwitch" class="operate-wrap">
-                    <!-- <span v-show="listType === 'card'" class="operate-btn" @click="isLine = !isLine">
-                        {{ isLine ? "多行展示" : "一行展示" }}
-                    </span> -->
-                    <!-- <el-tooltip :content="listType === 'card' ? '卡片模式' : '列表模式'" placement="top">
-                        <el-switch
-                            v-model="listType"
-                            active-value="card"
-                            inactive-value="list"
-                            active-icon-class="el-icon-menu"
-                            inactive-icon-class="el-icon-s-order"
-                            active-color="#d16400"
-                        />
-                    </el-tooltip> -->
-                    <div class="list-type-wrapper">
-                        <div
-                            class="list-type-item"
-                            :class="listType === item.value && 'active'"
-                            :key="item.value"
-                            v-for="item in listTypes"
-                            @click="listType = item.value"
-                        >
-                            {{ item.label }}
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="horse-list" :class="[listType + '-wrap']" v-loading="loading">
-                <!-- :class="isLine && 'line-list-content'" -->
                 <div v-if="listType === 'card'" class="list-content">
                     <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
-                    <!-- v-show="!isLine" -->
                     <el-button
                         class="more-btn"
                         :disabled="!hasNextPage"
@@ -103,7 +79,6 @@ export default {
                 },
             ],
             showSwitch: true,
-            // isLine: true,
             feeds: [],
             list: [],
             query: {
@@ -213,7 +188,6 @@ export default {
             deep: true,
             handler() {
                 this.query.page = 1;
-                console.log(1111111);
                 if (this.listType === "card") {
                     this.showCount();
                 } else {
@@ -385,6 +359,12 @@ export default {
                 }
             }, 10);
         },
+    },
+    created() {
+        const { type } = this.$route.query;
+        if (type) {
+            this.initValue.type = Number(type);
+        }
     },
     mounted: function () {
         this.jdugeType();

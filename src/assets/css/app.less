@@ -1,19 +1,20 @@
 .m-main {
-	padding: 20px 30px;
-	min-height: calc(100vh - @header-height - @bread-height - 100px);
-  background-color: #F3F5F6;
+    padding: 20px 30px;
+    min-height: calc(100vh - @header-height - @bread-height - 100px);
+    background-color: #f3f5f6;
+    .scrollbar();
 }
 @media screen and (max-width: @ipad) {
-	.m-main {
-		padding: 10px 20px;
-	}
+    .m-main {
+        padding: 10px 20px;
+    }
 }
 @media screen and (max-width: @phone) {
-	.m-main {
-		padding: 10px 15px;
-	}
+    .m-main {
+        padding: 10px 15px !important;
+    }
 }
 
 .m-archive-more {
-	.mb(10px) !important;
+    .mb(10px) !important;
 }

@@ -6,6 +6,7 @@
 @border-active: #39d45d;
 @color-cyan: #17e0c2;
 @color-gray: #586069;
+@active-color: #d16400;
 
 .u-msg-yellow {
     color: #8a6d3b;
@@ -36,4 +37,25 @@
 }
 .u-quality--6 {
     color: #c00;
+}
+
+.scrollbar(@w:2px) {
+    &::-webkit-scrollbar {
+        width: @w;
+        height: @w;
+    }
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-track-piece {
+        background-color: #fafafa;
+        border-radius: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #eee;
+        border-radius: 6px;
+    }
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-corner,
+    &::-webkit-resizer {
+        display: none;
+    }
 }

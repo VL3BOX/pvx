@@ -1,5 +1,5 @@
 <template>
-    <el-backtop :bottom="100" :style="{ color: color, backgroundColor: bgColor }"></el-backtop>
+    <el-backtop :bottom="40" :right="20" :style="{ color: color, backgroundColor: bgColor }"></el-backtop>
 </template>
 
 <script>

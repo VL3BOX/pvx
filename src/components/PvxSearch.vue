@@ -1,6 +1,6 @@
 <template>
     <div class="pvx-search-wrapper">
-        <div class="search-group animate__animated animate__fadeInDown">
+        <div class="search-group">
             <div
                 class="search-item"
                 :class="{

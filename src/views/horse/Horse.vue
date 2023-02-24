@@ -7,7 +7,7 @@
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main">
-                <keep-alive include="HorseList">
+                <keep-alive include="HorseHome">
                     <router-view></router-view>
                 </keep-alive>
             </div>
@@ -26,6 +26,7 @@ export default {
     name: "Horse",
     provide: {
         __imgRoot: __imgPath + "homeland/",
+        __imgRoot2: __imgPath + "horse/",
         __dataRoot: __dataPath + "pvx/",
     },
     data: function () {
@@ -39,4 +40,5 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/app.less";
+@import "~@/assets/css/horse/horse.less";
 </style>

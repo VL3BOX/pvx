@@ -1,10 +1,11 @@
 .pvx-search-wrapper {
     position: fixed;
     background-color: #f3f5f6;
-    top: 100px;
+    top: calc(@header-height + 48px);
     z-index: 4;
     width: 100%;
-    padding-top: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     overflow: hidden;
     .search-group {
         display: flex;
@@ -17,8 +18,10 @@
             justify-content: flex-start;
             align-items: center;
             flex-wrap: wrap;
-            margin-bottom: 20px;
             &.type-list {
+                input[type="radio"] {
+                    margin: 0;
+                }
                 .el-radio-group {
                     width: 100%;
                 }
@@ -29,9 +32,6 @@
                     box-shadow: none;
                     padding: 0;
                     border-radius: 30px;
-                    &:hover {
-                        color: #d16400;
-                    }
                 }
                 .type-item {
                     margin-right: 20px;
@@ -46,9 +46,16 @@
                     text-align: center;
                     cursor: pointer;
                     &.is-active {
-                        background-color: #d16400;
+                        background-color: @active-color;
                         .el-radio-button__inner {
-                            background-color: #d16400;
+                            background-color: @active-color;
+                            color: #fff;
+                        }
+                    }
+                    &:hover {
+                        background-color: @active-color;
+                        .el-radio-button__inner {
+                            background-color: @active-color;
                             color: #fff;
                         }
                     }
@@ -65,7 +72,7 @@
                     &.active {
                         svg {
                             fill: #fff;
-                            background-color: #d16400;
+                            background-color: @active-color;
                         }
                     }
                 }
@@ -148,13 +155,14 @@
                     }
                     &:hover {
                         .el-checkbox-button__inner {
-                            color: #d16400;
+                            background-color: @active-color;
+                            color: #fff;
                         }
                     }
                     &.is-checked {
                         .el-checkbox-button__inner {
                             box-shadow: none;
-                            background-color: #d16400;
+                            background-color: @active-color;
                             color: #fff;
                         }
                     }
