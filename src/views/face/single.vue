@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="m-face-btn-box">
-                    <a href="/publish/#/face">
+                    <a :href="publish_link">
                         <el-button type="primary" size="medium" class="u-publish u-btn" icon="el-icon-edit"
                             >发布</el-button
                         >
@@ -213,6 +213,7 @@ import {
     onlineFace,
     offlineFace,
 } from "@/service/face.js";
+import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getStat, postStat } from "@jx3box/jx3box-common/js/stat";
 import facedata from "@jx3box/jx3box-facedat/src/Facedat.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
@@ -251,6 +252,9 @@ export default {
         };
     },
     computed: {
+        publish_link() {
+            return publishLink("face");
+        },
         id: function () {
             return this.$route.params.id;
         },

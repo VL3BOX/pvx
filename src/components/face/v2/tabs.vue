@@ -1,6 +1,6 @@
 <template>
     <div class="m-share-tabs">
-        <div class="u-tabs p-animation fadeInDown">
+        <div class="u-tabs">
             <!-- <div class="u-tabs-btn">
                 <i class="el-icon-arrow-left"></i>
             </div>
@@ -35,7 +35,7 @@
                 <el-input placeholder="请输入搜索内容" v-model="title" suffix-icon="el-icon-search" class="u-search" />
             </div>
             <div class="u-right-btn">
-                <a href="/publish/#/face">
+                <a :href="publish_link">
                     <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>
                 </a>
             </div>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 export default {
     name: "tabs",
@@ -58,6 +59,9 @@ export default {
         };
     },
     computed: {
+        publish_link() {
+            return publishLink("face");
+        },
         params() {
             const _params = {};
             if (this.active) {
