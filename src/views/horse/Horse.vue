@@ -7,9 +7,7 @@
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main">
-                <keep-alive include="HorseHome">
-                    <router-view></router-view>
-                </keep-alive>
+                <router-view></router-view>
             </div>
             <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
             <!-- <Footer></Footer> -->

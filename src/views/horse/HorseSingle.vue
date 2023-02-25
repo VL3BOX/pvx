@@ -339,7 +339,7 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push({ name: "list" });
+            this.$router.push({ path: "/" });
         },
         getHorse(id) {
             const params = {

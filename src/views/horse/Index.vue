@@ -2,7 +2,7 @@
     <div class="horse-home-wrapper" v-loading="loading">
         <PvxSearch :items="searchProps" @search="searchEvent($event)"></PvxSearch>
         <div class="list-wrapper">
-            <div class="list-item-wrapper" v-for="(list, index) in latelyList" :key="index">
+            <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
                 <div class="title-header">
                     <div class="title">
                         {{
@@ -11,9 +11,8 @@
                                 : "全部"
                         }}
                     </div>
-                    <router-link :to="`/list?type=${latelyList.length > 1 ? index : currentType}`"
-                        >查看全部</router-link
-                    >
+                    <a href="javascript:;" @click="toList(index)">查看全部</a>
+                    <!-- <router-link :to="`/list?type=${index}`">查看全部</router-link> -->
                 </div>
                 <horse-cross :list="list">
                     <template v-slot="data">
@@ -26,11 +25,12 @@
 </template>
 
 <script>
-import { getHorses } from "@/service/horse";
+import { getHorses, getFeeds, getAttrs } from "@/service/horse";
 import PvxSearch from "@/components/PvxSearch.vue";
 import HorseCross from "@/components/horse/HorseCross.vue";
 import HorseCard from "@/components/horse/HorseCard";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
+import { deleteNull } from "@/utils/index";
 export default {
     name: "HorseHome",
     components: { PvxSearch, HorseCross, HorseCard },
@@ -42,7 +42,6 @@ export default {
                 pageSize: 20,
                 client: this.client,
             },
-            currentType: "",
             listAll: [],
             searchProps: [
                 {
@@ -68,21 +67,35 @@ export default {
                         },
                     ],
                 },
+                {
+                    type: "filter",
+                    key: "filter",
+                    name: "过滤",
+                    options: [
+                        {
+                            key: "feed",
+                            type: "checkbox",
+                            name: "喂食饲料",
+                            options: [],
+                        },
+                        {
+                            key: "attr",
+                            type: "checkbox",
+                            name: "属性",
+                            options: [],
+                        },
+                    ],
+                },
+                {
+                    key: "keyword",
+                    name: "名称",
+                },
             ],
         };
     },
     computed: {
         client() {
             return this.$store.state.client;
-        },
-        latelyList() {
-            const listAll = this.listAll;
-            const type = this.currentType;
-            if (typeof type === "number") {
-                return listAll.slice(type, type + 1);
-            } else {
-                return listAll;
-            }
         },
     },
     methods: {
@@ -109,8 +122,54 @@ export default {
                     });
             });
         },
+        async getFeedList() {
+            await getFeeds().then((res) => {
+                const arr = res.data.map((item) => {
+                    const start = item.tip.indexOf("【");
+                    const end = item.tip.indexOf("】");
+                    item.feed = item.tip.slice(start + 1, end);
+                    return item;
+                });
+                this.feeds = JSON.parse(JSON.stringify(arr));
+                const newArr = [];
+                arr.forEach((item) => {
+                    const index = newArr.findIndex((nItem) => nItem.feed === item.feed);
+                    if (index > -1) {
+                        newArr[index].id += "," + item.id;
+                    } else {
+                        newArr.push(item);
+                    }
+                });
+
+                const options = newArr.map((item) => {
+                    return {
+                        label: item.feed,
+                        value: item.id,
+                    };
+                });
+                this.searchProps[1].options[0].options = options;
+            });
+        },
+        async getAttrList() {
+            await getAttrs().then((res) => {
+                const data = res.data;
+                const options = data.map((item) => {
+                    return {
+                        label: item.name,
+                        value: item.name,
+                    };
+                });
+                this.searchProps[1].options[1].options = options;
+            });
+        },
         searchEvent(data) {
-            this.currentType = data.type;
+            const newData = Object.assign({}, data);
+            if (Object.keys(deleteNull(newData)).length) {
+                this.$router.push({ name: "list", params: deleteNull(newData) });
+            }
+        },
+        toList(type) {
+            this.$router.push({ name: "list", params: { type } });
         },
     },
     mounted() {
@@ -126,6 +185,8 @@ export default {
             .catch(() => {
                 this.loading = false;
             });
+        this.getAttrList();
+        this.getFeedList();
     },
 };
 </script>

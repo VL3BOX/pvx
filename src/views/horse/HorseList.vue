@@ -89,9 +89,7 @@ export default {
             total: 0,
             totalPages: 0,
             search: {},
-            initValue: {
-                type: "",
-            },
+            initValue: {},
             searchProps: [
                 {
                     key: "type",
@@ -186,7 +184,16 @@ export default {
         },
         search: {
             deep: true,
-            handler() {
+            handler(search) {
+                // 重置
+                if (!Object.keys(search).length) {
+                    return this.$router.push({ path: "/" });
+                }
+                // 点击全部
+                if (search.type === "") {
+                    search = {};
+                    return this.$router.push({ path: "/" });
+                }
                 this.query.page = 1;
                 if (this.listType === "card") {
                     this.showCount();
@@ -346,7 +353,7 @@ export default {
         showCount(bol = true) {
             this.$nextTick(() => {
                 const listWidth = this.$refs.listRef?.clientWidth;
-                this.query.pageSize = Math.floor(listWidth / 220) * 4;
+                this.query.pageSize = Math.floor(listWidth / 200) * 4;
                 bol && this.findList();
             });
         },
@@ -361,10 +368,11 @@ export default {
         },
     },
     created() {
-        const { type } = this.$route.query;
-        if (type) {
-            this.initValue.type = Number(type);
+        const { params } = this.$route;
+        if (params.type === "" || params.type === undefined) {
+            params.type = null;
         }
+        this.initValue = params;
     },
     mounted: function () {
         this.jdugeType();

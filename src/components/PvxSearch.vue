@@ -69,8 +69,17 @@
                                             v-for="option in fItem.options"
                                             :label="option.value"
                                             :key="option.value"
+                                            :custom-label="option.label"
+                                            @mouseenter.native="labelSet($event)"
+                                            @mouseleave.native="labelRemove($event)"
                                         >
-                                            {{ option.label }}
+                                            {{
+                                                customLabel === option.label
+                                                    ? customLabel
+                                                    : option.label.indexOf("·") > -1
+                                                    ? option.label.split("·")[1]
+                                                    : option.label
+                                            }}
                                         </el-checkbox-button>
                                     </el-checkbox-group>
                                 </div>
@@ -123,6 +132,7 @@ export default {
             currentOptions: [],
             selectLoading: "",
             checkboxData: {},
+            customLabel: "",
         };
     },
     watch: {
@@ -146,7 +156,8 @@ export default {
                         const options = item.options;
                         options.forEach((oItem) => {
                             formData[oItem.key] = "";
-                            this.$set(this.checkboxData, oItem.key, []);
+                            const arr = initValue && initValue[oItem.key] ? [initValue[oItem.key]] : [];
+                            this.$set(this.checkboxData, oItem.key, arr);
                         });
                     }
                 });
@@ -156,6 +167,13 @@ export default {
         },
     },
     methods: {
+        labelSet(e) {
+            const label = e.target.getAttribute("custom-label");
+            this.customLabel = label;
+        },
+        labelRemove(e) {
+            this.customLabel = "";
+        },
         isPhone,
         selectFocus(e) {
             this.currentMethod = e.target.id;
