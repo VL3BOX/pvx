@@ -1,0 +1,76 @@
+.same-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    width: 482px;
+    height: 160px;
+    border-radius: 10px;
+    color: #24292e;
+    background-color: #ffffff;
+    cursor: pointer;
+    box-sizing: border-box;
+    &:last-child {
+        margin-right: 0;
+    }
+    .img-wrap {
+        width: 120px;
+        height: 120px;
+        background-image: url("../../img/horse_item_bg_sm.jpg");
+        border-radius: 10px;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-sizing: border-box;
+        .u-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+    }
+    &:hover {
+        .img-wrap {
+            transform: scale(1.05);
+        }
+    }
+    .info-wrap {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-left: 10px;
+        width: 320px;
+        height: 120px;
+        .info-item {
+            font-size: 20px;
+            font-weight: 700;
+            &.name {
+                height: 26px;
+                line-height: 26px;
+                &:first-of-type {
+                    margin-top: 2px;
+                    margin-bottom: 10px;
+                }
+            }
+            &.u-attr-wrap {
+                position: relative;
+                margin-top: 14px;
+                width: 100%;
+                overflow-y: hidden;
+                overflow-x: auto;
+                .u-attr-icon {
+                    width: 40px;
+                    height: 40px;
+                    overflow: hidden;
+                }
+                .u-attr-content {
+                    display: -webkit-inline-box;
+                    .u-attr {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

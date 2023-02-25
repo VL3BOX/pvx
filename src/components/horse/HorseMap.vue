@@ -1,5 +1,5 @@
 <template>
-    <div class="m-pet-map">
+    <div class="m-horse-map">
         <el-carousel :autoplay="false" :height="height">
             <el-carousel-item v-for="(datas, mapID) in mapDatas" :key="mapID">
                 <jx3box-map :mapId="Number(mapID)" :datas="datas" @resize="handleResize"></jx3box-map>
@@ -10,14 +10,17 @@
 
 <script>
 import Jx3boxMap from "@jx3box/jx3box-map/src/components/Map.vue";
-import PetPOI from "@/assets/data/pet_pois.json";
 
 export default {
-    name: "PvxPetMap",
+    name: "HorseMap",
     props: {
-        petId: {
-            type: Number,
-            default: 0,
+        name: {
+            type: String,
+            required: true,
+        },
+        list: {
+            type: Array,
+            required: true,
         },
     },
     components: {
@@ -28,28 +31,19 @@ export default {
             height: "896px",
         };
     },
-    mounted() {
-        if (this.originDatas?.length) {
-            this.$emit("loaded", true);
-        }
-    },
     computed: {
-        originDatas() {
-            if (this.petId && PetPOI[this.petId]) {
-                return PetPOI[this.petId];
-            }
-            return [];
-        },
         mapDatas() {
             let result = {};
-            for (let data of this.originDatas) {
-                let mapId = data.MapID;
+            const horseName = this.name;
+            for (let data of this.list) {
+                let mapId = data.mapId;
                 if (!result[mapId]) result[mapId] = [];
-                for (let coor of data.Coordinates) {
+                for (let coor of data.coordinates) {
                     result[mapId].push({
-                        title: this.pointType(data.WorkType),
-                        content: `坐标：(${coor.x},${coor.y},${coor.z}) <br /> 
-                        ${this.objectType(data.ObjectType)}：${data.ObjectID}`,
+                        title: data.mapName,
+                        content: `
+                        马驹·${horseName.indexOf("·") > -1 ? horseName.split("·")[0] : horseName}
+                        <br /> 坐标：(${coor.x},${coor.y},${coor.z})`,
                         x: coor.x,
                         y: coor.y,
                         z: coor.z,
@@ -63,26 +57,8 @@ export default {
         handleResize(size) {
             this.height = size[1] + "px";
         },
-        pointType: function (WorkType) {
-            switch (WorkType) {
-                case "TRIGGER":
-                    return "触发点";
-                case "LOOT":
-                    return "前置/其他";
-                default:
-                    return "未知";
-            }
-        },
-        objectType: function (ObjectType) {
-            switch (ObjectType) {
-                case 3:
-                    return "NPC";
-                default:
-                    return "交互物品";
-            }
-        },
     },
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less"></style>

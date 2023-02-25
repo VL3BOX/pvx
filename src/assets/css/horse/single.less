@@ -1,7 +1,7 @@
 @import "./common.less";
 @import "./pop.less";
 .c-main {
-  background-color: #F3F5F6;
+    background-color: #f3f5f6;
 }
 .horse-single-wrapper {
     position: relative;
@@ -9,24 +9,30 @@
     .back-wrap {
         position: fixed;
         background-color: #f3f5f6;
-        padding-top: 20px;
-        margin-top: -20px;
-        top: 125px;
+        padding: 20px 0;
+        top: 112px;
         width: 100%;
         z-index: 4;
         button {
             width: 100px;
             height: 40px;
             .lh(40px);
+            font-weight: 400;
             padding: 0;
             border: none;
             border-radius: 30px;
+            &:focus,
+            &:hover {
+                color: @active-color;
+                background-color: rgba(@active-color, 0.1);
+            }
         }
     }
     .main-info-wrapper {
         position: relative;
         width: 100%;
-        margin-top: 70px;
+        margin-top: 75px;
+        margin-bottom: 40px;
         & > .title {
             margin-bottom: 20px;
             font-size: 32px;
@@ -36,11 +42,24 @@
     }
     .horse-single-content {
         .main-info-wrap {
-            & > div {
-                margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            .img-wrap {
+                width: 450px;
+                height: 450px;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-sizing: border-box;
+                .u-image {
+                    width: 410px;
+                    height: 410px;
+                    background-image: url("../../img/horse_item_bg.jpg");
+                    border-radius: 10px;
+                }
             }
-            .img-wrap,
             .info-wrap {
+                flex: 1;
                 position: relative;
                 padding: 20px;
                 background-color: #fff;
@@ -48,58 +67,90 @@
                 font-size: 16px;
                 font-weight: 700;
                 color: #24292e;
-                .info-item {
-                    margin-bottom: 10px;
-                }
                 .name {
                     font-size: 32px;
                     margin-bottom: 20px;
+                    height: 42px;
+                    line-height: 42px;
+                }
+                .desc {
+                    margin-bottom: 10px;
+                    font-weight: normal;
                 }
                 .info-list {
                     margin-top: 20px;
                     .title {
                         margin-bottom: 10px;
                     }
-                }
-            }
-            .u-image {
-                width: 410px;
-                height: 410px;
-                background-color: #24292e;
-                border-radius: 10px;
-            }
-            // .info-wrap {
-            //     min-height: 410px;
-            // }
-            .info-list {
-                .list {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    flex-wrap: wrap;
-                    .u-attr {
-                        cursor: pointer;
-                        margin-right: 10px;
+                    .no-data {
+                        color: #aaa;
+                        height: 50px;
+                        width: 50px;
+                        line-height: 50px;
+                        text-align: center;
+                        background-color: #000;
+                        border-radius: 10px;
                     }
                 }
-                .basic-list {
-                    font-size: 13px;
-                    color: #00d24b;
+            }
+        }
+        .info-list {
+            .list {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+                min-width: 360px;
+                .u-attr {
+                    cursor: pointer;
+                    margin-right: 10px;
                 }
             }
-            .u-link {
-                position: absolute;
-                right: 30px;
-                top: 18px;
+            .basic-list {
+                font-size: 13px;
+                color: #00d24b;
             }
+        }
+        .u-link {
+            position: absolute;
+            right: 30px;
+            top: 18px;
         }
     }
     .same-list-container {
-        margin-top: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 40px;
         .title {
+            margin-bottom: 20px;
             font-size: 32px;
             font-weight: 700;
+            height: 42px;
+            line-height: 42px;
+        }
+        .same-list-wrapper {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+        }
+    }
+    .catch-container {
+        margin-bottom: 40px;
+        .title {
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            height: 42px;
+            line-height: 42px;
+        }
+        .m-horse-map {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    }
+    .m-wiki-post-panel {
+        & > div {
+            margin-bottom: 40px !important;
         }
     }
     .m-wiki-post-empty {
@@ -114,32 +165,17 @@
     }
 }
 
-@media screen and (max-width: @notebook) {
-    .horse-single-wrapper {
-        .back-wrap {
-            padding-bottom: 20px;
-        }
-        .main-img-wrap {
-            .u-image {
-                width: 100% !important;
-                height: 100% !important;
-            }
-            div.u-image {
-                min-height: 410px;
-            }
-        }
-    }
-}
 @media screen and (max-width: @phone) {
     .horse-single-wrapper {
-        .back-wrap {
-            padding-bottom: 20px;
-        }
-        .main-img-wrap {
-            div.u-image {
+        .main-info-wrap {
+            flex-direction: column;
+            .img-wrap {
                 width: 100% !important;
                 height: auto !important;
-                min-height: 320px;
+                img {
+                    width: 100% !important;
+                    height: 100% !important;
+                }
             }
         }
     }

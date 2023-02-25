@@ -7,72 +7,89 @@
             <!-- 主要信息 -->
             <div class="main-info-wrapper">
                 <div v-if="item.ID" class="title">{{ item.Name }} 的信息</div>
-                <el-row v-if="item.ID" class="main-info-wrap" :gutter="20">
-                    <el-col class="main-img-wrap" :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-                        <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
-                            <img v-if="item.ImgPath" :src="getImgSrc(item.ImgPath)" class="u-image" />
-                            <div v-else class="u-image"></div>
+                <div v-if="item.ID" class="main-info-wrap">
+                    <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
+                        <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
+                        <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon>
+                    </div>
+                    <div class="info-wrap">
+                        <div class="info-item">ID: {{ item.ID }}</div>
+                        <div class="info-item name">{{ item.Name }}</div>
+                        <div class="info-item desc">
+                            分类:
+                            {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
                         </div>
-                    </el-col>
-                    <el-col class="main-info-content" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
-                        <div class="info-wrap">
-                            <div class="info-item">ID: {{ item.ID }}</div>
-                            <div class="info-item name">{{ item.Name }}</div>
-                            <div class="info-item">
-                                分类:
-                                {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
-                            </div>
-                            <div class="info-item">品质: {{ item.Level }}</div>
-                            <div v-if="type !== '2'" class="info-item">跑速: {{ speedName }}</div>
-                            <div v-if="type !== '2'" class="info-item">饲料: {{ feedName }}</div>
-                            <div v-if="basicAttrs.length" class="info-list">
-                                <div class="title">基础属性</div>
-                                <div class="basic-list">
-                                    <div class="item" v-for="item in basicAttrs" :key="item.id">
-                                        {{ item.desc }}
-                                    </div>
+                        <div class="info-item desc">品质: {{ item.Level }}</div>
+                        <div v-if="type !== '2'" class="info-item desc">跑速: {{ speedName }}</div>
+                        <div v-if="type !== '2'" class="info-item desc">饲料: {{ feedName }}</div>
+                        <div class="info-list">
+                            <div class="title">基础属性</div>
+                            <!-- <div v-if="basicAttrs.length" class="basic-list">
+                                <div class="item" v-for="item in basicAttrs" :key="item.id">
+                                    {{ item.desc }}
                                 </div>
-                            </div>
-                            <div v-if="magicAttrs.length" class="info-list">
-                                <div class="title">特殊属性</div>
-                                <div class="list">
-                                    <div class="u-attr" v-for="(attr, index) in magicAttrs" :key="index">
-                                        <el-tooltip trigger="hover" placement="top">
-                                            <div class="u-attr-pop" slot="content">
-                                                <div class="u-attr-name" v-if="attr.name">
-                                                    {{
-                                                        (attr.name || "") +
-                                                        (Number(attr.level) ? attr.level + "级" : "")
-                                                    }}
-                                                </div>
-                                                <div class="u-attr-desc">{{ attr.desc }}</div>
+                            </div> -->
+                            <div v-if="basicAttrs.length" class="list">
+                                <div class="u-attr" v-for="attr in basicAttrs" :key="attr.id">
+                                    <el-tooltip trigger="hover" placement="top">
+                                        <div class="u-attr-pop" slot="content">
+                                            <div class="u-attr-name" v-if="attr.name">
+                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
                                             </div>
-                                            <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
-                                        </el-tooltip>
-                                    </div>
+                                            <div class="u-attr-desc">{{ attr.desc }}</div>
+                                        </div>
+                                        <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
+                                    </el-tooltip>
                                 </div>
                             </div>
-                            <a class="u-link" :href="getLink('item', this.id)" target="_blank">
-                                <i class="el-icon-collection-tag"></i>
-                                物品信息
-                            </a>
+                            <div v-else class="no-data">无</div>
                         </div>
-                    </el-col>
-                </el-row>
+                        <div class="info-list">
+                            <div class="title">特殊属性</div>
+                            <div v-if="magicAttrs.length" class="list">
+                                <div class="u-attr" v-for="(attr, index) in magicAttrs" :key="index">
+                                    <el-tooltip trigger="hover" placement="top">
+                                        <div class="u-attr-pop" slot="content">
+                                            <div class="u-attr-name" v-if="attr.name">
+                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
+                                            </div>
+                                            <div class="u-attr-desc">{{ attr.desc }}</div>
+                                        </div>
+                                        <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
+                                    </el-tooltip>
+                                </div>
+                            </div>
+                            <div v-else class="no-data">无</div>
+                        </div>
+                        <a class="u-link" :href="getLink('item', this.id)" target="_blank">
+                            <i class="el-icon-collection-tag"></i>
+                            物品信息
+                        </a>
+                    </div>
+                </div>
                 <div v-else>无此信息</div>
             </div>
             <!-- 同类坐骑 - 普通坐骑 -->
             <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
                 <div class="title">同类坐骑</div>
-                <same-list :list="sameList"></same-list>
+                <horse-cross :width="30" :list="sameList">
+                    <template v-slot="data">
+                        <same-item :item="data.item" @click.native="getHorse(data.item.ItemID)"></same-item>
+                    </template>
+                </horse-cross>
             </div>
-            <!-- 捕获地图 预留 -->
+            <!-- 捕获地图 -->
+            <div v-if="originDatas.length" class="catch-container">
+                <div class="title">捕获地图</div>
+                <!-- 地图组件 -->
+                <horse-map :name="item.Name" :list="originDatas" />
+            </div>
             <!--攻略-->
             <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
                 <WikiPanel :wiki-post="wiki_post">
                     <template slot="head-title">
-                    <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
-                        <span class="u-txt">物品攻略</span>
+                        <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
+                        <span class="u-txt">坐骑攻略</span>
                     </template>
                     <template slot="head-actions">
                         <a class="el-button el-button--primary" :href="publish_url(`item/${id}`)">
@@ -127,7 +144,12 @@
 <script>
 import { getHorse, getHorses } from "@/service/horse";
 import { iconLink, getLink, publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
-import SameList from "@/components/horse/SameList.vue";
+import SameItem from "@/components/horse/SameItem.vue";
+import HorseCross from "@/components/horse/HorseCross.vue";
+
+import horseMapList from "@/assets/data/horse_map.json";
+import horseSites from "@/assets/data/horse_sites.json";
+import HorseMap from "@/components/horse/HorseMap.vue";
 
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
@@ -138,8 +160,8 @@ import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
 import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "Single",
-    inject: ["__imgRoot"],
-    components: { SameList, WikiPanel, WikiRevisions, WikiComments, Article },
+    inject: ["__imgRoot", "__imgRoot2"],
+    components: { SameItem, HorseCross, HorseMap, WikiPanel, WikiRevisions, WikiComments, Article },
     data() {
         return {
             loading: false,
@@ -156,6 +178,27 @@ export default {
         };
     },
     computed: {
+        originDatas() {
+            const name = this.item.Name;
+            if (name) {
+                let mapList = horseMapList.find((item) => name.indexOf(item.name) > -1)
+                    ? horseMapList.find((item) => name.indexOf(item.name) > -1).mapList
+                    : [];
+                const arr = [];
+                if (mapList.length) {
+                    mapList.forEach((mapId) => {
+                        arr.push({
+                            mapId: mapId,
+                            mapName: horseSites[mapId].mapName,
+                            coordinates: horseSites[mapId].coordinates,
+                        });
+                    });
+                }
+                return arr;
+            } else {
+                return [];
+            }
+        },
         id() {
             return this.$route.params.id;
         },
@@ -167,13 +210,20 @@ export default {
         },
         basicAttrs() {
             const attrs = this.item.MagicAttributes;
-            return attrs && attrs.length ? attrs.filter((item) => !item.icon) : [];
+            return attrs && attrs.length
+                ? attrs
+                      .filter((item) => !item.level || item.level === "0")
+                      .map((mItem) => {
+                          mItem.iconUrl = iconLink(mItem.icon);
+                          return mItem;
+                      })
+                : [];
         },
         magicAttrs() {
             const attrs = this.item.MagicAttributes;
             return attrs && attrs.length
                 ? attrs
-                      .filter((item) => item.icon)
+                      .filter((item) => item.icon && item.level !== "0")
                       .map((mItem) => {
                           mItem.iconUrl = iconLink(mItem.icon);
                           return mItem;
@@ -291,9 +341,9 @@ export default {
         goBack() {
             this.$router.push({ name: "list" });
         },
-        getHorse() {
+        getHorse(id) {
             const params = {
-                id: this.id,
+                id: id || this.id,
                 client: this.client,
             };
             if (this.type === "2") {
@@ -333,7 +383,7 @@ export default {
                     this.sameList = res.data.list
                         .filter((item) => item.ID !== this.item.ID)
                         .map((item) => {
-                            item.imgUrl = this.getImgSrc(item.ImgPath);
+                            item.imgUrl = this.getImgSrc(item);
                             if (item.MagicAttributes && item.MagicAttributes.length) {
                                 item.MagicAttributes.map((mItem) => {
                                     mItem.iconUrl = iconLink(mItem.icon);
@@ -347,13 +397,16 @@ export default {
                     this.sameLoading = false;
                 });
         },
-        getImgSrc(path) {
+        getImgSrc(item) {
+            const path = item.ImgPath;
             if (path) {
                 let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
                 let name = img[1].replace(/\\/g, "/");
 
                 if (img[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";
                 return this.__imgRoot + `homeland/${this.client}` + name + ".png";
+            } else {
+                return this.__imgRoot2 + `${this.client}/` + item.ID + ".png";
             }
         },
         getLink,

@@ -378,6 +378,18 @@ export default {
             }
         });
         this.getAttrList();
+        // window.onresize = () => {
+        //     if (this.listType === "card") {
+        //         // 卡片模式下大小改变重新计算数量并请求
+        //         const oldSize = this.query.pageSize;
+        //         const listWidth = this.$refs.listRef?.clientWidth;
+        //         const newSize = Math.floor(listWidth / 220) * 4;
+        //         if (oldSize !== newSize) {
+        //             this.query.pageSize = newSize;
+        //             this.findList();
+        //         }
+        //     }
+        // };
     },
 };
 </script>
