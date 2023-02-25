@@ -8,6 +8,7 @@
         flex-wrap: nowrap;
         overflow: hidden;
         .item {
+            display: flex;
             flex-grow: 0;
             flex-shrink: 0;
         }
@@ -52,12 +53,12 @@
             justify-content: center;
             align-items: center;
         }
-        & > .cross-left {
-            animation: toRight 0.3s;
-        }
-        & > .cross-right {
-            animation: toLeft 0.3s;
-        }
+        // & > .cross-left {
+        //     animation: toRight 0.3s;
+        // }
+        // & > .cross-right {
+        //     animation: toLeft 0.3s;
+        // }
     }
 }
 @media screen and (max-width: @phone) {

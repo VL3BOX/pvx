@@ -10,7 +10,7 @@
                 <div v-if="item.ID" class="main-info-wrap">
                     <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
                         <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
-                        <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon>
+                        <!-- <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon> -->
                     </div>
                     <div class="info-wrap">
                         <div class="info-item">ID: {{ item.ID }}</div>

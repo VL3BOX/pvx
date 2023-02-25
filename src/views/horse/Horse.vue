@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb name="坐骑大全" slug="horse" root="/horse" :feedbackEnable="true" :crumbEnable="true">
+        <!-- <Breadcrumb name="坐骑大全" slug="horse" root="/horse" :feedbackEnable="true" :crumbEnable="true">
             <img slot="logo" svg-inline :src="getAppIcon('horse')" />
-        </Breadcrumb>
+        </Breadcrumb> -->
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main">

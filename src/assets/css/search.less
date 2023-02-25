@@ -1,7 +1,7 @@
 .pvx-search-wrapper {
     position: fixed;
     background-color: #f3f5f6;
-    top: calc(@header-height + 48px);
+    top: calc(@header-height);
     z-index: 4;
     width: 100%;
     padding-top: 20px;
@@ -32,6 +32,7 @@
                     box-shadow: none;
                     padding: 0;
                     border-radius: 30px;
+                    transition: none;
                 }
                 .type-item {
                     margin-right: 20px;
@@ -181,7 +182,7 @@
                     width: 100%;
                     .type-item {
                         width: 20%;
-                        font-size: 12px;
+                        // font-size: 12px;
                         margin-right: 5%;
                     }
                 }

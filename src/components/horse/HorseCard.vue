@@ -1,6 +1,10 @@
 <template>
     <div class="m-horse-card" :class="`u-quality-bg--` + item.Quality" @click="go(item)">
-        <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
+        <el-image v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image">
+            <div slot="error" class="image-slot">
+                <img src="../../assets/img/horse_item_bg_sm.jpg" />
+            </div>
+        </el-image>
         <item-icon v-else :item_id="String(item.ItemID)" :size="160" :onlyIcon="true"></item-icon>
         <!-- <div v-else class="u-image"></div> -->
         <div class="u-name">{{ item.Name }}</div>
