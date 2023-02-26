@@ -11,8 +11,12 @@
             <el-submenu :index="group.index" v-for="group in clientMenus" :key="group.key">
                 <template slot="title">{{ group.label }}</template>
                 <el-menu-item-group>
-                    <el-menu-item v-for="item in group.submenus" :key="item.key"
-                        :class="{ 'is-active': active == item.key }" v-show="item.status">
+                    <el-menu-item
+                        v-for="item in group.submenus"
+                        :key="item.key"
+                        :class="{ 'is-active': active == item.key }"
+                        v-show="item.status"
+                    >
                         <a :href="item.path" :target="item.target || '_self'">
                             <!-- <i :class="item.icon"></i> -->
                             <img :src="getNavIcon(item.key)" :alt="item.label" />
@@ -47,13 +51,13 @@ export default {
                             status: true,
                             isStd: true,
                         },
-                        {
-                            path: "/share/facedata",
-                            label: "妆容解析",
-                            icon: "el-icon-setting",
-                            key: "facedata",
-                            status: true,
-                        },
+                        // {
+                        //     path: "/share/facedata",
+                        //     label: "妆容解析",
+                        //     icon: "el-icon-setting",
+                        //     key: "facedata",
+                        //     status: true,
+                        // },
                     ],
                 },
 
@@ -169,10 +173,10 @@ export default {
             let arr = compact(location.pathname?.split("/"));
             return arr.length > 1 ? arr[1] : arr[0];
         },
-        client () {
+        client() {
             return location.href.includes("origin") ? "origin" : "std";
         },
-        clientMenus () {
+        clientMenus() {
             let menus = this.menus;
             if (this.client !== "std") {
                 menus = menus
@@ -203,7 +207,7 @@ export default {
                 return `/pvx/${appKey}`;
             }
         },
-        getNavIcon (key) {
+        getNavIcon(key) {
             return require(`../assets/img/nav/${key}.png`);
         },
     },

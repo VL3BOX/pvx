@@ -160,10 +160,12 @@
         <!-- 上传作者区域 -->
         <div class="m-author m-single-content-box">
             <el-divider content-position="left">上传作者</el-divider>
-            <a class="u-author-info" :href="authorLink(post.user_id)" target="_blank">
+            <div class="u-author-info">
                 <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" />
-                <div class="u-name">{{ post.display_name }}</div>
-            </a>
+                <a :href="authorLink(post.user_id)" target="_blank">
+                    <div class="u-name">{{ post.display_name }}</div>
+                </a>
+            </div>
         </div>
         <!--作者随机作品-->
         <div class="m-random-list m-single-content-box">

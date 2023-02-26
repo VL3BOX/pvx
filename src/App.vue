@@ -7,7 +7,7 @@
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="false">
             <div class="m-main">
-                <!-- <router-view /> -->
+                <router-view />
             </div>
             <Footer></Footer>
         </Main>
