@@ -116,8 +116,8 @@
                             postType="item"
                             :postTitle="wiki_post.source.Name"
                             :userId="author_id"
-                            :adminBoxcoinEnable="true"
-                            :userBoxcoinEnable="true"
+                            :adminBoxcoinEnable="false"
+                            :userBoxcoinEnable="false"
                             :authors="authors"
                             mode="wiki"
                             :key="'item-thx-' + id"
@@ -457,4 +457,5 @@ export default {
 <style lang="less">
 @import "~@/assets/css/horse/single.less";
 @import "~@/assets/css/horse/map.less";
+@import "~@/assets/css/common/wiki.less";
 </style>

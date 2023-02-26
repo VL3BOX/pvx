@@ -10,6 +10,7 @@ const routes = [
     { name: "index", path: "/", component: Index },
     { name: "list", path: "/list", component: List },
     { name: "single", path: "/:id([0-9]_\\d+)/:type(\\d+)", component: Single },
+    // { name: "single", path: "/:id(\\d+)", component: Single },
 ];
 
 const router = new VueRouter({
