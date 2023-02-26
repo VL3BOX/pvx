@@ -26,7 +26,7 @@
 .m-main {
     min-height: calc(100vh - @header-height);
     // .pt(0);
-    padding: 20px 40px;
+    padding: 0 40px 20px 40px;
 }
 .m-face {
     // .pr;
@@ -39,7 +39,7 @@
             cursor: pointer;
             color: #a5a5a5;
             .fz(16px,21px);
-            .bold(700);
+            // .bold(700);
         }
     }
     .u-title {
@@ -60,6 +60,7 @@
     top: 64px;
     z-index: 3;
     background-color: #f3f5f6;
+    .pt(20px);
     .u-tabs {
         .flex;
         flex-wrap: wrap;
@@ -138,11 +139,20 @@
     .u-right-btn {
         flex: 1;
         text-align: right;
+        .u-analysis-btn {
+            .r(5px);
+            .size(100px,40px);
+            .fz(16px);
+            font-style: normal;
+            .mr(20px);
+            background-color: #e54059;
+            border-color: #e54059;
+        }
+
         .u-btn {
             .r(5px);
             .size(100px,40px);
             .fz(16px);
-            // .bold(700);
             font-style: normal;
             background-color: @themeColor;
             border-color: @themeColor;
@@ -183,6 +193,7 @@
         right: 0;
     }
     .u-disabled {
+        // display: none
         cursor: not-allowed;
         background-color: rgba(163, 152, 152, 0.7);
         &:hover {
