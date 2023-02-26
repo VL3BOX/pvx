@@ -45,7 +45,7 @@ export default {
                     submenus: [
                         {
                             path: "/face",
-                            label: "捏脸分享",
+                            label: "捏脸数据",
                             icon: "el-icon-download",
                             key: "face",
                             status: true,

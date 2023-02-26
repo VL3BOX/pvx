@@ -36,7 +36,7 @@
             </div>
             <div class="u-right-btn">
                 <a href="/face/facedata" target="_blank">
-                    <el-button type="primary" size="medium" class="u-analysis-btn">捏脸解析</el-button>
+                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis-btn">数据解析</el-button>
                 </a>
                 <a :href="publish_link">
                     <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>

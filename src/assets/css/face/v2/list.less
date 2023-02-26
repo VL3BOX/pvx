@@ -141,7 +141,7 @@
         text-align: right;
         .u-analysis-btn {
             .r(5px);
-            .size(100px,40px);
+            // .size(100px,40px);
             .fz(16px);
             font-style: normal;
             .mr(20px);
@@ -151,7 +151,8 @@
 
         .u-btn {
             .r(5px);
-            .size(100px,40px);
+            // .size(100px,40px);
+            .w(120px);
             .fz(16px);
             font-style: normal;
             background-color: @themeColor;
@@ -445,7 +446,7 @@
         }
         .u-right-btn {
             .pr;
-            .mt(20px);
+            // .mt(20px);
         }
     }
     // 编辑推荐
@@ -504,6 +505,14 @@
                 .fz(14px);
                 .bold(600);
             }
+        }
+    }
+}
+
+@media screen and (max-width:@phone){
+    .m-share-tabs{
+        .u-right-btn{
+            .mt(20px);
         }
     }
 }
