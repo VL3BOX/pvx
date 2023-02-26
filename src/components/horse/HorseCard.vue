@@ -5,7 +5,7 @@
                 <img src="../../assets/img/horse_item_bg_sm.jpg" />
             </div>
         </el-image>
-        <item-icon v-else :item_id="String(item.ItemID)" :size="160" :onlyIcon="true"></item-icon>
+        <item-icon v-else :item_id="String(item.ItemID)" :isLink="false" :size="160" :onlyIcon="true"></item-icon>
         <!-- <div v-else class="u-image"></div> -->
         <div class="u-name">{{ item.Name }}</div>
         <div class="u-desc">ID: {{ item.ID }}</div>
@@ -58,7 +58,7 @@ export default {
             const id = item.ItemID;
             // 2 马具 1 坐骑
             const type = item.SubType === 15 ? 1 : 2;
-            this.$router.push(`/${id}/${type}`);
+            this.$router.push({ path: `${id}`, query: { type } });
         },
         getImgSrc(item) {
             const path = item.ImgPath;

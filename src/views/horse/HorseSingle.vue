@@ -38,7 +38,12 @@
                                             </div>
                                             <div class="u-attr-desc">{{ attr.desc }}</div>
                                         </div>
-                                        <img class="u-attr-icon" :src="attr.iconUrl" :alt="attr.name" />
+                                        <img
+                                            class="u-attr-icon"
+                                            style="cursor: default"
+                                            :src="attr.iconUrl"
+                                            :alt="attr.name"
+                                        />
                                     </el-tooltip>
                                 </div>
                             </div>
@@ -203,7 +208,7 @@ export default {
             return this.$route.params.id;
         },
         type() {
-            return this.$route.params.type;
+            return this.$route.query.type;
         },
         client() {
             return this.$store.state.client;
