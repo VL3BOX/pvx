@@ -25,7 +25,8 @@
 }
 .m-main {
     min-height: calc(100vh - @header-height);
-    .pt(0);
+    // .pt(0);
+    padding: 20px 40px;
 }
 .m-face {
     // .pr;
@@ -59,7 +60,6 @@
     top: 64px;
     z-index: 3;
     background-color: #f3f5f6;
-    .pt(20px);
     .u-tabs {
         .flex;
         flex-wrap: wrap;
@@ -155,13 +155,12 @@
     .u-shade-btn {
         .pointer;
         .pa;
-        top: 50%;
+        // top: 50%;
         z-index: 2;
         .flex;
         .flex(x);
         align-items: center;
-        .size(60px);
-        .r(60px);
+        .size(60px,200px);
         .fz(26px);
         visibility: hidden;
         background-color: rgba(0, 0, 0, 0.7);
@@ -169,17 +168,26 @@
             color: #fff;
         }
         &:hover {
-            background-color: #6b52ff;
-            i {
-                color: #fff;
-            }
+            background-color: @themeColor;
+            i,
             svg {
-                fill: #fff;
+                color: #fff;
             }
         }
     }
+    .u-shade-btn-left {
+        border-radius: 10px 0 0 10px;
+    }
     .u-shade-btn-right {
+        border-radius: 0 10px 10px 0;
         right: 0;
+    }
+    .u-disabled {
+        cursor: not-allowed;
+        background-color: rgba(163, 152, 152, 0.7);
+        &:hover {
+            background-color: rgba(163, 152, 152, 0.7);
+        }
     }
 }
 // .m-recommend-list-box {
@@ -187,18 +195,18 @@
 //         .h(200px);
 //     }
 // }
-// .m-face-list {
-//     .u-shade-btn {
-//         .h(224px);
-//     }
-// }
+.m-face-list {
+    .u-shade-btn {
+        .h(264px);
+    }
+}
 // 编辑推荐
 .m-recommend-list {
     // .mt(20px);
     .flex;
     overflow-x: hidden;
     overflow-y: hidden;
-    scroll-behavior: smooth;
+    // scroll-behavior: smooth;
     // .h(200px);
     .w(100%);
     .m-recommend-item {
@@ -237,7 +245,7 @@
     .flex;
     overflow-x: hidden;
     overflow-y: hidden;
-    scroll-behavior: smooth;
+    // scroll-behavior: smooth;
     .w(100%);
 }
 .u-all-type {

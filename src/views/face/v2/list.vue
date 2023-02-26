@@ -5,10 +5,18 @@
         <template v-if="!showAllList">
             <div class="m-recommend-list-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
                 <div class="u-title u-recommend-title">编辑推荐</div>
-                <div class="u-shade-btn u-shade-btn-left" @click="crosswiseScrool($event, 'recommend', 1, 840)">
+                <div
+                    class="u-shade-btn u-shade-btn-left"
+                    :class="isDisabled('recommend', 1, isUpdate)"
+                    @click="crosswiseScrool($event, 'recommend', 1, 840)"
+                >
                     <i class="el-icon-arrow-left"></i>
                 </div>
-                <div class="u-shade-btn u-shade-btn-right" @click="crosswiseScrool($event, 'recommend', -1, 840)">
+                <div
+                    class="u-shade-btn u-shade-btn-right"
+                    :class="isDisabled('recommend', -1, isUpdate)"
+                    @click="crosswiseScrool($event, 'recommend', -1, 840)"
+                >
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-recommend-list" id="recommend">
@@ -28,10 +36,18 @@
                     <div class="u-title">{{ item.name }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
-                <div class="u-shade-btn u-shade-btn-left" @click="crosswiseScrool($event, 'nav' + index, 1, 600)">
+                <div
+                    class="u-shade-btn u-shade-btn-left"
+                    :class="isDisabled('nav' + index, 1, isUpdate)"
+                    @click="crosswiseScrool($event, 'nav' + index, 1, 600)"
+                >
                     <i class="el-icon-arrow-left"></i>
                 </div>
-                <div class="u-shade-btn u-shade-btn-right" @click="crosswiseScrool($event, 'nav' + index, -1, 600)">
+                <div
+                    class="u-shade-btn u-shade-btn-right"
+                    :class="isDisabled('nav' + index, -1, isUpdate)"
+                    @click="crosswiseScrool($event, 'nav' + index, -1, 600)"
+                >
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-share-list" :id="'nav' + index">
@@ -130,6 +146,7 @@ export default {
             scrollLeft: 0,
             showAllList: false, //是否显示单独某项全部
             slidersList: [],
+            isUpdate: false,
         };
     },
     computed: {
@@ -297,34 +314,50 @@ export default {
             this.page = 1;
             this.tabsData = data;
         },
+        isDisabled(id, detail) {
+            // 获取要绑定事件的元素
+
+            const nav = document.getElementById(id);
+            if (!nav) return;
+            if (nav.scrollLeft == 0 && detail == 1) {
+                return "u-disabled";
+            }
+            if (nav.scrollWidth <= nav.scrollLeft + nav.clientWidth && detail == -1) {
+                return "u-disabled";
+            }
+            return "";
+        },
         crosswiseScrool(event, id, detail, distance) {
             if (isPhone()) {
                 return;
             }
             event.preventDefault();
+
             // 获取要绑定事件的元素
+            // const nav = this.$refs[id];
             const nav = document.getElementById(id);
+            let scrollWidth = nav.scrollWidth;
+            // return;
+            if (nav.scrollLeft == 0 && detail == 1) return;
 
-            // 定义滚动距离
-            // let step = distance / 60,
-            // total = 0;
-            let step = detail * (distance || 200);
-
+            if (scrollWidth <= nav.scrollLeft + nav.clientWidth && detail == -1) return;
+            let step = (distance || 200) / 100;
+            let total = 0;
             // 对需要滚动的元素进行滚动操作
-            nav.scrollLeft += -step;
+            let _this = this;
+            scrollFun();
 
-            function smoothRight() {
+            function scrollFun() {
+                total = total + step;
                 if (total < distance) {
-                    total += step;
-                    nav.scrollLeft += total;
-                    setTimeout(smoothRight, 1);
-                }
-            }
-            function smoothLeft() {
-                if (total < distance) {
-                    total += step;
-                    nav.scrollLeft -= total;
-                    setTimeout(smoothLeft, 1);
+                    if (detail == 1) {
+                        nav.scrollLeft -= step;
+                    } else {
+                        nav.scrollLeft += step;
+                    }
+                    setTimeout(scrollFun, 1);
+                } else {
+                    _this.isUpdate = !_this.isUpdate;
                 }
             }
         },
