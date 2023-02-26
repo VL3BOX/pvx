@@ -35,6 +35,9 @@
                 <el-input placeholder="请输入搜索内容" v-model="title" suffix-icon="el-icon-search" class="u-search" />
             </div>
             <div class="u-right-btn">
+                <a href="/face/facedata" target="_blank">
+                    <el-button type="primary" size="medium" class="u-analysis-btn">捏脸解析</el-button>
+                </a>
                 <a :href="publish_link">
                     <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>
                 </a>
