@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb name="宠物大全" slug="pet" root="/pet" :feedbackEnable="true" :crumbEnable="true">
+        <!-- <Breadcrumb name="宠物大全" slug="pet" root="/pet" :feedbackEnable="true" :crumbEnable="true">
             <img slot="logo" svg-inline :src="getAppIcon('pet')" />
-        </Breadcrumb>
+        </Breadcrumb> -->
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main">
@@ -19,12 +19,12 @@
 <script>
 import Nav from "@/components/Nav.vue";
 import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
-import { __imgPath,__dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Pet",
-    provide : {
-        __imgRoot : __imgPath + 'pet/',
-        __dataRoot : __dataPath + 'pvx/'
+    provide: {
+        __imgRoot: __imgPath + "pet/",
+        __dataRoot: __dataPath + "pvx/",
     },
     data: function () {
         return {};
@@ -37,4 +37,13 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/app.less";
+.c-main {
+    .mt( @header-height);
+}
+.c-sidebar-left {
+    top: @header-height;
+}
+.m-main {
+    min-height: calc(100vh - @header-height);
+}
 </style>

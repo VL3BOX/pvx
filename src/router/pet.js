@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const List = () => import("@/views/pet/PetList.vue");
-const Single = () => import("@/views/pet/PetSingle.vue");
+const List = () => import("@/views/pet/v2/PetList.vue");
+const Single = () => import("@/views/pet/v2/PetSingle.vue");
 
 const routes = [
     { name: "list", path: "/", component: List },
@@ -12,7 +12,7 @@ const routes = [
 
 const router = new VueRouter({
     mode: "history",
-    base : '/pet',
+    base: "/pet",
     routes,
 });
 

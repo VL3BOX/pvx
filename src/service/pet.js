@@ -1,10 +1,10 @@
-import { $node } from "@jx3box/jx3box-common/js/https";
+import { $node, $cms } from "@jx3box/jx3box-common/js/https";
 import { __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import axios from "axios";
 // const $ = axios.create({
 //     baseURL : 'http://localhost:9002/'
 // })
-const $ = $node()
+const $ = $node();
 
 function getPets(params) {
     return $.get("/pets", {
@@ -14,13 +14,13 @@ function getPets(params) {
 
 function getPet(petid, params) {
     return $.get(`/pet/${petid}`, {
-        params
+        params,
     });
 }
 
-function getPetSkill(petid,  params) {
-    return $.get(`/pet/${petid}/skill`,{
-        params
+function getPetSkill(petid, params) {
+    return $.get(`/pet/${petid}/skill`, {
+        params,
     });
 }
 
@@ -43,9 +43,23 @@ function getPetLuckyReverse() {
 }
 
 function getSkill(params) {
-    return $.get('/skills', {
-        params
-    })
+    return $.get("/skills", {
+        params,
+    });
 }
-
-export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getPetLuckyReverse, getSkill };
+// 海报
+function getSliders(type, client, source_ids, per = 10) {
+    let _params = {
+        client: client,
+        type: type,
+        source_type: "pet",
+        source_ids: source_ids,
+    };
+    if (per) {
+        _params.per = per;
+    }
+    return $cms({ mute: true }).get(`/api/cms/news/v2`, {
+        params: _params,
+    });
+}
+export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getPetLuckyReverse, getSkill, getSliders };

@@ -1,0 +1,224 @@
+@themeColor: #d16400;
+
+// background-color: #e1dfdf;
+// color: #949494;
+.u-tabs-marks {
+    text-align: center;
+    .u-source {
+        .mb(10px);
+        .mr(10px);
+        .w(100px);
+        white-space: nowrap;
+        .el-radio-button__inner {
+            .db;
+            .r(30px);
+            border: 1px solid #e1dfdf;
+            background-color: #e1dfdf;
+            color: #949494;
+            &:hover {
+                background-color: @themeColor;
+                color: #fff;
+            }
+        }
+        &.is-active {
+            .el-radio-button__inner {
+                background-color: @themeColor;
+                border-color: @themeColor;
+                color: #fff;
+            }
+        }
+    }
+}
+.u-filter-popover {
+    width: 240px !important;
+}
+.m-main {
+    padding: 20px 40px;
+}
+.m-pet {
+    // .pr;
+    .u-type {
+        .flex;
+        margin: 20px 0;
+        justify-content: space-between;
+        align-items: flex-end;
+        .u-all {
+            cursor: pointer;
+            color: #a5a5a5;
+            .fz(16px,21px);
+        }
+    }
+    .u-title {
+        .fz(32px,42px);
+        .bold(700);
+        color: #24292e;
+    }
+}
+
+//顶部按钮+搜索区域等
+.m-pet-tabs {
+    /* 兼容chorme */
+    position: -webkit-sticky;
+    position: sticky;
+    top: 64px;
+    z-index: 8;
+    background-color: #f3f5f6;
+    // .mb(20px);
+    padding: 20px 0;
+    .u-tabs {
+        .flex;
+    }
+    .u-tabs-btn,
+    .u-tabs-filter {
+        .pointer;
+        .size(40px);
+        .r(30px);
+        background-color: #fff;
+        &.right {
+            .ml(20px);
+            .mr(10px);
+        }
+        svg {
+            fill: #949494;
+        }
+        &:hover {
+            background-color: @themeColor;
+            i {
+                color: #fff;
+            }
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+
+    .u-tab-item {
+        .size(100px,40px);
+        .flex;
+        .flex(x);
+        .mr(20px);
+
+        align-items: center;
+        .pr;
+        .pointer;
+        .fz(16px,20px);
+        background-color: #fff;
+        .r(30px);
+        // letter-spacing: 5px;
+        &.active,
+        &:hover {
+            background-color: @themeColor;
+            .u-tabs-span {
+                color: #fff;
+            }
+        }
+    }
+    .u-tabs-search {
+        .ml(20px);
+        .w(100%);
+        min-width: 240px;
+        max-width: 360px;
+        .u-search input {
+            border: none;
+            background-color: #fff;
+            padding: 0 40px 0 20px;
+            .r(30px);
+            .fz(16px,40px);
+            .size(100%,40px);
+            color: #000;
+            &::placeholder {
+                .fz(14px);
+                color: #b0b0b0;
+            }
+        }
+    }
+    .u-right-btn {
+        .pa;
+        right: 0;
+        .u-btn {
+            .r(5px);
+            .size(100px,40px);
+            .fz(16px);
+            // .bold(700);
+            font-style: normal;
+            background-color: @themeColor;
+            border-color: @themeColor;
+        }
+    }
+}
+
+// 福缘宠物
+.m-lucky-list {
+    .flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .w(100%);
+    .m-luckey-item:last-child {
+        .mr(0);
+    }
+}
+.m-pet-list {
+    .flex;
+    flex-wrap: wrap;
+}
+
+.m-archive-null {
+    .mt(20px);
+}
+
+.u-tabs-span {
+    display: flex;
+    align-items: center;
+    color: #949494;
+}
+.u-icon-img {
+    .size(24px);
+    .mr(6px);
+}
+.m-archive-more {
+    .mb(10px);
+    .w(100%);
+    background-color: @themeColor;
+    border-color: @themeColor;
+    &:hover {
+        background-color: @themeColor;
+        border-color: @themeColor;
+    }
+}
+
+.m-archive-pages {
+    overflow-x: auto;
+    .active {
+        background-color: @themeColor !important;
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .m-pet {
+        .u-type {
+            .mt(20px);
+        }
+        .u-title {
+            .fz(24px);
+        }
+    }
+    // 顶部切换
+    .m-pet-tabs {
+        .pb(10px);
+        .u-tabs {
+            .flex;
+            .flex(x);
+            flex-wrap: wrap;
+        }
+        .u-tab-item {
+            .flex;
+            .u-icon-img {
+                .size(18px);
+            }
+            .u-tabs-span {
+                .fz(12px);
+            }
+            .mb(10px);
+        }
+    }
+}

@@ -214,7 +214,6 @@ export default {
                     this.list_type[3].list.length == 0
                 );
             }
-            console.log(this.list.length);
             return this.list.length > 0 ? false : true;
         },
         setActive(val) {
@@ -225,7 +224,6 @@ export default {
             if (isPhone()) {
                 return;
             }
-            // console.log(e.target.getElementsByClassName("u-shade-btn"));
             e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "visible";
             e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "visible";
         },
