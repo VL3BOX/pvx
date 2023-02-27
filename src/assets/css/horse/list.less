@@ -76,12 +76,15 @@
     }
 }
 
-@media screen and (max-width: 899px) {
+@media screen and (max-width: @ipad) {
     .horse-list-wrapper {
         .horse-list-content {
-            margin-top: 100px;
+            margin-top: 120px;
             .horse-title-wrap {
                 padding: 0;
+            }
+            .list-content {
+                justify-content: center !important;
             }
         }
     }
