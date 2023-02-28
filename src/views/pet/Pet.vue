@@ -11,7 +11,7 @@
                     <router-view></router-view>
                 </keep-alive>
             </div>
-            <Footer></Footer>
+            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>
