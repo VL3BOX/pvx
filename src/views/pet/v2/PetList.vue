@@ -3,6 +3,9 @@
         <petTabs @change="handleTabChange" :types="Type" :source="Source" :active="active" @setActive="setActive" />
 
         <template v-if="luckyList.length > 0">
+            <div class="u-type">
+                <div class="u-title">今日福缘</div>
+            </div>
             <div class="m-lucky-list">
                 <luckyItem v-for="item in luckyList" :key="item.id" :item="item"></luckyItem>
             </div>
@@ -14,7 +17,7 @@
                     <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item v-for="item in item.list" :key="item.id" :petObject="item" :lucky="luckyList" />
+                    <pet-item v-for="item in item.list" :key="item.id" :petObject="item" />
                 </div>
             </div>
         </template>
@@ -23,7 +26,7 @@
                 <div class="u-title">{{ typeName }}</div>
             </div>
             <div class="m-pet-list">
-                <pet-item v-for="item in list" :key="item.id" :petObject="item" :lucky="luckyList" />
+                <pet-item v-for="item in list" :key="item.id" :petObject="item" />
             </div>
             <el-button
                 class="m-archive-more"
