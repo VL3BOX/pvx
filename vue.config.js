@@ -60,6 +60,18 @@ module.exports = {
             template: "public/index.html",
             filename: "horse/index.html",
         },
+        reputation: {
+            title: "声望大全 - JX3BOX",
+            entry: "src/pages/reputation.js",
+            template: "public/index.html",
+            filename: "reputation/index.html",
+        },
+        book: {
+            title: "书籍大全 - JX3BOX",
+            entry: "src/pages/book.js",
+            template: "public/index.html",
+            filename: "book/index.html",
+        },
     },
 
     //❤️ Proxy ~

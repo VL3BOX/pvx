@@ -1,11 +1,13 @@
 <template>
     <div class="pvx-search-wrapper">
         <div class="search-group">
+            <slot></slot>
             <div
                 class="search-item"
                 :class="{
                     'type-list': item.type === 'radio',
                     'filter-wrap': item.type === 'filter',
+                    'select-wrap': item.type === 'select',
                     'input-wrap': !item.type,
                 }"
                 v-for="item in items"
@@ -94,6 +96,33 @@
                             <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
                         </div>
                     </el-popover>
+                </template>
+                <template v-if="item.type === 'select' && item.options.length">
+                    <label v-if="item.showLabel">{{ item.name }}</label>
+                    <el-select
+                        :id="item.remote"
+                        class="select-wrapper"
+                        v-model="formData[item.key]"
+                        :multiple="item.multiple"
+                        :collapse-tags="item.multiple"
+                        clearable
+                        :filterable="item.filterable"
+                        :placeholder="!item.noPlaceholder ? `请${item.remote ? '输入' : '选择'}${item.name}` : '请选择'"
+                        :remote="Boolean(item.remote)"
+                        :remote-method="remoteMethod"
+                        :loading="selectLoading === item.remote"
+                        :default-first-option="true"
+                        @focus="selectFocus"
+                        :style="!item.showLabel && 'width: 100%'"
+                    >
+                        <el-option
+                            v-for="option in item.remote ? item.options : item.options"
+                            :key="option.value"
+                            :label="item.showValue ? option.label + '(' + option.value + ')' : option.label"
+                            :value="option.value"
+                        >
+                        </el-option>
+                    </el-select>
                 </template>
                 <template v-if="!item.type">
                     <el-input

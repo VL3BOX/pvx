@@ -149,7 +149,7 @@ export default {
                 },
                 {
                     key: "keyword",
-                    name: "名称",
+                    name: "名称/ID",
                 },
             ],
         };

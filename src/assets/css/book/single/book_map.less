@@ -1,0 +1,120 @@
+.blinkBorder(@color: #ccc, @time: 3s) {
+  @keyframes fadeOut {
+
+    0%,
+    43%,
+    100% {
+      border: 1.6px solid #0008;
+    }
+
+    21.5% {
+      border: 1.6px solid @color;
+    }
+  }
+
+  animation-name: fadeOut;
+  animation-duration: @time;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+.m-book-map {
+  .el-carousel__container {
+    color: green;
+    display: absolute;
+  }
+
+  padding:40px;
+  width: 100%;
+  min-height: 768px;
+
+  .u-map__container {
+    border: 1px solid rgb(238, 238, 238);
+    box-shadow: rgb(0 0 0 / 10%) 0px 0px 3px;
+    box-sizing: border-box;
+    height: 100%;
+    .pr;
+    .auto(x);
+    .x(left);
+    user-select: none;
+
+    .u-map-img {
+      .z(1);
+      .pa;
+      .lt(0);
+      .size(100%);
+    }
+
+    .u-map-tool {
+      .z(3);
+      .pa;
+      .flex;
+      color: white;
+      font-weight: bold;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .u-map-name {
+      margin: 0.8rem;
+      text-shadow: 0 0 4px #000;
+      background: #3d454d;
+      padding: 3px 5px;
+      border-radius: 2px;
+    }
+
+    .u-map-point__warpper {
+      .pa;
+      .db;
+      .z(4);
+      .mb(-2px);
+      .ml(-4px);
+
+    }
+
+    .u-map-point {
+      .db;
+      .pointer;
+      .w(6px);
+      .h(6px);
+
+      &.u-book-map-point {
+        background-color: #2dff2d;
+        border-radius: 50%;
+      }
+
+      &.u-map-point__icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      &:not(.u-map-point__icon) {
+        background-color: #2dff2d;
+        .blinkBorder;
+      }
+
+    }
+  }
+}
+
+.u-map-point__popover {
+  min-width: initial;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background-color: rgba(26, 46, 45, 0.75);
+  // transform: translateY(-10px);
+  color: yellow;
+  text-align: center;
+  padding: 10px;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+}

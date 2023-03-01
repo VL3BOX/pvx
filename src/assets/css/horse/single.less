@@ -11,7 +11,7 @@
         background-color: #f3f5f6;
         padding: 20px 0;
         top: 64px;
-        width: 100%;
+        width: calc(100% - 40px);
         z-index: 4;
         button {
             width: 100px;
@@ -179,6 +179,7 @@
 
 @media screen and (max-width: @phone) {
     .horse-single-wrapper {
+        overflow-x: hidden;
         .main-info-wrap {
             flex-direction: column;
             .img-wrap {

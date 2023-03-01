@@ -100,6 +100,32 @@
                     }
                 }
             }
+            &.select-wrap {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                background-color: #fff;
+                border-radius: 20px;
+                width: 227px;
+                height: 40px;
+                margin-right: 20px;
+                label {
+                    padding-left: 20px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: #949494;
+                }
+                input {
+                    font-size: 14px;
+                    font-weight: 700;
+                    border: none;
+                    color: #24292e;
+                    width: 170px;
+                    &::placeholder {
+                      font-weight: normal;
+                    }
+                }
+            }
         }
     }
 }
@@ -177,19 +203,18 @@
 
 @media screen and (max-width: @ipad) {
     .pvx-search-wrapper .search-item:not(:last-child) {
-        margin-bottom: 15px;
+        margin: 10px 0;
     }
 }
 @media screen and (max-width: @phone) {
     .pvx-search-wrapper {
         .search-group {
             .search-item {
-                margin-bottom: 15px;
+                margin: 0 0 15px 0;
                 &.type-list {
                     width: 100%;
                     .type-item {
                         width: 20%;
-                        // font-size: 12px;
                         margin-right: 5%;
                     }
                 }

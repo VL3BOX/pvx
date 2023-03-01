@@ -1,0 +1,17 @@
+@import "./grid_layout.less";
+.m-list-head {
+    .grid-layout;
+    font-size: 14px;
+    font-weight: bold;
+    height: 2rem;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #d7dae2;
+    column-gap: 8px;
+    color: #666;
+}
+
+@media screen and (max-width: 768px) {
+    .m-list-head {
+        .none;
+    }
+}

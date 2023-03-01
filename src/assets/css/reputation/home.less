@@ -1,0 +1,88 @@
+.reputation-container {
+    padding: 20px 40px;
+    background-color: #f3f5f6;
+    .reputation-search {
+        margin-left: -80px;
+        padding-left: 80px;
+    }
+    .select-item {
+        margin-right: 20px;
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        color: #949494;
+        background-color: #fff;
+        &.active,
+        &:hover {
+            background-color: @active-color;
+            color: #fff;
+        }
+    }
+    .reputaion-content-wrapper {
+        margin-top: 60px;
+        .reputation-list-wrapper {
+            .reputation-title {
+                margin-top: 40px;
+                font-size: 32px;
+                font-weight: 700;
+                color: #24292e;
+            }
+        }
+        .reputation-list {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-main {
+        min-height: calc(100vh - @header-height);
+    }
+    .reputation-container {
+        padding: 20px;
+        .reputation-search {
+            margin-left: -60px;
+            padding-left: 60px;
+        }
+        .reputaion-content-wrapper {
+            margin-top: 80px;
+            .reputation-list {
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-main {
+        min-height: calc(100vh - @header-height);
+    }
+    .reputation-container {
+        padding: 0;
+        .reputation-search {
+            margin-left: -60px;
+            padding-left: 60px;
+            padding-bottom: 0;
+            .search-item,
+            .select-item {
+                margin-bottom: 15px;
+            }
+        }
+        .reputation-title {
+          text-align: center;
+        }
+        .reputaion-content-wrapper {
+            margin-top: 120px;
+            .reputation-list {
+                justify-content: center;
+            }
+        }
+    }
+}

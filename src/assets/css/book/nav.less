@@ -1,0 +1,66 @@
+//父级节点
+.el-tree-node__content {
+  .fz(14px, 28px);
+  .h(28px);
+  user-select: none;
+}
+
+//子级节点
+.is-leaf+.el-tree-node__label {
+  &:before {
+    // content: '⇨ ';
+    // color: #d0d4dd;
+    .mr(5px);
+  }
+}
+
+.is-current {
+  &>.el-tree-node__content {
+    .bold;
+  }
+}
+
+.el-tree-node__label {
+  .w(100%);
+  padding-left: 10px;
+  box-sizing: border-box;
+
+  .u-count {
+    font-size: 13px;
+    color: #888;
+    margin-left: 5px;
+    font-style: normal;
+  }
+}
+
+.el-tree-node__expand-icon.is-leaf {
+  .none;
+}
+
+.m-nav {
+  .pr;
+  .h(100%);
+
+  .m-menus-panel {
+    .pa;
+    .w(100%);
+    .h(calc(~"100% - 30px"));
+    overflow-y: auto;
+  }
+
+  .m-menus {
+    background-color: transparent;
+  }
+
+  .router-link-exact-active {
+    background-color: @color-link;
+    color: #fff;
+    .r(3px);
+
+    .u-count {
+      color: #eee;
+    }
+  }
+
+
+}

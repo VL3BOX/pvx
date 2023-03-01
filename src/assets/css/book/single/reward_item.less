@@ -1,0 +1,39 @@
+.reward-item {
+    padding: 4px 0;
+    box-sizing: border-box;
+    min-height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .desc{
+        .lh(20px) !important;
+    }
+
+    &.gold-reward,
+    &.exp-reward,
+    &.affect-reward,
+    &.item-group {
+        grid-column: span 3;
+    }
+
+    &.item-group {
+        display: block;
+
+        .group-type {
+            margin-bottom:4px;
+        }
+
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+
+        }
+    }
+
+    .c-game-price span {
+        display: inline-flex;
+        align-items: center;
+    }
+}

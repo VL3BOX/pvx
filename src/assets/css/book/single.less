@@ -1,0 +1,199 @@
+.m-book-content {
+    p {
+        margin: 0;
+    }
+
+    .w-book {
+        .u-title__warpper {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+
+            .u-title-id {
+                .fz(12px);
+                color: #909399;
+            }
+            .u-desc {
+                position: absolute;
+                bottom: 8px;
+                left: 43px;
+                .fz(12px);
+                color: #909399;
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: calc(100% - 45px);
+            }
+        }
+
+        .u-info__wrapper {
+            margin: 10px 0;
+            .u-content {
+                @media screen and (min-width: 768px) {
+                    display: grid;
+                    grid-template-columns: 2fr 1fr;
+                    column-gap: 14px;
+                }
+            }
+            .u-book-info {
+                padding: 5px 10px;
+                .fz(14px);
+                .u-item {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    .pb(10px);
+                    span {
+                        .pr(2px);
+                    }
+                    &.book-origin {
+                        span {
+                            cursor: pointer;
+                            color: #fba524;
+                        }
+                    }
+                }
+            }
+
+            .book-content {
+                background-color: #d8d5c9;
+                padding: 15px;
+                margin-bottom: 10px;
+                font-size: 14px;
+                font-weight: bold;
+                height: 340px;
+                overflow-y: auto;
+                border-radius: 5px;
+                img {
+                  margin-top: 2px;
+                }
+                &.hidden {
+                  overflow: hidden;
+                }
+            }
+        }
+    }
+    .vertical-item {
+        margin-bottom: 15px;
+        border-radius: 5px;
+        font-size: 14px;
+        background-color: #fafbfc;
+        border: 1px solid #eee;
+        .u-header {
+            display: flex;
+            line-height: 28px;
+            padding: 10px 15px;
+            background-color: #f5f7fa;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            .u-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 22px;
+                margin-right: 7px;
+                color: #0366d6;
+                fill: #0366d6;
+            }
+            span {
+                font-size: 17px;
+                color: #6c645c;
+                font-weight: 300;
+            }
+        }
+        .u-content {
+            margin-bottom: 15px;
+            width: calc(100% - 20px);
+            padding: 0 10px;
+            font-size: 14px;
+            background-color: #fafbfc;
+        }
+    }
+
+    .u-subtitle {
+        .bold;
+        font-size: 15px;
+        padding: 5px 0;
+    }
+
+    .m-wiki-post-panel,
+    .m-wiki-post-empty {
+        .mt(20px);
+    }
+
+    .m-search,
+    .m-wiki-post-panel,
+    .m-wiki-post-empty {
+        grid-column: span 3;
+    }
+}
+
+.u-msg-yellow {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border: 1px solid #faebcc;
+    padding: 8px 14px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+}
+
+.m-wiki-post-empty {
+    .u-msg-yellow;
+    .x;
+
+    .s-link {
+        .underline(@color-link);
+    }
+
+    letter-spacing: 2px;
+    .fz(14px);
+}
+
+.m-wiki-compatible {
+    .u-msg-yellow;
+    margin: 10px auto;
+    padding: 5px 10px;
+
+    a {
+        .underline(@color-link);
+    }
+}
+
+.m-wiki-signature {
+    .x(right);
+    color: #999;
+    .fz(12px, 2);
+    border-top: 1px dashed #ddd;
+    padding: 5px 0;
+}
+
+.m-thx {
+    .mt(20px);
+
+    .w-boxcoin-records-list {
+        background-color: #fff;
+    }
+}
+.u-detail-item {
+    margin: 5px 0;
+}
+.book-fb {
+    color: #f18b8b;
+}
+.book-shop,
+.book-achievement {
+    color: #007eff;
+}
+.book-achievement:hover {
+  color: #d60036;
+}
+.book-quest {
+    a {
+        color: #8b4dff;
+        &:hover {
+            color: #fba524;
+        }
+    }
+}
