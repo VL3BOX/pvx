@@ -40,7 +40,7 @@ export default {
             menus: [
                 {
                     key: "share",
-                    label: "栉掠",
+                    label: "策勋",
                     index: "1",
                     submenus: [
                         {
@@ -50,6 +50,14 @@ export default {
                             key: "face",
                             status: true,
                             isStd: true,
+                        },
+                        {
+                            path: "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
+                            label: "家园蓝图",
+                            icon: "el-icon-download",
+                            key: "blueprint",
+                            status: true,
+                            target: "_blank",
                         },
                         // {
                         //     path: "/share/facedata",
@@ -88,12 +96,33 @@ export default {
                             status: true,
                         },
                         {
-                            path: "/exterior",
-                            label: "外观大全",
-                            icon: "el-icon-setting",
-                            key: "exterior",
-                            status: false,
+                            path: "/book",
+                            label: "书籍大全",
+                            icon: "el-icon-files",
+                            key: "book",
+                            status: true,
                         },
+                        {
+                            path: "/furniture",
+                            label: "家具大全",
+                            icon: "el-icon-files",
+                            key: "furniture",
+                            status: true,
+                        },
+                        {
+                            path: "/reputation",
+                            label: "声望大全",
+                            icon: "el-icon-sugar",
+                            key: "reputation",
+                            status: true,
+                        },
+                        // {
+                        //     path: "/exterior",
+                        //     label: "外观大全",
+                        //     icon: "el-icon-setting",
+                        //     key: "exterior",
+                        //     status: false,
+                        // },
                     ],
                 },
 
@@ -102,13 +131,6 @@ export default {
                     label: "商贾",
                     index: "3",
                     submenus: [
-                        {
-                            path: "/reputation",
-                            label: "声望大全",
-                            icon: "el-icon-sugar",
-                            key: "flower",
-                            status: true,
-                        },
                         {
                             path: "/pvg/manufacture",
                             label: "技艺助手",
@@ -123,24 +145,14 @@ export default {
                             key: "item_price",
                             status: true,
                         },
-                        // 物价大全
-                        // 金价走势
-                        // 万宝楼
                     ],
                 },
 
-                {
-                    key: "homeland",
-                    label: "家园",
-                    index: "4",
-                    submenus: [
-                        {
-                            path: "/furniture",
-                            label: "家具大全",
-                            icon: "el-icon-files",
-                            key: "furniture",
-                            status: true,
-                        },
+                // {
+                //     key: "homeland",
+                //     label: "家园",
+                //     index: "4",
+                //     submenus: [
                         // {
                         //     path: "/homeland/tutorial",
                         //     label: "家园建设",
@@ -148,13 +160,13 @@ export default {
                         //     key: "tutorial",
                         //     status: true,
                         // },
-                        {
-                            path: "/homeland/maps",
-                            label: "家园地图",
-                            icon: "el-icon-map-location",
-                            key: "maps",
-                            status: true,
-                        },
+                        // {
+                        //     path: "/homeland/maps",
+                        //     label: "家园地图",
+                        //     icon: "el-icon-map-location",
+                        //     key: "maps",
+                        //     status: true,
+                        // },
                         // {
                         //     path: "/homeland/flower",
                         //     label: "家园花价",
@@ -162,16 +174,8 @@ export default {
                         //     key: "flower",
                         //     status: true,
                         // },
-                        {
-                            path: "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
-                            label: "家园蓝图",
-                            icon: "el-icon-download",
-                            key: "blueprint",
-                            status: true,
-                            target: "_blank",
-                        },
-                    ],
-                },
+                    // ],
+                // },
             ],
         };
     },
