@@ -16,7 +16,7 @@
                             :src="getIcon(reputation.servant.szImagePath, 'partner')"
                         />
                         <!-- 默认图片 -->
-                        <img v-else :src="getIcon(reputation.szIconPath)" />
+                        <img v-else class="default-img" src="@/assets/img/reputation/sw-null.jpg" />
                     </div>
                     <div class="switch-wrap">
                         <div class="switch-btns">
@@ -72,6 +72,9 @@
                                         {{ reputation.servant.szBuffDesc }}
                                     </div>
                                 </template>
+                            </div>
+                            <div class="detail-wrap" v-if="activeTab === 1 && !reputation.servant">
+                                <div class="u-desc">无</div>
                             </div>
                         </div>
                     </div>
