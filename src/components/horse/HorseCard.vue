@@ -13,7 +13,7 @@
         <!-- <div class="u-desc">等级: {{ item.Level }}</div> -->
         <!-- <div v-if="item.SubType === 15" class="u-desc">{{ item.MoveSpeedDesc }}</div> -->
         <div class="u-desc">
-            <horse-cross :width="15" :gap="2" :radius="3" :list="item.MagicAttributes || []">
+            <!-- <horse-cross :width="15" :gap="2" :radius="3" :list="item.MagicAttributes || []">
                 <template v-slot="data">
                     <el-tooltip trigger="hover" placement="top">
                         <div class="u-attr-pop" slot="content">
@@ -25,14 +25,29 @@
                         <img class="u-attr-icon" :src="data.item.iconUrl" :alt="data.item.name" />
                     </el-tooltip>
                 </template>
-            </horse-cross>
+            </horse-cross> -->
+
+            <el-tooltip
+                trigger="hover"
+                placement="top"
+                v-for="(data, index) in item.MagicAttributes || []"
+                :key="index"
+            >
+                <div class="u-attr-pop" slot="content">
+                    <div class="u-attr-name" v-if="data.name">
+                        {{ (data.name || "") + (Number(data.level) ? data.level + "级" : "") }}
+                    </div>
+                    <div class="u-attr-desc">{{ data.desc }}</div>
+                </div>
+                <img class="u-attr-icon" :src="data.iconUrl" :alt="data.name" />
+            </el-tooltip>
         </div>
     </div>
 </template>
 
 <script>
 import ItemIcon from "../common/item_icon.vue";
-import HorseCross from "@/components/horse/HorseCross.vue";
+// import HorseCross from "@/components/horse/HorseCross.vue";
 export default {
     props: {
         item: {
@@ -42,7 +57,7 @@ export default {
     },
     components: {
         ItemIcon,
-        HorseCross,
+        // HorseCross,
     },
     inject: ["__imgRoot", "__imgRoot2"],
     data: function () {
