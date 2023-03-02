@@ -121,10 +121,23 @@
                     border: none;
                     color: #24292e;
                     width: 170px;
+                    border-radius: 30px;
                     &::placeholder {
-                      font-weight: normal;
+                        font-weight: normal;
                     }
                 }
+            }
+        }
+    }
+    &.selected-wrapper {
+        .select-active-wrap {
+            background-color: @active-color !important;
+            label {
+                color: #ffffff80 !important;
+            }
+            input {
+                background-color: @active-color !important;
+                color: #fff !important;
             }
         }
     }

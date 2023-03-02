@@ -1,6 +1,12 @@
 <template>
     <div class="reputation-container">
-        <PvxSearch ref="search" :items="searchProps" class="reputation-search" @search="searchEvent($event)">
+        <PvxSearch
+            ref="search"
+            :items="searchProps"
+            class="reputation-search"
+            :class="selected && 'selected-wrapper'"
+            @search="searchEvent($event)"
+        >
             <div class="select-item" :class="!hasSearch && !selected && 'active'" @click="toAll">全部</div>
         </PvxSearch>
         <div v-loading="loading" class="reputaion-content-wrapper">
@@ -67,6 +73,7 @@ export default {
                     type: "select",
                     options: [],
                     showLabel: true,
+                    showActive: true,
                 },
                 {
                     key: "keyword",
@@ -132,7 +139,7 @@ export default {
                 const list = res.data.dlc || [];
                 const arr = Object.keys(maps).map((key) => {
                     return `${key}(${maps[key].level}级)`;
-                });
+                }).reverse();
                 const versions = list.map((item, i) => {
                     return {
                         value: item.nDlcID,
@@ -140,7 +147,7 @@ export default {
                         label: arr[i],
                     };
                 });
-                this.versions = versions;
+                this.versions = versions.reverse();
 
                 const dclObj = this.searchProps[0];
                 dclObj.options = versions;

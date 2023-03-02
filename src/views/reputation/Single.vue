@@ -11,11 +11,12 @@
                 </div>
                 <div class="info-content">
                     <div class="img-wrap">
-                        <img v-if="activeTab === 0" :src="getIcon(reputation.szIconPath)" />
                         <img
-                            v-if="reputation.servant && reputation.servant.szImagePath && activeTab === 1"
+                            v-if="reputation.servant && reputation.servant.szImagePath"
                             :src="getIcon(reputation.servant.szImagePath, 'partner')"
                         />
+                        <!-- 默认图片 -->
+                        <img v-else :src="getIcon(reputation.szIconPath)" />
                     </div>
                     <div class="switch-wrap">
                         <div class="switch-btns">
@@ -28,24 +29,26 @@
                                 <div class="u-desc" v-html="reputation.szDesc"></div>
                                 <template v-if="reputation.szMapNames && reputation.szMapNames.length">
                                     <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_map.png" />
+                                        <img src="@/assets/img/reputation/reputation_map.svg" width="15" svg-inline />
                                         声望地图
                                     </div>
                                     <div class="u-desc">{{ reputation.szMapNames[0] }}</div>
                                 </template>
                                 <template v-if="reputation.GroupName">
                                     <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_title.png" />
+                                        <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
                                         势力类型
                                     </div>
                                     <div class="u-desc">{{ reputation.GroupName }}</div>
                                 </template>
-                                <template v-if="getPath(reputation.szName)">
+                                <template>
                                     <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_title.png" />
+                                        <img src="@/assets/img/reputation/reputation_path.svg" width="15" svg-inline />
                                         遗失的尊敬
                                     </div>
-                                    <div class="u-desc">{{ getPath(reputation.szName) }}</div>
+                                    <div class="u-desc">
+                                        {{ getPath(reputation.szName) || "无法使用遗失的尊敬来提高该声望等级进度" }}
+                                    </div>
                                 </template>
                             </div>
                             <div v-if="reputation.servant" v-show="activeTab === 1" class="detail-wrap">
@@ -57,7 +60,11 @@
                                 ></div>
                                 <template>
                                     <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_title2.png" />
+                                        <img
+                                            src="@/assets/img/reputation/reputation_title2.svg"
+                                            width="15"
+                                            svg-inline
+                                        />
                                         知交祝福
                                     </div>
                                     <div class="u-desc">
@@ -70,7 +77,7 @@
                     </div>
                 </div>
                 <div class="current-progress">
-                    <div class="progress-num">当前进度：中立 0</div>
+                    <div class="progress-num"><span>当前进度：中立</span><span>0</span></div>
                     <div class="progress-wrap">
                         <div class="progress-value"></div>
                     </div>
@@ -106,7 +113,11 @@
                 </div>
                 <div v-if="reputation.gainList" class="stage-reward-list">
                     <div class="stage-title">
-                        <span>阶段奖励（{{ reputation.gainList[stage].to }}）</span>
+                        <span
+                            >阶段奖励（{{
+                                stage === -1 ? reputation.gainList[0].from : reputation.gainList[stage].to
+                            }}）</span
+                        >
                         <div class="page-list" v-if="stageList.length && stageList[0].length">
                             <div
                                 class="page-item"
@@ -131,7 +142,7 @@
                             ></item-icon>
                         </div>
                     </template>
-                    <div v-else class="list">无</div>
+                    <div v-else class="no-data">无</div>
                 </div>
             </div>
         </div>
@@ -175,7 +186,7 @@ export default {
             is_empty: true,
 
             activeTab: 0,
-            stage: 0,
+            stage: -1,
             currentPage: 1,
             pageLen: 0,
             stageList: [],

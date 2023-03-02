@@ -9,6 +9,7 @@
                     'filter-wrap': item.type === 'filter',
                     'select-wrap': item.type === 'select',
                     'input-wrap': !item.type,
+                    'select-active-wrap': item.type === 'select' && item.showActive,
                 }"
                 v-for="item in items"
                 :key="item.key"
