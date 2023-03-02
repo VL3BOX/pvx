@@ -103,6 +103,13 @@ export default {
                     index: "3",
                     submenus: [
                         {
+                            path: "/reputation",
+                            label: "声望大全",
+                            icon: "el-icon-sugar",
+                            key: "flower",
+                            status: true,
+                        },
+                        {
                             path: "/pvg/manufacture",
                             label: "技艺助手",
                             icon: "el-icon-sugar",
