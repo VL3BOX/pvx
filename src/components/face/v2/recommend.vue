@@ -2,7 +2,7 @@
     <div class="m-recommend-item">
         <a class="u-face" :href="getFaceLink(item)" target="_blank">
             <i class="u-img">
-                <img class="u-pic" :src="item.img" loading="lazy" />
+                <img class="u-pic" :src="resolveImagePath(item.img)" loading="lazy" />
             </i>
         </a>
     </div>
@@ -12,7 +12,7 @@
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 import User from "@jx3box/jx3box-common/js/user";
 import { setPost } from "@/service/share";
-import { showMinibanner, showBanner, showAvatar, authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showMinibanner, showBanner, showAvatar, authorLink, getThumbnail,resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
     props: ["item"],
@@ -69,6 +69,7 @@ export default {
         getFaceLink(item) {
             return item.source_id ? `/face/${item.source_id}` : item.link;
         },
+        resolveImagePath
     },
 };
 </script>
