@@ -144,8 +144,6 @@
 
 <script>
 import reputationMap from "@/components/reputation/ReputationMap.vue";
-import RewardItem from "@/components/reputation/single/reward_item.vue";
-import servantInfo from "@/components/reputation/single/servant_info.vue";
 import ItemIcon from "@/components/common/item_icon.vue";
 import paths from "@/assets/data/reputation_exchange_path.json";
 import levelList from "@/assets/data/reputation_level.json";
@@ -154,12 +152,10 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
-// import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
 
-import { publishLink, ts2str, showAvatar, iconLink } from "@jx3box/jx3box-common/js/utils";
+import { publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
 
 import { getInfo } from "@/service/reputation";
-// import isArray from "lodash/isArray";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 
 export default {
@@ -167,8 +163,6 @@ export default {
     components: {
         reputationMap,
         ItemIcon,
-        // RewardItem,
-        // servantInfo,
         Comment,
     },
     data() {
