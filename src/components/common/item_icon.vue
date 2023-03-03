@@ -25,7 +25,7 @@
                     <img
                         class="u-item-icon__img"
                         :style="{ height: size + 'px', width: size + 'px', cursor: isLink ? 'pointer' : 'default' }"
-                        :src="iconLink(source.IconID)"
+                        :src="iconLink(source.IconID,client)"
                     />
                     <div
                         class="u-item-icon__quality"

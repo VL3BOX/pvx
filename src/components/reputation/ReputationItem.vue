@@ -1,5 +1,5 @@
 <template>
-    <div class="reputation-item" @click="go(item.dwForceID)">
+    <div class="reputation-item" @click="go(item.dwForceID)" v-if="!item.bHide">
         <div class="reputation-icon">
             <img v-if="getIcon(item.szIconPath)" :src="getIcon(item.szIconPath)" />
             <div v-else class="no-img"></div>

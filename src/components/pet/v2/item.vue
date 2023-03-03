@@ -30,7 +30,11 @@ export default {
     data: function () {
         return {};
     },
-    computed: {},
+    computed: {
+        client() {
+            return this.$store.state.client;
+        },
+    },
     methods: {
         // 获取宠物边框样式
         getFrameClass: function (quality) {
