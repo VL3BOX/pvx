@@ -7,17 +7,17 @@
             :class="selected && 'selected-wrapper'"
             @search="searchEvent($event)"
         >
-            <div class="select-item" :class="!hasSearch && !selected && 'active'" @click="toAll">全部</div>
+            <div class="select-item" :class="!selected && 'active'" @click="toAll">全部</div>
         </PvxSearch>
         <div v-loading="loading" class="reputaion-content-wrapper">
-            <div v-if="!hasSearch && !selected" class="reputation-list-wrapper">
+            <div v-if="!selected && !this.search.keyword" class="reputation-list-wrapper">
                 <div class="reputation-title">资料片新增</div>
                 <div class="reputation-list">
-                    <reputation-item :item="item" v-for="item in news" :key="item.dwForceID"></reputation-item>
+                    <reputation-item :item="item" v-for="item in newsList" :key="item.dwForceID"></reputation-item>
                 </div>
             </div>
-            <template v-if="!hasSearch && versionList.length">
-                <div
+            <template v-if="versionList.length">
+                <!-- <div
                     class="reputation-list-wrapper"
                     v-for="(version, index) in getVersionsLately(versions)"
                     :key="version.value"
@@ -30,11 +30,18 @@
                             :key="item.dwForceID"
                         ></reputation-item>
                     </div>
+                </div> -->
+                <div class="reputation-list-wrapper" v-for="version in versionList" :key="version.value">
+                    <div class="reputation-title">{{ version.label }}</div>
+                    <div class="reputation-list">
+                        <reputation-item
+                            :item="item"
+                            v-for="item in version.list"
+                            :key="item.dwForceID"
+                        ></reputation-item>
+                    </div>
                 </div>
             </template>
-            <div v-if="hasSearch" class="reputation-list">
-                <reputation-item :item="item" v-for="item in list" :key="item.dwForceID"></reputation-item>
-            </div>
         </div>
     </div>
 </template>
@@ -43,9 +50,10 @@
 import PvxSearch from "@/components/PvxSearch.vue";
 import ReputationItem from "@/components/reputation/ReputationItem.vue";
 
-import { getNews, getList, getMenus } from "@/service/reputation";
+import { getList, getMenus } from "@/service/reputation";
 import maps_std from "@jx3box/jx3box-data/data/fb/fb_map.json";
 import maps_orgin from "@jx3box/jx3box-data/data/fb/fb_map_origin.json";
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc";
 
 export default {
     name: "Index",
@@ -53,9 +61,10 @@ export default {
     data() {
         return {
             news: [],
-            list: [],
+            newsList: [],
             level: -1,
             loading: false,
+            search: {},
             query: {
                 page: 1,
                 pageSize: 50,
@@ -65,7 +74,6 @@ export default {
             versions: [],
             versionList: [],
             selected: "",
-            hasSearch: false,
             searchProps: [
                 {
                     key: "dlc",
@@ -87,49 +95,29 @@ export default {
             return this.$store.state.client;
         },
     },
-    watch: {
-        level(level) {
-            if (level !== -1) {
-                this.list = this.news.filter((item) => {
-                    return Object.keys(item.RewardItems).some((rItem) => rItem >= level);
-                });
-            } else {
-                this.list = this.news;
-            }
-        },
-    },
     methods: {
         toAll() {
             this.$refs.search.reset();
         },
         searchEvent(data) {
+            this.search = data;
             this.selected = data.dlc;
             if (data.keyword) {
-                this.hasSearch = true;
                 this.loading = true;
-                this.getList(0, data.keyword).then((list) => {
-                    this.loading = false;
-                    this.list = list;
-                });
-            } else {
-                this.hasSearch = false;
+                this.getList(0, data.keyword)
+                    .then((list) => {
+                        this.loading = false;
+                        this.versionList = list;
+                    })
+                    .catch(() => {
+                        this.loading = false;
+                    });
             }
         },
         getNews() {
-            this.loading = true;
-            getNews({
-                client: this.client,
-            })
-                .then((res) => {
-                    this.loading = false;
-                    this.news = res.data.list || [];
-                })
-                .finally(() => {
-                    this.loading = false;
-                })
-                .catch(() => {
-                    this.loading = false;
-                });
+            return getBreadcrumb("reputation-newest").then((data) => {
+                this.news = data.split(",").map((item) => Number(item));
+            });
         },
         async getVersions() {
             await getMenus({
@@ -137,9 +125,11 @@ export default {
             }).then((res) => {
                 const maps = this.client === "std" ? maps_std : maps_orgin;
                 const list = res.data.dlc || [];
-                const arr = Object.keys(maps).map((key) => {
-                    return `${key}(${maps[key].level}级)`;
-                }).reverse();
+                const arr = Object.keys(maps)
+                    .map((key) => {
+                        return `${key}(${maps[key].level}级)`;
+                    })
+                    .reverse();
                 const versions = list.map((item, i) => {
                     return {
                         value: item.nDlcID,
@@ -176,23 +166,28 @@ export default {
                     });
             });
         },
-        getVersionsLately(list) {
-            const selected = this.selected;
-            if (selected) {
-                return list.filter((item) => item.value === selected);
-            } else {
-                return list;
-            }
-        },
-        getVersionListLately(index) {
-            const list = this.versionList;
-            const selected = this.selected;
-            if (selected) {
-                return list.flat().filter((item) => item.nDlcID === selected);
-            } else {
-                return list[index];
-            }
-        },
+        // getVersionsLately(list) {
+        //     const selected = this.selected;
+        //     if (selected) {
+        //         return list.filter((item) => item.value === selected);
+        //     } else {
+        //         return list;
+        //     }
+        // },
+        // getVersionListLately(index) {
+        //     const list = this.versionList;
+        //     const selected = this.selected;
+        //     const keyword = this.search.keyword;
+        //     if (keyword) {
+        //         return list.flat();
+        //     } else {
+        //         if (selected) {
+        //             return list.flat().filter((item) => item.nDlcID === selected);
+        //         } else {
+        //             return list[index];
+        //         }
+        //     }
+        // },
     },
     mounted() {
         this.getNews();
@@ -202,8 +197,17 @@ export default {
             versions.forEach((version) => {
                 promiseAll.push(this.getList(version.value));
             });
+            this.loading = true;
             Promise.all(promiseAll).then((res) => {
-                this.versionList = res;
+                this.loading = false;
+                const allList = res.flat();
+                this.newsList = allList.flat().filter((item) => this.news.includes(item.dwForceID));
+                this.versionList = versions.map((item) => {
+                    return {
+                        ...item,
+                        list: allList.filter((reputation) => reputation.nDlcID === item.value),
+                    };
+                });
             });
         });
     },

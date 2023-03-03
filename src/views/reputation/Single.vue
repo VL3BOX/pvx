@@ -96,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="reputation-reward-wrapper">
+        <div v-if="showPath" class="reputation-reward-wrapper">
             <div class="title">声望奖励</div>
             <div class="reward-content">
                 <div class="reward-desc-list">
@@ -423,13 +423,7 @@ export default {
             return String(this.id);
         },
         id: function () {
-            return parseInt(this.$route.params.reputation_id);
-        },
-        showMap: function () {
-            return this.reputation.szMapIDs;
-        },
-        showDialog: function () {
-            return this.reputation.servant;
+            return parseInt(this.$route.params.id);
         },
         showReward: function () {
             return this.reputation.RewardItems;

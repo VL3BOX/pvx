@@ -18,7 +18,7 @@ const routes = [
     },
     {
         name: "single",
-        path: "/view/:reputation_id([_\\d]+)/:post_id(\\d+)?",
+        path: "/:id(\\d+)",
         component: () => import("@/views/reputation/Single.vue"),
     },
 ];
