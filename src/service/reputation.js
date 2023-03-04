@@ -1,4 +1,4 @@
-import { $node } from "@jx3box/jx3box-common/js/https";
+import { $node,axios } from "@jx3box/jx3box-common/js/https";
 const $ = $node()
 
 export function getMenus (params) {
@@ -15,4 +15,8 @@ export function getList (params) {
 
 export function getInfo (params) {
   return $.get(`/reputation`, { params });
+}
+
+export function getReputationLinkedAchievement () {
+  return axios.get(`https://data.jx3box.com/pvx/reputation/output/reputation_std_achivement.json`);
 }

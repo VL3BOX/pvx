@@ -154,58 +154,60 @@
             <Comment :id="id" category="reputation" />
         </div> -->
         <!--攻略-->
-        <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
-            <WikiPanel :wiki-post="wiki_post">
-                <template slot="head-title">
-                    <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
-                    <span class="u-txt">声望攻略</span>
-                </template>
-                <template slot="head-actions">
-                    <a class="el-button el-button--primary" :href="publish_url(`achievement/${id}`)">
-                        <i class="el-icon-edit"></i>
-                        <span>完善声望攻略</span>
-                    </a>
-                </template>
-                <template slot="body">
-                    <div class="m-wiki-compatible" v-if="compatible">
-                        <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
-                            class="s-link"
-                            :href="publish_url(`achievement/${id}`)"
-                            >参与修订</a
-                        >。
-                    </div>
-                    <Article :content="wiki_post.post.content" />
-                    <div class="m-wiki-signature">
-                        <i class="el-icon-edit"></i>
-                        本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
-                    </div>
-                    <Thx
-                        class="m-thx"
-                        :postId="id"
-                        postType="achievement"
-                        :postTitle="wiki_post.source.Name"
-                        :userId="author_id"
-                        :adminBoxcoinEnable="false"
-                        :userBoxcoinEnable="false"
-                        :authors="authors"
-                        mode="wiki"
-                        :key="'achievement-thx-' + id"
-                        :client="client"
-                    />
-                </template>
-            </WikiPanel>
+        <template v-if="achievement_id">
+            <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
+                <WikiPanel :wiki-post="wiki_post">
+                    <template slot="head-title">
+                        <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
+                        <span class="u-txt">声望攻略</span>
+                    </template>
+                    <template slot="head-actions">
+                        <a class="el-button el-button--primary" :href="publish_url(`achievement/${id}`)">
+                            <i class="el-icon-edit"></i>
+                            <span>完善声望攻略</span>
+                        </a>
+                    </template>
+                    <template slot="body">
+                        <div class="m-wiki-compatible" v-if="compatible">
+                            <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
+                                class="s-link"
+                                :href="publish_url(`achievement/${id}`)"
+                                >参与修订</a
+                            >。
+                        </div>
+                        <Article :content="wiki_post.post.content" />
+                        <div class="m-wiki-signature">
+                            <i class="el-icon-edit"></i>
+                            本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
+                        </div>
+                        <Thx
+                            class="m-thx"
+                            :postId="id"
+                            postType="achievement"
+                            :postTitle="wiki_post.source.Name"
+                            :userId="author_id"
+                            :adminBoxcoinEnable="false"
+                            :userBoxcoinEnable="false"
+                            :authors="authors"
+                            mode="wiki"
+                            :key="'achievement-thx-' + id"
+                            :client="client"
+                        />
+                    </template>
+                </WikiPanel>
 
-            <!-- 历史版本 -->
-            <WikiRevisions type="achievement" :source-id="id" />
+                <!-- 历史版本 -->
+                <WikiRevisions type="achievement" :source-id="id" />
 
-            <!-- 百科评论 -->
-            <WikiComments type="achievement" :source-id="id" />
-        </div>
-        <div class="m-wiki-post-empty" v-else>
-            <i class="el-icon-s-opportunity"></i>
-            <span>暂无攻略，我要</span>
-            <a class="s-link" :href="publish_url(`achievement/${id}`)">完善攻略</a>
-        </div>
+                <!-- 百科评论 -->
+                <WikiComments type="achievement" :source-id="id" />
+            </div>
+            <div class="m-wiki-post-empty" v-else>
+                <i class="el-icon-s-opportunity"></i>
+                <span>暂无攻略，我要</span>
+                <a class="s-link" :href="publish_url(`achievement/${achievement_id}`)">完善攻略</a>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -222,7 +224,7 @@ import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
 
 import { publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
 
-import { getInfo } from "@/service/reputation";
+import { getInfo, getReputationLinkedAchievement } from "@/service/reputation";
 // import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
@@ -262,40 +264,63 @@ export default {
                 szDesc: "",
             },
             loading: false,
+            achievements: {},
         };
     },
-    watch: {
-        id() {
-            this.getData();
-            this.loadData();
+    computed: {
+        id_str: function () {
+            return String(this.id);
         },
-        post_id: {
-            handler() {
-                this.loadRevision();
-            },
+        id: function () {
+            return parseInt(this.$route.params.id);
         },
-        stage: {
-            immediate: true,
-            handler(stage) {
-                this.currentPage = 1;
-                this.stageList = [];
-                const reputation = this.reputation;
-                const gainList = reputation.gainList;
-                if (gainList && gainList.length) {
-                    const id = gainList[stage].toID;
-                    const stageList = reputation.RewardItems[id] || [];
-                    const sLen = stageList.length;
-                    if (sLen > 48) {
-                        const len = Math.ceil(sLen / 48);
-                        this.pageLen = len;
-                        for (let i = 0; i < len; i++) {
-                            this.stageList.push(stageList.slice(48 * i, 48 * (i + 1)));
-                        }
-                    } else {
-                        this.stageList = [stageList];
-                    }
-                }
-            },
+        achievement_id() {
+            return this.achievements[this.id];
+        },
+        showReward: function () {
+            return this.reputation.RewardItems;
+        },
+        showPath() {
+            return this.reputation.gainList && this.reputation.gainList.length;
+        },
+        client() {
+            return this.$store.state.client;
+        },
+
+        //wiki相关
+        post_id: function () {
+            return this.$route.params.post_id;
+        },
+        isRevision: function () {
+            return !!this.$route.params.post_id;
+        },
+        author_id: function () {
+            return ~~this.wiki_post?.post?.user_id;
+        },
+        user_name: function () {
+            return this.wiki_post?.post?.user_nickname;
+        },
+        updated_at: function () {
+            return ts2str(this.wiki_post?.post?.updated);
+        },
+        fav_title: function () {
+            return this.wiki_post?.source?.Name;
+        },
+        authors: function () {
+            if (!this.isRevision) {
+                return (
+                    this.wiki_post?.users
+                        ?.filter((user) => user.id)
+                        ?.map((user) => {
+                            return {
+                                user_id: user.id,
+                                user_avatar: user.avatar,
+                                display_name: user.nickname,
+                            };
+                        }) || []
+                );
+            }
+            return [];
         },
     },
     methods: {
@@ -365,9 +390,6 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
-                })
-                .catch(() => {
-                    this.loading = false;
                 });
         },
         handleTabClick(tab, event) {
@@ -380,17 +402,19 @@ export default {
         //百科相关
         loadData: function () {
             // 获取最新攻略
-            if (this.id) {
-                wiki.mix({ type: "achievement", id: this.id, client: this.client }, { supply: 1 }).then((res) => {
-                    const { post, source, compatible, isEmpty, users } = res;
-                    this.wiki_post = {
-                        post: post,
-                        source: source,
-                        users,
-                    };
-                    this.is_empty = isEmpty;
-                    this.compatible = compatible;
-                });
+            if (this.achievement_id) {
+                wiki.mix({ type: "achievement", id: this.achievement_id, client: this.client }, { supply: 1 }).then(
+                    (res) => {
+                        const { post, source, compatible, isEmpty, users } = res;
+                        this.wiki_post = {
+                            post: post,
+                            source: source,
+                            users,
+                        };
+                        this.is_empty = isEmpty;
+                        this.compatible = compatible;
+                    }
+                );
             }
             this.triggerStat();
         },
@@ -410,66 +434,51 @@ export default {
             }
         },
     },
-    mounted() {
-        this.getData();
-        if (this.post_id) {
-            this.loadRevision();
-        } else {
-            this.loadData();
-        }
+    watch: {
+        id: {
+            immediate: true,
+            handler(val) {
+                val && this.getData();
+            },
+        },
+        achievement_id: {
+            handler(val) {
+                val && this.loadData();
+            },
+        },
+        post_id: {
+            handler(val) {
+                val && this.loadRevision();
+            },
+        },
+        stage: {
+            immediate: true,
+            handler(stage) {
+                this.currentPage = 1;
+                this.stageList = [];
+                const reputation = this.reputation;
+                const gainList = reputation.gainList;
+                if (gainList && gainList.length) {
+                    const id = gainList[stage].toID;
+                    const stageList = reputation.RewardItems[id] || [];
+                    const sLen = stageList.length;
+                    if (sLen > 48) {
+                        const len = Math.ceil(sLen / 48);
+                        this.pageLen = len;
+                        for (let i = 0; i < len; i++) {
+                            this.stageList.push(stageList.slice(48 * i, 48 * (i + 1)));
+                        }
+                    } else {
+                        this.stageList = [stageList];
+                    }
+                }
+            },
+        },
     },
-    computed: {
-        id_str: function () {
-            return String(this.id);
-        },
-        id: function () {
-            return parseInt(this.$route.params.id);
-        },
-        showReward: function () {
-            return this.reputation.RewardItems;
-        },
-        showPath() {
-            return this.reputation.gainList && this.reputation.gainList.length;
-        },
-        client() {
-            return this.$store.state.client;
-        },
-
-        //wiki相关
-        post_id: function () {
-            return this.$route.params.post_id;
-        },
-        isRevision: function () {
-            return !!this.$route.params.post_id;
-        },
-        author_id: function () {
-            return ~~this.wiki_post?.post?.user_id;
-        },
-        user_name: function () {
-            return this.wiki_post?.post?.user_nickname;
-        },
-        updated_at: function () {
-            return ts2str(this.wiki_post?.post?.updated);
-        },
-        fav_title: function () {
-            return this.wiki_post?.source?.Name;
-        },
-        authors: function () {
-            if (!this.isRevision) {
-                return (
-                    this.wiki_post?.users
-                        ?.filter((user) => user.id)
-                        ?.map((user) => {
-                            return {
-                                user_id: user.id,
-                                user_avatar: user.avatar,
-                                display_name: user.nickname,
-                            };
-                        }) || []
-                );
-            }
-            return [];
-        },
+    mounted() {
+        getReputationLinkedAchievement().then((res) => {
+            this.achievements = res.data;
+        });
     },
 };
 </script>
