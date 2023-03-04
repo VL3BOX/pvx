@@ -120,9 +120,11 @@
                 :source_title="title"
             ></Wiki>
         </div>
-        <div class="m-pet-comment">
-            <Comment :id="id" :category="type" order="desc" />
-        </div>
+        <!-- <div class="m-pet-comment">
+            <Comment :id="id" :category="type" order="desc" />           
+        </div> -->
+        <!-- 百科评论 -->
+        <WikiComments type="item" :source-id="id" />
         <el-dialog class="m-lucky-dates-dialog" title="福缘日期" :visible.sync="luckyDateShow" width="50%">
             <div class="u-lucky-dates-description">
                 <el-icon class="el-icon-info" name="el-icon-info"></el-icon>
@@ -154,7 +156,7 @@ import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import dayjs from "dayjs";
 import PetMap from "@/components/pet/v2/PetMap.vue";
-
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "PetSingle",
     props: [],
@@ -162,8 +164,9 @@ export default {
         petCard,
         petFetters,
         Wiki,
-        Comment,
+        // Comment,
         PetMap,
+        WikiComments,
     },
     data: function () {
         return {
