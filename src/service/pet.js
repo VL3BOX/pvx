@@ -1,5 +1,5 @@
 import { $node, $cms } from "@jx3box/jx3box-common/js/https";
-import { __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __dataPath, __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import axios from "axios";
 // const $ = axios.create({
 //     baseURL : 'http://localhost:9002/'
@@ -62,4 +62,7 @@ function getSliders(type, client, source_ids, per = 10) {
         params: _params,
     });
 }
-export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getPetLuckyReverse, getSkill, getSliders };
+function getMapList() {
+    return axios.get(__imgPath + "map/data/map_index.json");
+}
+export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getPetLuckyReverse, getSkill, getSliders, getMapList };

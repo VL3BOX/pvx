@@ -1,6 +1,13 @@
 <template>
     <div class="v-pet-list m-pet" v-loading="loading" ref="listRef">
-        <petTabs @change="handleTabChange" :types="Type" :source="Source" :active="active" @setActive="setActive" />
+        <petTabs
+            @change="handleTabChange"
+            :types="Type"
+            :source="Source"
+            :active="active"
+            @setActive="setActive"
+            :mapList="mapList"
+        />
 
         <template v-if="luckyList.length > 0">
             <div class="u-type">
@@ -67,7 +74,7 @@ import Type from "@/assets/data/pet_type.json";
 import Source from "@/assets/data/pet_source.json";
 
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import { getPets, getPetLucky, getSliders } from "@/service/pet";
+import { getPets, getPetLucky, getSliders, getMapList } from "@/service/pet";
 import dayjs from "dayjs";
 export default {
     name: "face",
@@ -92,6 +99,7 @@ export default {
             luckyList: [],
             typeName: "",
             showAllList: false, //是否显示单独某项全部
+            mapList: [],
             list_type: [
                 {
                     class: 1,
@@ -139,16 +147,30 @@ export default {
         params: {
             deep: true,
             handler(val) {
-                console.log(val);
                 this.getPetListInit();
             },
         },
     },
-    mounted: function () {
+    created() {
         this.showCount();
         this.getPetLucky();
+        this.getMapList();
     },
+    mounted: function () {},
     methods: {
+        /**
+         * 地图
+         */
+        getMapList() {
+            getMapList().then((res) => {
+                let data = res.data,
+                    mapList = [];
+                Object.keys(data).forEach((key, i) => {
+                    mapList.push({ label: data[key], value: key });
+                });
+                this.mapList = mapList;
+            });
+        },
         isNoRes() {
             let type = this.params.Class;
             if (!type) {

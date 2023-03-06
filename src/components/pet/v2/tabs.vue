@@ -19,7 +19,13 @@
                     <span class="u-tabs-span">{{ item.name }}</span>
                 </div>
             </div>
-
+            <!-- 地图筛选 -->
+            <div class="u-mapList">
+                <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
+                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
             <div class="u-tabs-filter">
                 <el-popover
                     placement="bottom-end"
@@ -54,11 +60,12 @@
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 export default {
     name: "tabs",
-    props: ["types", "Source", "active"],
+    props: ["types", "Source", "active", "mapList"],
     data: function () {
         return {
             petSource: "",
             title: "",
+            mapId: "",
             filterOpen: false,
         };
     },
@@ -73,6 +80,9 @@ export default {
             }
             if (this.title) {
                 _params.Name = this.title;
+            }
+            if (this.mapId) {
+                _params.map = this.mapId;
             }
             return _params;
         },
