@@ -367,9 +367,6 @@ export default {
                         this.getSameHorses(name);
                     }
                 })
-                .catch(() => {
-                    this.loading = false;
-                })
                 .finally(() => {
                     this.loading = false;
                 });
@@ -398,7 +395,7 @@ export default {
                             return item;
                         });
                 })
-                .catch(() => {
+                .finally(() => {
                     this.sameLoading = false;
                 });
         },

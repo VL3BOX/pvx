@@ -55,9 +55,6 @@ export default {
                 })
                 .finally(() => {
                     this.loading = false;
-                })
-                .catch(() => {
-                    this.loading = false;
                 });
         },
     },
