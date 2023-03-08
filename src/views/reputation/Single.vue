@@ -162,7 +162,7 @@
                         <span class="u-txt">声望攻略</span>
                     </template>
                     <template slot="head-actions">
-                        <a class="el-button el-button--primary" :href="publish_url(`achievement/${id}`)">
+                        <a class="el-button el-button--primary" :href="publish_url(`achievement/${achievement_id}`)">
                             <i class="el-icon-edit"></i>
                             <span>完善声望攻略</span>
                         </a>
@@ -171,7 +171,7 @@
                         <div class="m-wiki-compatible" v-if="compatible">
                             <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
                                 class="s-link"
-                                :href="publish_url(`achievement/${id}`)"
+                                :href="publish_url(`achievement/${achievement_id}`)"
                                 >参与修订</a
                             >。
                         </div>
@@ -190,17 +190,17 @@
                             :userBoxcoinEnable="false"
                             :authors="authors"
                             mode="wiki"
-                            :key="'achievement-thx-' + id"
+                            :key="'achievement-thx-' + achievement_id"
                             :client="client"
                         />
                     </template>
                 </WikiPanel>
 
                 <!-- 历史版本 -->
-                <WikiRevisions type="achievement" :source-id="id" />
+                <WikiRevisions type="achievement" :source-id="achievement_id" />
 
                 <!-- 百科评论 -->
-                <WikiComments type="achievement" :source-id="id" />
+                <WikiComments type="achievement" :source-id="achievement_id" />
             </div>
             <div class="m-wiki-post-empty" v-else>
                 <i class="el-icon-s-opportunity"></i>
