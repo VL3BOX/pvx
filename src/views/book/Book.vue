@@ -1,41 +1,28 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb name="书籍大全" slug="book" :publishEnable="true" :feedbackEnable="true" :crumbEnable="false">
-        </Breadcrumb>
-        <LeftSidebar>
-            <Nav></Nav>
-        </LeftSidebar>
-        <Main :withoutRight="true" :withoutLeft="hasSidebar">
+        <LeftSidebar><Nav></Nav></LeftSidebar>
+        <Main :withoutRight="true">
             <div class="m-main">
-                <router-view />
+                <router-view></router-view>
             </div>
-            <Footer></Footer>
+            <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
         </Main>
     </div>
 </template>
 
 <script>
-import Nav from "@/components/book/nav.vue";
+import Nav from "@/components/Nav.vue";
+import PvxBacktop from "@/components/PvxBacktop.vue";
 
 export default {
     name: "Book",
-    components: { Nav },
-    data: () => ({
-        defaultExpandedKeys: ["book"],
-        active: "",
-    }),
-    computed: {
-        hasSidebar: function () {
-            return this.$route.meta.sidebar;
-        },
-        routeName: function () {
-            return this.$route.name;
-        },
-    },
+    components: { Nav, PvxBacktop },
+    data: () => ({}),
 };
 </script>
 
 <style lang="less">
 @import "~@/assets/css/app.less";
+@import "~@/assets/css/book/book.less";
 </style>

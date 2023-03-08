@@ -1,5 +1,14 @@
 <template>
     <div class="m-book-home">
+        <!-- <PvxSearch
+            ref="search"
+            :items="searchProps"
+            class="book-search"
+            :class="selected && 'selected-wrapper'"
+            @search="searchEvent($event)"
+        >
+            <div class="select-item" :class="!selected && 'active'">全部</div>
+        </PvxSearch> -->
         <!-- 通用输入框 -->
         <search-input></search-input>
         <wiki-panel v-loading="loading" :border-none="true">
@@ -23,6 +32,7 @@
 </template>
 
 <script>
+// import PvxSearch from "@/components/PvxSearch.vue";
 import SearchInput from "@/components/book/common/search_input.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import ListHead from "@/components/book/result/list_head.vue";
@@ -45,6 +55,13 @@ export default {
         pageSize: 10,
         input: "",
         currentPage: 1,
+        selected: "",
+        searchProps: [
+            {
+                key: "keyword",
+                name: "书籍名称/描述",
+            },
+        ],
     }),
     computed: {
         client() {
@@ -52,6 +69,7 @@ export default {
         },
     },
     methods: {
+        searchEvent() {},
         iconLink,
         search(page = 1) {
             this.loading = true;
@@ -69,9 +87,6 @@ export default {
                     this.pageSize = res.data.per;
                 })
                 .finally(() => {
-                    this.loading = false;
-                })
-                .catch(() => {
                     this.loading = false;
                 });
         },
