@@ -124,7 +124,7 @@
             <Comment :id="id" :category="type" order="desc" />           
         </div> -->
         <!-- 百科评论 -->
-        <WikiComments type="item" :source-id="id" />
+        <WikiComments :type="type" :source-id="id" />
         <el-dialog class="m-lucky-dates-dialog" title="福缘日期" :visible.sync="luckyDateShow" width="50%">
             <div class="u-lucky-dates-description">
                 <el-icon class="el-icon-info" name="el-icon-info"></el-icon>

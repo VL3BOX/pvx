@@ -1,38 +1,15 @@
 <template>
-    <div class="v-share-list m-face" v-loading="loading">
-        <faceTabs @change="handleFaceTabChange" :body_types="body_types" :active="active" @setActive="setActive" />
-
-        <template v-if="!showAllList">
-            <div class="m-recommend-list-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
-                <div class="u-title u-recommend-title">编辑推荐</div>
-                <div
-                    class="u-shade-btn u-shade-btn-left"
-                    :class="isDisabled('recommend', 1, isUpdate)"
-                    @click="crosswiseScrool($event, 'recommend', 1, 840)"
-                >
-                    <i class="el-icon-arrow-left"></i>
-                </div>
-                <div
-                    class="u-shade-btn u-shade-btn-right"
-                    :class="isDisabled('recommend', -1, isUpdate)"
-                    @click="crosswiseScrool($event, 'recommend', -1, 840)"
-                >
-                    <i class="el-icon-arrow-right"></i>
-                </div>
-                <div class="m-recommend-list" id="recommend">
-                    <faceRecommend v-for="item in slidersList" :key="item.id" :item="item"></faceRecommend>
-                </div>
-            </div>
-        </template>
+    <div class="v-adventure-List" v-loading="loading" ref="listRef">
+        <AdventureTabs @change="onSearch" :body_types="body_types" :active="active" @setActive="setActive" />
         <template v-if="!showAllList">
             <div
                 v-for="(item, index) in list_type"
                 :key="'l' + index"
-                class="m-face-list"
+                class="m-adventure-list"
                 @mouseenter="mouseenter($event)"
                 @mouseleave="mouseleave($event)"
             >
-                <div class="u-type" v-if="item.client.indexOf(client) != -1 && item.list.length > 0">
+                <div class="u-type" v-if="item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
@@ -51,7 +28,7 @@
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-share-list" :id="'nav' + index">
-                    <faceItem v-for="item in item.list" :key="item.id" :item="item" />
+                    <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
                 </div>
             </div>
         </template>
@@ -60,7 +37,7 @@
                 <div class="u-title">{{ body_types_name() }}</div>
             </div>
             <div class="m-share-allList">
-                <faceItem v-for="item in list" :key="item.id" :item="item" />
+                <AdventureItem v-for="item in list" :key="item.id" :item="item" />
             </div>
             <el-button
                 class="m-archive-more"
@@ -76,86 +53,78 @@
                 background
                 layout="total, prev, pager, next, jumper"
                 :hide-on-single-page="true"
-                :page-size="per_page"
+                :page-size="per"
                 :total="total"
                 :current-page.sync="page"
             ></el-pagination>
         </template>
-        <el-alert v-if="isNoRes()" class="m-archive-null" :title="alertTitle" type="info" center show-icon></el-alert>
+        <div class="u-archive-alert" v-if="isNoRes()">
+            <el-alert title="没有对应的奇遇，请重新查找" type="info" center show-icon />
+        </div>
     </div>
 </template>
+
 <script>
-import { publishLink } from "@jx3box/jx3box-common/js/utils";
-import { getFaceList, getSliders } from "@/service/face";
-import faceRecommend from "@/components/face/v2/recommend";
-import faceTabs from "@/components/face/v2/tabs";
-import faceItem from "@/components/face/v2/item";
-import { clone } from "lodash";
+import AdventureTabs from "@/components/adventure/v2/tabs.vue";
+import AdventureItem from "@/components/adventure/v2/item.vue";
+import { getAdventures, getUserSchool } from "@/service/adventure";
 import { isPhone } from "@/utils/index";
+import { clone } from "lodash";
+// import User from "@jx3box/jx3box-common/js/user";
+// import schoolImgID from "@/assets/data/school_img_id.json";
 export default {
-    name: "face",
-    components: {
-        faceRecommend,
-        faceTabs,
-        faceItem,
-    },
-    data() {
+    name: "adventureList",
+    props: [],
+    components: { AdventureTabs, AdventureItem },
+    data: function () {
         return {
+            loading: false,
             tabsData: {},
             body_types: [
                 {
-                    value: "",
-                    label: "全部",
+                    value: "all",
+                    label: "全部奇遇",
                     client: ["std", "origin"],
                 },
                 {
-                    value: 1,
-                    label: "成男",
+                    value: "perfect",
+                    label: "绝世奇遇",
                     client: ["std", "origin"],
                 },
                 {
-                    value: 2,
-                    label: "成女",
+                    value: "normal",
+                    label: "普通奇遇",
                     client: ["std", "origin"],
                 },
                 {
-                    value: 5,
-                    label: "正太",
-                    client: ["std"],
-                },
-                {
-                    value: 6,
-                    label: "萝莉",
+                    value: "pet",
+                    label: "宠物奇遇",
                     client: ["std", "origin"],
                 },
             ],
-            active: "",
+            active: "all",
             list: [],
             list_type: [
-                { name: "成男脸型", list: [], value: 1, client: ["std", "origin"] },
-                { name: "成女脸型", list: [], value: 2, client: ["std", "origin"] },
-                { name: "正太脸型", list: [], value: 5, client: ["std"] },
-                { name: "萝莉脸型", list: [], value: 6, client: ["std", "origin"] },
+                { name: "绝世奇遇", list: [], value: "perfect", client: ["std", "origin"] },
+                { name: "普通奇遇", list: [], value: "normal", client: ["std", "origin"] },
+                { name: "宠物奇遇", list: [], value: "pet", client: ["std", "origin"] },
             ],
-            page: 1,
-            // per_page: 14,
-            pageTotal: 1,
-            total: 0,
-            appendMode: false,
-            loading: false,
-            scrollLeft: 0,
             showAllList: false, //是否显示单独某项全部
-            slidersList: [],
             isUpdate: false,
+            page: 1, //当前页数
+            total: 1, //总条目数
+            pages: 1, //总页数
+            per: 15, //每页条目
+
+            appendMode: false,
+            school: "2",
+            search: {},
+            hasSearch: "",
         };
     },
     computed: {
-        publish_link() {
-            return publishLink("face");
-        },
-        client() {
-            // return "origin";
-            return this.$store.state.client;
+        hasNextPage: function () {
+            return this.pages > 1 && this.page < this.pages;
         },
         params({ tabsData }) {
             return {
@@ -164,61 +133,41 @@ export default {
                 client: this.client,
             };
         },
-        hasNextPage() {
-            return this.page < this.pageTotal;
-        },
-        alertTitle: function () {
-            if (this.title) return "没找到对应的捏脸，请重新选择条件或关键词搜索";
-            return "没有找到相关的捏脸";
-        },
-        per_page: function () {
-            let count = 18;
-            let w = window.innerWidth;
-
-            // 根据分辨率设置
-            if (w < 768) {
-                count = 6;
-            } else if (w < 992) {
-                count = 12;
-            } else if (w < 1600) {
-                count = 15;
-            } else if (w < 1920) {
-                count = 18;
-            } else {
-                count = 21;
-            }
-
-            return count;
+        newList: function () {
+            let list = [];
+            this.list.forEach((e) => {
+                list.push(this.toSpecial(e));
+            });
+            return list;
         },
     },
     watch: {
         params: {
             deep: true,
             handler(val) {
-                this.getFaceListInit();
+                this.getListInit();
             },
         },
-    },
-    created() {
-        this.getSliders();
+        $route(obj) {
+            if (obj.params.search) this.hasSearch = obj.params.search;
+        },
     },
     methods: {
+        setActive(val) {
+            this.active = val;
+            document.documentElement.scrollTop = 0;
+        },
         isNoRes() {
-            let type = this.params.body_type;
-            if (!type) {
+            let type = this.params.type;
+            if (type == "all") {
                 // return false;
                 return (
                     this.list_type[0].list.length == 0 &&
                     this.list_type[1].list.length == 0 &&
-                    this.list_type[2].list.length == 0 &&
-                    this.list_type[3].list.length == 0
+                    this.list_type[2].list.length == 0
                 );
             }
             return this.list.length > 0 ? false : true;
-        },
-        setActive(val) {
-            this.active = val;
-            document.documentElement.scrollTop = 0;
         },
         mouseenter(e) {
             if (isPhone()) {
@@ -235,67 +184,59 @@ export default {
             e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "hidden";
         },
         body_types_name() {
-            let type = this.params.body_type;
+            let type = this.params.type;
             if (!type) return;
             const nameMap = {
-                1: () => "成男脸型",
-                2: () => "成女脸型",
-                5: () => "正太脸型",
-                6: () => "萝莉脸型",
+                perfect: () => "绝世奇遇",
+                normal: () => "普通奇遇",
+                pet: () => "宠物奇遇",
             };
             return nameMap[type]();
         },
-        getSliders() {
-            getSliders("slider", this.client, 9).then((res) => {
-                this.slidersList = res.data.data.list || [];
-            });
-        },
-        getFaceListInit: function () {
+        getListInit: function () {
             this.loading = true;
-            this.noRes = false;
-            if (!this.params.body_type) {
+
+            if (this.params.type == "all") {
                 this.showAllList = false;
-                let typeArr = [1, 2, 5, 6];
-                typeArr.forEach((e) => {
+                this.list_type.forEach((e) => {
                     let params = clone(this.params);
-                    params.pageSize = 14;
-                    params.body_type = e;
-                    if (e == 5) {
-                        // if (this.client == "origin") this.getFaceList(params);
-                        if (this.client == "std") this.getFaceList(params);
-                    } else {
-                        this.getFaceList(params);
-                    }
+                    params.per = 14;
+                    params.type = e.value;
+                    this.getAdventures(params);
                 });
             } else {
                 let params = clone(this.params);
-                params.pageSize = this.per_page;
-                this.getFaceList(params);
+                params.per = this.per;
+                this.getAdventures(params);
             }
         },
-        getFaceList(params) {
-            getFaceList(params)
+        getAdventures(params) {
+            getAdventures(params)
                 .then((res) => {
+                    let list = [];
+                    res.data.list.forEach((e) => {
+                        // list.push(e);
+                        list.push(this.toSpecial(e));
+                    });
                     if (this.appendMode) {
-                        this.list = this.list.concat(res.data.data.list || []);
+                        this.list = this.list.concat(list || []);
                     } else {
-                        if (!this.params.body_type) {
+                        if (this.params.type == "all") {
                             //分别赋值
                             const typesMap = {
-                                1: () => (this.list_type[0].list = res.data.data.list || []),
-                                2: () => (this.list_type[1].list = res.data.data.list || []),
-                                5: () => (this.list_type[2].list = res.data.data.list || []),
-                                6: () => (this.list_type[3].list = res.data.data.list || []),
+                                perfect: () => (this.list_type[0].list = list || []),
+                                normal: () => (this.list_type[1].list = list || []),
+                                pet: () => (this.list_type[2].list = list || []),
                             };
-                            typesMap[params.body_type]();
+                            typesMap[params.type]();
                         } else {
                             this.showAllList = true;
-                            this.list = res.data.data.list || [];
+                            this.list = list || [];
                         }
                     }
-                    if (this.params.body_type) {
-                        this.total = res.data.data.page.total;
-                        this.pageTotal = res.data.data.page.pageTotal;
+                    if (this.params.type) {
+                        this.total = res.data.total;
+                        this.pages = res.data.pages;
                     }
                     this.$forceUpdate();
                 })
@@ -304,17 +245,46 @@ export default {
                     this.appendMode = false;
                 });
         },
-        appendPage: function () {
-            this.appendMode = true;
-            this.page = this.page + 1;
+        //处理特殊的链接
+        toSpecial(data) {
+            const type = data.szRewardType;
+            let str = data.szOpenRewardPath;
+            const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
+
+            if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
+
+            if (type == "camp") {
+                data.bHide
+                    ? (str = "ui/Image/Adventure/reward/Open/camp/camp_2_Open.tga")
+                    : (str = "ui/Image/Adventure/reward/Open/camp/camp_0_Open.tga");
+            }
+
+            data.szOpenRewardPath = str;
+            return data;
         },
-        handleFaceTabChange: function (data) {
+        changePage(i) {
+            this.page = i;
+            this.getData();
+        },
+        appendPage: function () {
+            this.page = this.page + 1;
+            this.appendMode = true;
+            this.getData();
+        },
+        onSearch(params) {
+            // this.page = 1;
+            // this.search = params;
+            // this.getData();
             this.page = 1;
-            this.tabsData = data;
+            this.tabsData = params;
+        },
+        // 按宽度显示个数
+        showCount() {
+            const listWidth = this.$refs.listRef?.clientWidth;
+            this.per = Math.floor(listWidth / 300) * 4;
         },
         isDisabled(id, detail) {
             // 获取要绑定事件的元素
-
             const nav = document.getElementById(id);
             if (!nav) return;
             if (nav.scrollLeft == 0 && detail == 1) {
@@ -360,9 +330,17 @@ export default {
             }
         },
     },
+    mounted: function () {
+        // User.isLogin() &&
+        //     getUserSchool().then(res => {
+        //         if (res.data.data.list) this.school = schoolImgID[res.data.data.list[0].mount];
+        //     });
+        this.showCount();
+        // this.getData();
+    },
 };
 </script>
 
 <style lang="less">
-@import "~@/assets/css/face/v2/list.less";
+@import "~@/assets/css/adventure/v2/list.less";
 </style>

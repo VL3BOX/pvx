@@ -4,6 +4,12 @@
     min-height: calc(100vh - @header-height - @bread-height - 100px);
     background-color: #f3f5f6;
 }
+.c-main {
+    // margin-top: @header-height;
+    &.open {
+        .ml(100px);
+    }
+}
 @media screen and (max-width: @ipad) {
     .m-main {
         padding: 10px 20px;

@@ -1,0 +1,85 @@
+.c-sidebar-left {
+    width: auto;
+}
+.c-sidebar-right-msg {
+    margin: 5px 0 10px 0;
+}
+
+.c-sidebar-left-inner {
+    overflow: hidden;
+    &:hover {
+        overflow-y: auto;
+    }
+}
+.el-tooltip__popper {
+    a {
+        color: #fff !important;
+    }
+}
+.m-pvx-nav {
+    .min-width(80px);
+    .u-img {
+        padding: 10px 20px 40px 20px;
+        box-sizing: border-box;
+        .pointer;
+        .dbi;
+        img {
+            .size(34px,17px);
+        }
+    }
+    &.open {
+        .w(260px);
+    }
+    &.close {
+        .el-menu--collapse {
+            .w(100%) !important;
+        }
+    }
+    // 解决侧边栏折叠卡顿的问题
+    .new-el-menu--sidebar:not(.el-menu--collapse) {
+        width: 260px;
+    }
+    .el-menu {
+        border: none !important;
+        background: none !important;
+    }
+    .el-menu-item {
+        .h(35px) !important;
+        padding: 0;
+        .r(4px);
+        .lh(35px) !important;
+        margin-bottom: 10px;
+        a,
+        span {
+            .min-width(35px);
+            .h(35px);
+            .dbi;
+            .fz(14px,40px);
+            color: @color;
+        }
+        img,
+        i {
+            .size(35px);
+            .pr(10px);
+        }
+
+        &.is-active {
+            .bold;
+            background-color: #e6f0fc;
+            a,
+            span {
+                .fz(18px,30px) !important;
+                color: @color-link;
+            }
+        }
+
+        .disabled {
+            cursor: default;
+            color: #999;
+            * {
+                visibility: center;
+                color: #999;
+            }
+        }
+    }
+}
