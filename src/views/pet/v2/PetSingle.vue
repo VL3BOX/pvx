@@ -63,12 +63,6 @@
                             ></el-tag>
                         </span>
                     </div>
-                    <!-- <div class="u-meta u-lucky-dates" v-if="luckyDateList.length != 0">
-                        <span class="u-meta-label">福缘日期：</span>
-                        <a class="u-meta u-link u-lucky-dates" @click="luckyDateShow = true">
-                            <i class="el-icon-date"></i>点击查看
-                        </a>
-                    </div> -->
                 </div>
                 <!-- 宠物技能 -->
                 <div class="u-pet-skill-title">宠物招式</div>
@@ -125,27 +119,11 @@
         </div> -->
         <!-- 百科评论 -->
         <WikiComments :type="type" :source-id="id" />
-        <el-dialog class="m-lucky-dates-dialog" title="福缘日期" :visible.sync="luckyDateShow" width="50%">
-            <div class="u-lucky-dates-description">
-                <el-icon class="el-icon-info" name="el-icon-info"></el-icon>
-                红色显示为当日福缘，蓝色显示为距离今日最近的福缘日期
-            </div>
-            <!-- 颜色（type）：优先今日（红色danger），距离今日最近的（蓝色默认），其他（灰色info）-->
-            <el-tag
-                class="u-lucky-dates-item"
-                v-for="(item, index) in luckyDateList"
-                :key="index"
-                :type="item.isToday ? 'danger' : item.isClosest ? '' : 'info'"
-            >
-                {{ item.month }} 月 {{ item.day }} 日
-            </el-tag>
-        </el-dialog>
     </div>
 </template>
 
 <script>
 import { getPet, getPets, getShopInfo, getPetSkill, getSkill } from "@/service/pet";
-import { getPetLucky, getPetLuckyReverse } from "@/service/pet";
 import petCard from "@/components/pet/v2/PetCard.vue";
 import petFetters from "@/components/pet/PetFetters.vue";
 import Wiki from "@/components/wiki/Wiki.vue";
@@ -174,9 +152,6 @@ export default {
             pet: "",
             petSkills: [],
             shopInfo: "",
-            luckyList: [],
-            luckyDateList: [],
-            luckyDateShow: false,
             medalList: [],
             mapDisplay: false,
             loading: false,
@@ -308,44 +283,6 @@ export default {
 
             window.open(link, "_blank");
         },
-        // 获取福缘宠物id
-        getPetLucky: function () {
-            getPetLucky().then((res) => {
-                let data = res.data.std;
-                let dateIndex = dayjs(new Date()).format("MDD");
-                this.luckyList = data[dateIndex];
-            });
-        },
-        // 通过宠物ID获取所有福缘日期
-        getPetLuckyReverse: function (petID) {
-            getPetLuckyReverse().then((res) => {
-                const now = new Date();
-                let data = {}; // key 是 距离今天的天数, value 是 object，用于取最近
-                let currentPetLucky = res.data.std[petID];
-                if (currentPetLucky) {
-                    currentPetLucky.forEach((item) => {
-                        let month = parseInt(item.slice(0, -2));
-                        let day = parseInt(item.slice(-2));
-                        let obj = {
-                            month: month,
-                            day: day,
-                            isToday: month == now.getMonth() + 1 && day == now.getDate(),
-                            isClosest: false,
-                        };
-
-                        let itemDate = new Date();
-                        itemDate.setMonth(month - 1, day);
-                        let diff = Math.ceil((itemDate - now) / (1000 * 3600 * 24));
-                        if (diff < 0) diff += 365; // 已过了的加一年
-                        data[diff] = obj; // 算距离今天的天数
-                    });
-                    data[Math.min(...Object.keys(data))].isClosest = true; // 标记最近的那个
-                    this.luckyDateList = Object.values(data).sort(
-                        (lhs, rhs) => lhs.month - rhs.month || lhs.day - rhs.day
-                    ); // 按月日排序
-                }
-            });
-        },
         getLink,
         // 获取宠物羁绊的宠物
         getPetMedal() {
@@ -380,10 +317,6 @@ export default {
         cleanResourceText: function (str) {
             return str && str.startsWith("获取线索：") ? str.replace("获取线索：", "") : str;
         },
-    },
-    created: function () {
-        this.getPetLucky();
-        this.getPetLuckyReverse(this.id);
     },
     mounted: function () {
         this.getPetInfo();

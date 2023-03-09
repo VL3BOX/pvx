@@ -260,14 +260,16 @@ export default {
         },
         // 获取福缘宠物id
         getPetLucky: function () {
-            getPetLucky().then((res) => {
-                let data = res.data.std;
-                let dateIndex = dayjs(new Date()).format("MDD");
-                // this.luckyList = data[dateIndex];
-                getSliders("slider", this.client, data[dateIndex].toString()).then((res) => {
-                    this.luckyList = res.data.data.list || [];
+            // 只有正式服有这玩意
+            if(this.client === "std")
+                getPetLucky(this.client).then((res) => {
+                    let data = res.data;
+                    let dateIndex = dayjs(new Date()).format("MDD");
+                    // this.luckyList = data[dateIndex];
+                    getSliders("slider", this.client, data[dateIndex].toString()).then((res) => {
+                        this.luckyList = res.data.data.list || [];
+                    });
                 });
-            });
         },
         appendPage: function () {
             this.appendMode = true;

@@ -34,12 +34,8 @@ function getShopInfo({ item_type, item_id, client = "std" }) {
     });
 }
 
-function getPetLucky() {
-    return axios.get(__dataPath + "pvx/pet/output/pet_lucky.json");
-}
-
-function getPetLuckyReverse() {
-    return axios.get(__dataPath + "pvx/pet/output/pet_lucky_reverse.json");
+function getPetLucky(client) {
+    return axios.get(__dataPath + `pvx/pet/output/pet_${client}_lucky.json`);
 }
 
 function getSkill(params) {
@@ -65,4 +61,4 @@ function getSliders(type, client, source_ids, per = 10) {
 function getMapList() {
     return axios.get(__imgPath + "map/data/map_index.json");
 }
-export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getPetLuckyReverse, getSkill, getSliders, getMapList };
+export { getPets, getPet, getPetSkill, getShopInfo, getPetLucky, getSkill, getSliders, getMapList };
