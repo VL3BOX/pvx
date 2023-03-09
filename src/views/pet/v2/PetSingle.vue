@@ -152,6 +152,7 @@ export default {
             pet: "",
             petSkills: [],
             shopInfo: "",
+            luckyList: [],
             medalList: [],
             mapDisplay: false,
             loading: false,
@@ -283,6 +284,16 @@ export default {
 
             window.open(link, "_blank");
         },
+        // 获取福缘宠物id
+        getPetLucky: function () {
+            // 只有正式服有这玩意
+            if(this.client === "std")
+                getPetLucky(this.client).then((res) => {
+                    let data = res.data;
+                    let dateIndex = dayjs(new Date()).format("MDD");
+                    this.luckyList = data[dateIndex];
+                });
+        },
         getLink,
         // 获取宠物羁绊的宠物
         getPetMedal() {
@@ -317,6 +328,9 @@ export default {
         cleanResourceText: function (str) {
             return str && str.startsWith("获取线索：") ? str.replace("获取线索：", "") : str;
         },
+    },
+    created: function () {
+        this.getPetLucky();
     },
     mounted: function () {
         this.getPetInfo();
