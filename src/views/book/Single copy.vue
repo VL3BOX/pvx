@@ -1,121 +1,118 @@
 <template>
-    <div class="book-single-wrapper">
-        <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+    <div v-loading="loading" class="m-book-view">
+        <div class="m-search">
+            <search-input></search-input>
         </div>
-        <div v-if="book" class="book-single-content" v-loading="loading">
-            <div class="book-header">
-                <h2 class="book-title">{{ book.Name }}</h2>
-                <p class="book-desc" v-html="book.Desc"></p>
-            </div>
-            <div class="book-detail-wrapper">
-                <div v-if="book.contentInfo" class="book-content-wrapper">
-                    <div class="right-div"></div>
-                    <div
-                        v-if="/^\d+$/g.test(book.contentInfo)"
-                        class="book-content"
-                        :class="/^\d+$/g.test(book.contentInfo) && 'img-content'"
-                    >
-                        <img :src="iconLink(book.contentInfo, client)" :alt="iconLink(book.contentInfo, client)" />
+        <div class="m-book-content">
+            <div class="w-book" v-if="book">
+                <p class="u-title__warpper">
+                    <span class="u-name-icon">
+                        <item-icon v-if="book.ItemID" :item_id="book.ItemID" :size="36"></item-icon>
+                    </span>
+                    <span class="u-title-id"> ID:{{ book.idKey }} </span>
+                    <span class="u-desc" v-html="book.Desc"></span>
+                </p>
+                <div class="vertical-item u-info__wrapper">
+                    <div class="u-header">
+                        <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
+                        <span class="u-txt">书籍内容</span>
                     </div>
-                    <template v-else>
-                        <div ref="bookWrap" class="book-content" :class="isVertical ? 'vertical' : 'row'">
-                            <div ref="bookTitle" class="title">{{ book.Name }}</div>
-                            <div ref="bookContent" class="content" v-html="book.contentInfo"></div>
-                        </div>
-                        <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
-                            <div class="left" @click="toMore">
-                                <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
-                                <span>继续</span>
+                    <div class="u-content">
+                        <div v-if="book.contentInfo" class="book-info__content">
+                            <div
+                                v-if="/^\d+$/g.test(book.contentInfo)"
+                                class="book-content"
+                                :class="/^\d+$/g.test(book.contentInfo) && 'hidden'"
+                            >
+                                <img
+                                    :src="iconLink(book.contentInfo, client)"
+                                    :alt="iconLink(book.contentInfo, client)"
+                                />
                             </div>
-                            <div class="right" @click="toBack">
-                                <span>返回</span>
-                                <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
-                            </div>
+                            <div v-else class="book-content" v-html="book.contentInfo"></div>
                         </div>
-                        <div class="switch" @click="isVertical = !isVertical">{{ isVertical ? "古风" : "现代" }}</div>
-                    </template>
-                </div>
-                <div class="book-info">
-                    <p class="u-subtitle">【书籍信息】</p>
-                    <div class="u-book-info">
-                        <div class="u-item">书籍类型：{{ getProfessionType(book.ExtendProfessionID1) }}</div>
-                        <div v-if="!['其它', '碑铭'].includes(getOrigin(book))" class="u-item book-origin">
-                            书籍来源：
-                            <el-tooltip placement="top" popper-class="book-notice-tooltip">
-                                <div slot="content">
-                                    <template v-if="getOrigin(book).indexOf('秘境') > -1">
-                                        <div class="u-detail-item">秘境</div>
-                                        <div class="book-fb" v-html="getBossOrigin(book)"></div>
-                                    </template>
-                                    <template v-if="getOrigin(book).indexOf('商店') > -1">
-                                        <div class="u-detail-item">商店</div>
-                                        <div class="book-shop" v-html="getShopOrigin(book)"></div>
-                                    </template>
-                                    <template v-if="getOrigin(book).indexOf('任务') > -1">
-                                        <div class="u-detail-item">任务</div>
-                                        <div class="book-quest">
-                                            <div
-                                                class="quest-item"
-                                                v-for="item in getQuestOrigin(book)"
-                                                :key="item.questId"
-                                            >
-                                                <a target="_blank" :href="getLink('quest', item.questId)">
-                                                    [{{ item.questName }}]</a
-                                                >
-                                            </div>
+                        <div class="common-info__content">
+                            <p class="u-subtitle">【书籍信息】</p>
+                            <div class="u-book-info">
+                                <div class="u-item">书籍类型：{{ getProfessionType(book.ExtendProfessionID1) }}</div>
+                                <div v-if="!['其它', '碑铭'].includes(getOrigin(book))" class="u-item book-origin">
+                                    书籍来源：
+                                    <el-tooltip placement="top" popper-class="book-notice-tooltip">
+                                        <div slot="content">
+                                            <template v-if="getOrigin(book).indexOf('秘境') > -1">
+                                                <div class="u-detail-item">秘境</div>
+                                                <div class="book-fb" v-html="getBossOrigin(book)"></div>
+                                            </template>
+                                            <template v-if="getOrigin(book).indexOf('商店') > -1">
+                                                <div class="u-detail-item">商店</div>
+                                                <div class="book-shop" v-html="getShopOrigin(book)"></div>
+                                            </template>
+                                            <template v-if="getOrigin(book).indexOf('任务') > -1">
+                                                <div class="u-detail-item">任务</div>
+                                                <div class="book-quest">
+                                                    <div
+                                                        class="quest-item"
+                                                        v-for="item in getQuestOrigin(book)"
+                                                        :key="item.questId"
+                                                    >
+                                                        <a target="_blank" :href="getLink('quest', item.questId)">
+                                                            [{{ item.questName }}]</a
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </template>
                                         </div>
-                                    </template>
+                                        <span>{{ getOrigin(book) }}</span>
+                                    </el-tooltip>
                                 </div>
-                                <span>{{ getOrigin(book) }}</span>
-                            </el-tooltip>
+                                <div v-else class="u-item">书籍来源：{{ getOrigin(book) }}</div>
+                                <div class="u-item">所属套书：{{ book.BookName }}</div>
+                                <div v-if="book.AchievementID" class="u-item">
+                                    套书成就：
+                                    <a
+                                        class="book-achievement"
+                                        target="_blank"
+                                        :href="getLink('achievement', book.AchievementID)"
+                                    >
+                                        [{{ book.achievement ? book.achievement.Name : "" }}]</a
+                                    >
+                                </div>
+                                <div class="u-item">阅读等级：{{ book.RequireLevel }}级</div>
+                            </div>
+                            <template v-if="book.copy && book.copy.ID">
+                                <p class="u-subtitle">【抄录信息】</p>
+                                <div class="u-book-info">
+                                    <div class="u-item">
+                                        <span>需求阅读：</span>
+                                        <span>{{ book.copy.RequireLevel }}级</span>
+                                    </div>
+                                    <div class="u-item">
+                                        <span>需求{{ getProfessionType(book.ExtendProfessionID1) }}：</span>
+                                        <span>{{ book.copy.RequireLevelExt }}级</span>
+                                    </div>
+                                    <div class="u-item">
+                                        <span>角色等级：</span>
+                                        <span>{{ book.copy.RequirePlayerLevel }}级</span>
+                                    </div>
+                                    <div class="u-item">
+                                        <span>消耗精力：</span>
+                                        <span>{{ book.copy.CostVigor }}点</span>
+                                    </div>
+                                    <div v-if="book.copyList.length" class="u-item">
+                                        <span>消耗材料：</span>
+                                        <item-icon
+                                            v-for="meterial in book.copyList"
+                                            :key="meterial.item_id"
+                                            :item_id="meterial.item_id"
+                                            :size="28"
+                                            :amount="meterial.count"
+                                            :onlyIcon="true"
+                                        ></item-icon>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                        <div v-else class="u-item">书籍来源：{{ getOrigin(book) }}</div>
-                        <div class="u-item">所属套书：{{ book.BookName }}</div>
-                        <div v-if="book.AchievementID" class="u-item">
-                            套书成就：
-                            <a
-                                class="book-achievement"
-                                target="_blank"
-                                :href="getLink('achievement', book.AchievementID)"
-                            >
-                                [{{ book.achievement ? book.achievement.Name : "" }}]</a
-                            >
-                        </div>
-                        <div class="u-item">阅读等级：{{ book.RequireLevel }}级</div>
                     </div>
-                    <template v-if="book.copy && book.copy.ID">
-                        <p class="u-subtitle">【抄录信息】</p>
-                        <div class="u-book-info">
-                            <div class="u-item">
-                                <span>需求阅读：</span>
-                                <span>{{ book.copy.RequireLevel }}级</span>
-                            </div>
-                            <div class="u-item">
-                                <span>需求{{ getProfessionType(book.ExtendProfessionID1) }}：</span>
-                                <span>{{ book.copy.RequireLevelExt }}级</span>
-                            </div>
-                            <div class="u-item">
-                                <span>角色等级：</span>
-                                <span>{{ book.copy.RequirePlayerLevel }}级</span>
-                            </div>
-                            <div class="u-item">
-                                <span>消耗精力：</span>
-                                <span>{{ book.copy.CostVigor }}点</span>
-                            </div>
-                            <div v-if="book.copyList.length" class="u-item">
-                                <span>消耗材料：</span>
-                                <item-icon
-                                    v-for="meterial in book.copyList"
-                                    :key="meterial.item_id"
-                                    :item_id="meterial.item_id"
-                                    :size="28"
-                                    :amount="meterial.count"
-                                    :onlyIcon="true"
-                                ></item-icon>
-                            </div>
-                        </div>
-                    </template>
                 </div>
             </div>
             <div v-if="bookMapSite.length" class="vertical-item book-map">
@@ -186,6 +183,7 @@
 <script>
 import Jx3boxMap from "@jx3box/jx3box-map/src/components/Map.vue";
 import ItemIcon from "@/components/book/common/item_icon.vue";
+import SearchInput from "@/components/book/common/search_input.vue";
 import bookProfession from "@/assets/data/book_profession.json";
 // 碑铭坐标json
 import bookMapInfoStd from "@/assets/data/stele_std_fwd.json";
@@ -211,7 +209,7 @@ import Article from "@jx3box/jx3box-editor/src/Article.vue";
 
 export default {
     name: "bookSingle",
-    components: { Jx3boxMap, ItemIcon, WikiPanel, Article, Comment },
+    components: { Jx3boxMap, ItemIcon, SearchInput, WikiPanel, Article, Comment },
     data() {
         return {
             wiki_post: {
@@ -220,9 +218,7 @@ export default {
             },
             compatible: false,
             is_empty: true,
-            // 是否古风
-            isVertical: true,
-            arrowShow: false,
+
             book: {
                 idKey: "",
                 Name: "",
@@ -235,69 +231,6 @@ export default {
         };
     },
     methods: {
-        toMore() {
-            const isVertical = this.isVertical;
-            const bookWrap = this.$refs.bookWrap;
-            if (isVertical) {
-                // 竖向
-                const sW = bookWrap.scrollWidth;
-                const sLeft = bookWrap.scrollLeft;
-                const cW = bookWrap.clientWidth;
-                const step = Math.ceil(cW / 4);
-                if (sW + sLeft > cW) {
-                    // 没到尽头
-                    bookWrap.scrollBy({
-                        left: -step,
-                        behavior: "smooth",
-                    });
-                }
-            } else {
-                // 横向
-                const sH = bookWrap.scrollHeight;
-                const sTop = bookWrap.scrollTop;
-                const cH = bookWrap.clientHeight;
-                const step = Math.ceil(cH / 2);
-                if (sH - sTop > cH) {
-                    // 没到底
-                    bookWrap.scrollBy({
-                        top: step,
-                        behavior: "smooth",
-                    });
-                }
-            }
-        },
-        toBack() {
-            const isVertical = this.isVertical;
-            const bookWrap = this.$refs.bookWrap;
-            if (isVertical) {
-                // 竖向
-                const sLeft = bookWrap.scrollLeft;
-                const cW = bookWrap.clientWidth;
-                const step = Math.ceil(cW / 4);
-                if (sLeft < 0) {
-                    // 没到尽头
-                    bookWrap.scrollBy({
-                        left: step,
-                        behavior: "smooth",
-                    });
-                }
-            } else {
-                // 横向
-                const sTop = bookWrap.scrollTop;
-                const cH = bookWrap.clientHeight;
-                const step = Math.ceil(cH / 2);
-                if (sTop > 0) {
-                    // 没到顶
-                    bookWrap.scrollBy({
-                        top: -step,
-                        behavior: "smooth",
-                    });
-                }
-            }
-        },
-        goBack() {
-            this.$router.push({ path: "/" });
-        },
         iconLink,
         getBossOrigin(book) {
             const fbMaps = this.client === "std" ? maps_std : maps_orgin;
@@ -513,41 +446,11 @@ export default {
             } else {
                 this.loadData();
             }
-            if (!/^\d+$/g.test(this.book.contentInfo)) {
-                // 非图片
-                this.$nextTick(() => {
-                    const wrapSW = this.$refs.bookWrap.scrollWidth;
-                    const wrapCW = this.$refs.bookWrap.clientWidth;
-                    if (wrapSW > wrapCW) {
-                        this.arrowShow = true;
-                    }
-                });
-            }
         },
         post_id: {
             handler() {
                 this.loadRevision();
             },
-        },
-        isVertical(bol) {
-            console.log(bol);
-            if (!/^\d+$/g.test(this.book.contentInfo)) {
-                // 非图片
-                if (bol) {
-                    // 竖版
-                    this.$nextTick(() => {
-                        const wrapSW = this.$refs.bookWrap.scrollWidth;
-                        const wrapCW = this.$refs.bookWrap.clientWidth;
-                        this.arrowShow = wrapSW > wrapCW;
-                    });
-                } else {
-                    this.$nextTick(() => {
-                        const wrapSH = this.$refs.bookWrap.scrollHeight;
-                        const wrapCH = this.$refs.bookWrap.clientHeight;
-                        this.arrowShow = wrapSH > wrapCH;
-                    });
-                }
-            }
         },
     },
 };
