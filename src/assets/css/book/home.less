@@ -1,47 +1,124 @@
-.m-reputation-home {
+.m-main {
+    padding: 20px 40px;
+}
+.book-home-wrapper {
     position: relative;
-    .u-qlinks {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-
-        .u-qlink {
-            display: inline-block;
-            margin: 0 20px 0 0;
-
-            i {
-                .mr(5px);
-            }
-
-            a {
-                display: block;
-                padding: 8px 20px;
-                background-color: #3a97eb;
-                color: #ffffff;
-                border-radius: 4px;
-                transition: opacity 0.2s linear;
-
+    .operate-wrap {
+        position: fixed;
+        right: 20px;
+        top: 88px;
+        z-index: 5;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .list-type-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-radius: 30px;
+            padding: 3px;
+            background-color: #fff;
+            .list-type-item {
+                font-size: 13px;
+                background-color: #fff;
+                color: #bbb;
+                padding: 5px 15px;
+                text-align: center;
+                cursor: pointer;
                 &:hover {
-                    opacity: 0.8;
+                    font-weight: bold;
+                    color: @active-color;
+                }
+                &:first-of-type {
+                    border-top-left-radius: 30px;
+                    border-bottom-left-radius: 30px;
+                }
+                &:last-of-type {
+                    border-top-right-radius: 30px;
+                    border-bottom-right-radius: 30px;
+                }
+                &.active {
+                    font-weight: bold;
+                    color: #fff;
+                    border-radius: 30px;
+                    background: @active-color;
+                }
+            }
+        }
+    }
+    .book-search {
+        .search-group {
+            gap: 20px;
+        }
+        .select-item {
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 30px;
+            color: #949494;
+            background-color: #fff;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            &:hover,
+            &.is-active {
+                color: #fff;
+                &.select-item-8,
+                &.select-item-11 {
+                    // 全部、杂集
+                    background-color: #324148;
+                }
+                &.select-item-9 {
+                    // 佛学
+                    background-color: #947d2e;
+                }
+                &.select-item-10 {
+                    // 道学
+                    background-color: #1f3c5c;
+                }
+            }
+        }
+    }
+    .list-wrapper {
+        margin-top: 80px;
+        min-height: 300px;
+        .list-item-wrapper {
+            margin-bottom: 40px;
+            .title-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-bottom: 20px;
+                .title {
+                    font-weight: 700;
+                    font-size: 32px;
+                    height: 42px;
+                    line-height: 42px;
+                    color: #24292e;
+                }
+                a {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 21px;
+                    color: #a5a5a5;
                 }
             }
         }
     }
 }
 
-@media screen and (max-width: @ipad) {
-    .m-reputation-home {
-        .u-qlinks {
-            .u-qlink {
-                margin-top: 5px;
-                margin-bottom: 5px;
-            }
+@media screen and (max-width: @phone) {
+    .book-home-wrapper {
+        .list-wrapper {
+            margin-top: 200px;
         }
+    }
+}
 
-        .m-posts {
-            .m-post {
-                width: 100%;
-            }
+@media screen and (max-width: @ipad) {
+    .book-home-wrapper {
+        .list-wrapper {
+            margin-top: 130px;
         }
     }
 }

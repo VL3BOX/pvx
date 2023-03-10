@@ -1,8 +1,16 @@
 <template>
-    <div v-loading="loading" class="m-search-result">
-        <search-input></search-input>
+    <div class="m-book-home">
+        <PvxSearch
+            ref="search"
+            :items="searchProps"
+            class="book-search"
+            :class="selected && 'selected-wrapper'"
+            @search="searchEvent($event)"
+        >
+            <div class="select-item" :class="!selected && 'active'">全部</div>
+        </PvxSearch>
         <list-head></list-head>
-        <item-card v-for="(book, index) in list" :key="index" :item="book"></item-card>
+        <item-card v-for="book in list" :key="book.id" :item="book"></item-card>
         <el-pagination
             hide-on-single-page
             background
@@ -18,25 +26,43 @@
 </template>
 
 <script>
-import ItemCard from "@/components/book/result/book_item.vue";
-import SearchInput from "@/components/book/common/search_input.vue";
+import PvxSearch from "@/components/PvxSearch.vue";
 import ListHead from "@/components/book/result/list_head.vue";
+import ItemCard from "@/components/book/result/book_item.vue";
+
+import { feedback } from "@jx3box/jx3box-common/data/jx3box.json";
+import { iconLink } from "@jx3box/jx3box-common/js/utils";
+
 import { getList } from "@/service/book";
+
 export default {
-    name: "SearchResult",
-    components: { ItemCard, SearchInput, ListHead },
+    name: "Index",
+    components: { PvxSearch, ListHead, ItemCard },
     data: () => ({
+        by: "all",
+        feedback,
+        list: [],
+        loading: false,
         total: 1,
         pageSize: 10,
-        list: [],
         input: "",
         currentPage: 1,
-        loading: false,
+        selected: "",
+        searchProps: [
+            {
+                key: "keyword",
+                name: "书籍名称/描述",
+            },
+        ],
     }),
-    mounted() {
-        this.search();
+    computed: {
+        client() {
+            return this.$store.state.client;
+        },
     },
     methods: {
+        searchEvent() {},
+        iconLink,
         search(page = 1) {
             this.loading = true;
             const params = {
@@ -45,7 +71,6 @@ export default {
                 page,
                 client: this.client,
             };
-            Number(this.profession) !== 8 && (params.profession = this.profession);
             this.list = [];
             getList(params)
                 .then((res) => {
@@ -58,37 +83,12 @@ export default {
                 });
         },
     },
-    computed: {
-        profession() {
-            return this.$route.query.profession;
-        },
-        keyword() {
-            return this.$route.query.keyword;
-        },
-        id() {
-            return this.$route.query.id;
-        },
-        client() {
-            return this.$store.state.client;
-        },
-    },
-    watch: {
-        id(id) {
-            this.currentPage = 1;
-            this.search();
-        },
-        keyword() {
-            this.currentPage = 1;
-            this.search();
-        },
-        profession() {
-            this.currentPage = 1;
-            this.search();
-        },
+    mounted() {
+        this.search();
     },
 };
 </script>
 
-<style lang="less" scoped>
-@import "~@/assets/css/book/result/search_result.less";
+<style lang="less">
+@import "~@/assets/css/book/home.less";
 </style>
