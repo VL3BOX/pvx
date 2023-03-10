@@ -12,11 +12,11 @@ module.exports = {
             template: "public/index.html",
             filename: "index.html",
         },
-        share: {
-            title: "捏脸妆容 - JX3BOX",
-            entry: "src/pages/share.js",
+        face: {
+            title: "捏脸分享 - JX3BOX",
+            entry: "src/pages/face.js",
             template: "public/index.html",
-            filename: "share/index.html",
+            filename: "face/index.html",
         },
         homeland: {
             title: "家园建设 - JX3BOX",
@@ -47,12 +47,6 @@ module.exports = {
             entry: "src/pages/pvg.js",
             template: "public/index.html",
             filename: "pvg/index.html",
-        },
-        face: {
-            title: "捏脸分享 - JX3BOX",
-            entry: "src/pages/face.js",
-            template: "public/index.html",
-            filename: "face/index.html",
         },
         horse: {
             title: "坐骑大全 - JX3BOX",

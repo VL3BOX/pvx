@@ -52,6 +52,7 @@ import { setStar, cancelStar, onlineFace, offlineFace, deleteFace } from "@/serv
 export default {
     name: "App",
     props: [],
+    components: { Nav },
     data: function () {
         return {
             isEditor: User.isEditor(),
@@ -81,7 +82,6 @@ export default {
             return this.isStar ? "取消精选" : "精选";
         },
     },
-    components: { Nav },
     methods: {
         starSet() {
             this.$confirm("确认" + (this.isStar ? "取消精选" : "精选") + "该捏脸？", "提示", {
@@ -209,5 +209,4 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/app.less";
-@import "~@/assets/css/face/index.less";
 </style>

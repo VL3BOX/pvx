@@ -3,9 +3,11 @@
         <router-link class="u-face" :to="`/${item.id}`" target="_blank">
             <i class="u-img">
                 <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
+                <i class="u-star-mark" v-if="!!item.star">编辑推荐</i>
             </i>
         </router-link>
         <span class="u-op">
+            <div class="u-face-title">{{ item.title }}</div>
             <!-- 非原创显示名称，原创显示头像+作者 -->
             <span class="u-author" :title="item.author_name" v-if="!item.original" @click="onAuthorClick">{{
                 item.author_name || "匿名"
@@ -14,10 +16,7 @@
                 <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
                 <span class="u-author">{{ author }}</span>
             </a>
-            <!-- 价格 -->
-            <span class="u-price" :class="{ isFree: !item.price_count }"><span>{{ item.price_count || "免费" }}</span></span>
         </span>
-        <i class="u-star-mark" v-if="!!item.star">STAR</i>
     </div>
 </template>
 
@@ -70,7 +69,7 @@ export default {
             });
         },
         showThumb: function (url) {
-            return getThumbnail(url,360);
+            return getThumbnail(url, 360);
         },
         showAvatar,
         authorLink,

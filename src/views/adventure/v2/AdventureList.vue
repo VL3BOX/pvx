@@ -342,5 +342,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/adventure/v2/list.less";
+@import "~@/assets/css/adventure/list.less";
 </style>

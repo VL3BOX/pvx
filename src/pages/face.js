@@ -15,7 +15,7 @@ Vue.use(JX3BOX_UI);
 import router from "../router/face.js";
 import store from "../store";
 
-import App from "@/views/face";
+import App from "@/views/face/Face.vue";
 
 new Vue({
     router,

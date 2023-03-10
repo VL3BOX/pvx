@@ -24,6 +24,14 @@ const routes = [
             name: ' 物价大全'
         }
     },
+    {
+        name: "price",
+        path: "/price",
+        component: () => import("@/views/price/Price.vue"),
+        meta: {
+            name: '价格走势'
+        }
+    },
 ];
 
 const router = new VueRouter({

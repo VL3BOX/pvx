@@ -121,5 +121,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/adventure/v2/single.less";
+@import "~@/assets/css/adventure/single.less";
 </style>
