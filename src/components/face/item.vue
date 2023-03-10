@@ -1,9 +1,10 @@
 <template>
-    <div class="m-share-item">
+    <div class="m-face-item">
         <router-link class="u-face" :to="`/${item.id}`" target="_blank">
             <i class="u-img">
                 <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
-                <i class="u-star-mark" v-if="!!item.star">编辑推荐</i>
+                <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
+                <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
             </i>
         </router-link>
         <span class="u-op">
@@ -24,7 +25,7 @@
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 import User from "@jx3box/jx3box-common/js/user";
 import { setPost } from "@/service/share";
-import { showMinibanner, showBanner, showAvatar, authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
     props: ["item"],
@@ -81,3 +82,120 @@ export default {
     },
 };
 </script>
+
+<style lang="less">
+.m-face-item {
+    .pr;
+    .dbi;
+    .mr(20px);
+    cursor: pointer;
+    .size(160px,224px);
+    background: #f9f9f9;
+
+    &:hover {
+        background: #ffffff;
+    }
+    border-radius: 10px;
+    padding: 20px;
+    .u-img {
+        .db;
+        .pr;
+        .size(160px);
+        .r(4px);
+        .u-pic {
+            .full;
+            .r(10px);
+            .size(100%);
+        }
+        .mb(10px);
+        img {
+            object-fit: cover;
+            .size(100%);
+        }
+    }
+
+    .u-author-box {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .u-author {
+        .fz(12px,2);
+        color: #aaa;
+        cursor: pointer;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &:hover {
+            // color: #409eff;
+        }
+    }
+
+    .u-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    .u-mark {
+        .fz(12px,16px);
+        .z(1);
+        position: absolute;
+        color: #fff;
+        padding: 2px 8px;
+        font-style: normal;
+        .r(5px);
+    }
+    .u-mark--star {
+        .lt(10px);
+        background-color: @faceColor;
+    }
+
+    .u-mark--pay {
+        .rt(10px);
+        background-color: #ffad31;
+    }
+
+    .clearfix;
+    .u-item {
+        .fl;
+        .mr(15px);
+        .mb(15px);
+        .db;
+        .pr;
+    }
+    .u-op {
+        .u-face-title {
+            .w(100%);
+            .fz(20px,26px);
+            .bold(700);
+            .mb(10px);
+            .nobreak;
+        }
+        i {
+            .pointer;
+            font-style: normal;
+            color: #eee;
+            .ml(1px);
+            transition: 0.1s ease-in-out;
+            padding: 2px;
+
+            &:hover,
+            &.on {
+                color: #ff76ba;
+            }
+        }
+    }
+    .u-readOnly {
+        i {
+            cursor: default;
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+}
+</style>

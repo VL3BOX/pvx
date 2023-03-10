@@ -12,7 +12,7 @@
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 import User from "@jx3box/jx3box-common/js/user";
 import { setPost } from "@/service/share";
-import { showMinibanner, showBanner, showAvatar, authorLink, getThumbnail,resolveImagePath } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, authorLink, getThumbnail, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
     props: ["item"],
@@ -69,7 +69,36 @@ export default {
         getFaceLink(item) {
             return item.source_id ? `/face/${item.source_id}` : item.link;
         },
-        resolveImagePath
+        resolveImagePath,
     },
 };
 </script>
+
+<style lang="less">
+.m-recommend-item {
+    .dbi;
+    .mr(20px);
+    text-align: center;
+    .u-img {
+        .db;
+        .pr;
+        .size(420px,200px);
+        background-color: #f5f8fa;
+        .r(4px);
+    }
+    .u-pic {
+        // .full;
+        .r(4px);
+        .size(100%);
+        object-fit: cover;
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-recommend-item {
+        .mr(10px);
+        .u-img {
+            .size(70vw,22vw);
+        }
+    }
+}
+</style>

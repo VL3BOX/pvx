@@ -46,5 +46,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/share/parse.less";
+@import "~@/assets/css/face/parse.less";
 </style>

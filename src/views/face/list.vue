@@ -1,9 +1,9 @@
 <template>
-    <div class="v-share-list m-face" v-loading="loading">
+    <div class="p-face-list" v-loading="loading">
         <faceTabs @change="handleFaceTabChange" :body_types="body_types" :active="active" @setActive="setActive" />
 
         <template v-if="!showAllList">
-            <div class="m-recommend-list-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
+            <div class="m-recommend-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
                 <div class="u-title u-recommend-title">编辑推荐</div>
                 <div
                     class="u-shade-btn u-shade-btn-left"
@@ -28,7 +28,7 @@
             <div
                 v-for="(item, index) in list_type"
                 :key="'l' + index"
-                class="m-face-list"
+                class="m-face-box"
                 @mouseenter="mouseenter($event)"
                 @mouseleave="mouseleave($event)"
             >
@@ -50,16 +50,16 @@
                 >
                     <i class="el-icon-arrow-right"></i>
                 </div>
-                <div class="m-share-list" :id="'nav' + index">
+                <div class="m-face-list" :id="'nav' + index">
                     <faceItem v-for="item in item.list" :key="item.id" :item="item" />
                 </div>
             </div>
         </template>
         <template v-if="showAllList">
-            <div class="u-type u-all-type">
+            <div class="m-face-title u-type">
                 <div class="u-title">{{ body_types_name() }}</div>
             </div>
-            <div class="m-share-allList">
+            <div class="m-face-list--all">
                 <faceItem v-for="item in list" :key="item.id" :item="item" />
             </div>
             <el-button

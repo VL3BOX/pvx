@@ -3,7 +3,7 @@
         <ShareSearch @onSearchKey="onSearchKey" />
         <ShareTabs @onShareData="onShareData" />
         <template v-if="list.length > 0">
-            <div class="m-share-list">
+            <div class="m-face-list">
                 <ShareItem v-for="(item, index) in list" :key="index" :item="item" />
             </div>
             <el-button class="m-archive-more" v-show="hasNextPage" type="primary" @click="appendPage" :loading="loading" icon="el-icon-arrow-down">加载更多</el-button>

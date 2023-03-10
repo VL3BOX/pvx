@@ -1,5 +1,5 @@
 <template>
-    <div class="v-face-single" v-loading="loading">
+    <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
             <!-- <el-input
@@ -8,7 +8,7 @@
                 class="input-with-select"
                 @keyup.enter.native="getFaceList"
             >
-                <span slot="prepend">关键词</span> 
+                <span slot="prepend">关键词</span>
                 <el-button slot="append" icon="el-icon-search" @click="getFaceList"></el-button>
             </el-input> -->
             <div class="u-right-btn">

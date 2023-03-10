@@ -27,7 +27,7 @@
                 >
                     <i class="el-icon-arrow-right"></i>
                 </div>
-                <div class="m-share-list" :id="'nav' + index">
+                <div class="m-face-list" :id="'nav' + index">
                     <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="u-type u-all-type">
                 <div class="u-title">{{ body_types_name() }}</div>
             </div>
-            <div class="m-share-allList">
+            <div class="m-face-list--all">
                 <AdventureItem v-for="item in list" :key="item.id" :item="item" />
             </div>
             <el-button
