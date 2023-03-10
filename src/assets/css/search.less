@@ -215,14 +215,23 @@
 }
 
 @media screen and (max-width: @ipad) {
-    .pvx-search-wrapper .search-item:not(:last-child) {
-        margin: 10px 0;
+    .pvx-search-wrapper {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        width: calc(100% - 30px);
+        .search-item:not(:last-child) {
+            margin: 10px 0;
+        }
     }
 }
 @media screen and (max-width: @phone) {
     .pvx-search-wrapper {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        width: calc(100% - 30px);
         .search-group {
             .search-item {
+                position: relative;
                 margin: 0 0 15px 0;
                 &.type-list {
                     width: 100%;
@@ -230,6 +239,9 @@
                         width: 20%;
                         margin-right: 5%;
                     }
+                }
+                .search-input {
+                    width: 100%;
                 }
             }
         }

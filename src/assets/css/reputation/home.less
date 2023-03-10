@@ -43,6 +43,7 @@
 @media screen and (max-width: @ipad) {
     .m-main {
         min-height: calc(100vh - @header-height);
+        padding: 20px 0 !important;
     }
     .reputation-container {
         padding: 20px;
@@ -56,12 +57,16 @@
                 justify-content: space-between;
             }
         }
+        .reputation-item {
+            margin-right: 0;
+        }
     }
 }
 
 @media screen and (max-width: @phone) {
     .m-main {
         min-height: calc(100vh - @header-height);
+        padding: 20px 10px !important;
     }
     .reputation-container {
         padding: 0;
@@ -69,13 +74,29 @@
             margin-left: -60px;
             padding-left: 60px;
             padding-bottom: 0;
+            width: calc(100% - 20px) !important;
+            .search-group {
+                justify-content: space-around;
+            }
             .search-item,
             .select-item {
+                &:nth-child(2) {
+                    margin-right: 0;
+                }
                 margin-bottom: 15px;
+                &.select-wrap {
+                    width: 210px;
+                    input {
+                        width: 150px;
+                    }
+                }
             }
         }
         .reputation-title {
             text-align: center;
+        }
+        .reputation-item {
+            margin-right: 0;
         }
         .reputaion-content-wrapper {
             margin-top: 120px;
