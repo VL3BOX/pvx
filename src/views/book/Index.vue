@@ -24,21 +24,39 @@
                 {{ profession.name }}
             </div>
         </PvxSearch>
-        <div class="list-wrapper">
+        <div class="list-wrapper" ref="crossWrap">
             <!-- 全部模式 -->
             <template v-if="isAll">
-                <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
+                <!-- 最近阅读 -->
+                <div v-if="recentReadList.length" class="list-item-wrapper">
                     <div class="title-header">
-                        <div class="title">
-                            {{ professions[index].name }}
-                        </div>
-                        <a href="javascript:;" @click="toList(index)">查看全部</a>
+                        <div class="title">最近阅读</div>
                     </div>
-                    <list-cross :list="list" :radius="0">
+                    <list-cross v-if="isPhone() || showRecentCross" :list="recentReadList" :radius="0">
                         <template v-slot="data">
                             <BookCard :item="data.item"></BookCard>
                         </template>
                     </list-cross>
+                    <div v-else class="no-cross-wrap">
+                        <BookCard :item="item" v-for="(item, i) in recentReadList" :key="item.idKey + i"></BookCard>
+                    </div>
+                </div>
+                <!-- 杂集、道学、佛学 -->
+                <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
+                    <div v-if="list.length" class="title-header">
+                        <div class="title">
+                            {{ professions[index + 1].name }}
+                        </div>
+                        <a href="javascript:;" @click="selected = professions[index + 1].id">查看全部</a>
+                    </div>
+                    <list-cross v-if="showCross[index]" :list="list" :radius="0">
+                        <template v-slot="data">
+                            <BookCard :item="data.item"></BookCard>
+                        </template>
+                    </list-cross>
+                    <div v-else class="no-cross-wrap">
+                        <BookCard :item="item" v-for="(item, i) in list" :key="item.idKey + i"></BookCard>
+                    </div>
                 </div>
             </template>
             <!-- 列表模式 -->
@@ -46,7 +64,7 @@
                 <!-- 列表 -->
                 <div v-if="listType === 'list'" class="list-content">
                     <ListHead></ListHead>
-                    <BookItem :item="item" v-for="item in list" :key="item.ID"></BookItem>
+                    <BookItem :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookItem>
                     <pagination
                         v-show="totalPages > 0"
                         :total="total"
@@ -56,13 +74,14 @@
                     />
                 </div>
                 <!-- 卡片 -->
-                <div v-if="listType === 'card'" class="list-content">
-                    <BookCard :item="item" v-for="item in list" :key="item.ID"></BookCard>
+                <div v-if="listType === 'card'" class="list-card-content">
+                    <BookCard :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookCard>
                     <el-button
                         class="more-btn"
                         :disabled="!hasNextPage"
                         @click="loadCardList"
                         :loading="loading"
+                        :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
                         icon="el-icon-arrow-down"
                         >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
                     >
@@ -73,11 +92,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import PvxSearch from "@/components/PvxSearch.vue";
 import ListCross from "@/components/ListCross.vue";
 import BookCard from "@/components/book/BookCard";
 import ListHead from "@/components/book/result/list_head.vue";
 import BookItem from "@/components/book/result/book_item.vue";
+import Pagination from "@/components/Pagination";
 
 import { getList } from "@/service/book";
 
@@ -87,7 +108,7 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 
 export default {
     name: "Index",
-    components: { PvxSearch, ListCross, BookCard, ListHead, BookItem },
+    components: { PvxSearch, ListCross, BookCard, ListHead, BookItem, Pagination },
     data() {
         return {
             loading: false,
@@ -122,9 +143,15 @@ export default {
                     name: "书籍名称/描述",
                 },
             ],
+            buttonWidth: 0,
+            showCross: [],
+            showRecentCross: false,
+            gap: 20,
+            base: 190,
         };
     },
     computed: {
+        ...mapState(["recentReadList"]),
         client() {
             return this.$store.state.client;
         },
@@ -143,17 +170,34 @@ export default {
         },
     },
     watch: {
+        recentReadList: {
+            deep: true,
+            immediate: true,
+            handler(list) {
+                this.$nextTick(() => {
+                    const wrapW = this.$refs.crossWrap?.clientWidth;
+                    const gap = this.gap;
+                    const baseW = this.base + gap;
+                    // 判断是否显示左右滚动
+                    const sw = list.length * baseW - gap;
+                    if (sw > wrapW) {
+                        this.showRecentCross = true;
+                    }
+                });
+            },
+        },
         selected(profession) {
             this.toList(profession);
         },
         listType: {
             handler(type) {
                 this.query.page = 1;
-                if (type === "card") {
-                    this.showCount();
-                } else {
+                this.list = [];
+                if (type === "list") {
                     this.query.pageSize = 20;
-                    this.getList();
+                    this.loadList();
+                } else {
+                    this.showCount();
                 }
             },
         },
@@ -163,64 +207,110 @@ export default {
         isPhone,
         searchEvent(data) {
             this.search = data;
+            this.toList(this.selected);
         },
         toList(profession) {
-            if (profession === 8) {
+            this.query.page = 1;
+            if (!profession || profession === 8) {
                 this.isAll = true;
                 this.getAllList();
             } else {
                 this.isAll = false;
+                this.list = [];
+                if (this.listType === "card") {
+                    this.showCount();
+                } else {
+                    this.loadList();
+                }
             }
         },
         loadList() {
-            this.getList(this.selected).then((data) => {
-                console.log(data);
+            this.getList(this.selected, false).then((data) => {
                 this.list = data.list;
+                this.total = data.total;
+                this.totalPages = data.pages;
             });
         },
         loadCardList() {
-            this.query.page++;
-            this.getList(this.selected).then((data) => {
+            this.getList(this.selected, false).then((data) => {
+                this.query.page++;
                 this.list = this.list.concat(data.list);
                 this.total = data.total;
                 this.totalPages = data.pages;
             });
         },
-        getList(profession = 8) {
+        getList(profession, returnList = true) {
             const query = this.query;
             const search = deleteNull(this.search);
             const params = Object.assign(search, query);
             if (profession !== 8) {
                 params.profession = profession;
             }
-            return new Promise((resole, reject) => {
+            return new Promise((resolve, reject) => {
                 getList(params)
                     .then((res) => {
                         const newList = res.data.list;
-                        resole(newList);
+                        if (returnList) {
+                            // 是否只返回List
+                            resolve(newList);
+                        } else {
+                            resolve(res.data);
+                        }
                     })
                     .catch((err) => {
                         reject(err);
                     });
             });
         },
+        jdugeType() {
+            const self = this;
+            setTimeout(() => {
+                if (self.isPhone()) {
+                    self.selected = 8;
+                    self.listType = "card";
+                }
+            }, 10);
+        },
         // 列表card模式下按宽度显示个数
-        showCount(bol = true) {
+        showCount() {
             this.$nextTick(() => {
                 const listWidth = this.$refs.listRef?.clientWidth;
                 this.query.pageSize = Math.floor(listWidth / 210) * 4;
-                bol && this.findList();
+                // 加载更多按钮的实际宽度
+                if (!this.isPhone()) {
+                    this.buttonWidth = (this.query.pageSize / 4) * 210 - 20;
+                }
+                this.loadCardList();
             });
         },
         getAllList() {
+            // 重置
+            this.query.pageSize = 20;
+            this.listAll = [];
+            this.showCross = [];
+
             const professionPros = [];
-            professions.forEach((profession) => {
-                professionPros.push(this.getList(profession.id));
-            });
+            professions
+                .filter((profession) => profession.id !== 8)
+                .forEach((profession) => {
+                    professionPros.push(this.getList(profession.id));
+                });
             this.loading = true;
             Promise.all(professionPros)
                 .then((data) => {
                     this.loading = false;
+                    const wrapW = this.$refs.crossWrap?.clientWidth;
+                    const gap = this.gap;
+                    const baseW = this.base + gap;
+                    for (let i = 0; i < data.length; i++) {
+                        // 判断是否显示左右滚动
+                        const sw = data[i].length * baseW - gap;
+                        if (sw > wrapW) {
+                            this.showCross[i] = true;
+                        } else {
+                            this.showCross[i] = false;
+                        }
+                    }
                     this.listAll = data;
                 })
                 .catch(() => {
@@ -229,7 +319,11 @@ export default {
         },
     },
     mounted() {
-        this.getAllList();
+        this.jdugeType();
+        const self = this;
+        window.onresize = function () {
+            self.jdugeType();
+        };
     },
 };
 </script>

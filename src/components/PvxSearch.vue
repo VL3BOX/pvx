@@ -143,7 +143,7 @@
 <script>
 import { isPhone } from "@/utils/index";
 export default {
-    name: "HorseSearch",
+    name: "PvxSearch",
     props: {
         items: {
             type: Array,

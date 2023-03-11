@@ -48,6 +48,7 @@
         .book-detail-wrapper {
             display: flex;
             gap: 20px;
+            margin-bottom: 40px;
             .book-content-wrapper {
                 position: relative;
                 width: 1000px;
@@ -147,6 +148,11 @@
                             font-size: 14px;
                             font-weight: bold;
                         }
+                        span {
+                            &::selection {
+                                background-color: #324148;
+                            }
+                        }
                     }
                     &.vertical {
                         bottom: 24px;
@@ -194,7 +200,6 @@
                     }
                 }
                 .switch {
-                    display: none;
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -207,12 +212,46 @@
                     color: #fff;
                     cursor: pointer;
                     background-color: #000;
+                    opacity: 0;
+                    transition: all 0.5s;
                 }
                 &:hover {
                     .switch {
-                        display: block;
+                        opacity: 1;
                         z-index: 1;
                     }
+                }
+                &.book-content-wrapper-9 {
+                    // 佛学
+                    background-color: #947d2e;
+                    .buttons {
+                        & > div {
+                            background-color: #947d2e;
+                            span {
+                                &::selection {
+                                    background-color: #947d2e;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.book-content-wrapper-10 {
+                    // 道学
+                    background-color: #194372;
+                    .buttons {
+                        & > div {
+                            background-color: #194372;
+                            span {
+                                &::selection {
+                                    background-color: #194372;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.book-content-wrapper-11 {
+                    // 杂集
+                    background-color: #324148;
                 }
             }
             .book-info {
@@ -223,31 +262,78 @@
                 font-size: 14px;
                 font-weight: 400;
                 color: #000000;
-                .name {
-                    font-size: 32px;
-                    margin-bottom: 20px;
-                    height: 42px;
-                    line-height: 42px;
+                box-sizing: border-box;
+                height: 316px;
+                p {
+                    margin: 0;
                 }
-                .desc {
+                .u-subtitle {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
                     margin-bottom: 10px;
-                    font-weight: normal;
-                }
-                .info-list {
-                    margin-top: 20px;
-                    .title {
-                        margin-bottom: 10px;
+                    font-weight: 700;
+                    font-size: 18px;
+                    line-height: 24px;
+                    svg {
+                        width: 22px;
                     }
-                    .no-data {
-                        color: #aaa;
-                        height: 50px;
-                        width: 50px;
-                        line-height: 50px;
-                        text-align: center;
-                        background-color: #000;
-                        border-radius: 10px;
+                    span {
+                        margin-left: 4px;
+                    }
+                    &:last-of-type {
+                        margin-top: 20px;
                     }
                 }
+                .u-item {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    margin-bottom: 6px;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 18px;
+                    gap: 2px;
+                }
+            }
+        }
+        .m-book-list {
+            position: relative;
+            margin-bottom: 40px;
+            .u-title {
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-end;
+                span {
+                    display: inline-block;
+                    font-weight: 700;
+                    font-size: 32px;
+                    line-height: 42px;
+                    color: #24292e;
+                }
+                a {
+                    margin-left: 15px;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+            .book-list-content {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 20px;
+                gap: 20px;
+            }
+        }
+        .m-book-map {
+            margin-bottom: 40px;
+            .u-title {
+                margin-bottom: 20px;
+                display: inline-block;
+                font-weight: 700;
+                font-size: 32px;
+                line-height: 42px;
+                color: #24292e;
             }
         }
     }
@@ -257,6 +343,7 @@
         }
     }
     .m-wiki-post-empty {
+        margin-bottom: 40px !important;
         color: #8a6d3b;
         background-color: #fcf8e3;
         border: 1px solid #faebcc;
@@ -278,19 +365,67 @@
         margin-top: 20px;
     }
 }
-
-@media screen and (max-width: @phone) {
-    .book-single-wrapper {
-        overflow-x: hidden;
-        .main-info-wrap {
-            flex-direction: column;
-            .img-wrap {
+.u-detail-item {
+    margin: 5px 0;
+}
+.book-fb {
+    color: #f18b8b;
+}
+.book-shop,
+.book-achievement {
+    color: #007eff;
+}
+.book-achievement:hover {
+    color: #d60036;
+}
+.book-quest {
+    a {
+        color: #8b4dff;
+        &:hover {
+            color: #fba524;
+        }
+    }
+}
+.book-special {
+    color: #fba524;
+}
+// @ipad
+@media screen and (max-width: 1450px) {
+    .book-detail-wrapper {
+        flex-wrap: wrap;
+        .book-content-wrapper {
+            width: 100% !important;
+            .book-content {
                 width: 100% !important;
-                height: auto !important;
-                img {
-                    width: 100% !important;
-                    height: 100% !important;
-                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .back-wrap {
+        margin-left: -40px;
+        padding-left: 40px !important;
+        width: 100% !important;
+    }
+    .book-detail-wrapper {
+        flex-wrap: wrap;
+        .book-content-wrapper {
+            width: 100% !important;
+            .book-content {
+                width: 100% !important;
+            }
+        }
+    }
+    .book-list-wrapper {
+        overflow-x: scroll;
+        .book-list-content {
+            justify-content: center;
+            .m-book-card {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
         }
     }

@@ -1,10 +1,11 @@
 <template>
     <div class="m-book-card">
-        <div class="u-book-info" :class="`u-profession-bg--` + item.ExtendProfessionID1" @click="go(item)">
+        <div class="u-book-info" :class="`u-profession-bg--` + item.ExtendProfessionID1" @click="go(item.idKey)">
             <div class="title">{{ item.Name }}</div>
         </div>
         <div class="u-desc-info">
             <div class="desc" v-html="item.Desc"></div>
+            <div class="desc-title" v-html="item.Name"></div>
         </div>
     </div>
 </template>
@@ -26,8 +27,7 @@ export default {
         },
     },
     methods: {
-        go(item) {
-            const id = item.ItemID;
+        go(id) {
             this.$router.push({ path: `${id}` });
         },
     },

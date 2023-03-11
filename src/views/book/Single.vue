@@ -1,5 +1,5 @@
 <template>
-    <div class="book-single-wrapper">
+    <div ref="bookSingleWrap" class="book-single-wrapper">
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>
@@ -9,7 +9,11 @@
                 <p class="book-desc" v-html="book.Desc"></p>
             </div>
             <div class="book-detail-wrapper">
-                <div v-if="book.contentInfo" class="book-content-wrapper">
+                <div
+                    v-if="book.contentInfo"
+                    class="book-content-wrapper"
+                    :class="`book-content-wrapper-${book.ExtendProfessionID1}`"
+                >
                     <div class="right-div"></div>
                     <div
                         v-if="/^\d+$/g.test(book.contentInfo)"
@@ -37,11 +41,13 @@
                     </template>
                 </div>
                 <div class="book-info">
-                    <p class="u-subtitle">【书籍信息】</p>
+                    <p class="u-subtitle">
+                        <img svg-inline src="@/assets/img/book/book-info.svg" />
+                        <span>书籍信息</span>
+                    </p>
                     <div class="u-book-info">
-                        <div class="u-item">书籍类型：{{ getProfessionType(book.ExtendProfessionID1) }}</div>
                         <div v-if="!['其它', '碑铭'].includes(getOrigin(book))" class="u-item book-origin">
-                            书籍来源：
+                            来源：
                             <el-tooltip placement="top" popper-class="book-notice-tooltip">
                                 <div slot="content">
                                     <template v-if="getOrigin(book).indexOf('秘境') > -1">
@@ -67,44 +73,43 @@
                                         </div>
                                     </template>
                                 </div>
-                                <span>{{ getOrigin(book) }}</span>
+                                <span :class="getOrigin(book) !== '其它' && 'book-special'">{{ getOrigin(book) }}</span>
                             </el-tooltip>
                         </div>
-                        <div v-else class="u-item">书籍来源：{{ getOrigin(book) }}</div>
-                        <div class="u-item">所属套书：{{ book.BookName }}</div>
-                        <div v-if="book.AchievementID" class="u-item">
-                            套书成就：
-                            <a
-                                class="book-achievement"
-                                target="_blank"
-                                :href="getLink('achievement', book.AchievementID)"
-                            >
-                                [{{ book.achievement ? book.achievement.Name : "" }}]</a
-                            >
+                        <div v-else class="u-item">
+                            来源：<span :class="getOrigin(book) !== '其它' && 'book-special'">{{
+                                getOrigin(book)
+                            }}</span>
                         </div>
-                        <div class="u-item">阅读等级：{{ book.RequireLevel }}级</div>
+                        <div class="u-item">
+                            所属套书：{{ "【" + getProfessionType(book.ExtendProfessionID1) + "】" + book.BookName }}
+                        </div>
+                        <div class="u-item">阅读等级：{{ book.RequireLevel }}</div>
                     </div>
                     <template v-if="book.copy && book.copy.ID">
-                        <p class="u-subtitle">【抄录信息】</p>
+                        <p class="u-subtitle">
+                            <img svg-inline src="@/assets/img/book/request.svg" />
+                            <span>抄录要求</span>
+                        </p>
                         <div class="u-book-info">
                             <div class="u-item">
-                                <span>需求阅读：</span>
-                                <span>{{ book.copy.RequireLevel }}级</span>
-                            </div>
-                            <div class="u-item">
-                                <span>需求{{ getProfessionType(book.ExtendProfessionID1) }}：</span>
-                                <span>{{ book.copy.RequireLevelExt }}级</span>
-                            </div>
-                            <div class="u-item">
                                 <span>角色等级：</span>
-                                <span>{{ book.copy.RequirePlayerLevel }}级</span>
+                                <span>{{ book.copy.RequirePlayerLevel }}</span>
                             </div>
                             <div class="u-item">
-                                <span>消耗精力：</span>
-                                <span>{{ book.copy.CostVigor }}点</span>
+                                <span>阅读等级：</span>
+                                <span>{{ book.copy.RequireLevel }}</span>
+                            </div>
+                            <div class="u-item">
+                                <span>{{ getProfessionType(book.ExtendProfessionID1) }}等级：</span>
+                                <span>{{ book.copy.RequireLevelExt }}</span>
+                            </div>
+                            <div class="u-item">
+                                <span>精力消耗：</span>
+                                <span>{{ book.copy.CostVigor }}</span>
                             </div>
                             <div v-if="book.copyList.length" class="u-item">
-                                <span>消耗材料：</span>
+                                <span>所需材料：</span>
                                 <item-icon
                                     v-for="meterial in book.copyList"
                                     :key="meterial.item_id"
@@ -118,9 +123,28 @@
                     </template>
                 </div>
             </div>
-            <div v-if="bookMapSite.length" class="vertical-item book-map">
-                <div class="u-header">
-                    <!-- <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" /> -->
+            <!-- 套书列表 -->
+            <div v-if="bookList.length" class="m-book-list" v-loading="listLoading">
+                <div class="u-title">
+                    <span>{{ book.BookName }}</span>
+                    <a
+                        v-if="book.AchievementID"
+                        class="book-achievement"
+                        target="_blank"
+                        :href="getLink('achievement', book.AchievementID)"
+                    >
+                        [{{ book.achievement ? book.achievement.Name : "" }}]
+                    </a>
+                </div>
+                <div class="book-list-wrapper">
+                    <div class="book-list-content">
+                        <BookCard :item="item" v-for="(item, index) in bookList" :key="item.idKey + index"></BookCard>
+                    </div>
+                </div>
+            </div>
+            <!-- 碑铭信息 -->
+            <div v-if="bookMapSite.length" class="m-book-map">
+                <div class="u-title">
                     <span class="u-txt">碑铭信息</span>
                 </div>
                 <jx3box-map
@@ -130,16 +154,18 @@
                 ></jx3box-map>
             </div>
         </div>
+
+        <!--攻略-->
         <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
             <WikiPanel :wiki-post="wiki_post">
                 <template slot="head-title">
                     <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
-                    <span class="u-txt">书籍（物品）攻略</span>
+                    <span class="u-txt">书籍攻略</span>
                 </template>
                 <template slot="head-actions">
                     <a class="el-button el-button--primary" :href="publish_url(`item/${id}`)">
                         <i class="el-icon-edit"></i>
-                        <span>完善物品攻略</span>
+                        <span>完善书籍攻略</span>
                     </a>
                 </template>
                 <template slot="body">
@@ -158,27 +184,29 @@
                     <Thx
                         class="m-thx"
                         :postId="id"
-                        postType="book"
+                        postType="item"
                         :postTitle="wiki_post.source.Name"
                         :userId="author_id"
-                        :adminBoxcoinEnable="true"
-                        :userBoxcoinEnable="true"
+                        :adminBoxcoinEnable="false"
+                        :userBoxcoinEnable="false"
                         :authors="authors"
                         mode="wiki"
-                        :key="'book-thx-' + id"
+                        :key="'item-thx-' + id"
                         :client="client"
                     />
                 </template>
             </WikiPanel>
+
+            <!-- 历史版本 -->
+            <WikiRevisions type="item" :source-id="id" />
+
+            <!-- 百科评论 -->
+            <WikiComments type="item" :source-id="id" />
         </div>
         <div class="m-wiki-post-empty" v-else>
             <i class="el-icon-s-opportunity"></i>
             <span>暂无攻略，我要</span>
             <a class="s-link" :href="publish_url(`item/${id}`)">完善攻略</a>
-        </div>
-        <div class="m-comment">
-            <el-divider content-position="left">讨论</el-divider>
-            <Comment :id="id" category="book" />
         </div>
     </div>
 </template>
@@ -186,6 +214,8 @@
 <script>
 import Jx3boxMap from "@jx3box/jx3box-map/src/components/Map.vue";
 import ItemIcon from "@/components/book/common/item_icon.vue";
+import BookCard from "@/components/book/BookCard";
+
 import bookProfession from "@/assets/data/book_profession.json";
 // 碑铭坐标json
 import bookMapInfoStd from "@/assets/data/stele_std_fwd.json";
@@ -199,19 +229,20 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
-// import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
 
-import { publishLink, ts2str, getLink, showAvatar, iconLink } from "@jx3box/jx3box-common/js/utils";
-
-import { getInfo } from "@/service/book";
-// import isArray from "lodash/isArray";
-import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
-import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
+import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
+import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
+
+import { publishLink, ts2str, getLink, iconLink } from "@jx3box/jx3box-common/js/utils";
+
+import { getInfo, getList } from "@/service/book";
+import { isPhone } from "@/utils/index";
 
 export default {
     name: "bookSingle",
-    components: { Jx3boxMap, ItemIcon, WikiPanel, Article, Comment },
+    components: { Jx3boxMap, BookCard, ItemIcon, WikiPanel, Article, WikiRevisions, WikiComments },
     data() {
         return {
             wiki_post: {
@@ -232,6 +263,8 @@ export default {
             },
             loading: false,
             bookMapSite: [], // 碑铭点位信息
+            listLoading: false,
+            bookList: [],
         };
     },
     methods: {
@@ -411,17 +444,50 @@ export default {
                         }
                     }
                     this.book = data;
+                    // 保存最近阅读
+                    const recentBook = {
+                        idKey: data.idKey,
+                        Name: data.Name,
+                        Desc: data.Desc,
+                        ExtendProfessionID1: data.ExtendProfessionID1,
+                    };
+                    this.$store.dispatch("setRecentReadList", recentBook);
+                    // 获取套书列表
+                    this.getBookList(data.BookName);
                 })
                 .finally(() => {
                     this.loading = false;
                 });
+        },
+        getBookList(keyword) {
+            const params = {
+                page: 1,
+                pageSize: isPhone() ? 8 : 16,
+                client: this.client,
+                keyword,
+            };
+            this.$nextTick(() => {
+                // const listWidth = this.$refs.bookSingleWrap?.clientWidth;
+                // if (!isPhone() && Math.floor(listWidth / 210) < params.pageSize) {
+                //     params.pageSize = Math.floor(listWidth / 210);
+                // }
+                this.listLoading = true;
+                getList(params)
+                    .then((res) => {
+                        this.bookList = res.data.list || [];
+                        this.listLoading = false;
+                    })
+                    .finally(() => {
+                        this.listLoading = false;
+                    });
+            });
         },
         getLink,
         //百科相关
         loadData: function () {
             // 获取最新攻略
             if (this.id) {
-                wiki.mix({ type: "item", id: this.book.ItemID, client: this.client }, { supply: 1 }).then((res) => {
+                wiki.mix({ type: "item", id: this.id, client: this.client }, { supply: 1 }).then((res) => {
                     const { post, source, compatible, isEmpty, users } = res;
                     this.wiki_post = {
                         post: post,
@@ -444,9 +510,9 @@ export default {
         publish_url: publishLink,
         triggerStat: function () {
             if (this.client == "origin") {
-                postStat("origin_book", this.id);
+                postStat("origin_item", this.id);
             } else {
-                postStat("book", this.id);
+                postStat("item", this.id);
             }
         },
     },
@@ -455,10 +521,10 @@ export default {
     },
     computed: {
         idKey: function () {
-            return this.$route.params.book_id;
+            return this.$route.params.id;
         },
         id: function () {
-            return parseInt(this.$route.params.book_id);
+            return this.book?.ItemID;
         },
         client() {
             return this.$store.state.client;
@@ -504,10 +570,10 @@ export default {
         },
     },
     watch: {
-        id() {
+        idKey() {
             this.getData();
         },
-        "book.ItemID"() {
+        id() {
             if (this.post_id) {
                 this.loadRevision();
             } else {
@@ -530,7 +596,6 @@ export default {
             },
         },
         isVertical(bol) {
-            console.log(bol);
             if (!/^\d+$/g.test(this.book.contentInfo)) {
                 // 非图片
                 if (bol) {

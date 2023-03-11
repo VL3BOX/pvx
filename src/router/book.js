@@ -8,19 +8,27 @@ VueRouter.prototype.push = function push(to) {
 };
 
 const Index = () => import("@/views/book/Index.vue");
-const List = () => import("@/views/book/List.vue");
 const Single = () => import("@/views/book/Single.vue");
 
 const routes = [
     { name: "index", path: "/", component: Index },
-    { name: "list", path: "/list", component: List },
-    { name: "single", path: "/:id([0-9]_\\d+)", component: Single },
+    { name: "single", path: "/:id([0-9]+_\\d+)", component: Single },
 ];
 
 const router = new VueRouter({
     routes,
     base: "/book",
     mode: "history",
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return {
+                x: 0,
+                y: 0,
+            };
+        }
+    },
 });
 
 router.beforeEach((to, from, next) => {

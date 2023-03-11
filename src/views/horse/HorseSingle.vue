@@ -99,7 +99,7 @@
                     <template slot="head-actions">
                         <a class="el-button el-button--primary" :href="publish_url(`item/${id}`)">
                             <i class="el-icon-edit"></i>
-                            <span>完善物品攻略</span>
+                            <span>完善坐骑攻略</span>
                         </a>
                     </template>
                     <template slot="body">

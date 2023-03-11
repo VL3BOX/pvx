@@ -43,7 +43,7 @@ export default {
                 : "";
         },
         go(id) {
-            this.$router.push({ name: "single", params: { book_id: id } });
+            this.$router.push(`/${id}`);
         },
         getOrigin(item) {
             const tempId = item.DoodadTemplateID;
