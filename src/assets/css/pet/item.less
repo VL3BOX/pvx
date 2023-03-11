@@ -1,124 +1,97 @@
-.m-pet-item {
-    width: 260px;
-    height: 468px;
-    border-radius: 3px;
-    margin: 0 15px 30px 15px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: 0.2s ease;
-    padding:4px;
-    zoom: 0.85;
-    .u-image{
-        .size(100%);
-    }
+@petColor: #07ad36;
+.m-luckey-item {
+    .dbi;
+    .mr(20px);
 
-    .u-frame {
-        .size(100%);
-        .z(1);
-        .pa;
-        .lt(0,0);
+    .size(calc(calc(100% / 3) - 10px),200px);
+    text-align: center;
+    @media screen and (max-width: @ipad) {
+        min-width: 400px;
     }
-
-    .u-name{
-        position: absolute;
-        bottom: 45px;
-        width: 100%;
-        text-align: center;
-        background: none;
-        color: #fff2c5;
-        font-size: 32px;
-        text-shadow: 0 0 1px #333;
-        z-index: 1;
-        font-family: "SimSun", "Microsoft YaHei";
-        font-weight: bold;
-        text-shadow: 0 0 10px #000;
-    }
-
-    .u-stars{
-        background:url('@{pet_root}misc/newpets-81.png') repeat-y;
-        position: absolute;
-        .z(2);
-        width: 18px;
-        height: 90px;
-        top: 52px;
-        right: 8px;
-    }
-
-    .u-star{
-        // height:100%;
+    .u-img {
         .db;
-        background:url('@{pet_root}misc/newpets-18.png') repeat-y;
-        background-size: 100%;
-        width:100%;
-        &.u-star-1{
-            height:16px;
-        }
-        &.u-star-2{
-            height:32px;
-        }
-        &.u-star-3{
-            height:50px;
-        }
-        &.u-star-4{
-            height:74px;
-        }
-        &.u-star-5{
-            height:90px;
+        .pr;
+        .size(100%);
+        background-color: #f5f8fa;
+        .r(4px);
+        .u-pic {
+            // .full;
+            .r(4px);
+            .size(100%);
+            object-fit: cover;
         }
     }
-
-    .u-score {
-        position: absolute;
-        z-index: 1;
-        color: #fff;
-        font-weight: bold;
-        font-size: 20px;
-        top: 13px;
-        right: 13px;
-    }
-
-    .u-lucky{
-        position: absolute;
-        z-index: 1;
-        left:0;
-        top:5px;
-        width:70px;
-        height:120px;
-        background: url("https://img.jx3box.com/pet/misc/newpets-3.png") no-repeat;
-        background-size: 100%;
-    }
-
-    &:hover{
-        transform: scale(1.05);
-    }
-
-    &::after{
-        display: block;
-        position: absolute;
-        content: '';
-        width: 100%;
-        height: 100%;
-        top: 0;
-        right: 0;
-        z-index: 3;
-        border-radius: 5px;
-        background-image: linear-gradient(45deg, #ffffff05 0%, #66666605 73%, #ffffff10 78%, #cccccc05 80%, #66666605 100%);
-        box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-            4px 4px 5px 0px #0001;
-        transition: all 0.2s ease;
-    }
-
-    &:hover::after {
-        height: 130%;
-        background-image: linear-gradient(45deg, #ffffff10 0%, #66666620 73%, #ffffff66 78%, #cccccc44 80%, #66666610 100%);
-    }
-    
 }
+.m-luckey-item:last-child {
+    .mr(0);
+}
+.m-pet-item {
+    .pr;
+    .mr(18px);
+    .mb(20px);
+    .flex;
+    .flex(x);
+    .r(10px);
+    flex-wrap: wrap;
+    cursor: pointer;
+    .size(100px,128px);
+    background: #ffffff;
+    // &:hover {
+    //     background: #ffffff;
+    // }
 
-@media screen and (max-width: @phone) {
-    .m-pet-item {
-        margin:5px 0px;
-        zoom: 0.6;
+    .u-shade {
+        .pa;
+        z-index: 5;
+        .size(100%);
+    }
+    .u-item {
+        .mt(10px);
+        .size(80px);
+        .r(10px);
+    }
+    .u-name {
+        .size(100%,18px);
+        text-align: center;
+        .fz(14px, 18px);
+        color: #000000;
+    }
+    &:hover {
+        .u-item {
+            .mt(8px);
+            .ml(-2px);
+        }
+    }
+    &.pet-level-2 {
+        &:hover {
+            background-color: #0dc03f;
+            .u-name {
+                color: #ffffff;
+            }
+        }
+    }
+    &.pet-level-3 {
+        &:hover {
+            background-color: #0085ff;
+            .u-name {
+                color: #ffffff;
+            }
+        }
+    }
+    &.pet-level-4 {
+        &:hover {
+            background-color: #cc46ed;
+            .u-name {
+                color: #ffffff;
+            }
+        }
+    }
+    &.pet-level-5 {
+        &:hover {
+            background-color: #ffa811;
+            .u-name {
+                color: #ffffff;
+            }
+        }
     }
 }

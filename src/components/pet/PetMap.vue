@@ -1,5 +1,5 @@
 <template>
-    <div class="m-pet-map">
+    <div class="m-pet-map-box">
         <el-carousel :autoplay="false" :height="height">
             <el-carousel-item v-for="(datas, mapID) in mapDatas" :key="mapID">
                 <jx3box-map :mapId="Number(mapID)" :datas="datas" @resize="handleResize"></jx3box-map>

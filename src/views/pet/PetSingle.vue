@@ -1,12 +1,7 @@
 <template>
-    <div class="v-pet-single" v-if="pet" v-loading="loading">
+    <div class="p-pet-single" v-if="pet" v-loading="loading">
         <div class="m-pet-navigation">
-            <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
-                >返回列表</el-button
-            >
-            <el-input placeholder="请输入宠物名字搜索" v-model="search" class="u-input" @keyup.enter.native="goSearch">
-                <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
-            </el-input>
+            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
         </div>
         <div class="m-pet-content flex">
             <div class="m-pet-links">
@@ -24,13 +19,49 @@
             <div class="m-pet-info">
                 <h1 class="u-title">
                     <span class="u-name">{{ pet.Name }}</span>
-                    <span class="u-type">{{ getPetType(pet.Class) }} · {{ getPetSource(pet.Source) }}</span>
+                    <!-- <span class="u-type">{{ getPetType(pet.Class) }} · {{ getPetSource(pet.Source) }}</span> -->
                     <i class="u-stars">
                         <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
                     </i>
                 </h1>
+                <div class="u-metas">
+                    <div class="u-meta u-number"><span class="u-meta-label">编号：</span>{{ pet.Index }}</div>
+                    <div class="u-meta u-type"><span class="u-meta-label">分类：</span>{{ getPetType(pet.Class) }}</div>
+                    <div class="u-meta u-score"><span class="u-meta-label">分数：</span>{{ pet.Score }}</div>
+                    <div class="u-meta u-get-way">
+                        <span class="u-meta-label">获取方式：</span>{{ getPetSource(pet.Source) }}
+                    </div>
+                    <div class="u-meta u-source">
+                        <span class="u-meta-label">获取线索：</span>
+                        <template v-for="item in getPetDesc(pet.OutputDes)">
+                            <span :key="item.text">{{ cleanResourceText(item.text) }}</span>
+                        </template>
+                    </div>
+                    <div class="u-meta u-desc">
+                        <span class="u-meta-label">宠物说明：</span>
+                        <span class="u-meta-value">
+                            <template v-for="(item, index) in getPetDesc(pet.Desc)">
+                                <span :key="index" v-html="item.text"></span>
+                            </template>
+                        </span>
+                    </div>
 
+                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
+                        <span class="u-meta-label">商城价格：</span>
+                        <span class="u-price">
+                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0"
+                                >积分<b>{{ shopInfo.RewardsPrice }}</b
+                                ><i class="u-icon-rewards"></i
+                            ></el-tag>
+                            <el-tag class="u-price-item u-coin"
+                                >通宝<b>{{ shopInfo.CoinPrice }}</b
+                                ><i class="u-icon-coin"></i
+                            ></el-tag>
+                        </span>
+                    </div>
+                </div>
                 <!-- 宠物技能 -->
+                <div class="u-pet-skill-title">宠物招式</div>
                 <div class="m-pet-skills">
                     <div class="u-skill" v-for="(skill, index) in petSkills" :key="index">
                         <el-popover trigger="hover" popper-class="m-pet-skill" :visible-arrow="false" placement="top">
@@ -47,53 +78,23 @@
                         </el-popover>
                     </div>
                 </div>
-
-                <div class="u-metas">
-                    <div class="u-meta u-score"><span class="u-meta-label">宠物分数：</span>{{ pet.Score }}</div>
-                    <div class="u-meta u-desc">
-                        <span class="u-meta-label">宠物说明：</span>
-                        <span class="u-meta-value">
-                            <template v-for="(item, index) in getPetDesc(pet.Desc)">
-                                <span :key="index" v-html="item.text"></span>
-                            </template>
-                        </span>
-                    </div>
-                    <div class="u-meta u-source">
-                        <span class="u-meta-label">获取线索：</span>
-                        <template v-for="item in getPetDesc(pet.OutputDes)">
-                            <span :key="item.text">{{ cleanResourceText(item.text) }}</span>
-                        </template>
-                    </div>
-                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
-                        <span class="u-meta-label">商城价格：</span>
-                        <span class="u-price">
-                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0"
-                                >积分<b>{{ shopInfo.RewardsPrice }}</b
-                                ><i class="u-icon-rewards"></i
-                            ></el-tag>
-                            <el-tag class="u-price-item u-coin"
-                                >通宝<b>{{ shopInfo.CoinPrice }}</b
-                                ><i class="u-icon-coin"></i
-                            ></el-tag>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- 宠物羁绊 -->
         <div class="m-pet-fetters" v-if="medalList && medalList.length">
             <div class="u-header">
-                <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
+                <img class="u-icon" svg-inline src="@/assets/img/achievement.svg" />
                 <span class="u-txt">宠物羁绊</span>
             </div>
             <!-- 羁绊信息 -->
             <petFetters :info="item" v-for="item in medalList" :key="item.ID" />
         </div>
         <!-- 宠物地图 -->
+        <!-- <div class="u-map-title">捕获地图/获取攻略</div> -->
         <div class="m-pet-map" v-show="mapDisplay">
             <div class="u-header">
-                <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
-                <span class="u-txt">宠物地图</span>
+                <img class="u-icon" svg-inline src="@/assets/img/achievement.svg" />
+                <span class="u-txt">捕获地图</span>
             </div>
             <!-- 地图组件 -->
             <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />
@@ -105,19 +106,20 @@
                 :source_id="item_id"
                 :type="type"
                 :id="id"
-                title="宠物攻略"
+                title="获取攻略"
                 :source_title="title"
             ></Wiki>
         </div>
-        <div class="m-pvx-comment">
+        <!-- <div class="m-pet-comment">
             <Comment :id="id" :category="type" order="desc" />
-        </div>
+        </div> -->
+        <!-- 百科评论 -->
+        <WikiComments :type="type" :source-id="id" />
     </div>
 </template>
 
 <script>
 import { getPet, getPets, getShopInfo, getPetSkill, getSkill } from "@/service/pet";
-import { getPetLucky } from "@/service/pet";
 import petCard from "@/components/pet/PetCard.vue";
 import petFetters from "@/components/pet/PetFetters.vue";
 import Wiki from "@/components/wiki/Wiki.vue";
@@ -128,7 +130,7 @@ import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import dayjs from "dayjs";
 import PetMap from "@/components/pet/PetMap.vue";
-
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "PetSingle",
     props: [],
@@ -136,8 +138,9 @@ export default {
         petCard,
         petFetters,
         Wiki,
-        Comment,
+        // Comment,
         PetMap,
+        WikiComments,
     },
     data: function () {
         return {
@@ -279,11 +282,13 @@ export default {
         },
         // 获取福缘宠物id
         getPetLucky: function () {
-            getPetLucky().then((res) => {
-                let data = res.data.std;
-                let dateIndex = dayjs(new Date()).format("MDD");
-                this.luckyList = data[dateIndex];
-            });
+            // 只有正式服有这玩意
+            if (this.client === "std")
+                getPetLucky(this.client).then((res) => {
+                    let data = res.data;
+                    let dateIndex = dayjs(new Date()).format("MDD");
+                    this.luckyList = data[dateIndex];
+                });
         },
         getLink,
         // 获取宠物羁绊的宠物

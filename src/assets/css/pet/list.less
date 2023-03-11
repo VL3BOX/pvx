@@ -1,207 +1,77 @@
-.flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.m-pet-header:after {
-    position: absolute;
-    content: "";
-    width: 75%;
-    height: 150%;
-    top: 0;
-    left: 12%;
-    z-index: -1;
-    background: url("@{pvx_img}petbg.png");
-}
-
-.m-pet-header {
-    width: 100%;
-    height: 200px;
-    flex-direction: column;
-    overflow: visible;
-    position: relative;
+.p-pet {
 }
 
 .m-pet-title {
-    .u-logo {
-        height: 70px;
-        width: 340px;
-        background: url("@{pvx_img}pettitle.png") no-repeat;
-        background-size: 100%;
+    .flex;
+    margin: 20px 0;
+    justify-content: space-between;
+    align-items: flex-end;
+    .u-all {
+        cursor: pointer;
+        color: #a5a5a5;
+        .fz(16px,21px);
+    }
+
+    .u-title {
+        .fz(32px,42px);
+        .bold(700);
+        color: #24292e;
     }
 }
 
-.m-pet-toolbar {
-    width: auto;
-    height: 45px;
-    border-radius: 15px;
-    border: 1px solid #a7abaf;
-    box-shadow: 0 0 2px #959a9e;
-    background: none;
-    margin-top: 20px;
-    overflow: hidden;
-
-    .u-type-radio {
-        .mr(15px);
+// 福缘宠物
+.m-lucky-list {
+    .flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .w(100%);
+    .m-luckey-item:last-child {
+        .mr(0);
     }
 }
-
-.m-pet-filter {
-    height: 100%;
-    width: auto;
-    padding-left: 10px;
-    background-color: #f5f7fa;
-    border-right: 1px solid #d4d4d2;
-
-    .u-source {
-        .w(130px);
-        // border-left: 1px solid #D4D4D2;
-        &::before {
-            content: "";
-            display: block;
-            height: 47px;
-            width: 1px;
-            background-color: #d4d4d2;
-            position: absolute;
-            top: -2px;
-        }
-    }
-
-    .u-type-select {
-        display: none;
-    }
-    .u-type-radio {
-        .flex;
-        align-items: center;
-        .el-radio {
-            .flex;
-            align-items: center;
-            gap: 5px;
-        }
-    }
-}
-
-.m-pet-search {
-    height: 100%;
-    width: 240px;
-    // background-color: #fafbfcd0;
-    background-color: #fafbfc;
-}
-
-.m-pet-filter,
-.m-pet-search {
-    /*选择器样式修改*/
-    .el-radio {
-        color: #787878;
-        margin-right: 10px;
-    }
-
-    .el-radio__input.is-checked .el-radio__inner {
-        border-color: #fafbfc;
-        background: #fafbfc;
-        border: 1px solid #787878;
-    }
-
-    .el-radio__inner {
-        border: 1px solid #787878;
-        width: 16px;
-        height: 16px;
-    }
-
-    .el-radio__inner::after {
-        width: 6px;
-        height: 6px;
-        background-color: #b15050;
-    }
-
-    .el-radio__input.is-checked + .el-radio__label {
-        color: #787878;
-    }
-
-    .el-radio__label {
-        font-size: 18px;
-        padding-left: 2px;
-        letter-spacing: 1px;
-        font-family: "KaiTi", "Microsoft YaHei";
-        text-shadow: 0 0 1px #787878;
-    }
-
-    .el-input {
-        width: 95%;
-        font-size: 18px;
-    }
-
-    .el-input__inner {
-        border: none;
-        background: none;
-        background-color: none;
-        font-family: "KaiTi", "Microsoft YaHei";
-        letter-spacing: 1px;
-        color: #787878;
-        padding-right: 15px;
-        text-shadow: 0 0 1px #585858;
-    }
-
-    .el-input__inner::placeholder {
-        color: #919191;
-        text-shadow: 0 0 1px #585858;
-    }
-}
-
 .m-pet-list {
-    width: 100%;
-    height: auto;
+    .flex;
     flex-wrap: wrap;
-    justify-content: center;
-    box-sizing: border-box;
-    display: flex;
 }
 
+.m-archive-null {
+    .mt(20px);
+}
+
+.u-tabs-span {
+    display: flex;
+    align-items: center;
+    color: #949494;
+}
+.u-icon-img {
+    .size(24px);
+    .mr(6px);
+}
 .m-archive-more {
     .mb(10px);
     .w(100%);
+    background-color: @petColor;
+    border-color: @petColor;
+    &:hover {
+        background-color: @petColor;
+        border-color: @petColor;
+    }
 }
 
 .m-archive-pages {
     overflow-x: auto;
+    .active {
+        background-color: @petColor !important;
+    }
 }
 
-@media screen and (max-width: @phone) {
-    .m-pet-header {
-        .m-pet-toolbar {
-            width: 100%;
-            height: 35px;
-
-            .m-pet-filter {
-                width: 66%;
-
-                .u-type-select {
-                    display: flex;
-                    width: 50%;
-                }
-
-                .u-source {
-                    width: 50%;
-                }
-
-                .u-type-radio {
-                    display: none;
-                }
-            }
-
-            .m-pet-search {
-                width: 33%;
-            }
-
-            .el-input {
-                font-size: 15px;
-            }
+@media screen and (max-width: @ipad) {
+    .m-pet {
+        .u-type {
+            .mt(20px);
         }
-    }
-
-    .m-pet-list {
-        padding: 0 10px;
-        justify-content: space-between;
+        .u-title {
+            .fz(24px);
+        }
     }
 }

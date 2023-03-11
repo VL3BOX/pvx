@@ -1,34 +1,42 @@
 <template>
-    <div class="v-pet-list" v-loading="loading">
-        <div class="m-pet-header flex" ref="listRef">
-            <div class="m-pet-title flex">
-                <i class="u-logo"></i>
+    <div class="p-pet-list" v-loading="loading" ref="listRef">
+        <petTabs
+            @change="handleTabChange"
+            :types="Type"
+            :source="Source"
+            :active="active"
+            @setActive="setActive"
+            :mapList="mapList"
+        />
+
+        <template v-if="luckyList.length > 0">
+            <div class="m-pet-title u-type">
+                <div class="u-title">今日福缘</div>
             </div>
-            <div class="m-pet-toolbar flex">
-                <div class="m-pet-filter flex">
-                    <el-radio-group class="u-type u-type-radio" v-model="petType">
-                        <el-radio v-for="item in Type" :key="item.type" :label="item.class">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                    <el-select class="u-type u-type-select" v-model="petType" placeholder="宠物种类">
-                        <el-option v-for="item in Type" :key="item.type" :label="item.name" :value="item.class">
-                        </el-option>
-                    </el-select>
-                    <el-select class="u-source" v-model="petSource" placeholder="获取来源">
-                        <el-option v-for="item in Source" :key="item.source" :label="item.name" :value="item.source">
-                        </el-option>
-                    </el-select>
+            <div class="m-lucky-list">
+                <luckyItem v-for="item in luckyList" :key="item.id" :item="item"></luckyItem>
+            </div>
+        </template>
+        <template v-if="!showAllList">
+            <div v-for="(item, index) in list_type" :key="'l' + index">
+                <div class="m-pet-title u-type" v-if="item.list.length > 0">
+                    <div class="u-title">{{ item.name }}</div>
+                    <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
-                <div class="m-pet-search flex">
-                    <el-input placeholder="输入宠物名字搜索" v-model="petName" clearable> </el-input>
+                <div class="m-pet-list">
+                    <pet-item v-for="item in item.list" :key="item.id" :petObject="item" />
                 </div>
             </div>
-        </div>
-        <div class="m-pet-content" v-if="petList && petList.length">
+        </template>
+        <template v-else>
+            <div class="m-pet-title u-type">
+                <div class="u-title">{{ typeName }}</div>
+            </div>
             <div class="m-pet-list">
-                <pet-item v-for="pet in petList" :key="pet.Index" :petObject="pet" :lucky="luckyList"></pet-item>
+                <pet-item v-for="item in list" :key="item.id" :petObject="item" />
             </div>
             <el-button
-                class="m-archive-more m-pet-more"
+                class="m-archive-more"
                 v-show="hasNextPage"
                 type="primary"
                 @click="appendPage"
@@ -37,114 +45,214 @@
                 >加载更多</el-button
             >
             <el-pagination
-                class="m-archive-pages m-pet-pages"
+                class="m-archive-pages"
                 background
                 layout="total, prev, pager, next, jumper"
                 :hide-on-single-page="true"
-                :page-size="per"
+                :page-size="per_page"
                 :total="total"
                 :current-page.sync="page"
-                @current-change="changePage"
             ></el-pagination>
-        </div>
-        <el-alert v-else class="m-pet-null" title="没有找到相关宠物" type="info" show-icon> </el-alert>
+        </template>
+        <el-alert
+            v-if="isNoRes()"
+            class="m-archive-null"
+            title="没有找到相关宠物"
+            type="info"
+            center
+            show-icon
+        ></el-alert>
     </div>
 </template>
-
 <script>
-import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import { getPets, getPetLucky } from "@/service/pet";
+import petTabs from "@/components/pet/tabs";
+import petItem from "@/components/pet/item";
+import luckyItem from "@/components/pet/lucky";
+import { clone } from "lodash";
+import { isPhone } from "@/utils/index";
 import Type from "@/assets/data/pet_type.json";
 import Source from "@/assets/data/pet_source.json";
-import petItem from "@/components/pet/PetItem.vue";
+
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { getPets, getPetLucky, getSliders, getMapList } from "@/service/pet";
 import dayjs from "dayjs";
 export default {
-    name: "PetList",
-    props: [],
+    name: "face",
     components: {
+        petTabs,
         petItem,
+        luckyItem,
     },
-    data: function () {
+    data() {
         return {
-            loading: false,
-            petList: [],
-            page: 1, //当前页数
-            total: 1, //总条目数
-            pages: 1, //总页数
-            per: "", //每页条目
-
+            tabsData: {},
+            active: "",
             Type,
             Source,
-            Lucky: [],
-            petType: "",
-            petSource: "",
-            petName: "",
+            list: [],
+            page: 1,
+            per_page: 50,
+            pages: 1,
+            total: 0,
+            appendMode: false,
+            loading: false, //是否显示单独某项全部
             luckyList: [],
+            typeName: "",
+            showAllList: false, //是否显示单独某项全部
+            mapList: [],
+            list_type: [
+                {
+                    class: 1,
+                    type: 1,
+                    name: "水族",
+                    list: [],
+                },
+                {
+                    class: 3,
+                    type: 2,
+                    name: "走兽",
+                    list: [],
+                },
+                {
+                    class: 2,
+                    type: 3,
+                    name: "禽鸟",
+                    list: [],
+                },
+                {
+                    class: 4,
+                    type: 4,
+                    name: "机关",
+                    list: [],
+                },
+            ],
         };
     },
     computed: {
-        params: function () {
-            return [this.petType, this.petName, this.petSource, this.client];
+        client() {
+            return this.$store.state.client;
         },
-        request_params: function () {
+        params({ tabsData }) {
             return {
-                per: this.per,
+                ...tabsData,
                 page: this.page || 1,
-                Class: this.petType,
-                Name: this.petName,
-                Source: this.petSource,
                 client: this.client,
             };
         },
-        resetParams: function () {
-            return [this.petName, this.petType, this.petSource];
-        },
-        hasNextPage: function () {
-            return this.pages > 1 && this.page < this.pages;
-        },
-        client: function () {
-            return this.$store.state.client;
+        hasNextPage() {
+            return this.page < this.pages;
         },
     },
     watch: {
-        resetParams: {
-            handler: function () {
-                this.page = 1;
-            },
-        },
         params: {
             deep: true,
-            handler: function () {
-                this.getPetList();
+            handler(val) {
+                this.getPetListInit();
             },
         },
-        $route(obj) {
-            if (obj.params.search) this.petName = obj.params.search;
-        },
     },
+    created() {
+        this.showCount();
+        this.getPetLucky();
+        this.getMapList();
+    },
+    mounted: function () {},
     methods: {
-        appendPage: function () {
-            this.page += 1;
-            this.getPetList(true);
+        /**
+         * 地图
+         */
+        getMapList() {
+            getMapList().then((res) => {
+                let data = res.data,
+                    mapList = [];
+                Object.keys(data).forEach((key, i) => {
+                    mapList.push({ label: data[key], value: key });
+                });
+                this.mapList = mapList;
+            });
         },
-        changePage: function () {
-            this.getPetList();
+        isNoRes() {
+            let type = this.params.Class;
+            if (!type) {
+                // return false;
+                return (
+                    this.list_type[0].list.length == 0 &&
+                    this.list_type[1].list.length == 0 &&
+                    this.list_type[2].list.length == 0 &&
+                    this.list_type[3].list.length == 0
+                );
+            }
+            return this.list.length > 0 ? false : true;
+        },
+        setActive(val) {
+            console.log(val);
+            this.active = val;
+            document.documentElement.scrollTop = 0;
+            this.typeName = this.getTypeName();
+        },
+        getTypeName() {
+            let type = this.Type.filter((item) => item.class == this.active);
+            return type[0].name || "所有种类";
+        },
+        getPetListInit() {
+            if (!this.params.Class) {
+                this.showCount(2);
+                this.showAllList = false;
+                this.list_type.forEach((e) => {
+                    let params = clone(this.params);
+                    params.Class = e.class;
+                    params.per = this.per_page;
+                    this.getPetList(params);
+                });
+            } else {
+                this.showCount(4);
+                let params = clone(this.params);
+                params.per = this.per_page;
+                this.getPetList(params);
+            }
         },
         // 获取宠物列表
-        getPetList: function (appendMode = false) {
+        getPetList: function (params) {
             this.loading = true;
-            getPets(this.request_params)
+            if (!this.appendMode) {
+                this.list = [];
+            }
+            getPets(params)
                 .then((res) => {
                     let newList = res.data.list.filter((item) => {
                         return item.NameFrame;
                     });
-                    if (appendMode) {
-                        this.petList = this.petList.concat(newList);
+                    if (this.appendMode) {
+                        this.list = this.list.concat(newList);
                     } else {
-                        this.petList = newList;
+                        if (!this.params.Class) {
+                            //分别赋值
+                            const typesMap = {
+                                1: () => (this.list_type[0].list = newList || []),
+                                2: () => (this.list_type[1].list = newList || []),
+                                3: () => (this.list_type[2].list = newList || []),
+                                4: () => (this.list_type[3].list = newList || []),
+                            };
+                            typesMap[params.Class]();
+                        } else {
+                            this.showAllList = true;
+                            this.list = newList || [];
+                        }
                     }
-                    this.total = res.data.total;
-                    this.pages = res.data.pages;
+                    if (this.params.Class) {
+                        this.appendMode = false;
+                        this.total = res.data.total;
+                        this.pages = res.data.pages;
+                    }
+                    this.$forceUpdate();
+                    // if (this.appendMode) {
+                    //     this.list = this.list.concat(newList);
+                    // } else {
+                    //     this.list = newList;
+                    // }
+                    // this.appendMode = false;
+                    // this.total = res.data.total;
+                    // this.pages = res.data.pages;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -152,22 +260,30 @@ export default {
         },
         // 获取福缘宠物id
         getPetLucky: function () {
-            getPetLucky().then((res) => {
-                let data = res.data.std;
-                let dateIndex = dayjs(new Date()).format("MDD");
-                this.luckyList = data[dateIndex];
-            });
+            // 只有正式服有这玩意
+            if (this.client === "std")
+                getPetLucky(this.client).then((res) => {
+                    let data = res.data;
+                    let dateIndex = dayjs(new Date()).format("MDD");
+                    // this.luckyList = data[dateIndex];
+                    getSliders("slider", this.client, data[dateIndex].toString()).then((res) => {
+                        this.luckyList = res.data.data.list || [];
+                    });
+                });
+        },
+        appendPage: function () {
+            this.appendMode = true;
+            this.page = this.page + 1;
+        },
+        handleTabChange: function (data) {
+            this.page = 1;
+            this.tabsData = data;
         },
         // 按宽度显示个数
-        showCount() {
+        showCount(num = 2) {
             const listWidth = this.$refs.listRef?.clientWidth;
-            this.per = Math.floor(listWidth / 260) * 4;
+            this.per_page = Math.floor(listWidth / 118) * num;
         },
-    },
-    mounted: function () {
-        this.showCount();
-        this.getPetLucky();
-        this.getPetList();
     },
 };
 </script>

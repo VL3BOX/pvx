@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="p-pet">
         <Header></Header>
         <!-- <Breadcrumb
             name="捏脸分享"

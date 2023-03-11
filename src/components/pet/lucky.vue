@@ -27,5 +27,5 @@ export default {
 };
 </script>
 <style lang="less">
-@import "~@/assets/css/pet/v2/item.less";
+@import "~@/assets/css/pet/item.less";
 </style>

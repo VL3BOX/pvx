@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="p-pet">
         <Header></Header>
         <!-- <Breadcrumb name="宠物大全" slug="pet" root="/pet" :feedbackEnable="true" :crumbEnable="true">
             <img slot="logo" svg-inline :src="getAppIcon('pet')" />

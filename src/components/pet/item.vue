@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import itemIcon from "../../common/item_icon.vue";
+import itemIcon from "@/components/common/item_icon.vue";
 import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     props: {
@@ -62,5 +62,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/pet/v2/item.less";
+@import "~@/assets/css/pet/item.less";
 </style>
