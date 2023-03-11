@@ -147,6 +147,11 @@ function getSliders(type, client, per = 10) {
         params: _params,
     });
 }
+
+function setPost(id, data) {
+    return $cms().put(`/api/cms/post/${id}/setting`, data);
+}
+
 export {
     getFaceList,
     getOneFaceInfo,
@@ -164,4 +169,5 @@ export {
     getRandomFace,
     getFaceOld,
     getSliders,
+    setPost
 };

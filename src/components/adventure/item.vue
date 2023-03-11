@@ -1,5 +1,5 @@
 <template>
-    <router-link class="m-adventure-item" :to="'/' + item.dwID">
+    <router-link class="m-adventure-item" :to="'/' + item.dwID" target="_blank">
         <!-- @click="getLink(item.dwID)" -->
         <img class="u-default" :src="defaultImg" />
         <img class="u-title" :src="titleImg" :style="titleStyle" />

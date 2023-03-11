@@ -24,12 +24,6 @@ module.exports = {
             template: "public/index.html",
             filename: "homeland/index.html",
         },
-        furniture: {
-            title: "家具大全 - JX3BOX",
-            entry: "src/pages/furniture.js",
-            template: "public/index.html",
-            filename: "furniture/index.html",
-        },
         pet: {
             title: "宠物大全 - JX3BOX",
             entry: "src/pages/pet.js",
@@ -42,17 +36,23 @@ module.exports = {
             template: "public/index.html",
             filename: "adventure/index.html",
         },
-        pvg: {
-            title: "商贾奇才 - JX3BOX",
-            entry: "src/pages/pvg.js",
-            template: "public/index.html",
-            filename: "pvg/index.html",
-        },
         horse: {
             title: "坐骑大全 - JX3BOX",
             entry: "src/pages/horse.js",
             template: "public/index.html",
             filename: "horse/index.html",
+        },
+        book: {
+            title: "书籍大全 - JX3BOX",
+            entry: "src/pages/book.js",
+            template: "public/index.html",
+            filename: "book/index.html",
+        },
+        furniture: {
+            title: "家具大全 - JX3BOX",
+            entry: "src/pages/furniture.js",
+            template: "public/index.html",
+            filename: "furniture/index.html",
         },
         reputation: {
             title: "声望大全 - JX3BOX",
@@ -60,11 +60,11 @@ module.exports = {
             template: "public/index.html",
             filename: "reputation/index.html",
         },
-        book: {
-            title: "书籍大全 - JX3BOX",
-            entry: "src/pages/book.js",
+        pvg: {
+            title: "商贾奇才 - JX3BOX",
+            entry: "src/pages/pvg.js",
             template: "public/index.html",
-            filename: "book/index.html",
+            filename: "pvg/index.html",
         },
     },
 

@@ -1,24 +1,27 @@
 <template>
-    <div class="v-adventure-single" v-if="id" v-loading="loading">
+    <div class="p-adventure-single" v-if="id" v-loading="loading">
         <div class="m-adventure-navigation">
-            <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
-                >返回列表</el-button
+            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <!-- <el-input
+                placeholder="请输入奇遇或宠物名字搜索"
+                v-model="search"
+                class="u-input"
+                @keyup.enter.native="goSearch"
             >
-            <el-input placeholder="请输入奇遇或宠物名字搜索" v-model="search" class="u-input" @keyup.enter.native="goSearch">
                 <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
-            </el-input>
+            </el-input> -->
         </div>
         <div class="m-adventure-header">
-            <h1 class="m-adventure-title">{{ title }}</h1>
-        <div class="m-trigger-links">
-            <a class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
-                <i class="el-icon-trophy"></i>
-                成就信息
-            </a>
-        </div>
+            <span class="m-adventure-title">{{ title }}</span>
+            <div class="m-trigger-links">
+                <a class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
+                    <i class="el-icon-trophy"></i>
+                    成就信息
+                </a>
+            </div>
         </div>
         <div class="m-adventure-content">
-            <task :id="id" />
+            <task :id="id" :info="data" />
         </div>
         <div class="m-adventure-wiki" v-if="achieve_id">
             <Wiki
@@ -33,9 +36,11 @@
         <div class="m-adventure-serendipity">
             <Serendipity :title="title" />
         </div>
-        <div class="m-pvx-comment">
+        <!-- <div class="m-pvx-comment">
             <Comment :id="id" :category="type" order="desc" />
-        </div>
+        </div> -->
+        <!-- 百科评论 -->
+        <WikiComments :type="type" :source-id="id" />
     </div>
 </template>
 
@@ -47,6 +52,7 @@ import task from "@/components/adventure/task.vue";
 import Serendipity from "@/components/common/serendipity.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
+import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "adventureSingle",
     props: [],
@@ -54,7 +60,8 @@ export default {
         Wiki,
         task,
         Serendipity,
-        Comment,
+        // Comment,
+        WikiComments,
     },
     data: function () {
         return {

@@ -141,13 +141,10 @@ export default {
         .pr;
         .pointer;
         .fz(16px,20px);
-        // .bold(550);
         .mr(20px);
-        // padding: 4px 10px 2px 10px;
-        // border-bottom: 2px solid transparent;
         background-color: #fff;
         .r(30px);
-        // letter-spacing: 5px;
+        color:#949494;
         &.active,
         &:hover {
             background-color: @faceColor;

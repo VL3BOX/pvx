@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const List = () => import("@/views/adventure/v2/AdventureList.vue");
-const Single = () => import("@/views/adventure//v2/AdventureSingle.vue");
+const List = () => import("@/views/adventure/AdventureList.vue");
+const Single = () => import("@/views/adventure/AdventureSingle.vue");
 
 const routes = [
     { name: "list", path: "/", component: List },

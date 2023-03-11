@@ -1,11 +1,13 @@
-.v-adventure-single {
+.p-adventure-single {
     .pt(10px);
 }
 .m-adventure-navigation {
     .pr;
-    .mb(10px);
     display: flex;
-    // justify-content: space-between;
+    position: sticky;
+    top: @header-height;.z(10);
+    background-color:#f3f5f6;
+    padding:20px 0;
     .u-goback {
         margin-right: 10px;
         .r(30px);
@@ -22,7 +24,7 @@
 
 .m-adventure-header {
     .pr;
-    .mt(30px);
+    .mt(20px);
     .mb(20px);
 }
 .m-adventure-title {
@@ -30,7 +32,7 @@
     .bold;
     color: #24292e;
 }
-.v-adventure-single .m-adventure-title {
+.p-adventure-single .m-adventure-title {
     height: auto;
 }
 .m-adventure-task {
@@ -94,7 +96,7 @@
         user-select: none;
         .size(140px,20px);
         .pa;
-        .rb(14px,24px);
+        .rb(34px,24px);
         box-sizing: border-box;
         text-align: right;
         span {
@@ -110,6 +112,17 @@
             // display: none;
             cursor: not-allowed;
         }
+    }
+
+    padding:0 20px;
+    .u-prefix{
+        .pa;.lt(0);
+        .db;.size(20px,100%);
+    }
+    .u-suffix{
+        .pa;.rt(0);
+        .db;.size(20px,100%);
+        transform: rotate(180deg);
     }
 }
 

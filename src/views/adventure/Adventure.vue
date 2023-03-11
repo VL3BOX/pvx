@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="p-adventure">
         <Header></Header>
         <!-- <Breadcrumb name="奇遇大全" slug="adventure" root="/adventure" :publishEnable="false" :adminEnable="false" :feedbackEnable="true" :crumbEnable="true">
             <img slot="logo" svg-inline :src="getAppIcon('qiyu')" />
