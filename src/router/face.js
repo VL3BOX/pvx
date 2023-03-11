@@ -2,9 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const faceList = () => import("@/views/face/List.vue");
-const faceSingle = () => import("@/views/face/Single.vue");
-const faceData = () => import("@/views/face/Parse.vue");
+const faceList = () => import("../views/face/List.vue");
+const faceSingle = () => import("../views/face/Single.vue");
+const faceData = () => import("../views/face/Parse.vue");
 
 const routes = [
     { name: "list", path: "/", component: faceList },
