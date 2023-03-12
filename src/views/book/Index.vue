@@ -1,18 +1,5 @@
 <template>
     <div ref="listRef" class="book-home-wrapper" v-loading="loading">
-        <div v-if="showSwitch" class="operate-wrap">
-            <div class="list-type-wrapper">
-                <div
-                    class="list-type-item"
-                    :class="listType === item.value && 'active'"
-                    :key="item.value"
-                    v-for="item in listTypes"
-                    @click="listType = item.value"
-                >
-                    {{ item.label }}
-                </div>
-            </div>
-        </div>
         <PvxSearch ref="search" :items="searchProps" class="book-search" @search="searchEvent($event)">
             <div
                 class="select-item"
@@ -32,7 +19,14 @@
                     <div class="title-header">
                         <div class="title">最近阅读</div>
                     </div>
-                    <list-cross v-if="isPhone() || showRecentCross" :list="recentReadList" :radius="0">
+                    <!-- :offset="{ top: 10 }" -->
+                    <list-cross
+                        v-if="isPhone() || showRecentCross"
+                        key="recentRead"
+                        ref="recentRead"
+                        :list="recentReadList"
+                        :radius="0"
+                    >
                         <template v-slot="data">
                             <BookCard :item="data.item"></BookCard>
                         </template>
@@ -49,7 +43,14 @@
                         </div>
                         <a href="javascript:;" @click="selected = professions[index + 1].id">查看全部</a>
                     </div>
-                    <list-cross v-if="showCross[index]" :list="list" :radius="0">
+                    <!-- :offset="{ top: 10 }" -->
+                    <list-cross
+                        v-if="showCross[index]"
+                        :ref="professions[index + 1].name"
+                        :key="professions[index + 1].name"
+                        :list="list"
+                        :radius="0"
+                    >
                         <template v-slot="data">
                             <BookCard :item="data.item"></BookCard>
                         </template>
@@ -60,12 +61,31 @@
                 </div>
             </template>
             <!-- 列表模式 -->
-            <template v-else>
+            <div v-else class="list-item-wrapper">
+                <div v-if="list.length" class="title-header">
+                    <div class="title">
+                        {{ professions.find((item) => item.id === this.selected).name }}
+                    </div>
+                    <div v-if="showSwitch" class="operate-wrap">
+                        <div class="list-type-wrapper">
+                            <div
+                                class="list-type-item"
+                                :class="listType === item.value && 'active'"
+                                :key="item.value"
+                                v-for="item in listTypes"
+                                @click="listType = item.value"
+                            >
+                                {{ item.label }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- 列表 -->
                 <div v-if="listType === 'list'" class="list-content">
                     <ListHead></ListHead>
                     <BookItem :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookItem>
                     <pagination
+                        v-if="list.length"
                         v-show="totalPages > 0"
                         :total="total"
                         :page.sync="query.page"
@@ -77,6 +97,7 @@
                 <div v-if="listType === 'card'" class="list-card-content">
                     <BookCard :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookCard>
                     <el-button
+                        v-if="list.length"
                         class="more-btn"
                         :disabled="!hasNextPage"
                         @click="loadCardList"
@@ -86,7 +107,7 @@
                         >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
                     >
                 </div>
-            </template>
+            </div>
         </div>
     </div>
 </template>

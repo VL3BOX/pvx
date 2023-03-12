@@ -26,6 +26,7 @@
                 <i class="el-icon-caret-right"></i>
             </div>
         </template>
+        <!-- :style="{ 'padding-top': offset.top + 'px' }" -->
         <div ref="list" class="list">
             <div
                 class="item"
@@ -58,6 +59,17 @@ export default {
         radius: {
             type: Number,
             default: 10,
+        },
+        offset: {
+            type: Object,
+            default: () => {
+                return {
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                };
+            },
         },
     },
     data() {
@@ -113,6 +125,29 @@ export default {
                 }
             }, 1);
         },
+    },
+    watch: {
+        // isShow(bol) {
+        //     if (bol) {
+        //         this.$nextTick(() => {
+        //             const top = this.offset.top;
+        //             console.log(top);
+        //             if (top) {
+        //                 const crosses = document.querySelectorAll(".cross");
+        //                 crosses.forEach((cross) => {
+        //                     const oldHeight = cross.clientHeight;
+        //                     const newHeight = oldHeight - top;
+        //                     console.log(newHeight);
+        //                     // 脱离文档流减少重绘
+        //                     // cross.style.dispaly = "none";
+        //                     cross.style.height = `${newHeight}px`;
+        //                     cross.style.top = `${top}px`;
+        //                     // cross.style.dispaly = "block";
+        //                 });
+        //             }
+        //         });
+        //     }
+        // },
     },
     mounted() {
         this.$nextTick(() => {

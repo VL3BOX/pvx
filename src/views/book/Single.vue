@@ -88,7 +88,7 @@
                                 >
                             </span>
                             <!-- 其它 -->
-                            <span v-else>getOrigin(book)</span>
+                            <span v-else>{{ getOrigin(book) }}</span>
                         </div>
                         <div class="u-info-item">
                             所属套书：{{ "【" + getProfessionType(book.ExtendProfessionID1) + "】" + book.BookName }}
@@ -226,6 +226,7 @@
         >
             <div class="m-book-map">
                 <jx3box-map
+                    v-if="bookMapSite.length"
                     class="u-content"
                     :map-id="parseInt(bookMapSite[0].map)"
                     :datas="bookMapSite[0].position"
