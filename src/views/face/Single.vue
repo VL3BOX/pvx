@@ -12,7 +12,7 @@
                 <el-button slot="append" icon="el-icon-search" @click="getFaceList"></el-button>
             </el-input> -->
             <div class="u-right-btn">
-                <div v-if="isSinglePage && isEditor" class="m-face-btn-box">
+                <div v-if="isSinglePage && isEditor" class="u-op m-face-btn-box">
                     <div class="m-face-btn-box">
                         <el-button
                             type="danger"
