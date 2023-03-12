@@ -30,10 +30,10 @@
                         <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
                             <div class="left" @click="toMore">
                                 <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
-                                <span>继续</span>
+                                <!-- <span>继续</span> -->
                             </div>
                             <div class="right" @click="toBack">
-                                <span>返回</span>
+                                <!-- <span>返回</span> -->
                                 <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
                             </div>
                         </div>
@@ -76,15 +76,24 @@
                                 <span :class="getOrigin(book) !== '其它' && 'book-special'">{{ getOrigin(book) }}</span>
                             </el-tooltip>
                         </div>
-                        <div v-else class="u-item">
-                            来源：<span :class="getOrigin(book) !== '其它' && 'book-special'">{{
-                                getOrigin(book)
-                            }}</span>
+                        <div v-else class="u-info-item">
+                            来源：<span v-if="getOrigin(book) === '碑铭'" class="book-special"
+                                >{{ getOrigin(book) }}
+                                <a
+                                    class="look-site"
+                                    href="javascript:;"
+                                    v-if="bookMapSite.length"
+                                    @click="dialogVisible = true"
+                                    >查看位置</a
+                                >
+                            </span>
+                            <!-- 其它 -->
+                            <span v-else>getOrigin(book)</span>
                         </div>
-                        <div class="u-item">
+                        <div class="u-info-item">
                             所属套书：{{ "【" + getProfessionType(book.ExtendProfessionID1) + "】" + book.BookName }}
                         </div>
-                        <div class="u-item">阅读等级：{{ book.RequireLevel }}</div>
+                        <div class="u-info-item">阅读等级：{{ book.RequireLevel }}</div>
                     </div>
                     <template v-if="book.copy && book.copy.ID">
                         <p class="u-subtitle">
@@ -92,23 +101,23 @@
                             <span>抄录要求</span>
                         </p>
                         <div class="u-book-info">
-                            <div class="u-item">
+                            <div class="u-info-item">
                                 <span>角色等级：</span>
                                 <span>{{ book.copy.RequirePlayerLevel }}</span>
                             </div>
-                            <div class="u-item">
+                            <div class="u-info-item">
                                 <span>阅读等级：</span>
                                 <span>{{ book.copy.RequireLevel }}</span>
                             </div>
-                            <div class="u-item">
+                            <div class="u-info-item">
                                 <span>{{ getProfessionType(book.ExtendProfessionID1) }}等级：</span>
                                 <span>{{ book.copy.RequireLevelExt }}</span>
                             </div>
-                            <div class="u-item">
+                            <div class="u-info-item">
                                 <span>精力消耗：</span>
                                 <span>{{ book.copy.CostVigor }}</span>
                             </div>
-                            <div v-if="book.copyList.length" class="u-item">
+                            <div v-if="book.copyList.length" class="u-info-item">
                                 <span>所需材料：</span>
                                 <item-icon
                                     v-for="meterial in book.copyList"
@@ -126,7 +135,7 @@
             <!-- 套书列表 -->
             <div v-if="bookList.length" class="m-book-list" v-loading="listLoading">
                 <div class="u-title">
-                    <span>{{ book.BookName }}</span>
+                    <span>套书·{{ book.BookName }}</span>
                     <a
                         v-if="book.AchievementID"
                         class="book-achievement"
@@ -143,7 +152,7 @@
                 </div>
             </div>
             <!-- 碑铭信息 -->
-            <div v-if="bookMapSite.length" class="m-book-map">
+            <!-- <div v-if="bookMapSite.length" class="m-book-map">
                 <div class="u-title">
                     <span class="u-txt">碑铭信息</span>
                 </div>
@@ -152,7 +161,7 @@
                     :map-id="parseInt(bookMapSite[0].map)"
                     :datas="bookMapSite[0].position"
                 ></jx3box-map>
-            </div>
+            </div> -->
         </div>
 
         <!--攻略-->
@@ -181,33 +190,48 @@
                         <i class="el-icon-edit"></i>
                         本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
                     </div>
-                    <Thx
-                        class="m-thx"
-                        :postId="id"
-                        postType="item"
-                        :postTitle="wiki_post.source.Name"
-                        :userId="author_id"
-                        :adminBoxcoinEnable="false"
-                        :userBoxcoinEnable="false"
-                        :authors="authors"
-                        mode="wiki"
-                        :key="'item-thx-' + id"
-                        :client="client"
-                    />
                 </template>
             </WikiPanel>
 
             <!-- 历史版本 -->
             <WikiRevisions type="item" :source-id="id" />
-
-            <!-- 百科评论 -->
-            <WikiComments type="item" :source-id="id" />
         </div>
         <div class="m-wiki-post-empty" v-else>
             <i class="el-icon-s-opportunity"></i>
             <span>暂无攻略，我要</span>
             <a class="s-link" :href="publish_url(`item/${id}`)">完善攻略</a>
         </div>
+        <Thx
+            class="m-thx"
+            :postId="id"
+            postType="item"
+            :postTitle="wiki_post.source.Name"
+            :userId="author_id"
+            :adminBoxcoinEnable="false"
+            :userBoxcoinEnable="false"
+            :authors="authors"
+            mode="wiki"
+            :key="'item-thx-' + id"
+            :client="client"
+        />
+        <!-- 百科评论 -->
+        <WikiComments type="item" :source-id="id" />
+        <!-- 碑铭信息 -->
+        <el-dialog
+            title="碑铭位置"
+            :visible.sync="dialogVisible"
+            :width="isPhone() ? '90%' : '38%'"
+            center
+            destroy-on-close
+        >
+            <div class="m-book-map">
+                <jx3box-map
+                    class="u-content"
+                    :map-id="parseInt(bookMapSite[0].map)"
+                    :datas="bookMapSite[0].position"
+                ></jx3box-map>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -265,9 +289,11 @@ export default {
             bookMapSite: [], // 碑铭点位信息
             listLoading: false,
             bookList: [],
+            dialogVisible: false,
         };
     },
     methods: {
+        isPhone,
         toMore() {
             const isVertical = this.isVertical;
             const bookWrap = this.$refs.bookWrap;
