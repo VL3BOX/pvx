@@ -26,7 +26,6 @@
                 <i class="el-icon-caret-right"></i>
             </div>
         </template>
-        <!-- :style="{ 'padding-top': offset.top + 'px' }" -->
         <div ref="list" class="list">
             <div
                 class="item"
@@ -99,7 +98,6 @@ export default {
             const step = (wrapperWidth / 2) * arrow;
             let timer = null;
             timer = setInterval(() => {
-                // console.log(list.scrollLeft + wrapperWidth, width, step);
                 if (arrow === 1) {
                     // 向右
                     if (list.scrollLeft < nowLeft + step) {
@@ -125,29 +123,6 @@ export default {
                 }
             }, 1);
         },
-    },
-    watch: {
-        // isShow(bol) {
-        //     if (bol) {
-        //         this.$nextTick(() => {
-        //             const top = this.offset.top;
-        //             console.log(top);
-        //             if (top) {
-        //                 const crosses = document.querySelectorAll(".cross");
-        //                 crosses.forEach((cross) => {
-        //                     const oldHeight = cross.clientHeight;
-        //                     const newHeight = oldHeight - top;
-        //                     console.log(newHeight);
-        //                     // 脱离文档流减少重绘
-        //                     // cross.style.dispaly = "none";
-        //                     cross.style.height = `${newHeight}px`;
-        //                     cross.style.top = `${top}px`;
-        //                     // cross.style.dispaly = "block";
-        //                 });
-        //             }
-        //         });
-        //     }
-        // },
     },
     mounted() {
         this.$nextTick(() => {
