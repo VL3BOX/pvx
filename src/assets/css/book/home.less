@@ -105,8 +105,10 @@
                 }
             }
             .no-cross-wrap {
-                display: flex;
+                .list{
+                    display: flex;
                 gap: 20px;
+                }
             }
         }
         .list-card-content {
@@ -152,6 +154,28 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+    }
+}
+
+// 阴影hack
+.book-home-wrapper {
+
+    // 生成阴影填充区
+    .m-book-card {
+        padding: 10px 10px 0 10px;
+    }
+
+    .no-cross-wrap,
+    .cross-wrapper {
+        // 列表为阴影位移
+        .list {
+            margin-left: -10px;
+        }
+        .cross {
+            top: 10px;
+            bottom: 0;
+            height: auto;
         }
     }
 }

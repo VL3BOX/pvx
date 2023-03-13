@@ -32,7 +32,9 @@
                         </template>
                     </list-cross>
                     <div v-else class="no-cross-wrap">
-                        <BookCard :item="item" v-for="(item, i) in recentReadList" :key="item.idKey + i"></BookCard>
+                        <div class="list">
+                            <BookCard :item="item" v-for="(item, i) in recentReadList" :key="item.idKey + i"></BookCard>
+                        </div>
                     </div>
                 </div>
                 <!-- 杂集、道学、佛学 -->
@@ -56,7 +58,9 @@
                         </template>
                     </list-cross>
                     <div v-else class="no-cross-wrap">
-                        <BookCard :item="item" v-for="(item, i) in list" :key="item.idKey + i"></BookCard>
+                        <div class="list">
+                            <BookCard :item="item" v-for="(item, i) in list" :key="item.idKey + i"></BookCard>
+                        </div>
                     </div>
                 </div>
             </template>
