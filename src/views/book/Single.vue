@@ -28,16 +28,16 @@
                             <div ref="bookContent" class="content" v-html="book.contentInfo"></div>
                         </div>
                         <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
-                            <div class="left" @click="toMore">
+                            <div class="left" :class="noMore && 'disabled'" @click="toMore">
                                 <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
                                 <!-- <span>继续</span> -->
                             </div>
-                            <div class="right" @click="toBack">
+                            <div class="right" :class="noBack && 'disabled'" @click="toBack">
                                 <!-- <span>返回</span> -->
                                 <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
                             </div>
                         </div>
-                        <div class="switch" @click="isVertical = !isVertical">{{ isVertical ? "古风" : "现代" }}</div>
+                        <div class="switch" @click="toSwitch">{{ isVertical ? "古风" : "现代" }}</div>
                     </template>
                 </div>
                 <div class="book-info">
@@ -135,14 +135,16 @@
             <!-- 套书列表 -->
             <div v-if="bookList.length" class="m-book-list" v-loading="listLoading">
                 <div class="u-title">
-                    <span>套书·{{ book.BookName }}</span>
+                    <span class="title">套书·{{ book.BookName }}</span>
                     <a
                         v-if="book.AchievementID"
                         class="book-achievement"
                         target="_blank"
                         :href="getLink('achievement', book.AchievementID)"
                     >
-                        [{{ book.achievement ? book.achievement.Name : "" }}]
+                        <!-- [{{ book.achievement ? book.achievement.Name : "" }}] -->
+                        <i class="el-icon-warning"></i>
+                        <span>该套书有成就</span>
                     </a>
                 </div>
                 <div class="book-list-wrapper">
@@ -291,15 +293,24 @@ export default {
             listLoading: false,
             bookList: [],
             dialogVisible: false,
+            // 是否还有更多
+            noMore: false,
+            // 是否还可以返回
+            noBack: true,
         };
     },
     methods: {
+        toSwitch() {
+            this.isVertical = !this.isVertical;
+            this.noBack = true;
+            this.noMore = false;
+        },
         isPhone,
         toMore() {
             const isVertical = this.isVertical;
             const bookWrap = this.$refs.bookWrap;
             if (isVertical) {
-                // 竖向
+                // 当前为古风
                 const sW = bookWrap.scrollWidth;
                 const sLeft = bookWrap.scrollLeft;
                 const cW = bookWrap.clientWidth;
@@ -310,9 +321,14 @@ export default {
                         left: -step,
                         behavior: "smooth",
                     });
+                    this.noMore = false;
+                    this.noBack = false;
+                } else {
+                    this.noMore = true;
+                    this.noBack = false;
                 }
             } else {
-                // 横向
+                // 当前为现代
                 const sH = bookWrap.scrollHeight;
                 const sTop = bookWrap.scrollTop;
                 const cH = bookWrap.clientHeight;
@@ -323,6 +339,11 @@ export default {
                         top: step,
                         behavior: "smooth",
                     });
+                    this.noMore = false;
+                    this.noBack = false;
+                } else {
+                    this.noMore = true;
+                    this.noBack = false;
                 }
             }
         },
@@ -330,7 +351,7 @@ export default {
             const isVertical = this.isVertical;
             const bookWrap = this.$refs.bookWrap;
             if (isVertical) {
-                // 竖向
+                // 当前为古风
                 const sLeft = bookWrap.scrollLeft;
                 const cW = bookWrap.clientWidth;
                 const step = Math.ceil(cW / 4);
@@ -340,9 +361,14 @@ export default {
                         left: step,
                         behavior: "smooth",
                     });
+                    this.noBack = false;
+                    this.noMore = false;
+                } else {
+                    this.noBack = true;
+                    this.noMore = false;
                 }
             } else {
-                // 横向
+                // 当前为现代
                 const sTop = bookWrap.scrollTop;
                 const cH = bookWrap.clientHeight;
                 const step = Math.ceil(cH / 2);
@@ -352,6 +378,11 @@ export default {
                         top: -step,
                         behavior: "smooth",
                     });
+                    this.noBack = false;
+                    this.noMore = false;
+                } else {
+                    this.noBack = true;
+                    this.noMore = false;
                 }
             }
         },
@@ -479,6 +510,8 @@ export default {
                         ExtendProfessionID1: data.ExtendProfessionID1,
                     };
                     this.$store.dispatch("setRecentReadList", recentBook);
+                    // 保存当前书籍类型
+                    this.$store.dispatch("setCurrentBookType", data.ExtendProfessionID1);
                     // 获取套书列表
                     this.getBookList(data.BookName);
                 })
