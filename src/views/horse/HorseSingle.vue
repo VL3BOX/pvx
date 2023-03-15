@@ -89,97 +89,33 @@
                 <!-- 地图组件 -->
                 <horse-map :name="item.Name" :list="originDatas" />
             </div>
-            <!--攻略-->
-            <div class="m-wiki-post-panel" v-if="wiki_post && wiki_post.post">
-                <WikiPanel :wiki-post="wiki_post">
-                    <template slot="head-title">
-                        <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
-                        <span class="u-txt">坐骑攻略</span>
-                    </template>
-                    <template slot="head-actions">
-                        <a class="el-button el-button--primary" :href="publish_url(`item/${id}`)">
-                            <i class="el-icon-edit"></i>
-                            <span>完善坐骑攻略</span>
-                        </a>
-                    </template>
-                    <template slot="body">
-                        <div class="m-wiki-compatible" v-if="compatible">
-                            <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
-                                class="s-link"
-                                :href="publish_url(`item/${id}`)"
-                                >参与修订</a
-                            >。
-                        </div>
-                        <Article :content="wiki_post.post.content" />
-                        <div class="m-wiki-signature">
-                            <i class="el-icon-edit"></i>
-                            本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
-                        </div>
-                        <Thx
-                            class="m-thx"
-                            :postId="id"
-                            postType="item"
-                            :postTitle="wiki_post.source.Name"
-                            :userId="author_id"
-                            :adminBoxcoinEnable="false"
-                            :userBoxcoinEnable="false"
-                            :authors="authors"
-                            mode="wiki"
-                            :key="'item-thx-' + id"
-                            :client="client"
-                        />
-                    </template>
-                </WikiPanel>
-
-                <!-- 历史版本 -->
-                <WikiRevisions type="item" :source-id="id" />
-
-                <!-- 百科评论 -->
-                <WikiComments type="item" :source-id="id" />
-            </div>
-            <div class="m-wiki-post-empty" v-else>
-                <i class="el-icon-s-opportunity"></i>
-                <span>暂无攻略，我要</span>
-                <a class="s-link" :href="publish_url(`item/${id}`)">完善攻略</a>
-            </div>
+            <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
+            <pvx-user :id="id" name="坐骑" type="item"></pvx-user>
         </div>
     </div>
 </template>
 
 <script>
 import { getHorse, getHorses } from "@/service/horse";
-import { iconLink, getLink, publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
+import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
 import SameItem from "@/components/horse/SameItem.vue";
 import HorseCross from "@/components/horse/HorseCross.vue";
+import HorseMap from "@/components/horse/HorseMap.vue";
+import PvxUser from "@/components/PvxUser.vue";
 
 import horseMapList from "@/assets/data/horse_map.json";
 import horseSites from "@/assets/data/horse_sites.json";
-import HorseMap from "@/components/horse/HorseMap.vue";
 
-import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
-
-import Article from "@jx3box/jx3box-editor/src/Article.vue";
-import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
-import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
-import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "Single",
     inject: ["__imgRoot", "__imgRoot2"],
-    components: { SameItem, HorseCross, HorseMap, WikiPanel, WikiRevisions, WikiComments, Article },
+    components: { SameItem, HorseCross, HorseMap, PvxUser },
     data() {
         return {
             loading: false,
             sameLoading: false,
             item: {},
             sameList: [],
-
-            wiki_post: {
-                source: {},
-                post: null,
-            },
-            compatible: false,
-            is_empty: true,
         };
     },
     computed: {
@@ -293,53 +229,10 @@ export default {
             }
             return speed;
         },
-
-        //wiki相关
-        post_id: function () {
-            return this.$route.params.post_id;
-        },
-        isRevision: function () {
-            return !!this.$route.params.post_id;
-        },
-        author_id: function () {
-            return ~~this.wiki_post?.post?.user_id;
-        },
-        user_name: function () {
-            return this.wiki_post?.post?.user_nickname;
-        },
-        updated_at: function () {
-            return ts2str(this.wiki_post?.post?.updated);
-        },
-        fav_title: function () {
-            return this.wiki_post?.source?.Name;
-        },
-        authors: function () {
-            if (!this.isRevision) {
-                return (
-                    this.wiki_post?.users
-                        ?.filter((user) => user.id)
-                        ?.map((user) => {
-                            return {
-                                user_id: user.id,
-                                user_avatar: user.avatar,
-                                display_name: user.nickname,
-                            };
-                        }) || []
-                );
-            }
-            return [];
-        },
     },
     watch: {
-        id: {
-            handler() {
-                this.loadData();
-            },
-        },
-        post_id: {
-            handler() {
-                this.loadRevision();
-            },
+        id(id) {
+            this.getHorse(id);
         },
     },
     methods: {
@@ -412,46 +305,9 @@ export default {
             }
         },
         getLink,
-        //百科相关
-        publish_url: publishLink,
-        loadData: function () {
-            // 获取最新攻略
-            if (this.id) {
-                wiki.mix({ type: "item", id: this.id, client: this.client }, { supply: 1 }).then((res) => {
-                    const { post, source, compatible, isEmpty, users } = res;
-                    this.wiki_post = {
-                        post: post,
-                        source: source,
-                        users,
-                    };
-                    this.is_empty = isEmpty;
-                    this.compatible = compatible;
-                });
-            }
-            this.triggerStat();
-        },
-        loadRevision: function () {
-            // 获取指定攻略
-            wiki.getById(this.post_id, { type: "item" }).then((res) => {
-                this.wiki_post = res?.data?.data;
-            });
-            this.triggerStat();
-        },
-        triggerStat: function () {
-            if (this.client == "origin") {
-                postStat("origin_item", this.id);
-            } else {
-                postStat("item", this.id);
-            }
-        },
     },
     mounted() {
         this.getHorse();
-        if (this.post_id) {
-            this.loadRevision();
-        } else {
-            this.loadData();
-        }
     },
 };
 </script>

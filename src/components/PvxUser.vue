@@ -94,15 +94,20 @@ export default {
                 source: {},
                 post: null,
             },
+            compatible: false,
+            is_empty: true,
         };
     },
     watch: {
-        id() {
-            if (this.post_id) {
-                this.loadRevision();
-            } else {
-                this.loadData();
-            }
+        id: {
+            immediate: true,
+            handler() {
+                if (this.post_id) {
+                    this.loadRevision();
+                } else {
+                    this.loadData();
+                }
+            },
         },
         post_id: {
             handler() {
@@ -188,4 +193,13 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.w-pvx-user {
+    & > div {
+        margin-top: 40px !important;
+    }
+    .c-wiki-panel {
+        margin-top: 40px !important;
+    }
+}
+</style>
