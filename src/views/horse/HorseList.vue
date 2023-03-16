@@ -84,7 +84,6 @@ export default {
             query: {
                 page: 1,
                 pageSize: 20,
-                client: this.client,
             },
             total: 0,
             totalPages: 0,
@@ -206,7 +205,7 @@ export default {
     },
     methods: {
         async getAttrList(params = {}) {
-            await getAttrs().then((res) => {
+            await getAttrs(params).then((res) => {
                 // const data = res.data.concat([{ name: "双骑" }, { name: "渡水" }]);
                 // const options = data
                 //     .filter((item) => item.name.indexOf(params.name) > -1)
@@ -292,6 +291,7 @@ export default {
             }
             const query = Object.assign({}, this.query);
             const params = Object.assign(search, query);
+            params.client = this.client;
             getHorses(deleteNull(params))
                 .then((res) => {
                     let newList = res.data.list.map((item) => {
@@ -385,7 +385,7 @@ export default {
                 this.showCount(false);
             }
         });
-        this.getAttrList();
+        this.getAttrList({ client: this.client });
         // window.onresize = () => {
         //     if (this.listType === "card") {
         //         // 卡片模式下大小改变重新计算数量并请求

@@ -152,7 +152,6 @@ export default {
             query: {
                 page: 1,
                 pageSize: 20,
-                client: this.client,
             },
             total: 0,
             totalPages: 0,
@@ -180,6 +179,9 @@ export default {
         ...mapState(["recentReadList"]),
         client() {
             return this.$store.state.client;
+        },
+        params() {
+            return { ...this.query, ...this.search, client: this.client };
         },
         professions() {
             return professions.map((item) => {
@@ -283,9 +285,7 @@ export default {
             });
         },
         getList(profession, returnList = true) {
-            const query = this.query;
-            const search = deleteNull(this.search);
-            const params = Object.assign(search, query);
+            const params = Object.assign({}, deleteNull(this.params));
             if (profession !== 8) {
                 params.profession = profession;
             }
