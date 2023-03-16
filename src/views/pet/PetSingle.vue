@@ -99,8 +99,11 @@
             <!-- 地图组件 -->
             <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />
         </div>
-        <!-- 宠物攻略 -->
-        <div class="m-pet-wiki">
+
+        <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
+        <pvx-user :id="item_id" name="宠物" type="item"></pvx-user>
+
+        <!-- <div class="m-pet-wiki">
             <Wiki
                 source_type="item"
                 :source_id="item_id"
@@ -110,37 +113,33 @@
                 :source_title="title"
             ></Wiki>
         </div>
-        <!-- <div class="m-pet-comment">
-            <Comment :id="id" :category="type" order="desc" />
-        </div> -->
-        <!-- 百科评论 -->
-        <WikiComments :type="type" :source-id="id" />
+        <WikiComments :type="type" :source-id="id" /> -->
     </div>
 </template>
 
 <script>
-import { getPet, getPets, getShopInfo, getPetSkill, getSkill } from "@/service/pet";
+import { getPet, getPets, getShopInfo, getPetSkill, getSkill, getPetLucky } from "@/service/pet";
+import PvxUser from "@/components/PvxUser.vue";
 import petCard from "@/components/pet/PetCard.vue";
 import petFetters from "@/components/pet/PetFetters.vue";
-import Wiki from "@/components/wiki/Wiki.vue";
+// import Wiki from "@/components/wiki/Wiki.vue";
 import petType from "@/assets/data/pet_type.json";
 import petSource from "@/assets/data/pet_source.json";
 import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
-import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import dayjs from "dayjs";
 import PetMap from "@/components/pet/PetMap.vue";
-import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
+// import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "PetSingle",
     props: [],
     components: {
         petCard,
         petFetters,
-        Wiki,
-        // Comment,
+        // Wiki,
         PetMap,
-        WikiComments,
+        // WikiComments,
+        PvxUser,
     },
     data: function () {
         return {

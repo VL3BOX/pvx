@@ -9,6 +9,8 @@ let store = {
         client: location.href.includes("origin") ? "origin" : "std",
         faceSingle: {},
         isCollapse: false,
+        // 8为全部，默认
+        currentBookType: 8,
     },
     mutations: {
         SET_RECENT_READ_LIST(state, data) {
@@ -21,6 +23,13 @@ let store = {
                 localStorage.setItem("book_readings", JSON.stringify(state.recentReadList));
             }
         },
+        CLEAR_RECENT_READ_LIST(state) {
+            state.recentReadList = [];
+            localStorage.removeItem("book_readings");
+        },
+        SET_CURRENT_BOOK_TYPE(state, type) {
+            state.currentBookType = type;
+        },
         toState(state, data) {
             Object.keys(data).forEach((item) => {
                 state[item] = data[item];
@@ -31,6 +40,12 @@ let store = {
     actions: {
         setRecentReadList({ commit }, data) {
             commit("SET_RECENT_READ_LIST", data);
+        },
+        clearRecentReadList({ commit }) {
+            commit("CLEAR_RECENT_READ_LIST");
+        },
+        setCurrentBookType({ commit }, type) {
+            commit("SET_CURRENT_BOOK_TYPE", type);
         },
     },
 };

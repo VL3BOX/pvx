@@ -18,6 +18,7 @@
                 <div v-if="recentReadList.length" class="list-item-wrapper">
                     <div class="title-header">
                         <div class="title">最近阅读</div>
+                        <a href="javascript:;" @click="clearRecent">清除记录</a>
                     </div>
                     <!-- :offset="{ top: 10 }" -->
                     <list-cross
@@ -212,6 +213,7 @@ export default {
             },
         },
         selected(profession) {
+            this.$store.dispatch("setCurrentBookType", profession);
             this.toList(profession);
         },
         listType: {
@@ -228,6 +230,22 @@ export default {
         },
     },
     methods: {
+        clearRecent() {
+            this.$confirm("此操作将永久清除最近阅读, 是否继续?", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    this.$store.dispatch("clearRecentReadList").then(() => {
+                        this.$message({
+                            type: "success",
+                            message: "清除成功!",
+                        });
+                    });
+                })
+                .catch(() => {});
+        },
         iconLink,
         isPhone,
         searchEvent(data) {
@@ -344,6 +362,7 @@ export default {
         },
     },
     mounted() {
+        this.$store.dispatch("setCurrentBookType", 8);
         this.jdugeType();
         const self = this;
         window.onresize = function () {

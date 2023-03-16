@@ -43,6 +43,7 @@ export default {
         return {
             task: [],
             isUpdate: false,
+            school: "2",
         };
     },
     computed: {
@@ -51,6 +52,17 @@ export default {
         },
     },
     methods: {
+        //处理特殊的链接
+        toSpecial(data) {
+            const type = data.szRewardType;
+            let str = data.szOpenRewardPath;
+            const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
+            if (type == "school") str = `reward/open/${name}/school_${this.school}_open`;
+            if (type == "camp") {
+                data.bHide ? (str = "reward/open/camp/camp_2_open") : (str = "/reward/open/camp/camp_0_open");
+            }
+            return this.imgUrl(str);
+        },
         imgNameTga: function (link) {
             return link.match(/(\S*)Adventure\/(\S*)\.tga/)[2];
         },
@@ -58,10 +70,16 @@ export default {
             return this.__imgRoot + `adventure/${this.client}/${link}.png`;
         },
         getImg() {
-            let img = this.info.szOpenRewardPath?.toLowerCase().match(/.*[\/,\\]adventure(.*?).tga/) || "";
-            let name = "";
-            if (img[1]) name = img[1].replace(/\\/g, "/");
-            return this.imgUrl(name);
+            const info = this.info;
+            const type = info.szRewardType;
+            if (type === "school" || type === "camp") {
+                return this.toSpecial(info);
+            } else {
+                let img = info.szOpenRewardPath?.toLowerCase().match(/.*[\/,\\]adventure(.*?).tga/) || "";
+                let name = "";
+                if (img[1]) name = img[1].replace(/\\/g, "/");
+                return this.imgUrl(name);
+            }
         },
         getText(item) {
             let text = extractTextContent(item);
