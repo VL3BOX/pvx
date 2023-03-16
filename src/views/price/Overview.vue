@@ -1,0 +1,182 @@
+<template>
+  <div class="p-overview">
+    <div class="m-gold-charts">
+      <DataPlane v-for="(item,index) in currentServerGoldPriceData" :key="index" :item="item" />
+    </div>
+    <div class="m-my-care">
+      <h1 class="u-title">我的关注</h1>
+
+    </div>
+    <div class="m-goods-List">
+      <div class="goods-group" v-for="group in filterGoodsData" :key="group.id">
+        <h1 class="u-title">{{group.label}}</h1>
+        <div class="group-list">
+          <GoodItem v-for="(item,index) in group.items" :key="index" :data="item" @click="goItemPage(item.item_id)" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { axios, realUrl } from "@/service/api.js";
+import DataPlane from "./DataPlane.vue";
+import { getProfile, getItemPrice } from "@/service/item";
+import GoodItem from "./GoodsItem.vue";
+
+export default {
+    name: "Overview",
+    inject: ["pricePage"],
+    props: [],
+    components: { DataPlane, GoodItem },
+    data: function () {
+        return {
+            loading: false,
+            myChart: null,
+            allGoldPriceData: {}, // 所有服务器金价数据
+            allGoodsData: {}, // 所有商品数据
+        };
+    },
+    computed: {
+        // 由金价数据 得到 的服务器列表
+        serverListFromGoldPriceData() {
+            return Object.keys(this.allGoldPriceData);
+        },
+        // 当前服务器,按渠道分组的金价数据
+        currentServerGoldPriceData() {
+            let sortArr = [];
+            const data = this.allGoldPriceData[this.pricePage.server] || {};
+            for (const key in data) {
+                const list = data[key];
+                const lastDay = list[list.length - 1].average.toFixed(2);
+                const yesterday = list[list.length - 2].average.toFixed(2);
+                const beforeYesterday = list[list.length - 3].average.toFixed(2);
+                const sum = list.reduce((total, item) => total + item.average, 0);
+                let recommend;
+                if (key === "DD373") {
+                    recommend = ((+lastDay + +yesterday + +beforeYesterday) / 0.9405 / 3).toFixed(2);
+                } else {
+                    recommend = ((+lastDay + +yesterday + +beforeYesterday) / 3).toFixed(2);
+                }
+                sortArr.push({
+                    name: key === "WBL" ? "万宝楼" : key,
+                    key,
+                    sum,
+                    recommend,
+                    data: [
+                        {
+                            name: "前日",
+                            value: beforeYesterday,
+                        },
+                        {
+                            name: "昨日",
+                            value: yesterday,
+                        },
+                        {
+                            name: "今日",
+                            value: lastDay,
+                        },
+                    ],
+                });
+            }
+            sortArr = sortArr.sort((a, b) => b.sum - a.sum);
+            if (sortArr.length == 0) sortArr = [{}, {}, {}, {}, {}];
+            return sortArr;
+        },
+        // 经过keyword过滤之后的商品数据
+        filterGoodsData() {
+            let arr = [];
+            let goodsArr = [];
+            const keyword = this.pricePage.search.keyword;
+            if (keyword) {
+                this.allGoodsData.forEach((item) => {
+                    goodsArr = item.items.filter((goodsItem) => goodsItem.label.indexOf(keyword) !== -1);
+                    if (goodsArr.length > 0) {
+                        arr.push({
+                            ...item,
+                            items: goodsArr,
+                        });
+                    }
+                });
+            } else {
+                arr = this.allGoodsData;
+            }
+            return arr;
+        },
+    },
+    watch: {
+        "pricePage.server": {
+            handler: function (newVal, oldVal) {
+                // this.getGoldPriceData();
+                this.getGoodsData();
+            },
+        },
+    },
+    methods: {
+        //  获取金价数据
+        getGoldPriceData() {
+            this.loading = true;
+            return new Promise((resolve, reject) => {
+                const priceUrl = "https://spider2.jx3box.com/api/spider/gold/trend";
+                axios(priceUrl, "GET", false, {}, {}, {})
+                    .then((res) => {
+                        this.allGoldPriceData = res;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                        resolve();
+                    });
+            });
+        },
+        // 获取商品数据
+        getGoodsData() {
+            this.loading = true;
+            return new Promise((resolve, reject) => {
+                getItemPrice({
+                    server: this.pricePage.server,
+                    limit: 18,
+                })
+                    .then((res) => {
+                        const data = res.data.data || {};
+                        let list = Object.values(data) || [];
+                        this.allGoodsData = list;
+                        console.log(
+                            "%c 🍢  this.allGoodsData: ",
+                            "font-size:20px;background-color: #42b983;color:#fff;",
+                            this.allGoodsData
+                        );
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            });
+        },
+        // 将数组转为4个一组的二维数组
+        toGroup(arr, num) {
+            let newArr = [];
+            for (let i = 0; i < arr.length; i += num) {
+                newArr.push(arr.slice(i, i + num));
+            }
+            return newArr;
+        },
+        goItemPage: function (id) {
+            console.log("%c 🍜 id: ", "font-size:20px;background-color: #3F7CFF;color:#fff;", id);
+            let host = location.origin;
+            window.open(`${host}/item/view/${id}`, "_blank");
+            sessionStorage.setItem("server_name", this.server);
+        },
+    },
+    created: function () {},
+    mounted: function () {
+        this.getGoldPriceData();
+        this.getGoodsData();
+    },
+};
+</script>
+
+<style lang="less" scoped>
+@import "~@/assets/css/price/overview.less";
+</style>
