@@ -30,6 +30,9 @@
                 </template>
             </WikiPanel>
 
+            <!-- 奇遇触发记录 -->
+            <slot name="serendipity"></slot>
+
             <!-- 历史版本 -->
             <WikiRevisions :type="type" :source-id="id" />
         </div>
@@ -52,7 +55,7 @@
             :client="client"
         />
         <!-- 百科评论 -->
-        <WikiComments :type="type" :source-id="id" />
+        <WikiComments :type="type" :source-id="String(id)" />
     </div>
 </template>
 
@@ -200,6 +203,14 @@ export default {
     }
     .c-wiki-panel {
         margin-top: 40px !important;
+    }
+    .m-wiki-signature {
+        text-align: right;
+        color: #999;
+        font-size: 12px;
+        line-height: 2;
+        border-top: 1px dashed #ddd;
+        padding: 5px 0;
     }
 }
 </style>

@@ -23,7 +23,15 @@
         <div class="m-adventure-content">
             <task :id="id" :info="data" />
         </div>
-        <div class="m-adventure-wiki" v-if="achieve_id">
+        <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
+        <pvx-user :id="achieve_id" name="奇遇" type="achievement">
+            <template slot="serendipity">
+                <div class="m-adventure-serendipity">
+                    <Serendipity :title="title" />
+                </div>
+            </template>
+        </pvx-user>
+        <!-- <div class="m-adventure-wiki" v-if="achieve_id">
             <Wiki
                 source_type="achievement"
                 :source_id="achieve_id"
@@ -36,32 +44,28 @@
         <div class="m-adventure-serendipity">
             <Serendipity :title="title" />
         </div>
-        <!-- <div class="m-pvx-comment">
-            <Comment :id="id" :category="type" order="desc" />
-        </div> -->
-        <!-- 百科评论 -->
-        <WikiComments :type="type" :source-id="id" />
+        <WikiComments :type="type" :source-id="id" /> -->
     </div>
 </template>
 
 <script>
 import { getLink } from "@jx3box/jx3box-common/js/utils";
-import Wiki from "@/components/wiki/Wiki.vue";
+// import Wiki from "@/components/wiki/Wiki.vue";
 import { getAdventure, getSerendipityAchievementId } from "@/service/adventure";
+import PvxUser from "@/components/PvxUser.vue";
 import task from "@/components/adventure/task.vue";
 import Serendipity from "@/components/common/serendipity.vue";
-import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
+// import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "adventureSingle",
     props: [],
     components: {
-        Wiki,
+        // Wiki,
         task,
         Serendipity,
-        // Comment,
-        WikiComments,
+        PvxUser,
+        // WikiComments,
     },
     data: function () {
         return {
