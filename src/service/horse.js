@@ -25,7 +25,7 @@ function getAttrs(params) {
 }
 
 function getFeeds(params) {
-    return $.get("/horse/feeds ", {
+    return $.get("/horse/feeds", {
         params,
     });
 }

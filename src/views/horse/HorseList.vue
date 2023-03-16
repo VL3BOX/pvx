@@ -322,7 +322,7 @@ export default {
                 });
         },
         async getFeedList() {
-            await getFeeds().then((res) => {
+            await getFeeds({ client: this.client }).then((res) => {
                 const arr = res.data.map((item) => {
                     const start = item.tip.indexOf("【");
                     const end = item.tip.indexOf("】");
