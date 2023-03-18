@@ -131,7 +131,7 @@
                     >购买</el-button
                 >
             </div>
-            <img class="u-bg" src="../../assets/img/face_pay_bg.svg" alt="">
+            <img class="u-box-img" src="../../assets/img/box.svg" alt="">
         </div>
 
         <!-- 数据区 -->

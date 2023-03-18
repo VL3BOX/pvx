@@ -260,9 +260,15 @@
     color: #555;
     position: relative;
     justify-content: center;
-
+    height: 200px;
+    background-image: url('../../img/face_pay_bg.svg');
+    background-color: #FFAD31;
+    border-radius: 30px;
 
     .m-face-pay-info {
+        background-color: #fff;
+        border-radius: 30px;
+        padding: 20px;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -284,6 +290,12 @@
             border-radius: 12px;
             font-weight: 600;
         }
+        z-index: 2;
+    }
+    .u-box-img {
+        position: absolute;
+        right: 10px;
+        z-index: 1;
     }
 }
 
@@ -298,9 +310,8 @@
             top: unset;
             left: unset;
             transform: unset;
-        }
-        .u-bg {
-            display: none;
+            padding: 10px 5px;
+            border-radius: 10px;
         }
     }
 }
