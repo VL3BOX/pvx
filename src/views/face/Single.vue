@@ -84,6 +84,11 @@
                         showBodyTypeLabel(post.body_type)
                     }}</i>
                 </div>
+
+                <div class="u-topic" v-if="topicText">
+                    <span class="u-topic-text">{{ topicText }}</span>
+                    <img class="u-topic-bg" src="../../assets/img/topic_bg.svg" alt="">
+                </div>
             </div>
         </div>
 
@@ -214,6 +219,7 @@ import {
     cancelStar,
     onlineFace,
     offlineFace,
+    getSliders,
 } from "@/service/face.js";
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getStat, postStat } from "@jx3box/jx3box-common/js/stat";
@@ -230,6 +236,7 @@ import {
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import dayjs from "dayjs";
 export default {
     name: "single",
     components: { facedata, Comment },
@@ -251,6 +258,8 @@ export default {
             randomList: [],
             carouselActive: 0,
             isEditor: User.isEditor(),
+
+            topic_info: null
         };
     },
     computed: {
@@ -291,8 +300,10 @@ export default {
         starText: function () {
             return this.isStar ? "取消精选" : "精选";
         },
+        topicText() {
+            return this.topic_info ? `${dayjs(this.topic_info.created_at).format('YYYY年MM月DD日')}荣登头条榜` : ''
+        }
     },
-    watch: {},
     created: function () {
         this.getData();
     },
@@ -338,6 +349,8 @@ export default {
                         this.getAccessoryList();
                         //获取作者作品
                         this.getRandomFaceList();
+
+                        this.getSliders();
                     })
                     .catch((err) => {
                         this.loading = false;
@@ -403,9 +416,8 @@ export default {
                             }, 1000)
                         );
                     }).catch(err => {
-                        console.log(err.response.data)
                         // 余额不足
-                        if (err.response.data?.code == 40019) {
+                        if (err.response?.data?.code == 40019) {
                             this.$confirm("余额不足，是否前往充值？", "提示", {
                                 confirmButtonText: "确定",
                                 cancelButtonText: "取消",
@@ -547,6 +559,17 @@ export default {
                 },
             });
         },
+
+        // 判断是否上过头条
+        getSliders() {
+            getSliders('slider', this.post.client, 10, this.post.id).then(res => {
+                if (res.data.data?.list) {
+                    // 取创建时间最新的一条
+                    const list = res.data.data.list.sort((a, b) => dayjs(b.created_at).isAfter(dayjs(a.created_at)) ? 1 : -1);
+                    this.topic_info = list[0];
+                }
+            })
+        }
     },
 };
 </script>

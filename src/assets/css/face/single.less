@@ -3,9 +3,10 @@
     display: flex;
     justify-content: space-between;
     position: sticky;
-    top: @header-height;.z(10);
-    background-color:#f3f5f6;
-    padding:20px 0;
+    top: @header-height;
+    .z(10);
+    background-color: #f3f5f6;
+    padding: 20px 0;
 
     .u-goback {
         margin-right: 10px;
@@ -50,8 +51,8 @@
         }
     }
 }
-@media screen and (max-width:@phone){
-    .m-navigation .u-op{
+@media screen and (max-width: @phone) {
+    .m-navigation .u-op {
         .none;
     }
 }
@@ -207,6 +208,31 @@
         border-radius: 2px;
         font-style: normal;
     }
+
+    // 头条
+    .u-topic {
+        position: relative;
+        height: 100px;
+        margin-top: 10px;
+        .u-topic-text {
+            font-size: 14px;
+            font-weight: 600;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .u-topic-bg {
+            width: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
 }
 
 .m-single-data {
@@ -261,8 +287,8 @@
     position: relative;
     justify-content: center;
     height: 200px;
-    background-image: url('../../img/face_pay_bg.svg');
-    background-color: #FFAD31;
+    background-image: url("../../img/face_pay_bg.svg");
+    background-color: #ffad31;
     border-radius: 30px;
 
     .m-face-pay-info {
@@ -277,27 +303,32 @@
         align-items: center;
         .u-text {
             font-weight: 600;
-            font-size: 24px;
-            color: #FFAD31;
+            font-size: 20px;
+            color: #ffad31;
         }
         .el-tag {
-            border-color: #FFAD31;
+            border-color: #ffad31;
             border-radius: 12px;
             font-weight: 600;
-            margin-right: 10px;
-            font-size: 24px;
+            margin-right: 20px;
+            font-size: 20px;
             padding: 9px 15px;
-            height: 44px;
+            height: 40px;
             margin-top: 0;
             display: flex;
             align-items: center;
         }
         .u-btn {
-            background-color: #FF7070;
-            border-color: #FF7070;
+            background-color: #ff7070;
+            border-color: #ff7070;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 24px;
+            font-size: 20px;
+
+            &:hover {
+                background-color: lighten(#ff7070, 10%);
+                border-color: lighten(#ff7070, 10%);
+            }
         }
         z-index: 2;
     }
@@ -309,7 +340,7 @@
 }
 
 @media screen and (max-width: @phone) {
-    .m-face-pay  {
+    .m-face-pay {
         display: flex;
         align-items: center;
         justify-content: center;

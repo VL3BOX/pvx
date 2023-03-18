@@ -134,15 +134,21 @@ function getRandomFace(params) {
     });
 }
 // 捏脸海报
-function getSliders(type, client, per = 10) {
+function getSliders(type, client, per = 10, source_ids) {
     let _params = {
         client: client,
         type: type,
         source_type: "face",
     };
+
     if (per) {
         _params.per = per;
     }
+
+    if (source_ids) {
+        _params.source_ids = source_ids;
+    }
+
     return $cms({ mute: true }).get(`/api/cms/news/v2`, {
         params: _params,
     });
