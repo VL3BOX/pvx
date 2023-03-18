@@ -402,6 +402,20 @@ export default {
                                 this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
                             }, 1000)
                         );
+                    }).catch(err => {
+                        console.log(err.response.data)
+                        // 余额不足
+                        if (err.response.data?.code == 40019) {
+                            this.$confirm("余额不足，是否前往充值？", "提示", {
+                                confirmButtonText: "确定",
+                                cancelButtonText: "取消",
+                                type: "warning",
+                            }).then(() => {
+                                window.open('/vip/cny', '_blank')
+                            }).catch(() => {});
+                        }
+                    }).finally(() => {
+                        this.payBtnLoading = false;
                     });
                 })
                 .catch(() => {});

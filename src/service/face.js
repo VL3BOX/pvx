@@ -76,7 +76,7 @@ function deleteFace(id) {
  * accessUserId {int} 出售人的id  【可以从捏脸列表中获取 user_id】
  */
 function payFace(params) {
-    return $pay().post(
+    return $pay({ mute: true }).post(
         `/api/buy-licence/article/${params.postType}/${params.PostId}/pay/${params.priceType}/${params.priceCount}/from/${params.payUserId}/to/${params.accessUserId}`,
         {}
     );
