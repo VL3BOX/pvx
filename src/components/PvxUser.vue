@@ -212,5 +212,36 @@ export default {
         border-top: 1px dashed #ddd;
         padding: 5px 0;
     }
+
+    .u-msg-yellow {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border: 1px solid #faebcc;
+        padding: 8px 14px 8px 14px;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        border-radius: 4px;
+    }
+
+    .m-wiki-post-empty {
+        .u-msg-yellow;
+        .x;
+
+        .s-link {
+            .underline(@color-link);
+        }
+
+        letter-spacing: 2px;
+        .fz(14px);
+    }
+
+    .m-wiki-compatible {
+        .u-msg-yellow;
+        margin: 10px auto;
+        padding: 5px 10px;
+
+        a {
+            .underline(@color-link);
+        }
+    }
 }
 </style>

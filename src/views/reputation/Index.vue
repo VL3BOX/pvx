@@ -40,6 +40,7 @@ import { getList, getMenus } from "@/service/reputation";
 import maps_std from "@jx3box/jx3box-data/data/fb/fb_map.json";
 import maps_orgin from "@jx3box/jx3box-data/data/fb/fb_map_origin.json";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc";
+import { deleteNull } from "@/utils/index";
 
 export default {
     name: "Index",
@@ -54,7 +55,6 @@ export default {
             query: {
                 page: 1,
                 pageSize: 50,
-                client: this.client,
             },
             versions: [],
             orginList: [],
@@ -79,6 +79,9 @@ export default {
     computed: {
         client() {
             return this.$store.state.client;
+        },
+        params() {
+            return { ...this.query, ...this.search, client: this.client };
         },
     },
     methods: {
@@ -138,7 +141,7 @@ export default {
             }
         },
         async getNews() {
-            return await getBreadcrumb("reputation-newest").then((data) => {
+            return await getBreadcrumb("reputation-newest", { client: this.client}).then((data) => {
                 this.news = data.split(",").map((item) => Number(item));
             });
         },
@@ -168,7 +171,7 @@ export default {
             });
         },
         getList(dlc, keyword) {
-            const params = Object.assign({}, this.query);
+            const params = Object.assign({}, deleteNull(this.params));
             if (keyword) {
                 params.keyword = keyword;
                 if (this.selected) {

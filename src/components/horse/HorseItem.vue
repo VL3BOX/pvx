@@ -44,7 +44,7 @@ export default {
             const id = item.ItemID;
             // 2 马具 1 坐骑
             const type = item.SubType === 15 ? 1 : 2;
-            this.$router.push(`/${id}/${type}`);
+            this.$router.push({ path: `${id}`, query: { type } });
         },
     },
     computed: {

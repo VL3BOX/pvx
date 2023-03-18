@@ -40,7 +40,6 @@ export default {
             query: {
                 page: 1,
                 pageSize: 20,
-                client: this.client,
             },
             listAll: [],
             searchProps: [
@@ -103,6 +102,7 @@ export default {
         getHorses(type) {
             const query = this.query;
             const params = Object.assign({ type: type }, query);
+            params.client = this.client;
             return new Promise((resole, reject) => {
                 getHorses(params)
                     .then((res) => {
@@ -123,7 +123,7 @@ export default {
             });
         },
         async getFeedList() {
-            await getFeeds().then((res) => {
+            await getFeeds({ client: this.client }).then((res) => {
                 const arr = res.data.map((item) => {
                     const start = item.tip.indexOf("【");
                     const end = item.tip.indexOf("】");
@@ -151,7 +151,7 @@ export default {
             });
         },
         async getAttrList() {
-            await getAttrs().then((res) => {
+            await getAttrs({ client: this.client }).then((res) => {
                 const data = res.data;
                 const options = data.map((item) => {
                     return {
