@@ -98,6 +98,17 @@ export default {
             },
         };
     },
+    watch: {
+        // 监听搜索条件变化
+        "search.keyword": {
+            handler: function (val, oldVal) {
+                if (this.search.type === 0) {
+                    this.$refs.search.formData.type = 1;
+                }
+            },
+            deep: true,
+        },
+    },
     computed: {
         servers: function () {
             return this.$store.state.client == "origin" ? servers_origin : servers_std;

@@ -128,7 +128,6 @@ export default {
                         this.allGoldPriceData = res;
                     })
                     .catch((err) => {
-                        console.log(err);
                     })
                     .finally(() => {
                         this.loading = false;
@@ -144,7 +143,7 @@ export default {
             let minV = Infinity;
             let maxV = -Infinity;
             for (const channel in data) {
-                const list = data[channel].data;
+                const list = data[channel].data || [];
                 const key = data[channel].key;
                 const seriesData = list.map((item) => {
                     const value = item.average.toFixed(2);
@@ -154,7 +153,7 @@ export default {
                     dates.push(date);
                     return {
                         value: value,
-                        name: date, // 
+                        name: date, //
                         color: this.colorMap[key],
                     };
                 });
@@ -231,11 +230,10 @@ export default {
                     max: maxV,
                     min: minV,
                     interval: (maxV - minV) / 5, // 5段
-                    
                 },
                 grid: {
-                    left:20,
-                    right:90,
+                    left: 20,
+                    right: 90,
                     // bottom: 60,
                     containLabel: true,
                 },
