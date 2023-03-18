@@ -373,26 +373,38 @@ export default {
             });
         },
         facePay() {
-            let res = this.post;
-            let params = {
-                postType: "face",
-                PostId: res.id,
-                priceType: res.price_type,
-                priceCount: res.price_count,
-                accessUserId: res.user_id,
-                payUserId: User.getInfo().uid,
-            };
-            //支付
-            this.payBtnLoading = true;
-            payFace(params).then((res) => {
-                let payid = res.data.data.id;
-                // 轮询接口
-                let setIntervalId = setInterval(
-                    loopPayStatus(payid).then((d) => {
-                        this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
-                    }, 1000)
-                );
-            });
+            if (!User.isLogin()) {
+                User.toLogin();
+                return
+            }
+            this.$confirm("确认购买此捏脸？", "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    let res = this.post;
+                    let params = {
+                        postType: "face",
+                        PostId: res.id,
+                        priceType: res.price_type,
+                        priceCount: res.price_count,
+                        accessUserId: res.user_id,
+                        payUserId: User.getInfo().uid,
+                    };
+                    //支付
+                    this.payBtnLoading = true;
+                    payFace(params).then((res) => {
+                        let payid = res.data.data.id;
+                        // 轮询接口
+                        let setIntervalId = setInterval(
+                            loopPayStatus(payid).then((d) => {
+                                this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
+                            }, 1000)
+                        );
+                    });
+                })
+                .catch(() => {});
         },
         getPayFaceStatus(pay_status, setIntervalId) {
             if (pay_status == 1) {
