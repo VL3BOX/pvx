@@ -114,16 +114,15 @@
         </div>
 
         <!-- 购买区 -->
-        <div class="m-face-pay m-single-content-box" v-if="post.price_type && post.price_type != 0 && !has_buy">
+        <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
             <div class="m-face-pay-info">
-                价格：
-                <el-tag effect="plain" type="warning">
+                <span class="u-text">该脸型数据售价：</span>
+                <el-tag effect="dark" color="#ffad31" round>
                     <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
                     <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
                 </el-tag>
-            </div>
-            <div class="m-face-pay-btn">
                 <el-button
+                    class="u-btn"
                     type="primary"
                     size="small"
                     icon="el-icon-shopping-cart-2"
@@ -132,6 +131,7 @@
                     >购买</el-button
                 >
             </div>
+            <img class="u-bg" src="../../assets/img/face_pay_bg.svg" alt="">
         </div>
 
         <!-- 数据区 -->

@@ -224,7 +224,7 @@
     .u-bg {
         .pa;
         // .z(1);
-        .size(calc(100% - 40px),627px);
+        .size(calc(100% - 40px), calc(100% - 120px));
         box-sizing: border-box;
         img {
             .size(100%);
@@ -253,37 +253,57 @@
     .pt(0);
 }
 .m-face-pay {
-    max-width: 600px;
     .flex;
-    .pt(5px);
-    border: 1px dashed #e1e4e8;
-    border-radius: 4px;
-    padding: 10px;
-    background-color: #fafbfc;
     font-size: 14px;
-    line-height: 2;
-    margin: 10px auto;
-    white-space: pre-line;
+    margin: 20px auto;
     box-sizing: border-box;
     color: #555;
+    position: relative;
+
 
     .m-face-pay-info {
-        span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .u-text {
             font-weight: 600;
             font-size: 14px;
+            color: #FFAD31;
         }
-        .el-button--text {
-            color: #000;
+        .el-tag {
+            border-color: #FFAD31;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-right: 10px;
         }
-    }
-    .m-face-pay-info .m-face-pay-type {
-        .ml(10px);
-    }
-    .m-face-pay-btn {
-        text-align: right;
-        flex-grow: 1;
+        .u-btn {
+            background-color: #FF7070;
+            border-color: #FF7070;
+            border-radius: 12px;
+            font-weight: 600;
+        }
     }
 }
+
+@media screen and (max-width: @phone) {
+    .m-face-pay  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .m-face-pay-info {
+            position: relative;
+            text-align: center;
+            top: unset;
+            left: unset;
+            transform: unset;
+        }
+        .u-bg {
+            display: none;
+        }
+    }
+}
+
 .m-face-files {
     padding-bottom: 20px;
 }
