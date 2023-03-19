@@ -1,9 +1,8 @@
 <template>
   <div class="m-goodsPrice">
-    <div class="m-my-care">
+    <!-- <div class="m-my-care">
       <h1 class="u-title">我的关注</h1>
-
-    </div>
+    </div> -->
     <div class="m-goods-List">
       <div class="goods-group" v-for="group in allGoodsData" :key="group.id">
         <h1 class="u-title">{{group.label}}</h1>
@@ -17,20 +16,16 @@
 
 <script>
 import GoodItem from "./GoodsItem.vue";
-import { getProfile, getItemPrice } from "@/service/item";
-
+import { getItemPrice } from "@/service/item";
 export default {
     name: "GoodsPrice",
     inject: ["pricePage"],
-    props: [],
     components: { GoodItem },
     data: function () {
         return {
             allGoodsData: {}, // 所有商品数据
         };
     },
-    computed: {},
-    watch: {},
     methods: {
         // 获取商品数据
         getGoodsData() {
@@ -51,9 +46,8 @@ export default {
             });
         },
     },
-    created: function () {},
     mounted: function () {
-      this.getGoodsData()
+        this.getGoodsData();
     },
 };
 </script>

@@ -13,7 +13,7 @@
         <template v-else-if="!data.sub_days_0_price && !data.sub_days_1_price && data.sub_days_2_price">
           <GamePrice :price="data.sub_days_2_price" />
         </template>
-        <div v-else style="width:100%">暂无价目</div>
+        <div v-else style="width:100%;text-align:right;font-weight:normal">暂无价目</div>
       </div>
     </div>
   </div>

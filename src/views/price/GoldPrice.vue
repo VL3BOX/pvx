@@ -1,6 +1,6 @@
 <template>
-  <div class="m-goldPrice">
-    <div class="m-chart-box">
+  <div class="m-goldPrice" ref="wrap">
+    <div class="m-chart-box" ref="chartBox">
       <div class="lengends">
         <div v-for="(item,index) in currentServerGoldPriceData" :key="index" :class="{loading}" :style="{background:colorMap[item.key]}" @mouseover="heightLight(index)" @mouseout="blur(index)" class="lengends-item">
           <div class="item-header">
@@ -47,10 +47,6 @@ export default {
         colorMap() {
             return this.pricePage.colorMap;
         },
-        // 由金价数据 得到 的服务器列表
-        serverListFromGoldPriceData() {
-            return Object.keys(this.allGoldPriceData);
-        },
         // 当前服务器,按渠道分组的金价数据
         currentServerGoldPriceData() {
             let sortArr = [];
@@ -72,7 +68,49 @@ export default {
                 });
             }
             sortArr = sortArr.sort((a, b) => b.sum - a.sum);
-            if (sortArr.length == 0) sortArr = [{}, {}, {}, {}, {}];
+            if (sortArr.length == 0) {
+                const emptyData = [
+                    {
+                        name: "前日",
+                        value: 0,
+                    },
+                    {
+                        name: "昨日",
+                        value: 0,
+                    },
+                    {
+                        name: "今日",
+                        value: 0,
+                    },
+                ];
+                sortArr = [
+                    {
+                        name: "万宝楼",
+                        key: "WBL",
+                        data: emptyData,
+                    },
+                    {
+                        name: "UU898",
+                        key: "UU898",
+                        data: emptyData,
+                    },
+                    {
+                        name: "5173",
+                        key: "5173",
+                        data: emptyData,
+                    },
+                    {
+                        name: "DD373",
+                        key: "DD373",
+                        data: emptyData,
+                    },
+                    {
+                        name: "7881",
+                        key: "7881",
+                        data: emptyData,
+                    },
+                ];
+            }
             return sortArr;
         },
     },
@@ -86,21 +124,34 @@ export default {
     methods: {
         // 初始化自适应图表
         initChart() {
-            if (!this.myChart) {
-                // 创建实例
-                this.myChart = echarts.init(this.$refs.chart);
-            }
+            // 创建实例
+            this.myChart = echarts.init(this.$refs.chart);
+
+            const myDiv = this.$refs.wrap;
+            const observer = new ResizeObserver((entries) => {
+                this.chartResize();
+            });
+            observer.observe(myDiv);
+
             // 监听resize事件
             const resizeHandle = () => {
-                this.myChart.resize();
+                this.chartResize();
             };
             // 监听resize事件
             window.addEventListener("resize", resizeHandle);
             // 销毁实例
             this.$once("hook:beforeDestroy", () => {
                 window.removeEventListener("resize", resizeHandle);
+                observer.disconnect();
                 this.myChart.dispose();
             });
+        },
+        // 防抖
+        chartResize() {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                this.myChart.resize();
+            }, 100);
         },
         heightLight(index) {
             clearTimeout(timer);
@@ -127,8 +178,7 @@ export default {
                     .then((res) => {
                         this.allGoldPriceData = res;
                     })
-                    .catch((err) => {
-                    })
+                    .catch((err) => {})
                     .finally(() => {
                         this.loading = false;
                         resolve();

@@ -6,11 +6,8 @@
     <div class="m-header">
       <h1 class="u-title">{{titleMap[search.type]}}</h1>
       <div class="u-select--round">
-        <!-- <label>区服价格</label> -->
         <el-select v-model="server" placeholder="请选择" :default-first-option="true">
-          <div slot="prefix">
-            区服价格
-          </div>
+          <div slot="prefix">区服价格</div>
           <el-option v-for="server in servers" :key="server" :label="server" :value="server">
           </el-option>
         </el-select>

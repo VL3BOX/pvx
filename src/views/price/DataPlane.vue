@@ -57,10 +57,8 @@ export default {
     methods: {
         // 初始化自适应图表
         initChart() {
-            if (!this.myChart) {
-                // 创建实例
-                this.myChart = echarts.init(this.$refs.chart);
-            }
+            // 创建实例
+            this.myChart = echarts.init(this.$refs.chart);
             // 监听resize事件
             const resizeHandle = () => {
                 this.myChart.resize();
