@@ -149,7 +149,11 @@
             <el-divider content-position="left">原始文件列表</el-divider>
             <ul class="m-face-files-list">
                 <li v-for="item in downFileList" :key="item.id">
-                    <span class="u-label">版本 : {{ item.created_at }}</span>
+                    <div>
+                        <span class="u-label">名称: <em>{{ item.name }}</em></span>
+                        <span class="u-label">版本 : <em>{{ item.created_at }}</em></span>
+                        <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
+                    </div>
                     <el-button
                         class="u-action"
                         icon="el-icon-download"
