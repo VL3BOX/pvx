@@ -255,7 +255,7 @@ export default {
             downFileList: [],
             downloadParams: {
                 pageIndex: 1,
-                pageSize: 4,
+                pageSize: 10,
                 total: 0,
             },
             payBtnLoading: false,
