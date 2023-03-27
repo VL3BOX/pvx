@@ -1,12 +1,11 @@
 <template>
     <div ref="listRef" class="horse-home-wrapper" v-loading="loading">
         <PvxSearch :items="searchProps" :initValue="initValue" @search="searchEvent($event)"></PvxSearch>
-
         <div class="list-wrapper" ref="crossWrap">
             <!-- 全部模式 -->
             <template v-if="isAll">
                 <!-- 抓马播报 -->
-                <HorseBroadcast></HorseBroadcast>
+                <HorseBroadcast v-if="client === 'std'"></HorseBroadcast>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
                     <div v-if="list.length" class="title-header">
