@@ -5,6 +5,8 @@
         <div class="list-wrapper" ref="crossWrap">
             <!-- 全部模式 -->
             <template v-if="isAll">
+                <!-- 抓马播报 -->
+                <HorseBroadcast></HorseBroadcast>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
                     <div v-if="list.length" class="title-header">
@@ -91,6 +93,7 @@
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
 import PvxSearch from "@/components/PvxSearch.vue";
 import ListCross from "@/components/ListCross.vue";
+import HorseBroadcast from "@/components/horse/HorseBroadcast";
 import HorseCard from "@/components/horse/HorseCard";
 import ListHead from "@/components/horse/ListHead";
 import HorseItem from "@/components/horse/HorseItem";
@@ -99,7 +102,7 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { deleteNull, isPhone } from "@/utils/index";
 export default {
     name: "HorseHome",
-    components: { PvxSearch, ListCross, HorseCard, ListHead, HorseItem, Pagination },
+    components: { PvxSearch, ListCross, HorseCard, ListHead, HorseItem, Pagination, HorseBroadcast },
     data() {
         return {
             loading: false,

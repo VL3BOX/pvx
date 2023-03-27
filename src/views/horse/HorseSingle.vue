@@ -77,11 +77,11 @@
             <!-- 同类坐骑 - 普通坐骑 -->
             <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
                 <div class="title">同类坐骑</div>
-                <horse-cross :width="30" :list="sameList">
+                <list-cross :width="30" :list="sameList">
                     <template v-slot="data">
                         <same-item :item="data.item" @click.native="getHorse(data.item.ItemID)"></same-item>
                     </template>
-                </horse-cross>
+                </list-cross>
             </div>
             <!-- 捕获地图 -->
             <div v-if="originDatas.length" class="catch-container">
@@ -99,7 +99,7 @@
 import { getHorse, getHorses } from "@/service/horse";
 import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
 import SameItem from "@/components/horse/SameItem.vue";
-import HorseCross from "@/components/horse/HorseCross.vue";
+import ListCross from "@/components/ListCross.vue";
 import HorseMap from "@/components/horse/HorseMap.vue";
 import PvxUser from "@/components/PvxUser.vue";
 
@@ -109,7 +109,7 @@ import horseSites from "@/assets/data/horse_sites.json";
 export default {
     name: "Single",
     inject: ["__imgRoot", "__imgRoot2"],
-    components: { SameItem, HorseCross, HorseMap, PvxUser },
+    components: { SameItem, ListCross, HorseMap, PvxUser },
     data() {
         return {
             loading: false,

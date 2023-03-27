@@ -1,4 +1,4 @@
-import { $node } from "@jx3box/jx3box-common/js/https";
+import { $node, $next } from "@jx3box/jx3box-common/js/https";
 // import { __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 // import axios from "axios";
 // const $ = axios.create({
@@ -30,4 +30,10 @@ function getFeeds(params) {
     });
 }
 
-export { getHorses, getHorse, getAttrs, getFeeds };
+function getGameReporter(params) {
+    return $next().get("/api/game/reporter/horse", {
+        params,
+    });
+}
+
+export { getHorses, getHorse, getAttrs, getFeeds, getGameReporter };
