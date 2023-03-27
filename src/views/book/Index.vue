@@ -20,7 +20,6 @@
                         <div class="title">最近阅读</div>
                         <a href="javascript:;" @click="clearRecent">清除记录</a>
                     </div>
-                    <!-- :offset="{ top: 10 }" -->
                     <list-cross
                         v-if="isPhone() || showRecentCross"
                         key="recentRead"
@@ -46,7 +45,6 @@
                         </div>
                         <a href="javascript:;" @click="selected = professions[index + 1].id">查看全部</a>
                     </div>
-                    <!-- :offset="{ top: 10 }" -->
                     <list-cross
                         v-if="showCross[index]"
                         :ref="professions[index + 1].name"

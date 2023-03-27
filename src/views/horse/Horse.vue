@@ -1,16 +1,12 @@
 <template>
     <div id="app">
         <Header></Header>
-        <!-- <Breadcrumb name="坐骑大全" slug="horse" root="/horse" :feedbackEnable="true" :crumbEnable="true">
-            <img slot="logo" svg-inline :src="getAppIcon('horse')" />
-        </Breadcrumb> -->
         <LeftSidebar><Nav></Nav></LeftSidebar>
         <Main :withoutRight="true">
             <div class="m-main">
                 <router-view></router-view>
             </div>
             <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
-            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>

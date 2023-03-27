@@ -142,6 +142,7 @@
 
 <script>
 import { isPhone } from "@/utils/index";
+import { cloneDeep } from "lodash";
 export default {
     name: "PvxSearch",
     props: {
@@ -216,7 +217,8 @@ export default {
             for (let key in this.checkboxData) {
                 this.checkboxData[key] = [];
             }
-            this.formData = {};
+            const oldFormData = cloneDeep(this.formData);
+            this.formData = oldFormData;
             this.filterValue = false;
         },
         async remoteMethod(query) {
