@@ -28,14 +28,13 @@
     .m-reputation-content {
         position: relative;
         width: 100%;
-        height: 500px;
+        height: 377px;
         margin-top: 80px;
         display: flex;
         gap: 20px;
         & > div {
             position: relative;
             padding: 20px;
-            height: 500px;
             background-color: #fff;
             border-radius: 10px;
             overflow: hidden;
@@ -65,18 +64,18 @@
                 position: relative;
                 display: flex;
                 width: 100%;
-                height: 358px;
+                height: 244px;
                 margin-top: 20px;
                 .img-wrap {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    width: 223px;
-                    height: 358px;
+                    width: 152px;
+                    height: 244px;
                     border-radius: 10px;
                     overflow: hidden;
                     img {
-                        transform: scale(1.8);
+                        transform: scale(1.2);
                         &.default-img {
                             transform: scale(1);
                             width: 100%;
@@ -85,7 +84,7 @@
                 }
                 .switch-wrap {
                     flex: 1;
-                    height: 358px;
+                    height: 244px;
                     margin-left: 20px;
                     .switch-btns {
                         display: flex;
@@ -112,7 +111,7 @@
                     }
                     .content-detail {
                         margin-top: 10px;
-                        height: 318px;
+                        height: 204px;
                         padding: 14px 10px;
                         border-radius: 5px;
                         background-color: #f2e4cf;
@@ -156,7 +155,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-top: 20px;
+                margin-top: 10px;
                 .progress-num {
                     display: flex;
                     justify-content: space-between;
@@ -189,14 +188,15 @@
             }
         }
         .map-wrapper {
-            width: 511px;
             .map-content {
-                margin-top: 10px;
+                margin-top: 20px;
                 width: 468px;
-                height: 410px;
+                height: 275px;
                 overflow: hidden;
                 .m-reputation-map {
-                    height: 410px;
+                    & > div {
+                        height: 275px;
+                    }
                 }
             }
         }

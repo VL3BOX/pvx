@@ -1,10 +1,19 @@
 <template>
     <div class="m-reputation-map">
-        <el-carousel :autoplay="false" :height="height">
+        <el-carousel v-if="list.length > 1" :autoplay="false" :height="height">
             <el-carousel-item v-for="(datas, mapID) in mapDatas" :key="mapID">
-                <jx3box-map :mapId="Number(mapID)" :datas="datas" @resize="handleResize"></jx3box-map>
+                <jx3box-map :mapId="Number(mapID)" :overview="false" :datas="datas" @resize="handleResize"></jx3box-map>
             </el-carousel-item>
         </el-carousel>
+        <jx3box-map
+            v-else
+            v-for="(datas, mapID) in mapDatas"
+            :key="mapID"
+            :mapId="Number(mapID)"
+            :overview="false"
+            :datas="datas"
+            @resize="handleResize"
+        ></jx3box-map>
     </div>
 </template>
 
@@ -28,7 +37,7 @@ export default {
     },
     data() {
         return {
-            height: "410px",
+            height: "275px",
         };
     },
     computed: {
@@ -39,7 +48,7 @@ export default {
                 if (!result[mapId]) result[mapId] = [];
                 const coor = data.guides;
                 result[mapId].push({
-                    title: this.name,
+                    // title: this.name,
                     content: `
                       ${coor.kind || "NPC"}：${coor.npcName}
                       <br /> 坐标：(${coor.positions[0]},${coor.positions[1]},${coor.positions[2]})`,
