@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div class="map-wrapper" v-if="reputation.szMapNames && reputation.szMapNames.length">
+            <div class="map-wrapper" v-if="reputation.szMapNames && reputation.szMapNames.length && !reputation.hiddenMap">
                 <div class="title">
                     声望商人
                     <span>{{ reputation.Guides[0].npcName }}</span>
@@ -274,6 +274,9 @@ export default {
                             guides: data.Guides && data.Guides.length && data.Guides[0],
                         },
                     ];
+                    if (data?.Guides[0]?.positions.every((item) => item === 0)) {
+                        data.hiddenMap = true;
+                    }
                     this.reputation = data;
                 })
                 .finally(() => {
