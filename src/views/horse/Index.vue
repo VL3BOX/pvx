@@ -411,33 +411,42 @@ export default {
                 type1 = this.getList(1),
                 type2 = this.getList(2);
             this.loading = true;
-            Promise.all([type0, type1, type2])
+            Promise.allSettled([type0, type1, type2])
                 .then((data) => {
-                    this.loading = false;
+                    const newData = data.map((item) => {
+                        if (item.status === "fulfilled") {
+                            return item.value;
+                        } else {
+                            return [];
+                        }
+                    });
                     const wrapW = this.$refs.crossWrap?.clientWidth;
                     const gap = this.gap;
                     const baseW = this.base + gap;
-                    for (let i = 0; i < data.length; i++) {
+                    const len = newData.length;
+                    for (let i = 0; i < len; i++) {
                         // 判断是否显示左右滚动
-                        const sw = data[i].length * baseW - gap;
+                        const sw = newData[i].length * baseW - gap;
                         if (sw > wrapW) {
                             this.showCross[i] = true;
                         } else {
                             this.showCross[i] = false;
                         }
                     }
-                    this.listAll = data;
+                    this.listAll = newData;
                 })
-                .catch(() => {
+                .finally(() => {
                     this.loading = false;
                 });
         },
     },
     mounted() {
-        this.getAttrList();
-        this.getFeedList();
-        this.jdugeType();
+        const attrPro = this.getAttrList();
+        const feedPro = this.getFeedList();
         const self = this;
+        Promise.all([attrPro, feedPro]).then(() => {
+            self.jdugeType();
+        });
         window.onresize = function () {
             self.jdugeType();
         };

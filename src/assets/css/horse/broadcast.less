@@ -1,8 +1,11 @@
 .m-horse-broadcast {
+    margin-bottom: 40px;
+    min-height: 492px;
     .m-horse-broadcast__header {
         .flex;
         align-items: flex-end;
         gap: 20px;
+        margin-bottom: 20px;
         .u-title {
             font-weight: 700;
             font-size: 32px;
@@ -15,8 +18,8 @@
             height: 40px;
             border-radius: 30px;
             input {
-                padding-right: 20px;
-                padding-left: 20px;
+                padding-right: 10px;
+                padding-left: 10px;
                 border: none;
                 width: 100px;
                 height: 40px;
@@ -28,6 +31,60 @@
             }
             .el-input__suffix {
                 display: none;
+            }
+        }
+    }
+    .m-horse-broadcast__list {
+        .m-horse-broadcast__item {
+            width: 520px;
+            height: 430px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-sizing: border-box;
+            .u-horse-map {
+                width: 480px;
+                height: 300px;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .u-horse-mapinfo {
+                .flex;
+                justify-content: space-between;
+                margin-top: 10px;
+                .u-horses {
+                    .flex;
+                    gap: 10px;
+                    .u-horse {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 10px;
+                        background-image: url("../../img/horse_item_bg_sm.jpg");
+                    }
+                    img {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: all 0.5s;
+                        &:hover {
+                            transform: scale(1.1);
+                        }
+                    }
+                }
+                .u-times-info {
+                    .flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding-right: 10px;
+                    font-weight: 700;
+                    font-size: 24px;
+                    line-height: 32px;
+                    & > div {
+                        .flex;
+                        justify-content: flex-end;
+                    }
+                }
             }
         }
     }
