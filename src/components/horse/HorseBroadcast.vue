@@ -135,7 +135,6 @@ export default {
                     ...coor,
                 },
             ];
-            console.log(horses);
             const obj = {
                 mapDatas: result,
                 map_id: mapId,
