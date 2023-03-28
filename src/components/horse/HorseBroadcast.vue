@@ -40,6 +40,7 @@
                 </div>
             </template>
         </list-cross>
+        <div v-else class="w-no-data">暂无播报</div>
     </div>
 </template>
 
@@ -122,7 +123,7 @@ export default {
                     if (horseSites[key].mapName === mapName) {
                         mapId = key;
                         coordinates = horseSites[key].coordinates;
-                        horses = horseSites[mapId].horses;
+                        horses = horseSites[mapId].horses.flat();
                     }
                 }
             }
@@ -134,6 +135,7 @@ export default {
                     ...coor,
                 },
             ];
+            console.log(horses);
             const obj = {
                 mapDatas: result,
                 map_id: mapId,
