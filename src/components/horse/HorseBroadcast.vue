@@ -18,19 +18,21 @@
                     ></jx3box-map>
                     <div class="u-horse-mapinfo">
                         <div class="u-horses">
-                            <div class="u-horse" v-for="horse in data.item.horses" :key="horse" @click="go(horse)">
-                                <el-tooltip class="item" effect="dark" :content="horse" placement="top">
-                                    <el-image :src="getImgSrc(horse)" class="u-image">
-                                        <div slot="error" class="image-slot">
-                                            <img src="../../assets/img/horse_item_bg_sm.jpg" />
-                                        </div>
-                                    </el-image>
-                                </el-tooltip>
+                            <div class="u-horses-content">
+                                <div class="u-horse" v-for="horse in data.item.horses" :key="horse" @click="go(horse)">
+                                    <el-tooltip class="item" effect="dark" :content="horse" placement="top">
+                                        <el-image :src="getImgSrc(horse)" class="u-image">
+                                            <div slot="error" class="image-slot">
+                                                <img src="../../assets/img/horse_item_bg_sm.jpg" />
+                                            </div>
+                                        </el-image>
+                                    </el-tooltip>
+                                </div>
                             </div>
                         </div>
                         <div class="u-times-info">
                             <div class="u-map-name">{{ data.item.map_name }}</div>
-                            <div class="u-times">
+                            <div class="u-times" :class="data.item.subtype === 'foreshow' && 'u-times-lately'">
                                 <span>{{ data.item.fromTime }}</span>
                                 <span> ~ </span>
                                 <span>{{ data.item.toTime }}</span>
@@ -40,7 +42,7 @@
                 </div>
             </template>
         </list-cross>
-        <div v-else class="w-no-data">暂无播报</div>
+        <div v-else class="w-no-data">{{ params.server }} 暂无播报</div>
     </div>
 </template>
 
@@ -153,7 +155,7 @@ export default {
                 const threeList = list.filter(
                     (item) => item.map_id && !myMap.has(item.map_id) && myMap.set(item.map_id, 1)
                 );
-                // 播报列表, 取上报时间距离现在在15分钟之内的
+                // 播报列表, 且取上报时间距离现在在15分钟之内的
                 const bList = list.filter(
                     (item) =>
                         !item.map_id && (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
@@ -167,13 +169,18 @@ export default {
                             const minute = content.match(/还有(\S*)分钟/)
                                 ? Number(content.match(/还有(\S*)分钟/)[1])
                                 : 0;
-                            newThreeList.push({
-                                ...item,
-                                id: index ? Number(index + item.id.toString()) : item.id,
-                                content: content,
-                                minute: minute,
-                                horseIndex: index,
-                            });
+                            // 如果上报时间+出现时间+15分钟在当前时间之前则过滤掉
+                            const bol =
+                                new Date(item.created_at).valueOf() + (minute + 15) * 60 * 1000 >= new Date().valueOf();
+                            if (bol) {
+                                newThreeList.push({
+                                    ...item,
+                                    id: index ? Number(index + item.id.toString()) : item.id,
+                                    content: content,
+                                    minute: minute,
+                                    horseIndex: index,
+                                });
+                            }
                         }
                     });
                 });
