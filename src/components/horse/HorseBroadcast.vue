@@ -69,7 +69,7 @@ export default {
             params: {
                 pageIndex: 1,
                 pageSize: 50,
-                server: "梦江南",
+                server: "",
                 type: "horse",
                 // subtype: "", // foreshow,npc_chat
                 // start: dayjs(new Date().valueOf() - 15 * 60 * 1000).format("YYYYMMDDHHmm"),
@@ -219,10 +219,9 @@ export default {
         if (User.isLogin()) {
             getUserInfo().then((res) => {
                 this.params.server = res.data?.data?.jx3_server || "梦江南";
-                this.getGameReporter();
             });
         } else {
-            this.getGameReporter();
+            this.params.server = "梦江南";
         }
         this.timer = setInterval(() => {
             this.getGameReporter();
