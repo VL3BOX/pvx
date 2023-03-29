@@ -1,9 +1,5 @@
-import { $node, $next } from "@jx3box/jx3box-common/js/https";
-// import { __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
-// import axios from "axios";
-// const $ = axios.create({
-//     baseURL : 'http://localhost:9002/'
-// })
+import { $node, $next, $cms } from "@jx3box/jx3box-common/js/https";
+
 const $ = $node();
 
 function getHorses(params) {
@@ -36,4 +32,8 @@ function getGameReporter(params) {
     });
 }
 
-export { getHorses, getHorse, getAttrs, getFeeds, getGameReporter };
+function getUserInfo() {
+    return $cms().get("/api/cms/user/my/info");
+}
+
+export { getHorses, getHorse, getAttrs, getFeeds, getGameReporter, getUserInfo };

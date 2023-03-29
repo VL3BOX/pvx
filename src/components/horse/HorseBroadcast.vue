@@ -49,11 +49,12 @@
 <script>
 import Jx3boxMap from "@jx3box/jx3box-map/src/components/Map.vue";
 import ListCross from "@/components/ListCross.vue";
+import User from "@jx3box/jx3box-common/js/user";
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
-import { getGameReporter } from "@/service/horse";
+import { getGameReporter, getUserInfo } from "@/service/horse";
 import dayjs from "dayjs";
 export default {
     name: "HorseBroadcast",
@@ -67,7 +68,7 @@ export default {
             list: [],
             params: {
                 pageIndex: 1,
-                pageSize: 30,
+                pageSize: 50,
                 server: "梦江南",
                 type: "horse",
                 // subtype: "", // foreshow,npc_chat
@@ -215,7 +216,14 @@ export default {
         },
     },
     mounted() {
-        this.getGameReporter();
+        if (User.isLogin()) {
+            getUserInfo().then((res) => {
+                this.params.server = res.data?.data?.jx3_server || "梦江南";
+                this.getGameReporter();
+            });
+        } else {
+            this.getGameReporter();
+        }
         this.timer = setInterval(() => {
             this.getGameReporter();
         }, 30 * 1000);
