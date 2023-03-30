@@ -1,0 +1,220 @@
+.m-pvx-aside {
+    .fixed(lt, 0, @header-height);
+    .size(60px, calc(100% - @header-height));
+    background-color: #fff;
+    overflow: visible;
+    z-index: 601;
+    border-right: 1px solid rgba(0, 0, 0, 0.02);
+    transition: width 0.3s;
+    .u-home {
+        .flex;
+        justify-content: center;
+        align-items: center;
+        .mb(10px);
+        .size(100%, 80px);
+        svg {
+            .db;
+            .size(34px, 31px);
+        }
+        &:hover {
+            background-color: rgba(#000, 0.3);
+        }
+    }
+    .u-btns {
+        .pa;
+        .flex;
+        flex-direction: column;
+        justify-content: space-between;
+        right: -20px;
+        .ct(y, 84px);
+        .size(20px, 84px);
+        transition: all 0.3s;
+        .u-btn {
+            .flex;
+            justify-content: center;
+            align-items: center;
+            .size(20px, 40px);
+            background-color: #fff;
+            color: rgba(#000, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            border-left-color: #fff;
+            cursor: pointer;
+            i {
+                font-size: 12px;
+            }
+            &.is-disabled {
+                background-color: #f7f7f8;
+                color: rgba(#000, 0.1);
+                cursor: not-allowed;
+            }
+            &:not(.is-disabled):hover {
+                color: #000;
+            }
+        }
+    }
+    &.is-closed {
+        .w(0);
+        .m-nav-item {
+            span {
+                .none;
+            }
+        }
+    }
+    &.is-opened {
+        .w(180px);
+    }
+    &.is-regular {
+        .m-nav-item {
+            span {
+                .w(0);
+                opacity: 0;
+                transition-delay: 0s !important;
+            }
+        }
+    }
+}
+.m-pvx-nav {
+    .m-nav-group {
+        &:not(:last-of-type) {
+            .mb(30px);
+        }
+        .m-nav-item {
+            .pr;
+            .u-nav-label {
+                .none;
+                .pa;
+                right: -110px;
+                top: 0;
+                justify-content: center;
+                align-items: center;
+                .size(100px, 40px);
+                .r(5px);
+                .fz(18px);
+                .bold;
+                color: #fff;
+            }
+            a {
+                .flex;
+                justify-content: center;
+                align-items: center;
+                .size(100%, 40px);
+                box-sizing: border-box;
+                span {
+                    .ml(7px);
+                    .fz(16px);
+                    color: #000;
+                    .w(0);
+                    opacity: 0;
+                }
+            }
+            &:hover {
+                .u-nav-label {
+                    .flex;
+                }
+            }
+            &:not(:last-of-type) {
+                .mb(10px);
+            }
+            .u-nav-icon {
+                .size(34px);
+            }
+            &.face,
+            &.furniture,
+            &.reputation {
+                .u-nav-icon {
+                    .size(36px);
+                }
+                span {
+                    .ml(6px);
+                }
+            }
+            &.adventure,
+            &.book {
+                .u-nav-icon {
+                    .size(40px);
+                }
+                span {
+                    .ml(4px);
+                }
+            }
+            &.is-active {
+                span {
+                    color: #fff;
+                    .bold;
+                }
+            }
+        }
+        &.share {
+            .m-nav-item {
+                &:hover {
+                    background-color: rgba(@faceColor, 0.3);
+                }
+                &.is-active,
+                .u-nav-label {
+                    background-color: @faceColor;
+                }
+            }
+        }
+        &.rare {
+            .m-nav-item {
+                &:hover {
+                    background-color: rgba(@petColor, 0.3);
+                }
+                &.is-active,
+                .u-nav-label {
+                    background-color: @petColor;
+                }
+            }
+        }
+        &.merchants {
+            .m-nav-item {
+                &:hover {
+                    background-color: rgba(@priceColor, 0.3);
+                }
+                &.is-active,
+                .u-nav-label {
+                    background-color: @priceColor;
+                }
+            }
+        }
+    }
+    &:hover {
+        & + .u-btns {
+            opacity: 0;
+        }
+    }
+}
+.is-opened {
+    .m-nav-item {
+        a {
+            .pl(12px);
+            justify-content: flex-start !important;
+            span {
+                .w(auto) !important;
+                opacity: 1 !important;
+                transition-delay: 0.15s !important;
+            }
+            .el-icon-caret-left {
+                .pa;
+                right: 15px;
+                top: 16px;
+                .fz(12px);
+                color: #fff;
+            }
+        }
+
+        &.face,
+        &.furniture,
+        &.reputation {
+            a {
+                .pl(11px);
+            }
+        }
+        &.adventure,
+        &.book {
+            a {
+                .pl(9px);
+            }
+        }
+    }
+}

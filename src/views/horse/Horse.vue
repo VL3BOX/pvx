@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <Header></Header>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main">
                 <router-view></router-view>
             </div>
@@ -12,9 +12,8 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
-import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Horse",
@@ -24,10 +23,15 @@ export default {
         __dataRoot: __dataPath + "pvx/",
     },
     data: function () {
-        return {};
+        return {
+            navStatusClass: "is-regular",
+        };
     },
-    computed: {},
-    methods: { getAppIcon },
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
+    },
     components: { Nav, PvxBacktop },
 };
 </script>

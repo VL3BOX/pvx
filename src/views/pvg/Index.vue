@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb
+        <!-- <Breadcrumb
             :name="name"
             :slug="slug"
             :root="'/pvg/' + slug"
@@ -10,26 +10,28 @@
             :feedbackEnable="true"
             :crumbEnable="false"
         >
-        </Breadcrumb>
-        <LeftSidebar>
-            <Nav></Nav>
-        </LeftSidebar>
-        <Main :withoutRight="true">
-            <router-view></router-view>
-            <Footer></Footer>
+        </Breadcrumb> -->
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
+            <div class="m-main">
+                <router-view></router-view>
+            </div>
+            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
 export default {
     name: "Index",
     components: {
         Nav,
     },
     data: function () {
-        return {};
+        return {
+            navStatusClass: "is-regular",
+        };
     },
     computed: {
         slug: function () {
@@ -37,6 +39,11 @@ export default {
         },
         name: function () {
             return this.$route.meta.name;
+        },
+    },
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
         },
     },
 };

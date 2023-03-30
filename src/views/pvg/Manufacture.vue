@@ -1,5 +1,5 @@
 <template>
-    <div class="m-main">
+    <div class="m-manufacture-container">
         <div class="m-manufacture-header">
             <h1 class="u-title">技艺助手</h1>
             <div class="u-settings" v-if="isStd">

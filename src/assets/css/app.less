@@ -1,15 +1,22 @@
 .scrollbar();
-body{
+body {
     background-color: #f3f5f6;
 }
 .m-main {
-    padding: 0 40px;
-    // min-height: calc(100vh - @header-height - @bread-height - 100px);
+    .pr;
+    padding: 64px 40px 0;
 }
 .c-main {
-    // margin-top: @header-height;
-    &.open {
-        .ml(100px);
+    overflow: hidden;
+    .mt(0);
+    &.is-closed {
+        .ml(0px);
+    }
+    &.is-regular {
+        .ml(60px);
+    }
+    &.is-opened {
+        .ml(180px);
     }
 }
 @media screen and (max-width: @ipad) {

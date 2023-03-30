@@ -117,16 +117,14 @@ export default {
 
 <style lang="less">
 .m-face-tabs {
-    /* 兼容chorme */
-    position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
     top: 64px;
     z-index: 3;
     background-color: #f3f5f6;
     .flex;
     overflow-x: auto;
     overflow-y: hidden;
-    padding:20px 0;
+    padding: 20px 0;
 
     .u-tabs {
         .flex;
@@ -144,7 +142,7 @@ export default {
         .mr(20px);
         background-color: #fff;
         .r(30px);
-        color:#949494;
+        color: #949494;
         &.active,
         &:hover {
             background-color: @faceColor;

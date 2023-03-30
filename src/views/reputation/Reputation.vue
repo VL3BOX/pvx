@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <Header></Header>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main">
                 <router-view></router-view>
             </div>
@@ -12,12 +12,19 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 export default {
     name: "Reputation",
-    data: () => ({}),
+    data: () => ({
+        navStatusClass: "is-regular",
+    }),
     components: { Nav, PvxBacktop },
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
+    },
 };
 </script>
 

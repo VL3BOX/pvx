@@ -1,52 +1,16 @@
 <template>
     <div id="app" class="p-pet">
         <Header></Header>
-        <!-- <Breadcrumb
-            name="捏脸分享"
-            slug="face"
-            root="/face"
-            :publishEnable="true"
-            :feedbackEnable="true"
-            :crumbEnable="true"
-        >
-            <template slot="op-append" v-if="isSinglePage && isEditor">
-                <div class="m-face-btn-box">
-                    <el-button
-                        type="danger"
-                        class="u-publish u-btn"
-                        :class="isStar ? 'off' : 'on'"
-                        :icon="!isStar ? 'el-icon-star-off' : 'el-icon-star-on'"
-                        size="medium"
-                        @click="starSet"
-                    >
-                        {{ starText }}
-                    </el-button>
-                </div>
-                <div class="m-face-btn-box">
-                    <el-button
-                        type="danger"
-                        class="u-publish u-btn"
-                        :class="status !== 1 ? 'top' : 'bottom'"
-                        :icon="status !== 1 ? 'el-icon-top' : 'el-icon-bottom'"
-                        size="medium"
-                        @click="statusSet"
-                    >
-                        {{ statusText }}
-                    </el-button>
-                </div>
-            </template>
-        </Breadcrumb> -->
-        <LeftSidebar style="top: 64px"><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true" style="margin-top: 64px">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main"><router-view></router-view></div>
-            <!-- <Footer></Footer> -->
         </Main>
     </div>
 </template>
 
 <script>
 const single_pages = ["single"];
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
 import User from "@jx3box/jx3box-common/js/user";
 import { setStar, cancelStar, onlineFace, offlineFace, deleteFace } from "@/service/face.js";
 export default {
@@ -55,6 +19,7 @@ export default {
     components: { Nav },
     data: function () {
         return {
+            navStatusClass: "is-regular",
             isEditor: User.isEditor(),
         };
     },
@@ -83,6 +48,9 @@ export default {
         },
     },
     methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
         starSet() {
             this.$confirm("确认" + (this.isStar ? "取消精选" : "精选") + "该捏脸？", "提示", {
                 confirmButtonText: "确定",

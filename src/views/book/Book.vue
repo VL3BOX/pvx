@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <Header></Header>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main">
                 <router-view></router-view>
             </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 
 import { mapState } from "vuex";
@@ -20,7 +20,11 @@ import { mapState } from "vuex";
 export default {
     name: "Book",
     components: { Nav, PvxBacktop },
-    data: () => ({}),
+    data() {
+        return {
+            navStatusClass: "is-regular",
+        };
+    },
     computed: {
         ...mapState(["currentBookType"]),
         bgColor() {
@@ -43,6 +47,11 @@ export default {
                     bgColor = "#d16400";
             }
             return bgColor;
+        },
+    },
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
         },
     },
 };

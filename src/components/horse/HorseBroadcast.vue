@@ -228,7 +228,7 @@ export default {
         }, 30 * 1000);
     },
     beforeDestroy() {
-        clearImmediate(this.timer);
+        clearInterval(this.timer);
         this.timer = null;
     },
 };
