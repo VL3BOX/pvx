@@ -117,8 +117,8 @@ export default {
 
 <style lang="less">
 .m-face-tabs {
-    position: fixed;
-    top: 64px;
+    // position: fixed;
+    // top: 64px;
     z-index: 3;
     background-color: #f3f5f6;
     .flex;
