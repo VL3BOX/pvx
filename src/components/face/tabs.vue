@@ -93,11 +93,7 @@ export default {
     methods: {
         //切换数据
         clickTabs({ value }) {
-            // this.active = value;
             this.$emit("setActive", value);
-        },
-        test(v) {
-            console.log(v);
         },
         getThumbnail: function (filename) {
             return __imgPath + "image/face/" + filename + ".jpg";
@@ -117,6 +113,8 @@ export default {
 
 <style lang="less">
 .m-face-tabs {
+    position: sticky;
+    top: 64px;
     // position: fixed;
     // top: 64px;
     z-index: 3;
