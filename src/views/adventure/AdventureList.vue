@@ -129,7 +129,7 @@ export default {
         params({ tabsData }) {
             return {
                 ...tabsData,
-                pageIndex: this.page,
+                page: this.page,
                 client: this.client,
             };
         },
@@ -264,12 +264,12 @@ export default {
         },
         changePage(i) {
             this.page = i;
-            this.getData();
+            // this.getData();
         },
         appendPage: function () {
             this.page = this.page + 1;
             this.appendMode = true;
-            this.getData();
+            // this.getData();
         },
         onSearch(params) {
             // this.page = 1;
