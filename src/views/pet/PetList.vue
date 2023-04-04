@@ -3,7 +3,7 @@
         <petTabs
             @change="handleTabChange"
             :types="Type"
-            :source="Source"
+            :Source="Source"
             :active="active"
             @setActive="setActive"
             :mapList="mapList"
@@ -185,7 +185,7 @@ export default {
             return this.list.length > 0 ? false : true;
         },
         setActive(val) {
-            console.log(val);
+            // console.log(val);
             this.active = val;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();
@@ -220,7 +220,7 @@ export default {
             getPets(params)
                 .then((res) => {
                     let newList = res.data.list.filter((item) => {
-                        return item.NameFrame;
+                        return item.NameFrame || item.Level;
                     });
                     if (this.appendMode) {
                         this.list = this.list.concat(newList);
