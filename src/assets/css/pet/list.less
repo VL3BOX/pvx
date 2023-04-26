@@ -1,6 +1,3 @@
-.p-pet {
-}
-
 .m-pet-title {
     .flex;
     margin: 20px 0;
@@ -66,12 +63,27 @@
 }
 
 @media screen and (max-width: @ipad) {
-    .m-pet {
+    .p-pet {
         .u-type {
             .mt(20px);
         }
         .u-title {
             .fz(24px);
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .p-pet {
+        .u-lucky-title {
+            .mt(84px);
+        }
+        .u-title {
+            .fz(24px);
+        }
+        .m-pet-tabs,
+        .m-lucky-list {
+            .scrollbar(2px);
         }
     }
 }

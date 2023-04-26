@@ -235,6 +235,12 @@
     }
 }
 
+@media screen and (max-width: @phone) {
+    .m-header {
+        .pt(60px);
+    }
+}
+
 .m-single-data {
     .pb(20px);
 }
@@ -370,6 +376,7 @@
         border-bottom: 1px dotted #e1e4e8;
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         padding: 5px 0;
 
         &:last-child {
@@ -379,7 +386,7 @@
     .u-label {
         .fz(12px,28px);
         margin-right: 10px;
-        color:rgba(0, 0, 0, 0.5);
+        color: rgba(0, 0, 0, 0.5);
 
         em {
             color: #000;

@@ -1,11 +1,13 @@
 .m-pvx-aside {
-    .fixed(lt, 0, @header-height);
     .size(60px, calc(100% - @header-height));
     background-color: #fff;
     overflow: visible;
-    z-index: 601;
+    z-index: 600;
     border-right: 1px solid rgba(0, 0, 0, 0.02);
     transition: width 0.3s;
+    left: 0;
+    top: @header-height;
+    position: fixed;
     .u-home {
         .flex;
         justify-content: center;

@@ -188,7 +188,7 @@ export default {
             return document.documentElement.clientWidth <= 768;
         },
         navStatusClass() {
-            let text = this.isPhone ? "is-closed" : "is-regular";
+            let text = "";
             const navStatus = this.navStatus;
             if (navStatus === 0) {
                 text = "is-closed";
@@ -258,6 +258,11 @@ export default {
                 this.navStatus++;
             }
         },
+    },
+    mounted() {
+        if (this.isPhone) {
+            this.navStatus = 0;
+        }
     },
 };
 </script>

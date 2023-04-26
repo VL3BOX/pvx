@@ -10,7 +10,7 @@
         />
 
         <template v-if="luckyList.length > 0">
-            <div class="m-pet-title u-type">
+            <div class="m-pet-title u-type u-lucky-title">
                 <div class="u-title">今日福缘</div>
             </div>
             <div class="m-lucky-list">

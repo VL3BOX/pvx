@@ -285,7 +285,17 @@
     }
     .m-face-list {
         overflow-x: auto;
+        .scrollbar(2px);
     }
 }
 @media screen and (max-width: @phone) {
+    .m-share-tabs {
+        overflow-x: auto;
+        .scrollbar(2px);
+        width: calc(100% - 30px);
+        .u-tabs {
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+        }
+    }
 }
