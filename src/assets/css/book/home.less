@@ -56,6 +56,7 @@
             background-color: #fff;
             // font-weight: bold;
             text-align: center;
+            flex: none;
             cursor: pointer;
             &:hover,
             &.is-active {
@@ -77,7 +78,7 @@
         }
     }
     .list-wrapper {
-        margin-top: 80px;
+        margin-top: 84px;
         min-height: 300px;
         .list-item-wrapper {
             margin-bottom: 40px;
@@ -128,7 +129,6 @@
 @media screen and (max-width: @ipad) {
     .book-home-wrapper {
         .list-wrapper {
-            margin-top: 130px;
             .list-card-content {
                 justify-content: space-evenly;
             }
@@ -138,13 +138,6 @@
 
 @media screen and (max-width: @phone) {
     .book-home-wrapper {
-        .list-wrapper {
-            margin-top: 200px;
-        }
-        .pvx-search-wrapper.book-search {
-            padding-left: 20px !important;
-            margin-left: -20px !important;
-        }
         .m-book-card {
             display: flex;
             flex-direction: column;

@@ -8,18 +8,21 @@
     padding-left: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
+    .scrollbar(2px);
     .search-group {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         width: 100%;
         .search-item {
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            flex: none;
             &.type-list {
                 input[type="radio"] {
                     margin: 0;
@@ -221,7 +224,7 @@
     .pvx-search-wrapper {
         margin-left: 0 !important;
         padding-left: 0 !important;
-        width: calc(100% - 30px);
+        width: calc(100% - 80px);
         .search-item:not(:last-child) {
             margin: 10px 0;
         }
@@ -235,17 +238,7 @@
         .search-group {
             .search-item {
                 position: relative;
-                margin: 0 0 15px 0;
-                &.type-list {
-                    width: 100%;
-                    .type-item {
-                        width: 20%;
-                        margin-right: 5%;
-                    }
-                }
-                .search-input {
-                    width: 100%;
-                }
+                margin: 0;
             }
         }
     }
