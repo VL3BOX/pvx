@@ -141,7 +141,7 @@ export default {
             }
         },
         async getNews() {
-            return await getBreadcrumb("reputation-newest", { client: this.client}).then((data) => {
+            return await getBreadcrumb("reputation-newest", { client: this.client }).then((data) => {
                 this.news = data.split(",").map((item) => Number(item));
             });
         },

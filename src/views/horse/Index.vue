@@ -125,6 +125,7 @@ export default {
             search: {},
             listAll: [],
             list: [],
+            feeds: [],
             // 是否是全部
             isAll: true,
             // 默认全部
@@ -413,6 +414,7 @@ export default {
             this.loading = true;
             Promise.allSettled([type0, type1, type2])
                 .then((data) => {
+                    console.log(data);
                     const newData = data.map((item) => {
                         if (item.status === "fulfilled") {
                             return item.value;
