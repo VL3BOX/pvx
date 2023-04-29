@@ -1,0 +1,44 @@
+.p-overview {
+    * {
+        box-sizing: border-box;
+    }
+    .m-gold-charts {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        overflow-x: auto;
+        width: 100%;
+
+        gap: 20px;
+        .u-title {
+            flex-shrink: 0;
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+    }
+    .m-my-care {
+        .u-header {
+            position: relative;
+            .u-btn {
+                cursor: pointer;
+                font-size: 1em;
+                float: right;
+            }
+        }
+    }
+    .m-goods-List {
+        .group-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 7px;
+            gap: 20px;
+
+            & > div {
+                cursor: pointer;
+            }
+        }
+    }
+}

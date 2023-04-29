@@ -140,7 +140,7 @@ export default {
             } else {
                 arr = this.allGroups
             }
-            this.groups = arr
+            return arr
             // this.groups = this.search ? this.allGroups.map(item => {
             //     return {
             //         ...item,
