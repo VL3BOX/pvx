@@ -142,10 +142,10 @@ export default {
                             status: true,
                         },
                         {
-                            path: "/pvg/item_price",
+                            path: "/pvg/price",
                             label: "价格走势",
                             icon: "el-icon-sugar",
-                            key: "item_price",
+                            key: "price",
                             status: true,
                         },
                     ],

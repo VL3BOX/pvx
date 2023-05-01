@@ -13,7 +13,7 @@
         <template v-else-if="!data.sub_days_0_price && !data.sub_days_1_price && data.sub_days_2_price">
           <GamePrice :price="data.sub_days_2_price" />
         </template>
-        <div v-else style="width:100%;text-align:right;font-weight:normal">暂无价目</div>
+        <div v-else class="is-null">暂无价目</div>
       </div>
     </div>
   </div>
@@ -43,11 +43,11 @@ export default {
     background-color: #fff;
     border-radius: 10px;
 
-    gap: 10px;
+    gap: 20px;
     .goods-logo {
         overflow: hidden;
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
         background: #000;
         border-radius: 10px;
     }
@@ -60,7 +60,7 @@ export default {
 
         gap: 7px;
         .info-name {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             line-height: 32px;
         }
@@ -68,9 +68,15 @@ export default {
             display: flex;
             justify-content: flex-end;
             width: 100%;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             line-height: 26px;
+
+            .is-null{
+                color:#999;
+                font-weight: normal;
+                .fz(12px);
+            }
         }
     }
 }

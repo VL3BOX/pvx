@@ -112,10 +112,10 @@ export default {
                     clients: ["std", "origin"],
                 },
                 {
-                    path: "/pvg/item_price",
+                    path: "/pvg/price",
                     label: "价格走势",
                     icon: "el-icon-sugar",
-                    key: "item_price",
+                    key: "price",
                     status: true,
                     clients: ["std"],
                 },
