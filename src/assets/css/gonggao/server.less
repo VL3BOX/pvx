@@ -1,0 +1,78 @@
+.m-server {
+    margin: 40px 0;
+    .u-title {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 42px;
+        color: #24292e;
+        margin: 0;
+        margin-block: 0;
+        margin-bottom: 20px;
+    }
+    .m-zone-list {
+        margin-top: 20px;
+    }
+    .m-server-list {
+        .flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .m-server-item {
+        .pr;
+        .flex;
+        flex-direction: column;
+        flex: none;
+        gap: 13px;
+        .size(298px, 150px);
+        .r(10px);
+        padding: 28px 20px;
+        box-sizing: border-box;
+        background: #838383;
+        cursor: pointer;
+        .u-server-title {
+            .flex;
+            gap: 13px;
+        }
+        .u-name {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 32px;
+            color: #ffffff;
+        }
+        .u-status {
+            width: 77px;
+            height: 29px;
+            background: #ffffff;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 26px;
+            color: #838383;
+            text-align: center;
+        }
+        .u-server-ip {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 21px;
+            color: #ffffff;
+        }
+        .u-server-fav {
+            .pa;
+            right: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 0px 10px 0px 10px;
+            .flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &.on {
+            background-color: @priceColor;
+            .u-status {
+                color: @priceColor;
+            }
+        }
+    }
+}

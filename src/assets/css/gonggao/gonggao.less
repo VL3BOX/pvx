@@ -1,0 +1,23 @@
+.p-gonggao {
+    padding: 20px 0;
+    .m-nav {
+        .flex;
+        gap: 20px;
+        .m-nav-item {
+            .size(100px, 40px);
+            .r(30px);
+            text-align: center;
+            .lh(40px);
+            cursor: pointer;
+            background-color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            color: #949494;
+            &.is-active,
+            &:hover {
+                background-color: @priceColor;
+                color: #fff;
+            }
+        }
+    }
+}
