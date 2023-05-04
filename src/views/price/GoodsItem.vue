@@ -25,6 +25,11 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     props: ["data"],
     components: { GamePrice },
+    computed: {
+        client() {
+            return this.$store.state.client;
+        }
+    },
     methods: {
         icon_url: function (id) {
             return iconLink(id, this.client);

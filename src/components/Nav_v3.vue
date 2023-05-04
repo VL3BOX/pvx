@@ -4,22 +4,24 @@
             <img src="@/assets/img/nav/home.svg" svg-inline />
         </router-link>
         <div class="m-pvx-nav">
-            <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
-                <div
-                    class="m-nav-item"
-                    v-for="item in group.submenus"
-                    :key="item.key"
-                    :class="[{ 'is-active': active == item.key }, item.key]"
-                    v-show="item.status"
-                >
-                    <a :href="item.path" :target="item.target || '_self'">
-                        <img class="u-nav-icon" :src="getNavIcon(item.key)" :alt="item.label" />
-                        <span>{{ item.label }}</span>
-                        <i v-show="navStatus === 2 && active == item.key" class="el-icon-caret-left"></i>
-                    </a>
-                    <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
+            <el-scrollbar>
+                <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
+                    <div
+                        class="m-nav-item"
+                        v-for="item in group.submenus"
+                        :key="item.key"
+                        :class="[{ 'is-active': active == item.key }, item.key]"
+                        v-show="item.status"
+                    >
+                        <a :href="item.path" :target="item.target || '_self'">
+                            <img class="u-nav-icon" :src="getNavIcon(item.key)" :alt="item.label" />
+                            <span>{{ item.label }}</span>
+                            <i v-show="navStatus === 2 && active == item.key" class="el-icon-caret-left"></i>
+                        </a>
+                        <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
+                    </div>
                 </div>
-            </div>
+            </el-scrollbar>
         </div>
         <div class="u-btns">
             <div class="u-btn" :class="navStatus === 0 && 'is-disabled'" @click="toLeft">
