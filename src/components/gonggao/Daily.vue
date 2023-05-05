@@ -10,9 +10,7 @@
         </div>
         <div class="m-daily-item">
             <div class="u-title">楚天社</div>
-            <div class="u-list">
-                <div class="u-item"></div>
-            </div>
+            <SimpleCelebrity></SimpleCelebrity>
         </div>
         <div class="m-daily-item">
             <div class="u-title">今日福源</div>
@@ -54,9 +52,10 @@
 <script>
 import SimpleServer from "./SimpleServer.vue";
 import SimpleDaily from "./SimpleDaily.vue";
+import SimpleCelebrity from "./SimpleCelebrity.vue";
 export default {
     name: "Daily",
-    components: { SimpleServer, SimpleDaily },
+    components: { SimpleServer, SimpleDaily, SimpleCelebrity },
 };
 </script>
 

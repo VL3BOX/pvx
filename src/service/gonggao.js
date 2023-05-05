@@ -44,4 +44,12 @@ function getFurniture(params) {
     });
 }
 
-export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture };
+function getCelebrities({ client = "std" } = {}) {
+    return $node().get(`/celebrities`, {
+        params: {
+            client,
+        },
+    });
+}
+
+export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture, getCelebrities };
