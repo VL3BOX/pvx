@@ -1,12 +1,27 @@
 <template>
     <div class="m-server">
-        <div v-if="uid && favList.length" class="m-fav-list">
+        <div v-if="favList.length" class="m-fav-list">
             <h2 class="u-title">我的关注</h2>
+            <div class="m-server-list">
+                <ServerItem
+                    v-for="server in favList"
+                    :key="server.server_name"
+                    :server="server"
+                    :favList="favList"
+                    @clickServer="clickServer"
+                ></ServerItem>
+            </div>
         </div>
         <div class="m-zone-list" v-for="zone in zones" :key="zone">
             <h2 class="u-title">{{ zone }}</h2>
             <div class="m-server-list">
-                <ServerItem v-for="server in serverData[zone]" :key="server.serverName" :server="server"></ServerItem>
+                <ServerItem
+                    v-for="server in serverData[zone]"
+                    :key="server.server_name"
+                    :server="server"
+                    :favList="favList"
+                    @clickServer="clickServer"
+                ></ServerItem>
             </div>
         </div>
     </div>
@@ -15,7 +30,6 @@
 <script>
 import User from "@jx3box/jx3box-common/js/user";
 import { getMyFocusServers, setMyFocusServers, getAllServers } from "@/service/server.js";
-import server_map from "@jx3box/jx3box-data/data/server/server_map.json";
 import ServerItem from "./ServerItem.vue";
 export default {
     name: "Server",
@@ -26,13 +40,34 @@ export default {
         return {
             serverData: {},
             serverList: [],
-            serverAllList: [],
             favList: [],
+            heatStateArr: [
+                {
+                    value: "6",
+                    label: "良好",
+                    class: "is-open",
+                },
+                {
+                    value: "7",
+                    label: "繁忙",
+                    class: "is-busy",
+                },
+                {
+                    value: "8",
+                    label: "爆满",
+                    class: "is-full-load",
+                },
+                {
+                    value: "3",
+                    label: "维护",
+                    class: "is-close",
+                },
+            ],
         };
     },
     computed: {
         zones() {
-            return Object.keys(this.serverData).sort();
+            return Object.keys(this.serverData);
         },
         uid() {
             return User.getInfo().uid || 0;
@@ -53,19 +88,17 @@ export default {
 
         // 获取服务器列表
         loadAllServers() {
-            getAllServers().then((data) => {
-                let mainServerList = [];
-                let list = data?.filter((server) => {
-                    if (server.serverName === server.mainServer) {
-                        mainServerList.push(server);
-                    }
-                    return server.serverName !== server.mainServer;
+            getAllServers().then((res) => {
+                let mainServerList = res.data?.map((server) => {
+                    return {
+                        ...server,
+                        connect_state_name: this.heatStateArr.find((item) => item.value === server.heat)?.label || "",
+                        connect_state_class: this.heatStateArr.find((item) => item.value === server.heat)?.class || "",
+                    };
                 });
 
                 this.serverList = mainServerList;
-                this.serverAllList = mainServerList.concat(list);
                 this.sortServer(mainServerList);
-
                 if (this.uid) {
                     getMyFocusServers().then((data) => {
                         this.serverFav(data);
@@ -76,13 +109,12 @@ export default {
 
         // 将获取的服务器分类
         sortServer(list) {
-            const serverKeys = Object.keys(server_map);
             const obj = {};
-            list.filter((item) => serverKeys.includes(item.serverName)).forEach((item) => {
-                if (obj[item.zoneName]) {
-                    obj[item.zoneName].push(item);
+            list.forEach((item) => {
+                if (obj[item.zone_name]) {
+                    obj[item.zone_name].push(item);
                 } else {
-                    obj[item.zoneName] = [item];
+                    obj[item.zone_name] = [item];
                 }
             });
             this.serverData = obj;
@@ -93,14 +125,14 @@ export default {
             if (!data) return;
             data = data.split(",");
             this.serverList.forEach((k) => {
-                if (data.includes(k.mainServer)) this.favList.push(k);
+                if (data.includes(k.main_server)) this.favList.push(k);
             });
         },
 
         //登录状态存服务器，未登录跳转
         setSavedServers() {
             if (this.uid) {
-                let list = this.favList.map((el) => el.serverName);
+                let list = this.favList.map((el) => el.main_server);
 
                 setMyFocusServers(list.join(","))
                     .then((data) => {

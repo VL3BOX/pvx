@@ -1,6 +1,11 @@
 import User from "@jx3box/jx3box-common/js/user";
+import axios from "axios";
+import { __spider } from "@jx3box/jx3box-common/data/jx3box.json";
 import { $cms, $https } from "@jx3box/jx3box-common/js/https";
-
+const $spider = axios.create({
+    // __spider
+    baseURL: "https://spider2.jx3box.com/",
+});
 function setFlowerServer(server) {
     localStorage && localStorage.setItem("flower_server", server);
 }
@@ -70,12 +75,8 @@ function setMyFocusServers(data) {
         });
 }
 
-function getAllServers(data) {
-    return $https("spider")
-        .get(`/jx3servers`)
-        .then((res) => {
-            return res.data.data;
-        });
+function getAllServers() {
+    return $spider.get("/api/spider/server/server_state");
 }
 
 export { setFlowerServer, getServer, getProfile, getTempServer, getMyFocusServers, setMyFocusServers, getAllServers };
