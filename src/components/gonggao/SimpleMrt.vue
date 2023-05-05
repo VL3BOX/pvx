@@ -1,15 +1,14 @@
 <template>
     <div class="m-simple-mrt">
-        <td :title="server">
-            {{ server }}
-        </td>
-        <td>
-            <el-tooltip class="item" effect="dark" :content="(meirentu && meirentu.desc) || '无'" placement="bottom">
-                <div>
-                    {{ (meirentu && meirentu.name) || "今日暂无画像" }}
-                </div>
-            </el-tooltip>
-        </td>
+        <div class="m-mrt-item">
+            <div class="u-mrt-title">
+                <span>{{ meirentu?.name }}</span>
+                <span>{{ week }}</span>
+            </div>
+            <div class="u-mrt-desc">
+                {{ meirentu?.desc }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -17,6 +16,9 @@
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import { getMeirentu } from "@/service/gonggao";
+import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+dayjs.extend(isoWeek);
 export default {
     name: "SimpleMrt",
     data() {
@@ -37,6 +39,11 @@ export default {
         },
         server() {
             return this.$store.state.server;
+        },
+        week() {
+            var datas = dayjs(this.meirentu?.date || new Date()).day();
+            var week = ["日", "一", "二", "三", "四", "五", "六"];
+            return "周" + week[datas];
         },
     },
     watch: {

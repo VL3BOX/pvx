@@ -65,6 +65,17 @@ export default {
             return list;
         },
     },
+    watch: {
+        myServer: {
+            immediate: true,
+            deep: true,
+            handler(myServer) {
+                if (!this.uid) {
+                    this.$store.commit("setServer", myServer?.main_server);
+                }
+            },
+        },
+    },
     methods: {
         dayjs,
     },

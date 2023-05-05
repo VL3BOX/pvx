@@ -2,9 +2,10 @@
     .flex;
     flex-wrap: wrap;
     gap: 30px;
+    margin-top: 40px;
     .m-daily-item {
         flex: none;
-        .mt(40px);
+        .mt(10px);
         .w(420px);
         .pr;
         .u-title {
@@ -12,6 +13,9 @@
             font-size: 32px;
             line-height: 42px;
             color: #24292e;
+            .u-server {
+                font-size: 16px;
+            }
         }
         .m-child-item:not(:first-of-type) {
             margin-top: 20px;
@@ -383,12 +387,10 @@
 
         .w(100%);
         height: 99px;
+        box-sizing: border-box;
 
         background: #ffffff;
         border-radius: 10px;
-
-        /* Inside auto layout */
-
         flex: none;
         & > div {
             .flex;
@@ -408,6 +410,105 @@
             .u-link {
                 &:hover {
                     color: @priceColor;
+                }
+            }
+        }
+    }
+
+    .m-simple-mrt {
+        .mt(20px);
+        .m-mrt-item {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 10px;
+            gap: 13px;
+
+            .w(100%);
+            height: 99px;
+            box-sizing: border-box;
+
+            background-color: #ffad31;
+            color: #fff;
+            border-radius: 10px;
+            flex: none;
+            .u-mrt-title {
+                .flex;
+                .w(100%);
+                justify-content: space-between;
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 26px;
+            }
+        }
+    }
+
+    .m-simple-horse {
+        .u-horse {
+            .flex;
+            flex-wrap: wrap;
+            gap: 20px 18px;
+            margin-top: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 280px;
+            .scrollbar(2px);
+            .u-item {
+                flex: none;
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                gap: 13px;
+                box-sizing: border-box;
+                width: 200px;
+                height: 80px;
+                background: #fff;
+                color: #000000;
+                border-radius: 10px;
+            }
+            .u-horse-name-wrap {
+                flex: none;
+                width: 60px;
+                height: 100%;
+                .el-carousel__container {
+                    height: 60px;
+                }
+                .u-img-list {
+                    width: 60px;
+                    a {
+                        .dbi;
+                        width: 100%;
+                        height: 100%;
+                        :hover {
+                            background-color: #eee;
+                        }
+                    }
+                    .u-image {
+                        width: 60px;
+                        height: 60px;
+                    }
+                }
+            }
+            .u-times-info {
+                .flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+                height: 60px;
+                .u-map-name {
+                    font-weight: 700;
+                    font-size: 20px;
+                    line-height: 26px;
+                }
+                .u-times {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 21px;
+                }
+                .u-times-lately {
+                    color: #fba524;
                 }
             }
         }
