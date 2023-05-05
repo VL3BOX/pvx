@@ -272,7 +272,7 @@ export default {
             return publishLink("face");
         },
         id: function () {
-            return this.$route.params.id;
+            return ~~this.$route.params.id;
         },
         isAuthor: function () {
             return this.post?.user_id == User.getInfo().uid || false;
@@ -387,7 +387,7 @@ export default {
         },
         getDownUrl(uuid) {
             getDownUrl(this.id, uuid).then((res) => {
-                window.location.href = res.data.data?.url;
+                window.location.href = resolveImagePath(res.data.data?.url);
             });
         },
         facePay() {
