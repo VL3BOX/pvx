@@ -14,9 +14,7 @@
         </div>
         <div class="m-daily-item">
             <div class="u-title">今日福源</div>
-            <div class="u-list">
-                <div class="u-item"></div>
-            </div>
+            <SimplePet></SimplePet>
         </div>
         <div class="m-daily-item">
             <div class="u-title">武林通鉴·秘境</div>
@@ -53,9 +51,10 @@
 import SimpleServer from "./SimpleServer.vue";
 import SimpleDaily from "./SimpleDaily.vue";
 import SimpleCelebrity from "./SimpleCelebrity.vue";
+import SimplePet from "./SimplePet.vue";
 export default {
     name: "Daily",
-    components: { SimpleServer, SimpleDaily, SimpleCelebrity },
+    components: { SimpleServer, SimpleDaily, SimpleCelebrity, SimplePet },
 };
 </script>
 
