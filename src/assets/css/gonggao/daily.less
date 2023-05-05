@@ -95,19 +95,18 @@
             height: 80px;
 
             background: #fff;
+            color: #000000;
             border-radius: 10px;
             .pr;
             .u-name {
                 font-weight: 700;
                 font-size: 20px;
                 line-height: 26px;
-                color: #000000;
             }
             .u-desc {
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 21px;
-                color: #000000;
             }
             .u-times {
                 .flex;
@@ -135,6 +134,12 @@
             &.is-done {
                 background-color: @priceColor;
                 color: #fff;
+                .u-times {
+                    .u-time.is-active {
+                        background: #fff;
+                        color: @priceColor;
+                    }
+                }
             }
         }
         &.is-disabled {
