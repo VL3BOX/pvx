@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { getOther, getItemsPrice } from "@/service/manufacture";
+import { getOther, getItemsPrice, getUserInfo } from "@/service/manufacture";
 import { cloneDeep } from "lodash";
+import User from "@jx3box/jx3box-common/js/user";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,10 @@ let store = {
         cartList: [],
         childrenList: [],
         hasItems: [],
+        favList: [],
+        serverList: [],
+        uid: User.getInfo().uid || 0,
+        isLogin: User.isLogin(),
     },
     mutations: {
         toState(state, data) {
@@ -56,7 +61,7 @@ let store = {
         // 自定义价格
         toMyPrice(state, { id, Price }) {
             state.priceData = Object.assign({}, state.priceData, {
-                [id]: Price
+                [id]: Price,
             });
             if (state.cartList.length)
                 state.cartList = state.cartList.map((item) => {
@@ -66,6 +71,15 @@ let store = {
                     });
                     return item;
                 });
+        },
+        setServer(state, server) {
+            state.server = server;
+        },
+        setFavList(state, list) {
+            state.favList = list;
+        },
+        setServerList(state, list) {
+            state.serverList = list;
         },
     },
 
@@ -122,6 +136,16 @@ let store = {
             });
             item.count = count;
             ctx.commit("toCart", { item });
+        },
+        toLogin() {
+            User.toLogin();
+        },
+        getMyServer({ state, commit }) {
+            if (state.isLogin) {
+                getUserInfo().then((res) => {
+                    commit("setServer", res.data?.data?.jx3_server);
+                });
+            }
         },
     },
 };

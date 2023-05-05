@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { getMyFocusServers, getAllServers } from "@/service/server.js";
 import Daily from "@/components/gonggao/Daily.vue";
 import Calendar from "@/components/gonggao/Calendar.vue";
 import Server from "@/components/gonggao/Server.vue";
@@ -47,6 +48,29 @@ export default {
                     label: "开服状态",
                 },
             ],
+            serverList: [],
+            heatStateArr: [
+                {
+                    value: "6",
+                    label: "良好",
+                    class: "is-open",
+                },
+                {
+                    value: "7",
+                    label: "繁忙",
+                    class: "is-busy",
+                },
+                {
+                    value: "8",
+                    label: "爆满",
+                    class: "is-full-load",
+                },
+                {
+                    value: "3",
+                    label: "维护",
+                    class: "is-close",
+                },
+            ],
         };
     },
     computed: {
@@ -55,6 +79,9 @@ export default {
         },
         tab() {
             return this.tabs[this.active].key;
+        },
+        uid() {
+            return this.$store.state.uid;
         },
     },
     methods: {
@@ -66,6 +93,43 @@ export default {
                 },
             });
         },
+        // 获取服务器列表
+        loadAllServers() {
+            getAllServers().then((res) => {
+                let mainServerList = res.data?.map((server) => {
+                    return {
+                        ...server,
+                        connect_state_name: this.heatStateArr.find((item) => item.value === server.heat)?.label || "",
+                        connect_state_class: this.heatStateArr.find((item) => item.value === server.heat)?.class || "",
+                    };
+                });
+
+                this.serverList = mainServerList;
+                this.$store.commit("setServerList", this.serverList);
+                if (this.uid) {
+                    getMyFocusServers().then((data) => {
+                        this.serverFav(data);
+                    });
+                }
+            });
+        },
+        //转服务器数据 str转换成obj
+        serverFav(data) {
+            if (!data) return;
+            data = data.split(",");
+            const favList = [];
+            this.serverList.forEach((k) => {
+                if (data.includes(k.main_server)) {
+                    favList.push(k);
+                }
+            });
+            this.$store.commit("setFavList", favList);
+        },
+    },
+    created() {
+        if (this.active !== 1) {
+            this.loadAllServers();
+        }
     },
 };
 </script>

@@ -23,12 +23,11 @@ export default {
             type: Object,
             required: true,
         },
-        favList: {
-            type: Array,
-            default: () => [],
-        },
     },
     computed: {
+        favList() {
+            return this.$store.state.favList;
+        },
         isSaved() {
             return this.favList.filter((item) => item.main_server.indexOf(this.server.main_server) !== -1).length > 0;
         },

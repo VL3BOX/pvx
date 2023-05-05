@@ -17,14 +17,6 @@
         flex-wrap: wrap;
         gap: 20px;
     }
-    @media screen and (max-width: @phone) {
-        .u-title {
-            text-align: center;
-        }
-        .m-server-list {
-            justify-content: center;
-        }
-    }
     .m-server-item {
         .pr;
         .flex;
@@ -97,6 +89,14 @@
             .u-status {
                 color: #f56c6c;
             }
+        }
+    }
+    @media screen and (max-width: @phone) {
+        .m-server-list {
+            justify-content: center;
+        }
+        .m-server-item {
+            width: 100%;
         }
     }
 }
