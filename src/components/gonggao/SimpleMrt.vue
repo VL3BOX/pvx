@@ -24,7 +24,6 @@ export default {
             meirentu: null,
         };
     },
-    props: ["server"],
     computed: {
         client: function () {
             return this.$store.state.client || "std";
@@ -35,6 +34,9 @@ export default {
             } else {
                 return servers_origin;
             }
+        },
+        server() {
+            return this.$store.state.server;
         },
     },
     watch: {
