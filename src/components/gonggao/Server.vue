@@ -28,6 +28,7 @@
 <script>
 import { setMyFocusServers } from "@/service/server.js";
 import ServerItem from "./ServerItem.vue";
+import { cloneDeep } from "lodash";
 export default {
     name: "Server",
     components: {
@@ -76,7 +77,8 @@ export default {
         // 将获取的服务器分类
         sortServer(list) {
             const obj = {};
-            list.reverse().forEach((item) => {
+            const sortList = cloneDeep(list).reverse();
+            sortList.forEach((item) => {
                 if (obj[item.zone_name]) {
                     obj[item.zone_name].push(item);
                 } else {
