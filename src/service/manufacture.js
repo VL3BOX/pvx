@@ -36,4 +36,16 @@ function getAuctionPrice(params) {
 function addMyPlans(params) {
     return $cms().post(`/api/cms/app/item_plan`, params);
 }
-export { getManufactures, getManufactureItem, getCraftJson, getOther, getItemsPrice, getAuctionPrice, addMyPlans };
+function getUserInfo() {
+    return $cms().get("/api/cms/user/my/info");
+}
+export {
+    getManufactures,
+    getManufactureItem,
+    getCraftJson,
+    getOther,
+    getItemsPrice,
+    getAuctionPrice,
+    addMyPlans,
+    getUserInfo,
+};
