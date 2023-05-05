@@ -2,11 +2,11 @@
     <div class="m-simple-mrt">
         <div class="m-mrt-item">
             <div class="u-mrt-title">
-                <span>{{ meirentu?.name }}</span>
+                <span>{{ meirentu?.name || "今日暂无画像" }}</span>
                 <span>{{ week }}</span>
             </div>
             <div class="u-mrt-desc">
-                {{ meirentu?.desc }}
+                {{ meirentu?.desc || "" }}
             </div>
         </div>
     </div>
