@@ -76,7 +76,7 @@ export default {
         // 将获取的服务器分类
         sortServer(list) {
             const obj = {};
-            list.forEach((item) => {
+            list.reverse().forEach((item) => {
                 if (obj[item.zone_name]) {
                     obj[item.zone_name].push(item);
                 } else {
