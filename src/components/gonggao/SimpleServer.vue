@@ -58,7 +58,6 @@ export default {
                 } else {
                     const len = favList.length;
                     const favKeys = favList.map((item) => item.main_server);
-                    console.log(this.myServer, serverList);
                     const remainServerList = serverList.filter((item) => !favKeys.includes(item.main_server));
                     list = favList.concat(remainServerList.splice(0, 3 - len));
                 }

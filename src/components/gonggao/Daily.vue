@@ -2,13 +2,11 @@
     <div class="m-daily">
         <div class="m-daily-item">
             <div class="u-title">服务器状态</div>
-            <simple-server></simple-server>
+            <SimpleServer></SimpleServer>
         </div>
         <div class="m-daily-item">
             <div class="u-title">日常</div>
-            <div class="u-list">
-                <div class="u-item"></div>
-            </div>
+            <SimpleDaily></SimpleDaily>
         </div>
         <div class="m-daily-item">
             <div class="u-title">楚天社</div>
@@ -55,9 +53,10 @@
 
 <script>
 import SimpleServer from "./SimpleServer.vue";
+import SimpleDaily from "./SimpleDaily.vue";
 export default {
     name: "Daily",
-    components: { SimpleServer },
+    components: { SimpleServer, SimpleDaily },
 };
 </script>
 
