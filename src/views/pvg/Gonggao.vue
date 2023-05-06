@@ -5,46 +5,44 @@
                 class="m-nav-item"
                 v-for="tab in tabs"
                 :key="tab.key"
-                :class="active === tab.value && 'is-active'"
-                @click="go(tab.value)"
+                :class="active === tab.key && 'is-active'"
+                @click="go(tab)"
             >
                 {{ tab.label }}
             </div>
         </div>
         <div class="m-content">
-            <component :is="tab"></component>
+            <!-- <component :is="tab"></component> -->
+            <router-view></router-view>
         </div>
     </div>
 </template>
 
 <script>
 import { getMyFocusServers, getAllServers } from "@/service/server.js";
-import Daily from "@/components/gonggao/Daily.vue";
-import Calendar from "@/components/gonggao/Calendar.vue";
-import Server from "@/components/gonggao/Server.vue";
+// import Daily from "@/components/gonggao/Daily.vue";
+// import Calendar from "@/components/gonggao/Calendar.vue";
+// import Server from "@/components/gonggao/Server.vue";
 export default {
     name: "Gonggao",
-    components: {
-        Daily,
-        Calendar,
-        Server,
-    },
+    // components: {
+    //     Daily,
+    //     Calendar,
+    //     Server,
+    // },
     data() {
         return {
             tabs: [
                 {
-                    key: "Daily",
-                    value: 0,
+                    key: "daily",
                     label: "速览",
                 },
                 {
-                    key: "Calendar",
-                    value: 1,
+                    key: "calendar",
                     label: "日历",
                 },
                 {
-                    key: "Server",
-                    value: 2,
+                    key: "server",
                     label: "开服状态",
                 },
             ],
@@ -75,7 +73,7 @@ export default {
     },
     computed: {
         active() {
-            return ~~this.$route.query?.tab || 0;
+            return this.$route.name;
         },
         tab() {
             return this.tabs[this.active].key;
@@ -87,10 +85,7 @@ export default {
     methods: {
         go(tab) {
             this.$router.push({
-                path: "/gonggao",
-                query: {
-                    tab: tab,
-                },
+                path: `/gonggao/${tab.key}`,
             });
         },
         // 获取服务器列表
@@ -127,6 +122,7 @@ export default {
         },
     },
     created() {
+        console.log(this.$route.name);
         if (this.active !== 1) {
             this.loadAllServers();
         }
