@@ -1,0 +1,95 @@
+.m-calendar-item {
+    font-size: 12px;
+    .size(100%);
+    .pr;
+    box-sizing: border-box;
+    padding:10px;
+    .break;
+
+    background-position: right top;
+    background-repeat: no-repeat;
+    // background-size:100% auto;
+
+    .u-date-text {
+        .fz(14px,24px);
+        font-weight: 700;
+        font-family: 'Roboto';
+        .db;
+        .mt(3px);
+        .ml(3px);
+    }
+
+    .u-links{
+        .mt(5px);
+    }
+
+    .u-link {
+        .nobreak;
+        .fz(12px,22px);
+        padding:0 5px;
+        .r(4px);
+        .mb(5px);
+
+        background-repeat: no-repeat;
+        background-position: 0 0;
+
+        // &::before {
+        //     content: "+";
+        // }
+
+        // &.is-event {
+        //     color: @purple;
+        // }
+
+        // &.is-activity {
+        //     color: @pink;
+        // }
+    }
+
+    .u-raid-item {
+        .pr;
+        .break;
+        padding-left: 26px;
+
+        .u-team-logo {
+            .pa;
+            left: 0;
+            top: 0;
+            border-radius: 4px;
+
+        }
+        .u-raid-info {
+            // .u-raid-time {
+            //     .mr(24px);
+            // }
+            .nobreak;
+            display: block;
+        }
+    }
+
+    .u-date-count {
+        .pa;
+        right: 8px;
+        bottom: 8px;
+        // background-color: @bg-gray;
+        background-color:rgba(237,243,245,.47);
+        .x;
+        .fz(12px,20px);
+        padding: 2px 5px;
+        .r(2px);
+        color: #aaa;
+        b {
+            .mr(2px);
+            color: #fba524;
+            font-family: Consolas;
+        }
+    }
+
+    .u-nothing {
+        height: calc(100% - 26px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+}

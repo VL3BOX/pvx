@@ -1,0 +1,57 @@
+.m-calendar-detail{
+    overflow-y: auto;
+    height: 100%;
+}
+
+.m-calendar-detail-header {
+    padding: 5px 15px 10px 15px;
+}
+
+.m-calendar-detail-title {
+    font-size: 22px;
+    margin: 15px 0;
+    font-weight: 300;
+    text-align: center;
+}
+
+.m-calendar-detail-add {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.m-calendar-detail-content {
+    padding-bottom: 40px;
+    .m-content-part {
+        &:not(:last-of-type) {
+            margin-bottom: 10px;
+        }
+        .u-part-header {
+            font-size: 16px;
+            font-weight: 900;
+            .el-divider__text {
+                background-color: rgb(250, 251, 252);
+            }
+            .el-divider{
+                margin-bottom: 15px;
+            }
+        }
+
+        .u-count {
+            color: #999;
+            font-style: normal;
+            .ml(3px);
+            .fz(12px);
+        }
+
+        .u-null {
+            padding: 20px;
+            .x;
+            color: #999;
+            .fz(12px);
+            i{
+                .mr(3px);
+            }
+        }
+    }
+}

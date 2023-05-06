@@ -56,5 +56,4 @@ function getGameReporter(params) {
         params,
     });
 }
-
 export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture, getCelebrities, getGameReporter };
