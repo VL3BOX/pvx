@@ -122,7 +122,6 @@ export default {
         },
     },
     created() {
-        console.log(this.$route.name);
         if (this.active !== 1) {
             this.loadAllServers();
         }

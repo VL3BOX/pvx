@@ -52,15 +52,15 @@ import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 dayjs.extend(isoWeek);
 import { getFurniture } from "@/service/gonggao";
-import SimpleServer from "./SimpleServer.vue";
-import SimpleDaily from "./SimpleDaily.vue";
-import SimpleCelebrity from "./SimpleCelebrity.vue";
-import SimplePet from "./SimplePet.vue";
-import SimpleFb from "./SimpleFb.vue";
-import SimpleMp from "./SimpleMp.vue";
-import SimpleFurniture from "./SimpleFurniture.vue";
-import SimpleMrt from "./SimpleMrt.vue";
-import SimpleHorse from "./SimpleHorse.vue";
+import SimpleServer from "./daily/SimpleServer.vue";
+import SimpleDaily from "./daily/SimpleDaily.vue";
+import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
+import SimplePet from "./daily/SimplePet.vue";
+import SimpleFb from "./daily/SimpleFb.vue";
+import SimpleMp from "./daily/SimpleMp.vue";
+import SimpleFurniture from "./daily/SimpleFurniture.vue";
+import SimpleMrt from "./daily/SimpleMrt.vue";
+import SimpleHorse from "./daily/SimpleHorse.vue";
 export default {
     name: "Daily",
     components: {

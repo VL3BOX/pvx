@@ -27,7 +27,7 @@
 
 <script>
 import { setMyFocusServers } from "@/service/server.js";
-import ServerItem from "./ServerItem.vue";
+import ServerItem from "./server/ServerItem.vue";
 import { cloneDeep } from "lodash";
 export default {
     name: "Server",

@@ -93,8 +93,8 @@
 import { months, weeks } from "@/assets/data/calendar.json";
 import { getCalendar, getCalendarCount, getCalendarSlogans, getMyTeamRaid } from "@/service/calendar.js";
 import dayjs from "dayjs";
-import calendarDetail from "./CalendarDetail.vue";
-import calendarItem from "./CalendarItem.vue";
+import calendarDetail from "./calendar/CalendarDetail.vue";
+import calendarItem from "./calendar/CalendarItem.vue";
 import { resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 export default {
@@ -186,7 +186,7 @@ export default {
 
             this.current.date = 1;
 
-            this.$router.push(`/archive/${this.current.year}/${this.current.month}/${this.current.date}`);
+            this.$router.push(`/gonggao/calendar/${this.current.year}/${this.current.month}/${this.current.date}`);
         },
         /**
          * 切换月份
@@ -213,7 +213,7 @@ export default {
 
             this.current.date = 1;
 
-            this.$router.push(`/archive/${this.current.year}/${this.current.month}/${this.current.date}`);
+            this.$router.push(`/gonggao/calendar/${this.current.year}/${this.current.month}/${this.current.date}`);
         },
         // 获取指定月份数据
         getMonthData() {
@@ -300,7 +300,7 @@ export default {
             this.current.month = month;
             this.current.date = date;
 
-            this.$router.push(`/archive/${this.current.year}/${this.current.month}/${this.current.date}`);
+            this.$router.push(`/gonggao/calendar/${this.current.year}/${this.current.month}/${this.current.date}`);
 
             this.setExpand(true);
         },
@@ -364,25 +364,22 @@ export default {
             };
 
             getMyTeamRaid(params).then((res) => {
-                res.data.data
-                    .map((item) => {
-                        return {
-                            ...item,
-                            month: dayjs(item?.raid_info?.start_time).month() + 1,
-                            year: dayjs(item?.raid_info?.start_time).year(),
-                            date: dayjs(item?.raid_info?.start_time).date(),
-                        };
-                    })
-                    .forEach((item) => {
-                        let { year, month, date } = item;
-                        let index = this.dataArr.findIndex(
-                            (d) => d.year === year && d.month === month && d.date === date
-                        );
+                const data = res.data?.data || [];
+                data.map((item) => {
+                    return {
+                        ...item,
+                        month: dayjs(item?.raid_info?.start_time).month() + 1,
+                        year: dayjs(item?.raid_info?.start_time).year(),
+                        date: dayjs(item?.raid_info?.start_time).date(),
+                    };
+                }).forEach((item) => {
+                    let { year, month, date } = item;
+                    let index = this.dataArr.findIndex((d) => d.year === year && d.month === month && d.date === date);
 
-                        if (index > -1) {
-                            this.dataArr[index].raids.push(item);
-                        }
-                    });
+                    if (index > -1) {
+                        this.dataArr[index].raids.push(item);
+                    }
+                });
             });
         },
         // 过滤
@@ -391,11 +388,15 @@ export default {
         },
         resolveImagePath,
         setExpand(val) {
-            this.$store.commit("SET_STATE", {
-                key: "isExpand",
-                value: val,
-            });
+            console.log(val)
+            // this.$store.commit("SET_STATE", {
+            //     key: "isExpand",
+            //     value: val,
+            // });
         },
     },
 };
 </script>
+<style lang="less">
+@import "~@/assets/css/calendar/index.less";
+</style>

@@ -1,53 +1,40 @@
-.m-main {
-    padding: 0;
-    overflow-x: auto;
-    height: 100%;
-    // min-width: 1680px;
-    min-height: calc(100vh - @header-height - @bread-height);
-}
-
-@aside_width: 320px;
+@aside_width: 412px;
+@aside_top: 164px;
 .m-calendar {
     display: flex;
-    // gap: 20px;
 
     border-bottom: 1px solid #eee;
     box-sizing: border-box;
-    // height: 100%;
-    // padding-right: @aside_width;
-    // min-height: calc(100vh - @header-height - @bread-height);
 }
 
 .m-calendar-main {
-    background-color:@bg-black;
     flex: 1;
-    padding: 20px 20px;
-    .mr(@aside_width);
+    .mr(@aside_width + 40px);
+    margin-top: 40px;
 
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: cover;
 
     box-sizing: border-box;
-    height: 100%;
-    min-height: calc(100vh - @header-height - @bread-height);
+    height: calc(100% - @aside_top);
 }
 .m-calendar-aside {
     position: fixed;
-    right: 0;
+    right: 40px;
     bottom: 0;
-    top: @header-height + @bread-height;
-    flex-basis: @aside_width;
-    flex-shrink: 0;
-    flex-grow: 0;
+    top: @aside_top;
+    flex: none;
     width: @aside_width;
     border-left: 1px solid #eee;
     background-color: @bg-light;
-    // max-height: calc(100vh - @header-height - @bread-height);
     overflow-y: auto;
-    // height: 100%;
-    // .pf;
-    // .rt(0,@header-height + @bread-height);
+    height: 927px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 
     .u-expand-icon {
         position: absolute;
@@ -58,31 +45,19 @@
         display: none;
         color: #3d454d;
     }
-    &.expanded {
-        display: none;
-    }
+    // &.expanded {
+    //     display: none;
+    // }
 }
 .c-footer.archive {
     .none;
 }
 
-
 @media screen and (min-width: 2000px) {
-    // .m-calendar{
-    //     padding-right: @aside_width + 140px;
-    // }
     .m-calendar-aside {
-        width: @aside_width + 140px;
-        flex-basis: @aside_width + 140px;
+        width: @aside_width;
     }
-    .m-calendar-main {
-        .mr(@aside_width + 140px);
-    }
-    // .c-footer.archive {
-    //     .mr(@aside_width + 140px);
-    // }
 }
-
 
 @media screen and (max-width: @phone) {
     .m-calendar-aside {
@@ -247,7 +222,8 @@
         border-right: 1px solid #eee;
 
         &:hover {
-            background: rgba(#3585de, 0.09);
+            background: rgba(#53b27f, 0.5);
+            color: #fff;
         }
 
         &.u-other {
@@ -255,7 +231,8 @@
         }
 
         &.u-current {
-            background: rgba(#3585de, 0.05);
+            background: #53b27f;
+            color: #fff;
         }
 
         &.u-today {

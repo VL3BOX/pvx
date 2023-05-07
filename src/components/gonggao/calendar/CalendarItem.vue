@@ -112,7 +112,7 @@ export default {
             return this.data?.raids || [];
         },
         defaultTeamLogo() {
-            return require("../../assets/img/team_logo_null.svg");
+            return require("@/assets/img/team_logo_null.svg");
         },
     },
     methods: {

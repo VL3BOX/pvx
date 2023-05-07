@@ -60,7 +60,7 @@ const routes = [
             },
             {
                 name: "calendar",
-                path: "calendar",
+                path: "calendar/:year(\\d+)/:month(\\d+)/:date(\\d+)?",
                 component: () => import("@/components/gonggao/Calendar.vue"),
                 meta: {
                     name: "日历",
@@ -82,6 +82,15 @@ const router = new VueRouter({
     mode: "history",
     base: "/pvg",
     routes,
+});
+
+const today = new Date();
+
+router.beforeEach((to, from, next) => {
+    if (to.fullPath === "/gonggao/calendar") {
+        next(`${to.fullPath}/${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`);
+    }
+    next();
 });
 
 export default router;
