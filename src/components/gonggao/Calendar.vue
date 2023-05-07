@@ -388,11 +388,10 @@ export default {
         },
         resolveImagePath,
         setExpand(val) {
-            console.log(val)
-            // this.$store.commit("SET_STATE", {
-            //     key: "isExpand",
-            //     value: val,
-            // });
+            this.$store.commit("SET_STATE", {
+                key: "isExpand",
+                value: val,
+            });
         },
     },
 };

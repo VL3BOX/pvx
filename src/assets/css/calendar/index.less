@@ -45,9 +45,9 @@
         display: none;
         color: #3d454d;
     }
-    // &.expanded {
-    //     display: none;
-    // }
+    &.expanded {
+        display: none;
+    }
 }
 .c-footer.archive {
     .none;
@@ -61,9 +61,10 @@
 
 @media screen and (max-width: @phone) {
     .m-calendar-aside {
-        .u-expand-icon {
-            display: block;
-        }
+        display: none;
+    }
+    .m-calendar-main {
+        margin-right: 0;
     }
 }
 
@@ -244,5 +245,12 @@
                 .x;
             }
         }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-main {
+        padding: 10px 15px !important;
+        overflow-x: hidden;
     }
 }

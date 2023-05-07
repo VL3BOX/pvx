@@ -23,8 +23,12 @@ let store = {
         serverList: [],
         uid: User.getInfo().uid || 0,
         isLogin: User.isLogin(),
+        isExpand: true,
     },
     mutations: {
+        SET_STATE: (state, payload) => {
+            state[payload.key] = payload.value;
+        },
         toState(state, data) {
             Object.keys(data).forEach((item) => {
                 state[item] = data[item];
