@@ -1,19 +1,21 @@
 <template>
     <el-tooltip popper-class="m-next-match" v-if="furnitureCategory || furnitureProperty">
-        <div :class="{'u-next-match': furnitureNextMatch}" slot="content" v-html="nextMatch"></div>
-        <tr>
-            <td>园宅会赛</td>
-            <td>{{ furnitureProperty && furnitureProperty.content }}</td>
-            <td class="u-furniture">
-                <a class="u-pet" href="/furniture?match=1" target="_blank">{{ formatContent(furnitureCategory && furnitureCategory.content) }}</a>
-            </td>
-        </tr>
+        <div :class="{ 'u-next-match': furnitureNextMatch }" slot="content" v-html="nextMatch"></div>
+        <div class="m-special-item m-furniture-item">
+            <div>园宅会赛</div>
+            <div>{{ furnitureProperty && furnitureProperty.content }}</div>
+            <div class="u-furniture">
+                <a class="u-pet" href="/furniture?match=1" target="_blank">{{
+                    formatContent(furnitureCategory && furnitureCategory.content)
+                }}</a>
+            </div>
+        </div>
     </el-tooltip>
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import isoWeek from 'dayjs/plugin/isoWeek';
+import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
 dayjs.extend(isoWeek);
 import { getFurniture } from "@/service/gonggao";
 export default {
@@ -21,45 +23,45 @@ export default {
     props: {
         date: {
             type: String,
-            default: dayjs().format('YYYY-MM-DD')
+            default: dayjs().format("YYYY-MM-DD"),
         },
         client: {
             type: String,
-            default: 'std'
-        }
+            default: "std",
+        },
     },
     data() {
         return {
-            furniture: []
-        }
+            furniture: [],
+        };
     },
     computed: {
         // 园宅会赛显示text
-        furnitureCategory: function (){
-            return this.furniture?.find(item => item?.subtype === 'category')
+        furnitureCategory: function () {
+            return this.furniture?.find((item) => item?.subtype === "category");
         },
         // 园宅会赛类型
-        furnitureProperty: function (){
-            return this.furniture?.find(item => item?.subtype === 'property')
+        furnitureProperty: function () {
+            return this.furniture?.find((item) => item?.subtype === "property");
         },
-        furnitureNextMatch: function (){
-            return this.furniture?.find(item => item?.subtype === 'next_match')
+        furnitureNextMatch: function () {
+            return this.furniture?.find((item) => item?.subtype === "next_match");
             // return ''
         },
-        nextMatch: function (){
+        nextMatch: function () {
             return `
                 下期园宅会赛：</br>
-                ${this.nl2br(this.furnitureNextMatch && this.furnitureNextMatch.content) || '暂无数据'}
-            `
-        }
+                ${this.nl2br(this.furnitureNextMatch && this.furnitureNextMatch.content) || "暂无数据"}
+            `;
+        },
     },
     watch: {
         date: {
             immediate: true,
             handler() {
-                if (this.client === 'std') this.loadFurniture();
-            }
-        }
+                if (this.client === "std") this.loadFurniture();
+            },
+        },
     },
     methods: {
         // 园宅会赛
@@ -67,45 +69,45 @@ export default {
             let data = res.data.data;
 
             try {
-                this.furniture = data
+                this.furniture = data;
             } catch (e) {
                 this.furniture = [];
             }
         },
-        loadFurniture: function (){
+        loadFurniture: function () {
             try {
-                let furniture = sessionStorage.getItem('furniture')
+                let furniture = sessionStorage.getItem("furniture");
 
                 furniture = furniture && JSON.parse(furniture);
 
                 if (furniture) {
-                    this.setFurniture(furniture)
+                    this.setFurniture(furniture);
                 } else {
                     const params = {
                         subtypes: "category,property,next_match",
-                        start: dayjs().startOf('isoWeek').format('YYYY-MM-DD'),
-                        end: dayjs().endOf('isoWeek').format('YYYY-MM-DD')
+                        start: dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
+                        end: dayjs().endOf("isoWeek").format("YYYY-MM-DD"),
                     };
                     getFurniture(params).then((res) => {
-                        this.setFurniture(res)
+                        this.setFurniture(res);
 
                         // 当家园会赛数据不存在时，不存储
-                        if (res.data?.data?.length && res.data.data.every(item => item)) {
-                            sessionStorage.setItem('furniture', JSON.stringify(res))
+                        if (res.data?.data?.length && res.data.data.every((item) => item)) {
+                            sessionStorage.setItem("furniture", JSON.stringify(res));
                         }
                     });
                 }
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
-                this.furniture = []
+                this.furniture = [];
             }
         },
         nl2br(str) {
-            return this.formatContent(str.replace(/\\n|\n/g, '<br>'))
+            return this.formatContent(str.replace(/\\n|\n/g, "<br>"));
         },
         formatContent(str) {
-            return str.replace('+', '')
-        }
+            return str.replace("+", "");
+        },
     },
-}
+};
 </script>

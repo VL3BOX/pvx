@@ -1,25 +1,10 @@
 <template>
     <div class="m-daily-activity">
         <div class="m-daily-content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>活动</th>
-                        <th>区服</th>
-                        <th>项目</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, i) in daily" :key="i">
-                        <td>{{ item.type }}</td>
-                        <td>{{ item.zone }}</td>
-                        <td>{{ item.name }}</td>
-                    </tr>
-                    <!-- <meirentu v-if="today && client === 'std'"></meirentu> -->
-                    <lucky-pet :date="date" :client="client"></lucky-pet>
-                    <furniture v-if="isCurrentWeek" :date="date" :client="client"></furniture>
-                </tbody>
-            </table>
+            <div class="m-daily-item" v-for="(item, i) in daily" :key="i">
+                <div class="u-label">{{ item.type }}</div>
+                <div class="u-value">{{ item.name }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -29,19 +14,11 @@ import { getDaily } from "@/service/gonggao";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import isoWeek from "dayjs/plugin/isoWeek";
-// import meirentu from './meirentu';
-import luckyPet from "./lucky_pet";
-import furniture from "./furniture";
 
 dayjs.extend(isoWeek);
 dayjs.extend(isToday);
 export default {
     name: "daily-activity",
-    components: {
-        // meirentu,
-        luckyPet,
-        furniture,
-    },
     props: {
         date: {
             type: String,

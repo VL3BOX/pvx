@@ -1,47 +1,53 @@
 <template>
-    <tr>
-        <td>福缘宠物</td>
-        <td>全服</td>
-        <td>
-            <a v-for="item in luckyList" :key="item.Index" class="u-pet" :href="getPetLink(item.Index)" target="_blank">{{ item.Name }}</a>
-        </td>
-    </tr>
+    <div class="m-special-item m-pet-item">
+        <div>福缘宠物</div>
+        <div>
+            <a
+                v-for="item in luckyList"
+                :key="item.Index"
+                class="u-pet"
+                :href="getPetLink(item.Index)"
+                target="_blank"
+                >{{ item.Name }}</a
+            >
+        </div>
+    </div>
 </template>
 
 <script>
 import { getPets, getPetLucky } from "@/service/gonggao";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 export default {
     name: "lucky-pet",
     props: {
         date: {
             type: String,
-            default: dayjs().format('YYYY-MM-DD')
+            default: dayjs().format("YYYY-MM-DD"),
         },
         client: {
             type: String,
-            default: 'std'
-        }
+            default: "std",
+        },
     },
     data() {
         return {
-            luckyList: []
+            luckyList: [],
         };
     },
     watch: {
         date: {
             immediate: true,
             handler() {
-                if (this.client === 'std') this.loadPetLucky()
-            }
-        }
+                if (this.client === "std") this.loadPetLucky();
+            },
+        },
     },
     methods: {
         // 获取福缘宠物
-        loadPetLucky: function() {
+        loadPetLucky: function () {
             getPetLucky().then((res) => {
                 let data = res.data.std;
-                let dateIndex = dayjs(this.date).format('MDD')
+                let dateIndex = dayjs(this.date).format("MDD");
                 let ids = data[dateIndex];
                 getPets(ids).then((res) => {
                     this.luckyList = res.data.list;
@@ -50,8 +56,8 @@ export default {
         },
         // 前往宠物单页
         getPetLink(id) {
-            return `/pet/${id}`
+            return `/pet/${id}`;
         },
-    }
-}
+    },
+};
 </script>

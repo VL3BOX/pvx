@@ -1,6 +1,6 @@
 <template>
-    <div class="m-calendar-detail-item" @click="view(data.id)">
-        <div class="u-primary" :to="`/view/${data.id}`">
+    <div class="m-calendar-detail-item" @click="view(data)">
+        <div class="u-primary">
             <!-- 图标 -->
             <img v-if="data.type == 2" class="u-icon" :src="iconLink(data.icon)" />
             <a
@@ -68,8 +68,15 @@ export default {
     watch: {},
     methods: {
         // 查看
-        view(id) {
-            this.$router.push(`/view/${id}`);
+        view(data) {
+            if (data.desc.indexOf("(待审核)") === -1) {
+                this.$router.push(`/gonggao/single/${data.id}`);
+            } else {
+                this.$message({
+                    type: "info",
+                    message: "等待审核中...",
+                });
+            }
         },
         // 编辑
         edit(data) {

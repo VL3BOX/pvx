@@ -74,6 +74,14 @@ const routes = [
                     name: "开服状态",
                 },
             },
+            {
+                name: "calendarSingle",
+                path: "single/:id",
+                component: () => import("@/components/gonggao/calendar/Single.vue"),
+                meta: {
+                    sidebar: true,
+                },
+            },
         ],
     },
 ];

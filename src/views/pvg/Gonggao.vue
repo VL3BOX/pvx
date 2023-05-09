@@ -122,7 +122,7 @@ export default {
         },
     },
     created() {
-        if (this.active !== 1) {
+        if (this.active !== "calendar") {
             this.loadAllServers();
         }
     },

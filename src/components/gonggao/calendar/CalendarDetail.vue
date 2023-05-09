@@ -1,17 +1,22 @@
 <template>
     <div class="m-calendar-detail" v-loading="loading">
         <!-- 头部 -->
+        <el-button class="m-calendar-detail-add" icon="el-icon-plus" circle @click="add"></el-button>
         <div class="m-calendar-detail-header">
             <div class="m-calendar-detail-title">{{ currentDate }}</div>
             <div class="m-calendar-detail-title-sub">{{ currentDay }}</div>
-            <el-button class="m-calendar-detail-add" icon="el-icon-plus" circle @click="add"></el-button>
         </div>
 
         <main class="m-calendar-detail-content">
             <!-- 日常+周常活动 -->
             <section class="m-content-part" v-if="client == 'std'">
-                <div class="u-part-header">
-                    <el-divider content-position="left"><i class="el-icon-date"></i> 日常</el-divider>
+                <div class="u-daily-header">
+                    特殊
+                </div>
+                <daily-special :date="date"></daily-special>
+                <div class="u-daily-header">
+                    <!-- <el-divider content-position="left"><i class="el-icon-date"></i> 日常</el-divider> -->
+                    日常
                 </div>
                 <daily-activity :date="date"></daily-activity>
             </section>
@@ -83,9 +88,10 @@
 import { getDayCalendar, delCalendar } from "@/service/calendar.js";
 import User from "@jx3box/jx3box-common/js/user.js";
 
-import CalendarDialog from "./CalendarDialog.vue";
+import CalendarDialog from "./CalendarDialog";
 import CalendarDetailItem from "./CalendarDetailItem.vue";
 import DailyActivity from "./DailyActivity.vue";
+import DailySpecial from "./DailySpecial.vue";
 import dayjs from "dayjs";
 
 export default {
@@ -100,6 +106,7 @@ export default {
         CalendarDialog,
         CalendarDetailItem,
         DailyActivity,
+        DailySpecial
     },
     data: () => ({
         // 数据列表
