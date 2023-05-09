@@ -45,4 +45,15 @@
             box-shadow: 0px 0px 10px rgba(#6b52ff, 0.5);
         }
     }
+
+    @media screen and (max-width: @phone) {
+        .m-special-item {
+            width: 100%;
+            &.m-furniture-item {
+                .u-label {
+                    .none;
+                }
+            }
+        }
+    }
 }
