@@ -2,6 +2,8 @@
 @aside_top: 164px;
 .m-calendar {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 
     border-bottom: 1px solid #eee;
     box-sizing: border-box;
@@ -60,11 +62,30 @@
 }
 
 @media screen and (max-width: @phone) {
+    .m-calendar-detail-header {
+        width: calc(100% - 20px);
+    }
     .m-calendar-aside {
-        display: none;
+        position: unset;
+        width: 100%;
     }
     .m-calendar-main {
         margin-right: 0;
+        .m-calendar-item {
+            width: auto;
+        }
+        .m-calendar-date .u-date {
+            align-items: center;
+        }
+        .u-date-count {
+            position: unset;
+            b {
+                margin-right: 0;
+            }
+            span {
+                .none;
+            }
+        }
     }
 }
 
@@ -108,7 +129,7 @@
     align-items: center;
     justify-content: center;
 
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: #fff;
     .r(4px);
 
     .u-year {
@@ -184,7 +205,7 @@
 
 .m-calendar-content {
     width: 100%;
-    .mt(10px);
+    .mt(20px);
 }
 
 .m-calendar-week {
@@ -208,31 +229,38 @@
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    background-color: rgba(255, 255, 255, 0.99);
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
+    gap: 10px;
 
     .u-date {
-        flex: 0 0 14.285%;
+        flex: 0 0 13%;
         overflow: hidden;
 
-        height: 160px;
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+        gap: 13px;
+
+        height: 150px;
+
+        background: #ffffff;
+        border-radius: 10px;
         cursor: pointer;
-        border-bottom: 1px solid #eee;
-        border-right: 1px solid #eee;
 
         &:hover {
             background: rgba(#53b27f, 0.5);
+            box-shadow: 0px 0px 10px rgba(83, 178, 127, 0.5);
             color: #fff;
         }
 
         &.u-other {
-            color: #ede5da;
+            color: rgba(0, 0, 0, 0.2);
         }
 
         &.u-current {
             background: #53b27f;
+            box-shadow: 0px 0px 10px rgba(83, 178, 127, 0.5);
             color: #fff;
         }
 
@@ -244,6 +272,20 @@
                 .size(24px);
                 .x;
             }
+        }
+    }
+}
+@media screen and (max-width: @notebook) {
+    .m-calendar-date {
+        .u-date {
+            flex-basis: 11.8%;
+        }
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-calendar-date {
+        .u-date {
+            flex-basis: 11.8%;
         }
     }
 }

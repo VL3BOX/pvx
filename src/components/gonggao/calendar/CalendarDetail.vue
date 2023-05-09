@@ -4,7 +4,7 @@
         <div class="m-calendar-detail-header">
             <div class="m-calendar-detail-title">{{ currentDate }}</div>
             <div class="m-calendar-detail-title-sub">{{ currentDay }}</div>
-            <!-- <el-button class="m-calendar-detail-add" size="medium" type="primary" icon="el-icon-plus" @click="add">新增</el-button> -->
+            <el-button class="m-calendar-detail-add" icon="el-icon-plus" circle @click="add"></el-button>
         </div>
 
         <main class="m-calendar-detail-content">
@@ -175,7 +175,7 @@ export default {
             this.loading = true;
             return getDayCalendar(this.dateObj)
                 .then((res) => {
-                    this.list = res.data.data;
+                    this.list = res.data?.data || [];
                 })
                 .finally(() => {
                     this.loading = false;

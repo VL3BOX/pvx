@@ -1,5 +1,6 @@
 <template>
     <div class="m-calendar-item" :class="slogan ? slogan.style : ''" :style="sloganStyle" :key="uiKey">
+        <div class="u-day-text">{{ dataWeek.week }}</div>
         <span
             class="u-date-text"
             :style="{ backgroundColor: isToday && themeColor, color: isToday && themeColor && '#3d454d' }"
@@ -48,8 +49,8 @@
         </div>
         <div class="u-nothing" v-else>...</div>
         <div class="u-date-count" v-if="countData">
-            <b>{{ countData.count }}</b
-            >条纪事
+            <b>{{ countData.count }}</b>
+            <span>条纪事</span>
         </div>
     </div>
 </template>
@@ -82,6 +83,14 @@ export default {
         },
     },
     computed: {
+        dataWeek() {
+            const data = this.data;
+            const date = data.year + "-" + data.month + "-" + data.date;
+            const day = dayjs(date).day();
+            const weeks = ["日", "一", "二", "三", "四", "五", "六"];
+            data.week = "周" + weeks[day];
+            return data;
+        },
         links() {
             const events = this.data?.children.filter((child) => child.type == 1) || [];
             const activities = this.data?.children.filter((child) => child.type == 2) || [];

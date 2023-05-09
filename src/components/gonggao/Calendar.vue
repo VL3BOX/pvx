@@ -53,11 +53,11 @@
                 </div>
             </div>
             <section class="m-calendar-content">
-                <section class="m-calendar-week">
+                <!-- <section class="m-calendar-week">
                     <div class="u-week" v-for="week in weeks" :key="week">
                         <span>{{ week }}</span>
                     </div>
-                </section>
+                </section> -->
                 <section class="m-calendar-date">
                     <div
                         v-for="(item, index) in dataArr"
