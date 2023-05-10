@@ -29,21 +29,16 @@ export default {
     methods: {
         // 获取商品数据
         getGoodsData() {
-            this.loading = true;
-            return new Promise((resolve, reject) => {
-                getItemPrice({
-                    server: this.pricePage.server,
-                    limit: 18,
+            getItemPrice({
+                server: this.pricePage.server,
+                limit: 18,
+            })
+                .then((res) => {
+                    const data = res.data.data || {};
+                    let list = Object.values(data) || [];
+                    this.allGoodsData = list;
                 })
-                    .then((res) => {
-                        const data = res.data.data || {};
-                        let list = Object.values(data) || [];
-                        this.allGoodsData = list;
-                    })
-                    .finally(() => {
-                        this.loading = false;
-                    });
-            });
+                .finally(() => {});
         },
     },
     mounted: function () {

@@ -1,28 +1,31 @@
 <template>
-  <div class="p-overview">
-    <div class="m-gold-charts">
-      <list-cross :list="currentServerGoldPriceData" :radius="0">
+  <div class="p-price-overview">
+    <div class="m-overview-gold-charts">
+      <list-cross :list="currentServerGoldPriceData" :radius="0" v-if="currentServerGoldPriceData.length">
         <template v-slot="data">
           <DataPlane :item="data.item" />
         </template>
       </list-cross>
     </div>
-    <!-- <div class="m-my-care">
+    <div class="m-my-care">
       <div class="u-header">
         <h1 class="u-title">我的关注
           <i class="u-btn el-icon-setting" v-popover:myPlans title="我的清单"></i>
         </h1>
       </div>
-    </div> -->
-    <div class="m-goods-List">
+      <div class="u-group-list">
+        <GoodItem v-for="(item,index) in careGoods" :key="index" :data="item" @click="goItemPage(item.item_id)" />
+      </div>
+    </div>
+    <div class="m-overview-goods-List">
       <div class="goods-group" v-for="group in filterGoodsData" :key="group.id">
         <h1 class="u-title">{{group.label}}</h1>
-        <div class="group-list">
+        <div class="u-group-list">
           <GoodItem v-for="(item,index) in group.items" :key="index" :data="item" @click="goItemPage(item.item_id)" />
         </div>
       </div>
     </div>
-    <!-- <el-popover ref="myPlans" popper-class="m-myPlans-popper" placement="left-start" title="我的清单" width="200" trigger="click">
+    <el-popover ref="myPlans" popper-class="m-myPlans-popper" placement="left-start" title="我的清单" width="200" trigger="click">
       <div class="myPlans-list" v-loading="loading">
         <el-checkbox-group v-model="carePlansId" @change="setCareList">
           <div class="myPlans-item" v-for="(item,index) in myPlans" :key="index">
@@ -30,18 +33,19 @@
           </div>
         </el-checkbox-group>
       </div>
-    </el-popover> -->
+    </el-popover>
   </div>
 </template>
 
 <script>
 import DataPlane from "./DataPlane.vue";
 import { getAuctionPrice } from "@/service/manufacture";
-import { getItemPrice } from "@/service/item";
+import { getGoodsData } from "@/service/item";
 import GoodItem from "./GoodsItem.vue";
 import ListCross from "@/components/ListCross.vue";
 import { axios } from "@/service/api.js";
-import { $cms, $helper } from "@jx3box/jx3box-common/js/https";
+import { $cms, $helper, $next } from "@jx3box/jx3box-common/js/https";
+import { getGoldPriceData, getMyPlans } from "@/service/price.js";
 export default {
     name: "Overview",
     inject: ["pricePage"],
@@ -56,6 +60,7 @@ export default {
             carePlansId: [], // 我关注的清单
             carePlansGoodsIds: [], // 关注清单的物品id
             carePlansGoodsData: [], // 关注清单的物品数据
+            goodPriceMap: {},
         };
     },
     computed: {
@@ -97,50 +102,6 @@ export default {
                 });
             }
             sortArr = sortArr.sort((a, b) => b.sum - a.sum);
-            if (sortArr.length == 0) {
-                const emptyData = [
-                    {
-                        name: "前日",
-                        value: 0,
-                    },
-                    {
-                        name: "昨日",
-                        value: 0,
-                    },
-                    {
-                        name: "今日",
-                        value: 0,
-                    },
-                ];
-                sortArr = [
-                    {
-                        name: "万宝楼",
-                        key: "WBL",
-                        data: emptyData,
-                    },
-                    {
-                        name: "UU898",
-                        key: "UU898",
-                        data: emptyData,
-                    },
-                    {
-                        name: "5173",
-                        key: "5173",
-                        data: emptyData,
-                    },
-                    {
-                        name: "DD373",
-                        key: "DD373",
-                        data: emptyData,
-                    },
-                    {
-                        name: "7881",
-                        key: "7881",
-                        data: emptyData,
-                    },
-                ];
-            }
-
             return sortArr;
         },
         // 经过keyword过滤之后的商品数据
@@ -163,25 +124,41 @@ export default {
             }
             return resArr;
         },
+        careGoods() {
+            let list = [];
+            this.myPlans
+                .filter((item) => this.carePlansId.includes(item.id))
+                .forEach((item) => {
+                    item.relation.forEach((relation) => {
+                        relation.data.forEach((good) => {
+                            list.push({
+                                ...good,
+                                value: this.goodPriceMap[good.id] && this.goodPriceMap[good.id].AvgPrice,
+                                label: good.Name,
+                                icon: good.IconID,
+                            });
+                        });
+                    });
+                });
+            list = Array.from(new Set(list));
+            return list;
+        },
     },
     watch: {
         "pricePage.server": {
             handler: async function () {
-                this.allGoodsData = this.getGoodsData(); // 获取商品数据
+                this.getGoodsData(); // 获取商品数据
             },
         },
     },
     methods: {
         // 获取全服金价
-        getGoldPriceData() {
-            const priceUrl = "https://spider2.jx3box.com/api/spider/gold/trend";
-            axios(priceUrl, "GET", false, {}, {}, {}).then((res) => {
-                this.allGoldPriceData = res;
-            });
+        async getGoldPriceData() {
+            this.allGoldPriceData = await getGoldPriceData();
         },
         // 获取物品数据
         getGoodsData() {
-            getItemPrice({
+            getGoodsData({
                 server: this.pricePage.server,
                 limit: 18,
             }).then((res) => {
@@ -195,20 +172,26 @@ export default {
             await this.getMyPlans(); // 我的清单
             await this.getCarePlansId(); // 关注的清单id
             this.checkPlans();
-            this.getCarePlansGoodsIds(); // 获取关注清单中所有物品的id
+            this.getCarePlansGoodsData(); // 获取关注清单中所有物品的id
         },
         // 获取我的清单
         getMyPlans() {
             return new Promise((resolve, reject) => {
-                $helper()
-                    .get(`api/my/item_plans`, {
+                $cms()
+                    .get(`api/cms/app/item_plans/mine`, {
                         params: {
-                            limit: "10",
+                            page: 1,
+                            per: 10,
                         },
                     })
                     .then((res) => {
-                        const data = res.data.data.data || [];
+                        const data = res.data.data.list || [];
                         this.myPlans = data;
+                        console.log(
+                            "%c 🍛 this.myPlans: ",
+                            "font-size:20px;background-color: #F5CE50;color:#fff;",
+                            this.myPlans
+                        );
                         resolve();
                     });
             });
@@ -253,26 +236,43 @@ export default {
         },
         // 获取关注清单中所有物品的数据
         getCarePlansGoodsData() {
-            this.getCarePlansGoodsIds().then((res) => {
-                const goodsIds = res;
-                const goodsData = [];
-                const allPromise = [];
-                goodsIds.forEach((id) => {
-                    const p = getItemPrice({
+            console.log(
+                "%c 🥨  this.careGoods: ",
+                "font-size:20px;background-color: #33A5FF;color:#fff;",
+                this.careGoods
+            );
+            const itemIds = this.careGoods.map((item) => item.id);
+            $next()
+                .get("api/item-price/list", {
+                    params: {
+                        itemIds: itemIds.join(","),
                         server: this.pricePage.server,
-                        item_id: id,
-                    });
-                    allPromise.push(p);
+                    },
+                })
+                .then((res) => {
+                    this.goodPriceMap = res.data.data || {};
                 });
-                Promise.all(allPromise).then((resArr) => {
-                    resArr.forEach((item) => {
-                        const data = item.data.data || {};
-                        const list = Object.values(data) || [];
-                        goodsData.push(...list);
-                    });
-                    this.carePlansGoodsData = goodsData;
-                });
-            });
+
+            // this.getCarePlansGoodsIds().then((res) => {
+            //     const goodsIds = res;
+            //     const goodsData = [];
+            //     const allPromise = [];
+            //     goodsIds.forEach((id) => {
+            //         const p = getItemPrice({
+            //             server: this.pricePage.server,
+            //             item_id: id,
+            //         });
+            //         allPromise.push(p);
+            //     });
+            //     Promise.all(allPromise).then((resArr) => {
+            //         resArr.forEach((item) => {
+            //             const data = item.data.data || {};
+            //             const list = Object.values(data) || [];
+            //             goodsData.push(...list);
+            //         });
+            //         this.carePlansGoodsData = goodsData;
+            //     });
+            // });
         },
         // 获取关注清单中所有物品的id
         getCarePlansGoodsIds() {
@@ -317,7 +317,8 @@ export default {
     mounted: async function () {
         this.getGoldPriceData();
         this.getGoodsData();
-        // this.getPlans();
+
+        this.getPlans();
     },
 };
 </script>

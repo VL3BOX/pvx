@@ -1,9 +1,11 @@
 @type-item--active: #f8b238; // 搜索type选中颜色
 .p-price {
-    padding: 80px 40px 20px;
-    // min-height: calc(100vh - 64px - 48px); // header + breadcrumb
+    // padding: 0;
+
     :deep(.pvx-search-wrapper) {
-        top: calc(64px + 48px); // header + breadcrumb
+        position: inherit;
+        // top: calc(64px + 48px); // header + breadcrumb
+
         .search-group .search-item.type-list .type-item {
             &:hover,
             &.is-active {
@@ -15,11 +17,12 @@
         }
     }
 
-    .m-header {
+    .m-price-header {
         .flex;
         padding: 20px 0;
-        align-items: flex-end;
+        align-items: center;
         gap: 20px;
+        flex-wrap: wrap;
         .u-title {
             font-weight: 700;
             font-size: 32px;
@@ -53,6 +56,70 @@
                 line-height: 40px;
                 color: #24292e;
             }
+        }
+        .u-tips {
+            width: 800px;
+            // height: 42px;
+            .strong {
+                color: rgb(204, 0, 0);
+                font-weight: bold;
+            }
+            background-color: #fafbfc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            border: 1px solid #eee;
+            font-size: 13px;
+            // line-height: 2;
+        }
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .p-price {
+        .m-price-search {
+            position: sticky;
+            top: 64px;
+            z-index: 1;
+        }
+        :deep(.pvx-search-wrapper) {
+            width: 100%;
+            &::-webkit-scrollbar {
+                width: 2px;
+                height: 2px;
+            }
+            .search-group {
+                flex-wrap: wrap;
+            }
+            .type-list {
+                margin-bottom: 20px;
+            }
+        }
+        .m-price-header {
+            padding-top: 84px;
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .p-price {
+        .m-price-search {
+            position: sticky;
+            top: 64px;
+        }
+        :deep(.pvx-search-wrapper) {
+            width: 100%;
+            &::-webkit-scrollbar {
+                width: 2px;
+                height: 2px;
+            }
+            .search-group {
+                flex-wrap: wrap;
+            }
+            .type-list {
+                margin-bottom: 20px;
+            }
+        }
+        .m-price-header {
+            padding-top: 84px;
         }
     }
 }
