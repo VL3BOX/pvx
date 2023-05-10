@@ -1,5 +1,7 @@
+@nav_width: 60px;
+@home_height: 80px;
 .m-pvx-aside {
-    .size(60px, calc(100% - @header-height));
+    .size(@nav_width, calc(100% - @header-height));
     background-color: #fff;
     overflow: visible;
     z-index: 600;
@@ -7,13 +9,14 @@
     transition: width 0.3s;
     left: 0;
     top: @header-height;
+    box-sizing: border-box;
     position: fixed;
     .u-home {
         .flex;
         justify-content: center;
         align-items: center;
         .mb(10px);
-        .size(100%, 80px);
+        .size(100%, @home_height);
         svg {
             .db;
             .size(34px, 31px);
@@ -67,8 +70,9 @@
     }
     &.is-regular {
         .m-nav-item {
-            span {
-                .w(0);
+            span,
+            .u-nav-label {
+                .w(0) !important;
                 opacity: 0;
                 transition-delay: 0s !important;
             }
@@ -76,7 +80,14 @@
     }
 }
 .m-pvx-nav {
-    // overflow: auto;
+    .w(100%);
+    .h(calc(100% - @home_height));
+    overflow: hidden;
+    box-sizing: border-box;
+    .el-scrollbar {
+        height: 100%;
+        box-sizing: border-box;
+    }
     .m-nav-group {
         &:not(:last-of-type) {
             .mb(30px);
