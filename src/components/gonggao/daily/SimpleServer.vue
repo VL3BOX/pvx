@@ -7,7 +7,7 @@
                     {{ myServer.connect_state_name }}
                 </div>
             </div>
-            <div class="u-server-ip">IP:{{ (myServer.ip_address || 0) + ":" + (myServer?.ip_port || 0) }}</div>
+            <div class="u-server-ip">IP:{{ (myServer.ip_address || 0) + ":" + (myServer.ip_port || 0) }}</div>
             <div class="u-server-time">
                 <span>最近维护时间:</span>{{ dayjs(myServer.maintain_time * 1000).format("YYYY-MM-DD HH:mm:ss") }}
             </div>
