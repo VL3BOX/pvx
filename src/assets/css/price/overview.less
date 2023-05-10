@@ -1,8 +1,19 @@
-.p-overview {
+.p-price-overview {
     * {
         box-sizing: border-box;
     }
-    .m-gold-charts {
+    .u-group-list {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 7px;
+        gap: 20px;
+
+        & > div {
+            cursor: pointer;
+        }
+    }
+    .m-overview-gold-charts {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
@@ -25,19 +36,6 @@
                 cursor: pointer;
                 font-size: 1em;
                 float: right;
-            }
-        }
-    }
-    .m-goods-List {
-        .group-list {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 7px;
-            gap: 20px;
-
-            & > div {
-                cursor: pointer;
             }
         }
     }

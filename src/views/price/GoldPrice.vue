@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import server_cn from "@jx3box/jx3box-data/data/server/server_cn.json";
+console.log("%c 🍬 server_cn: ", "font-size:20px;background-color: #FCA650;color:#fff;", server_cn);
 import * as echarts from "echarts";
 import { axios, realUrl } from "@/service/api.js";
 let timer = null;
@@ -68,49 +70,6 @@ export default {
                 });
             }
             sortArr = sortArr.sort((a, b) => b.sum - a.sum);
-            if (sortArr.length == 0) {
-                const emptyData = [
-                    {
-                        name: "前日",
-                        value: 0,
-                    },
-                    {
-                        name: "昨日",
-                        value: 0,
-                    },
-                    {
-                        name: "今日",
-                        value: 0,
-                    },
-                ];
-                sortArr = [
-                    {
-                        name: "万宝楼",
-                        key: "WBL",
-                        data: emptyData,
-                    },
-                    {
-                        name: "UU898",
-                        key: "UU898",
-                        data: emptyData,
-                    },
-                    {
-                        name: "5173",
-                        key: "5173",
-                        data: emptyData,
-                    },
-                    {
-                        name: "DD373",
-                        key: "DD373",
-                        data: emptyData,
-                    },
-                    {
-                        name: "7881",
-                        key: "7881",
-                        data: emptyData,
-                    },
-                ];
-            }
             return sortArr;
         },
     },
@@ -326,7 +285,12 @@ export default {
             return `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${color};"></span>`;
         },
     },
-    created: function () {},
+    created: function () {
+        // 防止切到金价时，服务器不存在
+        if (!server_cn.includes(this.pricePage.server)) {
+            this.pricePage.server = server_cn[0];
+        }
+    },
     mounted: async function () {
         this.initChart();
         await this.getGoldPriceData();

@@ -2,7 +2,7 @@
   <div class="m-goodsItem" v-on="$listeners">
     <img :src="icon_url(data.icon)" class="goods-logo" />
     <div class="goods-info">
-      <div class="info-name" v-text="data.label"></div>
+      <div class="info-name">{{data.label||''}}</div>
       <div class="info-price">
         <template v-if="data.sub_days_0_price">
           <GamePrice :price="data.sub_days_0_price" />
@@ -12,6 +12,9 @@
         </template>
         <template v-else-if="!data.sub_days_0_price && !data.sub_days_1_price && data.sub_days_2_price">
           <GamePrice :price="data.sub_days_2_price" />
+        </template>
+        <template v-else-if="data.value">
+          <GamePrice :price="data.value" />
         </template>
         <div v-else class="is-null">暂无价目</div>
       </div>
@@ -23,12 +26,14 @@ import GamePrice from "@jx3box/jx3box-common-ui/src/wiki/GamePrice.vue";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 
 export default {
-    props: ["data"],
+    props: {
+        data: {},
+    },
     components: { GamePrice },
     computed: {
         client() {
             return this.$store.state.client;
-        }
+        },
     },
     methods: {
         icon_url: function (id) {
@@ -51,8 +56,8 @@ export default {
     gap: 20px;
     .goods-logo {
         overflow: hidden;
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
         background: #000;
         border-radius: 10px;
     }
@@ -65,6 +70,7 @@ export default {
 
         gap: 7px;
         .info-name {
+            height: 32px;
             font-size: 18px;
             font-weight: bold;
             line-height: 32px;
@@ -77,8 +83,8 @@ export default {
             font-weight: bold;
             line-height: 26px;
 
-            .is-null{
-                color:#999;
+            .is-null {
+                color: #999;
                 font-weight: normal;
                 .fz(12px);
             }

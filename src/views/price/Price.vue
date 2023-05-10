@@ -1,31 +1,34 @@
 <template>
   <div class="p-price">
-    <div class="m-search">
+    <div class="m-price-search">
       <PvxSearch ref="search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)"></PvxSearch>
     </div>
-    <div class="m-header">
+    <div class="m-price-header">
       <h1 class="u-title">{{titleMap[search.type]}}</h1>
       <div class="u-select--round">
         <el-select v-model="server" placeholder="请选择" :default-first-option="true">
-          <!-- <div slot="prefix">区服价格</div> -->
-          <el-option v-for="server in servers" :key="server" :label="server" :value="server">
+          <div slot="prefix">区服价格</div>
+          <el-option v-for="server in servers_std" :key="server" :label="server" :value="server">
           </el-option>
         </el-select>
       </div>
+      <div class="u-tips" v-if="search.type!='goods'">
+        ♥ 请选择正规平台！警惕交易陷阱！部分虚假交易平台会用低价骗取您购买，但充值后又提示该订单已被出售或无货，导致你的钱在一段时间无法及时提现，而且你提现时又要再次收取手续费。
+        <span class="strong">单价越高，表示1元能买到更多的金，也就说明金价越便宜喔！</span>
+      </div>
     </div>
-    <div class="m-body">
+    <div class="m-price-body">
       <!-- 总览 -->
       <Overview v-if="search.type === ''" />
       <!-- 金价 -->
-      <GoldPrice v-else-if="search.type === 0" />
+      <GoldPrice v-else-if="search.type === 'gold'" />
       <!-- 物价 -->
-      <GoodsPrice v-else-if="search.type === 1" />
+      <GoodsPrice v-else-if="search.type === 'goods'" />
     </div>
   </div>
 </template>
 
 <script>
-import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import PvxSearch from "@/components/PvxSearch.vue";
 import Overview from "./Overview.vue"; // 总览组件
@@ -42,6 +45,7 @@ export default {
     components: { PvxSearch, Overview, GoldPrice, GoodsPrice },
     data: function () {
         return {
+            servers_std,
             // 金价数据
             goldPrice: {},
             // 我的关注(清单)
@@ -66,11 +70,11 @@ export default {
                             name: "全部",
                         },
                         {
-                            type: 0,
+                            type: "gold",
                             name: "金价",
                         },
                         {
-                            type: 1,
+                            type: "goods",
                             name: "物价",
                         },
                     ],
@@ -90,9 +94,10 @@ export default {
             },
             titleMap: {
                 "": "走势速览",
-                0: "金价走势",
-                1: "物价走势",
+                gold: "金价走势",
+                goods: "物价走势",
             },
+            no2replace: true, // 防止searchEvent 初始化触发重定向
         };
     },
     watch: {
@@ -108,20 +113,37 @@ export default {
     },
     computed: {
         servers: function () {
-            return this.$store.state.client == "origin" ? servers_origin : servers_std;
+            return servers_std;
         },
     },
     methods: {
         // 字段变化
         searchEvent(data) {
             this.search = data; // 更新搜索条件
+            if (this.no2replace) {
+                this.no2replace = false;
+                return;
+            }
+            const query = {};
+            if (this.search.type !== "") {
+                query.tab = this.search.type;
+            }
+
+            this.$router.replace({ path: "/price", query });
         },
     },
-    created: function () {},
+    created: function () {
+        const tab = this.$route.query.tab;
+        if (tab) {
+            this.initValue.type = tab;
+            this.search.type = tab;
+        }
+    },
     mounted: function () {},
 };
 </script>
 
 <style lang="less" scoped>
 @import "~@/assets/css/price/index.less";
+@import "~@/assets/css/app.less";
 </style>
