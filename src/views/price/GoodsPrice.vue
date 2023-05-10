@@ -16,7 +16,7 @@
 
 <script>
 import GoodItem from "./GoodsItem.vue";
-import { getItemPrice } from "@/service/item";
+import { getGoodsData } from "@/service/item";
 export default {
     name: "GoodsPrice",
     inject: ["pricePage"],
@@ -29,7 +29,7 @@ export default {
     methods: {
         // 获取商品数据
         getGoodsData() {
-            getItemPrice({
+            getGoodsData({
                 server: this.pricePage.server,
                 limit: 18,
             })

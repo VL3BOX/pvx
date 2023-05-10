@@ -258,7 +258,7 @@ export default {
             //     const goodsData = [];
             //     const allPromise = [];
             //     goodsIds.forEach((id) => {
-            //         const p = getItemPrice({
+            //         const p = getGoodsData({
             //             server: this.pricePage.server,
             //             item_id: id,
             //         });
