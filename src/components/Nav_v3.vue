@@ -210,7 +210,11 @@ export default {
         },
         active: function () {
             let arr = compact(location.pathname?.split("/"));
-            return arr[0];
+            let str = arr[0];
+            if (str === "pvg") {
+                str = arr[1];
+            }
+            return str;
         },
         client() {
             return location.href.includes("origin") ? "origin" : "std";
