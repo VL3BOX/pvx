@@ -2,11 +2,11 @@
     <div class="m-simple-mrt">
         <div class="m-mrt-item">
             <div class="u-mrt-title">
-                <span>{{ meirentu?.name || "今日暂无画像" }}</span>
+                <span>{{ meirentu.name || "今日暂无画像" }}</span>
                 <span>{{ week }}</span>
             </div>
             <div class="u-mrt-desc">
-                {{ meirentu?.desc || "" }}
+                {{ meirentu.desc || "" }}
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@ export default {
     name: "SimpleMrt",
     data() {
         return {
-            meirentu: null,
+            meirentu: {},
         };
     },
     computed: {
@@ -58,7 +58,7 @@ export default {
         // 获取美人图
         loadMeirentu() {
             getMeirentu(this.server).then((res) => {
-                this.meirentu = res.data.data;
+                this.meirentu = res.data?.data || {};
             });
         },
     },

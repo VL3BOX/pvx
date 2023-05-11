@@ -1,9 +1,9 @@
 @type-item--active: #f8b238; // 搜索type选中颜色
 .p-price {
     // padding: 0;
+    padding:80px 0;
 
-    :deep(.pvx-search-wrapper) {
-        position: inherit;
+    .pvx-search-wrapper {
         // top: calc(64px + 48px); // header + breadcrumb
 
         .search-group .search-item.type-list .type-item {
@@ -35,7 +35,7 @@
             border-radius: 40px;
             background-color: #fff;
             position: relative;
-            :deep(.el-input__prefix) {
+            .el-input__prefix {
                 display: flex;
                 align-items: center;
                 font-family: "Microsoft YaHei";
@@ -46,7 +46,7 @@
                 padding-left: 15px;
             }
 
-            :deep(.el-input__inner) {
+            .el-input__inner {
                 padding-left: 100px;
                 border: none;
                 border-radius: 40px;
