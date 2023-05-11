@@ -8,14 +8,14 @@
       <div class="u-select--round">
         <el-select v-model="server" placeholder="请选择" :default-first-option="true">
           <div slot="prefix">区服价格</div>
-          <el-option v-for="server in servers_std" :key="server" :label="server" :value="server">
+          <el-option v-for="server in server_std" :key="server" :label="server" :value="server">
           </el-option>
         </el-select>
       </div>
       <div class="u-tips" v-if="search.type!='goods'">
         ♥ 请选择正规平台！警惕交易陷阱！部分虚假交易平台会用低价骗取您购买，但充值后又提示该订单已被出售或无货，导致你的钱在一段时间无法及时提现，而且你提现时又要再次收取手续费。
         <span class="strong">单价越高，表示1元能买到更多的金，也就说明金价越便宜喔！</span>
-      </div>
+      </div>区别
     </div>
     <div class="m-price-body">
       <!-- 总览 -->
@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
+import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
+import server_cn from "@jx3box/jx3box-data/data/server/server_cn.json";
 import PvxSearch from "@/components/PvxSearch.vue";
 import Overview from "./Overview.vue"; // 总览组件
 import GoldPrice from "./GoldPrice.vue"; // 金价组件
@@ -45,7 +46,7 @@ export default {
     components: { PvxSearch, Overview, GoldPrice, GoodsPrice },
     data: function () {
         return {
-            servers_std,
+            server_std,
             // 金价数据
             goldPrice: {},
             // 我的关注(清单)
@@ -113,7 +114,11 @@ export default {
     },
     computed: {
         servers: function () {
-            return servers_std;
+            if (this.search.type == "gold") {
+                return server_cn;
+            } else {
+                return server_std;
+            }
         },
     },
     methods: {
