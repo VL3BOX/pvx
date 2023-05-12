@@ -141,7 +141,6 @@ export default {
         }
     },
     mounted() {
-        console.log(123);
         if (User.isLogin()) {
             this.getSystemGoodsData();
             this.getMyFollowList();

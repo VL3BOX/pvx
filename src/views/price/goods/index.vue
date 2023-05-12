@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             server_std,
-            server: "梦江南",
+            server: "",
             systemGoodsType,
             systemGoodsData: [], // 系统关注物品
             priceMap: {}, // 物品id和价格的映射

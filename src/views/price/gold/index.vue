@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="m-price-gold-body">
-      <goldChart ref="chart" :server="server"></goldChart>
+      <goldChart ref="chart" :server="server" v-if="server"></goldChart>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             server_cn,
-            server: "梦江南",
+            server: "",
         };
     },
     methods: {
