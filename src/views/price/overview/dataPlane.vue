@@ -10,15 +10,15 @@
     <div class="plane-chart" ref="chart" />
     <div class="plane-xAxis">
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[0].value||0}}</div>
+        <div class="xAxis-value">{{item.beforeYesterday||0}}</div>
         <div class="xAxis-label">前日</div>
       </div>
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[1].value||0}}</div>
+        <div class="xAxis-value">{{item.yesterday||0}}</div>
         <div class="xAxis-label">昨日</div>
       </div>
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[2].value||0}}</div>
+        <div class="xAxis-value">{{item.lastDay||0}}</div>
         <div class="xAxis-label">今日</div>
       </div>
     </div>
@@ -30,18 +30,19 @@ import * as echarts from "echarts";
 
 export default {
     name: "GoodsPrice",
-    inject: ["pricePage"],
     props: ["item"],
     components: {},
     data: function () {
         return {
             myChart: null,
+            colorMap: {
+                WBL: "#F8B238",
+                UU898: "#AA66FF",
+                5173: "#5DA0ED",
+                DD373: "#30C7C7",
+                7881: "#FF768B",
+            },
         };
-    },
-    computed: {
-        colorMap() {
-            return this.pricePage.colorMap;
-        },
     },
     watch: {
         item: {
@@ -77,7 +78,8 @@ export default {
         setOption() {
             if (!this.myChart) return;
             if (!this.item.data.length) return;
-            const data = this.item.data;
+            const { beforeYesterday, yesterday, lastDay } = this.item;
+            const data = [beforeYesterday, yesterday, lastDay];
             const min = Math.min(...data);
             const max = Math.max(...data);
             this.myChart.setOption({
@@ -121,7 +123,6 @@ export default {
     created: function () {},
     mounted: function () {
         this.initChart();
-        // this.setOption();
     },
 };
 </script>
