@@ -16,7 +16,7 @@ import { getMeirentu } from "@/service/gonggao";
 export default {
     data() {
         return {
-            meirentu: null,
+            meirentu: {},
         };
     },
     props: {
@@ -46,7 +46,7 @@ export default {
         // 获取美人图
         loadMeirentu() {
             getMeirentu(this.server).then((res) => {
-                this.meirentu = res.data.data;
+                this.meirentu = res.data?.data || {};
             });
         },
     },

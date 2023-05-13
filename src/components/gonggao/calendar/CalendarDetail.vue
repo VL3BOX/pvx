@@ -10,9 +10,7 @@
         <main class="m-calendar-detail-content">
             <!-- 日常+周常活动 -->
             <section class="m-content-part" v-if="client == 'std'">
-                <div class="u-daily-header">
-                    特殊
-                </div>
+                <div class="u-daily-header">特殊</div>
                 <daily-special :date="date"></daily-special>
                 <div class="u-daily-header">
                     <!-- <el-divider content-position="left"><i class="el-icon-date"></i> 日常</el-divider> -->
@@ -106,7 +104,7 @@ export default {
         CalendarDialog,
         CalendarDetailItem,
         DailyActivity,
-        DailySpecial
+        DailySpecial,
     },
     data: () => ({
         // 数据列表
@@ -120,8 +118,10 @@ export default {
     }),
     computed: {
         currentDay() {
-            var datas = dayjs(this.currentDate).day();
-            var week = ["日", "一", "二", "三", "四", "五", "六"];
+            const { year, month, date } = this.dateObj;
+            const currentDate = `${year}-${month}-${date}`;
+            const datas = dayjs(currentDate).day();
+            const week = ["日", "一", "二", "三", "四", "五", "六"];
             return "周" + week[datas];
         },
         currentDate() {
