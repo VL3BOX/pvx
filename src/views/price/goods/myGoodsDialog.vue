@@ -1,9 +1,17 @@
 <template>
   <el-dialog title="设置关注清单" :visible.sync="dialogVisible" width="50%" @close="$emit('close')">
     <div class="m-price-goods-mygoods" v-loading="loading">
-      <div class="m-price-goods-mygoods-group" v-for="group in myPlanList" :key="group.id" @click="choiceGroup(group)">
-        {{group.title}}
-        <el-checkbox v-model="group.checked" readonly></el-checkbox>
+      <template v-if="myPlanList.length">
+
+        <div class="m-price-goods-mygoods-group" v-for="group in myPlanList" :key="group.id" @click="choiceGroup(group)">
+          {{group.title}}
+          <el-checkbox v-model="group.checked" readonly></el-checkbox>
+        </div>
+      </template>
+      <div v-else>
+        <div class="m-price-goods-empty" @click="goItem">
+          还没有清单，<span class="strong">去创建</span>
+        </div>
       </div>
     </div>
     <el-pagination @current-change="getMyPlanList" background layout="prev, pager, next" :total="query.total" :page-size.sync="query.per" :current-page.sync="query.page">
@@ -62,6 +70,10 @@ export default {
             const val = this.followIdList.join(",");
             this.$emit("setMyFollowList", val);
         },
+        goItem() {
+            let host = location.origin;
+            window.open(`${host}/item`);
+        },
     },
     mounted() {
         this.followIdList = JSON.parse(JSON.stringify(this.myFollowData));
@@ -79,14 +91,27 @@ export default {
         align-items: center;
         height: 40px;
         padding: 10px;
-        border: 1px solid #eee;
         margin-bottom: 10px;
+        border: 1px solid #eee;
         cursor: pointer;
         &:hover {
             background: #eee;
         }
         .el-checkbox {
             pointer-events: none;
+        }
+    }
+    .m-price-goods-empty {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding: 10px;
+        margin-bottom: 10px;
+
+        .strong {
+            color: #0366d6;
+            font-weight: bold;
+            cursor: pointer;
         }
     }
 }
