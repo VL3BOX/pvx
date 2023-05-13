@@ -11,20 +11,7 @@
       </div>
     </div>
     <div class="m-price-goods-body">
-      <div class="m-my-follow-goods">
-        <div class="u-title">我的关注
-          <i v-if="myFollowData.length" class="u-btn el-icon-setting" v-popover:myPlans title="设置清单" @click="openAddDialog"></i>
-        </div>
-        <div class="m-empty-follow" v-if="myFollowData.length==0">
-          <div class="m-empty-follow-title" v-loading="loading">
-            暂无关注
-            <span class="m-empty-follow-add" @click="openAddDialog">去添加</span>
-          </div>
-        </div>
-        <myGoodList v-else :data="myFollowPlanFilter" :priceMap="priceMap"></myGoodList>
-      </div>
       <div class="m-system-goods">
-        <div class="u-title">系统关注</div>
         <systemGoodList :data="systemGoodsDataFilter" :priceMap="priceMap"></systemGoodList>
       </div>
     </div>
@@ -43,13 +30,12 @@ import {
     getMyGoodsDetail,
 } from "@/service/price.js"; // 系统关注物品类型
 import systemGoodList from "./systemGoodList.vue";
-import myGoodList from "./myGoodList.vue";
 import myGoodsDialog from "./myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
 
 export default {
     props: { keywords: {} },
-    components: { systemGoodList, myGoodsDialog, myGoodList },
+    components: { systemGoodList, myGoodsDialog },
     data() {
         return {
             server_std,
@@ -100,7 +86,9 @@ export default {
     },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData().then((res) => {
+            getSystemGoodsData({
+                key: systemGoodsType.join(","),
+            }).then((res) => {
                 this.systemGoodsData = res.data.data;
                 this.getServerPriceData();
             });
@@ -270,6 +258,7 @@ export default {
         }
     }
 }
+
 @media screen and (max-width: @ipad) {
     .p-price-goods:not(.overview) {
         padding-top: 84px;

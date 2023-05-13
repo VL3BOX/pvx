@@ -77,7 +77,7 @@ export default {
     },
     mounted() {
         this.followIdList = JSON.parse(JSON.stringify(this.myFollowData));
-        // this.getMyPlanList();
+        this.getMyPlanList();
     },
 };
 </script>

@@ -7,15 +7,16 @@
         </div>
         <div class="m-empty-follow" v-if="myFollowData.length==0">
           <div class="m-empty-follow-title" v-loading="loading">
-            暂无关注
-            <span class="m-empty-follow-add" @click="openAddDialog">去添加</span>
+            {{isLogin ? '暂无关注':'暂未登录'}}
+            <span class="m-empty-follow-add" @click="openAddDialog" v-if="isLogin">
+              去添加
+            </span>
+            <span class="m-empty-follow-login" @click="openAddDialog" v-else>
+              去登陆
+            </span>
           </div>
         </div>
         <myGoodList v-else :data="myFollowPlan" :priceMap="priceMap"></myGoodList>
-      </div>
-      <div class="m-system-goods">
-        <div class="u-title">系统关注</div>
-        <systemGoodList :data="systemGoodsData" :priceMap="priceMap"></systemGoodList>
       </div>
     </div>
     <myGoodsDialog v-if="showMyGoods" @close="showMyGoods=false" :myFollowData="myFollowData" @setMyFollowList="setMyFollowList"></myGoodsDialog>
@@ -31,7 +32,6 @@ import {
     setMyFollowList,
     getMyGoodsDetail,
 } from "@/service/price.js"; // 系统关注物品类型
-import systemGoodList from "../goods/systemGoodList.vue";
 import myGoodList from "../goods/myGoodList.vue";
 import myGoodsDialog from "../goods/myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
@@ -40,7 +40,7 @@ export default {
     props: {
         server: {},
     },
-    components: { systemGoodList, myGoodsDialog, myGoodList },
+    components: { myGoodsDialog, myGoodList },
     data() {
         return {
             server_std,
@@ -51,17 +51,15 @@ export default {
             myFollowPlan: [], // 我的关注清单
             showMyGoods: false,
             loading: false,
+            isLogin: User.isLogin(),
         };
     },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData().then((res) => {
+            getSystemGoodsData({
+                key: systemGoodsType.join(","),
+            }).then((res) => {
                 this.systemGoodsData = res.data.data;
-                console.log(
-                    "%c 🥧  this.systemGoodsData: ",
-                    "font-size:20px;background-color: #7F2B82;color:#fff;",
-                    this.systemGoodsData
-                );
                 this.getServerPriceData();
             });
         },
@@ -125,7 +123,11 @@ export default {
             });
         },
         openAddDialog() {
-            this.showMyGoods = true;
+            if (!this.isLogin) {
+                User.toLogin();
+            } else {
+                this.showMyGoods = true;
+            }
         },
         setMyFollowList(val) {
             setMyFollowList({ val }).then((res) => {
@@ -134,11 +136,11 @@ export default {
                 this.getMyFollowList();
             });
         },
-        updatePrice(){
+        updatePrice() {
             this.priceMap = {};
             this.getServerPriceData();
             this.getMyFollowGoodsPrice();
-        }
+        },
     },
     mounted() {
         if (User.isLogin()) {
@@ -214,6 +216,7 @@ export default {
                 color: #999;
                 border: 1px dashed #999;
                 border-radius: 10px;
+
                 .m-empty-follow-title {
                     font-size: 20px;
                     .m-empty-follow-add {
@@ -221,7 +224,76 @@ export default {
                         font-weight: bold;
                         cursor: pointer;
                     }
+                    .m-empty-follow-login {
+                        color: #ff9a00;
+                        font-weight: bold;
+                        text-decoration: underline;
+                        cursor: pointer;
+
+                        text-underline-offset: 4px;
+                    }
                 }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .p-price-goods {
+        .m-systemgoods-list,
+        .m-mygoods-list {
+            gap: 10px !important;
+        }
+        .m-systemgoods-list-item,
+        .m-mygoods-list-item,
+        .m-empty-follow {
+            height: 80px !important;
+            width: 100% !important;
+            .m-systemgoods-list-item-label {
+                padding-top: 0 !important;
+                font-size: 20px !important;
+            }
+            .c-game-price {
+                font-size: 16px !important;
+
+                gap: 0 !important;
+                span {
+                    gap: 0 !important;
+                }
+            }
+            .u-icon {
+                width: 60px !important;
+                height: 60px !important;
+            }
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .p-price-goods {
+        .m-systemgoods-list,
+        .m-mygoods-list {
+            gap: 10px !important;
+        }
+        .m-systemgoods-list-item,
+        .m-mygoods-list-item,
+        .m-empty-follow {
+            height: 80px !important;
+            width: 100% !important;
+            .m-systemgoods-list-item-label {
+                padding-top: 0 !important;
+                font-size: 20px !important;
+            }
+            .c-game-price {
+                font-size: 16px !important;
+
+                gap: 0 !important;
+                span {
+                    gap: 0 !important;
+                }
+            }
+            .u-icon {
+                width: 60px !important;
+                height: 60px !important;
             }
         }
     }

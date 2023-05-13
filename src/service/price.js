@@ -2,13 +2,15 @@ import { axios } from "@/service/api.js";
 import { $cms, $next } from "@jx3box/jx3box-common/js/https";
 
 // 获取金价数据
-function getGoldPriceData() {
+function getGoldPriceData() {   
     return axios("https://spider2.jx3box.com/api/spider/gold/trend", "GET", false, {}, {}, {})
 }
 
 // 获取系统关注的物品信息
-function getSystemGoodsData() {
-    return $cms().get("api/cms/helper/item/group")
+function getSystemGoodsData(params) {
+    return $cms().get("api/cms/helper/item/group", {
+        params
+    })
 }
 
 // 获取服务器物价
@@ -50,5 +52,5 @@ function getMyGoodsDetail(id) {
 
 
 export {
-    getGoldPriceData, getSystemGoodsData, getServerPriceData, getUserInfo, getMyFollowList, getMyPlanList, setMyFollowList,getMyGoodsDetail
+    getGoldPriceData, getSystemGoodsData, getServerPriceData, getUserInfo, getMyFollowList, getMyPlanList, setMyFollowList, getMyGoodsDetail
 }
