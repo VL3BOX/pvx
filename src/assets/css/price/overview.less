@@ -1,42 +1,79 @@
 .p-price-overview {
-    * {
-        box-sizing: border-box;
-    }
-    .u-group-list {
+    position: relative;
+    .m-price-overview-header {
         display: flex;
-        flex-wrap: wrap;
-
-        gap: 7px;
-        gap: 20px;
-
-        & > div {
-            cursor: pointer;
-        }
-    }
-    .m-overview-gold-charts {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        overflow-x: auto;
-        width: 100%;
-
+        align-items: center;
         gap: 20px;
         .u-title {
-            flex-shrink: 0;
-            margin: 0;
-            margin-bottom: 20px;
+            margin: 20px 0 20px 0;
+            color: #24292e;
             font-size: 32px;
             font-weight: bold;
+            line-height: 42px;
         }
-    }
-    .m-my-care {
-        .u-header {
+        .u-servers {
             position: relative;
-            .u-btn {
-                cursor: pointer;
-                font-size: 1em;
-                float: right;
+            width: 200px;
+            background-color: #fff;
+            border-radius: 40px;
+            .el-input__prefix {
+                display: flex;
+                align-items: center;
+                padding-left: 15px;
+                color: #949494;
+                font-size: 16px;
+                font-weight: bold;
+                line-height: 40px;
+            }
+
+            .el-input__inner {
+                height: 40px;
+                padding-left: 100px;
+                color: #24292e;
+                font-size: 16px;
+                font-weight: bold;
+                line-height: 40px;
+                border: none;
+                border-radius: 40px;
             }
         }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .p-price-overview {
+        padding-top: 84px;
+        .m-price-overview-header {
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            .u-title {
+                margin: 0;
+            }
+        }
+        .u-title {
+            font-size: 24px !important;
+        }
+    }
+    .p-price-goods .m-mygoods .m-mygoods-plan .m-mygoods-plan-label {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .p-price-overview {
+        padding-top: 84px;
+        .m-price-overview-header {
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            .u-title {
+                margin: 0;
+            }
+        }
+        .u-title {
+            font-size: 24px !important;
+        }
+    }
+    .p-price-goods .m-mygoods .m-mygoods-plan .m-mygoods-plan-label {
+        font-size: 20px;
     }
 }

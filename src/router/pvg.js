@@ -10,7 +10,7 @@ VueRouter.prototype.push = function push(to) {
 const Index = () => import("@/views/pvg/Index.vue");
 const Manufacture = () => import("@/views/pvg/Manufacture.vue");
 const Item = () => import("@/views/pvg/Item.vue");
-const Price = () => import("@/views/price/Price.vue");
+const Price = () => import("@/views/price/index.vue");
 const Notice = () => import("@/views/pvg/Gonggao.vue");
 
 const routes = [
