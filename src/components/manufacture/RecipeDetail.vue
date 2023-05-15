@@ -18,7 +18,7 @@
         <span class="u-name" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
         <div class="u-price u-interval" v-if="client == 'std'">
             [{{ server }}] 昨日平均价格:
-            <GamePrice v-if="item.price" class="u-price-num" :price="item.price" />
+            <GamePrice v-if="prices[item.itemKey]" class="u-price-num" :price="prices[item.itemKey]" />
             <span class="u-null" v-else> 暂无数据 </span>
         </div>
         <div class="u-info u-interval">
@@ -61,10 +61,10 @@
                         <span class="u-num"> 数量： {{ el.count || 1 }} </span>
                     </div>
                     <div class="u-price" v-if="client == 'std'">
-                        {{ el.game_price ? "[NPC出售] 单价：" : `[${server}] 昨日平均单价：` }}
+                        {{ prices[el.ID] ? "[NPC出售] 单价：" : `[${server}] 昨日平均单价：` }}
                         <PriceItem
                             :data="{
-                                Price: el.price,
+                                Price: prices[el.priceID] || prices[el.ID],
                                 Name: el.Name,
                                 id: el.ID,
                             }"
@@ -72,7 +72,7 @@
                     </div>
                     <div class="u-price" v-else>
                         [NPC出售] 单价：
-                        <PriceItem :data="{ Price: el.price, Name: el.Name, id: el.ID }" />
+                        <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID }" />
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@ import Item from "@jx3box/jx3box-editor/src/Item.vue";
 import PriceItem from "@/components/manufacture/PriceItem.vue";
 export default {
     name: "RecipeDetail",
-    props: ["showItem", "children", "server"],
+    props: ["showItem", "children", "prices", "server"],
     components: { Item, PriceItem, GamePrice },
     data: function () {
         return {
@@ -154,6 +154,7 @@ export default {
             deep: true,
             handler: function (list) {
                 this.childrenList = list;
+                console.log(list);
             },
         },
     },

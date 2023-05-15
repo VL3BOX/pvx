@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="m-recipe-detail" v-loading="loading">
-            <RecipeDetail :showItem="showItem" :children="children" :server="server" />
+            <RecipeDetail :showItem="showItem" :prices="prices" :children="children" :server="server" />
         </div>
     </div>
 </template>
@@ -34,6 +34,7 @@ export default {
             showItem: {},
             loading: false,
             children: [],
+            prices: {},
         };
     },
     components: { RecipeDetail },
@@ -51,8 +52,7 @@ export default {
                     let _data = {},
                         _child = [],
                         _type = [],
-                        _count = [],
-                        _prices = {};
+                        _count = [];
 
                     // 处理数据：删除空数据 合并itemKey 提取材料id 和数量
                     Object.keys(res.data).forEach((key) => {
@@ -68,26 +68,24 @@ export default {
 
                     // 材料id和数量处理
                     _child = _child.map((id, i) => {
-                        return { id: id, count: _count[i], price_id: _type[i] + "_" + id };
+                        return { id: id, count: _count[i], priceID: _type[i] + "_" + id };
                     });
 
                     // 获取配方材料价格
                     const itemPrice = await this.getItemPrice(_child);
                     const tradePrice = await this.getTradePrice(_child, _data.itemKey);
-                    _prices = Object.assign(itemPrice, tradePrice);
+                    this.prices = Object.assign(itemPrice, tradePrice);
 
                     // 获取材料详情
                     this.getItemDetail(_child).then((res) => {
                         this.children = _child.map((item) => {
                             if (res[item.id]) item = Object.assign(item, res[item.id]);
-                            item.price = _prices[item.id] || _prices[item.price_id] || "";
                             return item;
                         });
                     });
 
-                    // 添加配方的价格和数量
+                    // 添加配方 数量
                     _data.count = 1;
-                    _data.price = _prices[_data.itemKey] || "";
                     this.showItem = _data;
                 })
                 .finally(() => {
@@ -129,7 +127,7 @@ export default {
         // 交易行价格
         async getTradePrice(arr, key) {
             const itemIds = arr
-                .map((item) => item.price_id)
+                .map((item) => item.priceID)
                 .concat(key)
                 .join();
             return getAuctionPrice({ itemIds, server: this.server }).then((res) => {
