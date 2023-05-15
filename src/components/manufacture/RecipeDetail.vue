@@ -18,7 +18,7 @@
         <span class="u-name" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
         <div class="u-price u-interval" v-if="client == 'std'">
             [{{ server }}] 昨日平均价格:
-            <GamePrice v-if="prices[item.itemKey]" class="u-price-num" :price="prices[item.itemKey]" />
+            <GamePrice v-if="item.price" class="u-price-num" :price="item.price" />
             <span class="u-null" v-else> 暂无数据 </span>
         </div>
         <div class="u-info u-interval">
@@ -64,7 +64,7 @@
                         {{ el.game_price ? "[NPC出售] 单价：" : `[${server}] 昨日平均单价：` }}
                         <PriceItem
                             :data="{
-                                Price: prices[el.ID] || el.Price || prices[el.price_id],
+                                Price: el.price,
                                 Name: el.Name,
                                 id: el.ID,
                             }"
@@ -72,13 +72,13 @@
                     </div>
                     <div class="u-price" v-else>
                         [NPC出售] 单价：
-                        <PriceItem :data="{ Price: prices[el.ID] || el.Price, Name: el.Name, id: el.ID }" />
+                        <PriceItem :data="{ Price: el.price, Name: el.Name, id: el.ID }" />
                     </div>
                 </div>
             </div>
         </div>
         <div class="m-add">
-            <el-input-number v-model="count" :min="1" @click.stop.native></el-input-number>
+            <el-input-number v-model="item.count" :min="1" @click.stop.native></el-input-number>
             <el-button icon="el-icon-shopping-cart-2" type="success" @click="addCart"> </el-button>
         </div>
     </div>
@@ -92,13 +92,11 @@ import Item from "@jx3box/jx3box-editor/src/Item.vue";
 import PriceItem from "@/components/manufacture/PriceItem.vue";
 export default {
     name: "RecipeDetail",
-    props: ["showItem", "children", "prices", "server"],
+    props: ["showItem", "children", "server"],
     components: { Item, PriceItem, GamePrice },
     data: function () {
         return {
-            count: 1,
             item: {},
-            price: {},
             childrenList: [],
         };
     },

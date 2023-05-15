@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="m-recipe-detail" v-loading="loading">
-            <RecipeDetail :showItem="showItem" :children="children" :prices="prices" :server="server" />
+            <RecipeDetail :showItem="showItem" :children="children" :server="server" />
         </div>
     </div>
 </template>
@@ -33,7 +33,6 @@ export default {
             showIndex: 0,
             showItem: {},
             loading: false,
-            prices: {},
             children: [],
         };
     },
@@ -48,11 +47,13 @@ export default {
         loadItem(id) {
             this.loading = true;
             getManufactureItem(this.craftKey, id, this.client)
-                .then((res) => {
+                .then(async (res) => {
                     let _data = {},
                         _child = [],
                         _type = [],
-                        _count = [];
+                        _count = [],
+                        _prices = {};
+
                     // 处理数据：删除空数据 合并itemKey 提取材料id 和数量
                     Object.keys(res.data).forEach((key) => {
                         if (res.data[key]) {
@@ -64,21 +65,30 @@ export default {
                             if (key.startsWith("RequireItemCount")) _count.push(_data[key]);
                         }
                     });
+
                     // 材料id和数量处理
                     _child = _child.map((id, i) => {
                         return { id: id, count: _count[i], price_id: _type[i] + "_" + id };
                     });
+
+                    // 获取配方材料价格
+                    const itemPrice = await this.getItemPrice(_child);
+                    const tradePrice = await this.getTradePrice(_child, _data.itemKey);
+                    _prices = Object.assign(itemPrice, tradePrice);
+
                     // 获取材料详情
                     this.getItemDetail(_child).then((res) => {
                         this.children = _child.map((item) => {
                             if (res[item.id]) item = Object.assign(item, res[item.id]);
+                            item.price = _prices[item.id] || _prices[item.price_id] || "";
                             return item;
                         });
                     });
+
+                    // 添加配方的价格和数量
+                    _data.count = 1;
+                    _data.price = _prices[_data.itemKey] || "";
                     this.showItem = _data;
-                    // 获取配方物品交易行价格
-                    this.getTradePrice(_child, _data.itemKey);
-                    this.getItemPrice(_child);
                 })
                 .finally(() => {
                     this.loading = false;
@@ -102,18 +112,18 @@ export default {
                     return itemData;
                 });
             } catch (e) {
-                console.error("异常被捕获:", e);
+                console.log("获取物品数据错误", e);
             }
         },
         // NPC出售价格
         async getItemPrice(arr) {
             const ids = arr.map((item) => item.id).join();
-            getItemsPrice({ ids, client: this.client }).then((res) => {
+            return getItemsPrice({ ids, client: this.client }).then((res) => {
                 let priceData = {};
                 res.data.forEach((item) => {
                     priceData[item.ItemIndex] = item.Price;
                 });
-                this.prices = Object.assign(this.prices, priceData);
+                return priceData;
             });
         },
         // 交易行价格
@@ -122,12 +132,12 @@ export default {
                 .map((item) => item.price_id)
                 .concat(key)
                 .join();
-            getAuctionPrice({ itemIds, server: this.server }).then((res) => {
+            return getAuctionPrice({ itemIds, server: this.server }).then((res) => {
                 let priceData = {};
                 Object.keys(res.data.data).forEach((item) => {
                     priceData[item] = res.data.data[item].AvgPrice;
                 });
-                this.prices = Object.assign(this.prices, priceData);
+                return priceData;
             });
         },
         // 切换分类
