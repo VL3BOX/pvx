@@ -1,31 +1,31 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb name="休闲玩法" slug="pvx" root="/pvx" :publishEnable="false" :adminEnable="false" :feedbackEnable="true" :crumbEnable="false">
-            <img slot="logo" svg-inline :src="getAppIcon('share')" />
-        </Breadcrumb>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="false">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main">
-                <router-view />
+                <router-view></router-view>
             </div>
-            <Footer></Footer>
+            <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
         </Main>
     </div>
 </template>
 
 <script>
-import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
-import Nav from "@/components/Nav.vue";
+import Nav from "@/components/Nav_v3.vue";
+import PvxBacktop from "@/components/PvxBacktop.vue";
 export default {
     name: "App",
-    props: [],
-    data: function () {
-        return {};
+    name: "Reputation",
+    data: () => ({
+        navStatusClass: "is-regular",
+    }),
+    components: { Nav, PvxBacktop },
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
     },
-    computed: {},
-    methods: { getAppIcon },
-    components: { Nav },
 };
 </script>
 

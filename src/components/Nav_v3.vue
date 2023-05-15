@@ -1,27 +1,25 @@
 <template>
     <aside class="m-pvx-aside" :class="navStatusClass">
-        <router-link class="u-home" to="/">
+        <a class="u-home" :class="!active && 'is-active'" href="/">
             <img src="@/assets/img/nav/home.svg" svg-inline />
-        </router-link>
+        </a>
         <div class="m-pvx-nav">
-            <el-scrollbar>
-                <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
-                    <div
-                        class="m-nav-item"
-                        v-for="item in group.submenus"
-                        :key="item.key"
-                        :class="[{ 'is-active': active == item.key }, item.key]"
-                        v-show="item.status"
-                    >
-                        <a :href="item.path" :target="item.target || '_self'">
-                            <img class="u-nav-icon" :src="getNavIcon(item.key)" :alt="item.label" />
-                            <span>{{ item.label }}</span>
-                            <i v-show="navStatus === 2 && active == item.key" class="el-icon-caret-left"></i>
-                        </a>
-                        <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
-                    </div>
+            <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
+                <div
+                    class="m-nav-item"
+                    v-for="item in group.submenus"
+                    :key="item.key"
+                    :class="[{ 'is-active': active == item.key }, item.key]"
+                    v-show="item.status"
+                >
+                    <a :href="item.path" :target="item.target || '_self'">
+                        <img class="u-nav-icon" :src="getNavIcon(item.key)" :alt="item.label" />
+                        <span>{{ item.label }}</span>
+                        <i v-show="navStatus === 2 && active == item.key" class="el-icon-caret-left"></i>
+                    </a>
+                    <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
                 </div>
-            </el-scrollbar>
+            </div>
         </div>
         <div class="u-btns">
             <div class="u-btn" :class="navStatus === 0 && 'is-disabled'" @click="toLeft">
@@ -36,159 +34,14 @@
 
 <script>
 import { compact } from "lodash";
+import menus from "@/assets/data/menus.json";
 export default {
     name: "Nav",
     props: [],
     components: {},
     data: function () {
         return {
-            menus: [
-                {
-                    key: "share",
-                    label: "策勋",
-                    index: "1",
-                    submenus: [
-                        {
-                            path: "/face",
-                            label: "捏脸数据",
-                            icon: "el-icon-download",
-                            key: "face",
-                            status: true,
-                            isStd: true,
-                        },
-                        {
-                            path: "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
-                            label: "家园蓝图",
-                            icon: "el-icon-download",
-                            key: "blueprint",
-                            status: true,
-                            target: "_blank",
-                        },
-                        // {
-                        //     path: "/share/facedata",
-                        //     label: "妆容解析",
-                        //     icon: "el-icon-setting",
-                        //     key: "facedata",
-                        //     status: true,
-                        // },
-                    ],
-                },
-
-                {
-                    key: "rare",
-                    label: "珍奇",
-                    index: "2",
-                    submenus: [
-                        {
-                            path: "/pet",
-                            label: "宠物大全",
-                            icon: "el-icon-files",
-                            key: "pet",
-                            status: true,
-                        },
-                        {
-                            path: "/adventure",
-                            label: "奇遇大全",
-                            icon: "el-icon-files",
-                            key: "adventure",
-                            status: true,
-                        },
-                        {
-                            path: "/horse",
-                            label: "坐骑大全",
-                            icon: "el-icon-files",
-                            key: "horse",
-                            status: true,
-                        },
-                        {
-                            path: "/book",
-                            label: "书籍大全",
-                            icon: "el-icon-files",
-                            key: "book",
-                            status: true,
-                        },
-                        {
-                            path: "/furniture",
-                            label: "家具大全",
-                            icon: "el-icon-files",
-                            key: "furniture",
-                            status: true,
-                        },
-                        {
-                            path: "/reputation",
-                            label: "声望大全",
-                            icon: "el-icon-sugar",
-                            key: "reputation",
-                            status: true,
-                        },
-                        // {
-                        //     path: "/exterior",
-                        //     label: "外观大全",
-                        //     icon: "el-icon-setting",
-                        //     key: "exterior",
-                        //     status: false,
-                        // },
-                    ],
-                },
-
-                {
-                    key: "merchants",
-                    label: "商贾",
-                    index: "3",
-                    submenus: [
-                        {
-                            path: "/pvg/manufacture",
-                            label: "技艺助手",
-                            icon: "el-icon-sugar",
-                            key: "manufacture",
-                            status: true,
-                        },
-                        {
-                            path: "/pvg/price",
-                            label: "价格走势",
-                            icon: "el-icon-sugar",
-                            key: "price",
-                            status: true,
-                        },
-                        {
-                            path: "/pvg/gonggao",
-                            label: "活动告示",
-                            icon: "el-icon-sugar",
-                            key: "gonggao",
-                            status: true,
-                        },
-                    ],
-                },
-
-                // {
-                //     key: "homeland",
-                //     label: "家园",
-                //     index: "4",
-                //     submenus: [
-                // {
-                //     path: "/homeland/tutorial",
-                //     label: "家园建设",
-                //     icon: "el-icon-reading",
-                //     key: "tutorial",
-                //     status: true,
-                // },
-                // {
-                //     path: "/homeland/maps",
-                //     label: "家园地图",
-                //     icon: "el-icon-map-location",
-                //     key: "maps",
-                //     status: true,
-                // },
-                // {
-                //     path: "/homeland/flower",
-                //     label: "家园花价",
-                //     icon: "el-icon-sunny",
-                //     key: "flower",
-                //     status: true,
-                // },
-                // ],
-                // },
-            ],
+            menus: menus,
             navStatus: 1,
         };
     },

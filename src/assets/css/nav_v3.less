@@ -22,8 +22,27 @@
             .size(34px, 31px);
         }
         &:hover {
-            background-color: rgba(#000, 0.3);
+            background-color: rgba(#24292e, 0.3);
         }
+        &.is-active {
+            background-color: #324148;
+            svg {
+                filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(303deg) brightness(103%) contrast(101%);
+            }
+        }
+    }
+    .u-show-label {
+        .pa;
+        right: -110px;
+        top: 0;
+        justify-content: center;
+        align-items: center;
+        .size(100px, 40px);
+        .r(5px);
+        .fz(18px);
+        .bold;
+        color: #fff;
+        background-color: #000;
     }
     .u-btns {
         .pa;
@@ -70,8 +89,7 @@
     }
     &.is-regular {
         .m-nav-item {
-            span,
-            .u-nav-label {
+            span {
                 .w(0) !important;
                 opacity: 0;
                 transition-delay: 0s !important;
@@ -82,11 +100,11 @@
 .m-pvx-nav {
     .w(100%);
     .h(calc(100% - @home_height));
-    overflow: hidden;
     box-sizing: border-box;
-    .el-scrollbar {
-        height: 100%;
-        box-sizing: border-box;
+    overflow: visible;
+    .scrollbar(1px);
+    @media screen and (max-width: @ipad) {
+        overflow-y: auto;
     }
     .m-nav-group {
         &:not(:last-of-type) {
