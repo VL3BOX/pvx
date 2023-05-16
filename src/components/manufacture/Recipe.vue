@@ -32,6 +32,7 @@ import { getManufactureItem, getAuctionPrice, getOther, getItemsPrice } from "@/
 import { iconLink } from "@jx3box/jx3box-common/js/utils.js";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import RecipeDetail from "@/components/manufacture/RecipeDetail.vue";
+import Bus from "@/store/bus.js";
 export default {
     name: "Recipe",
     props: ["list", "craftKey", "server"],
@@ -111,6 +112,7 @@ export default {
                             if (item[el]) _obj[el] = item[el];
                         });
                         itemData[item.ID] = { ..._obj, ..._obj.item_info };
+                        // 可删可不删
                         delete itemData[item.ID].Price;
                         delete itemData[item.ID].item_info;
                     });
@@ -157,6 +159,10 @@ export default {
         changePrice({ priceID, Price }) {
             this.$set(this.prices, priceID, Price);
         },
+        // 传价格给购物车
+        toCart() {
+            Bus.$emit("itemPrice", this.prices);
+        },
     },
     watch: {
         list: {
@@ -165,6 +171,14 @@ export default {
                 if (_list.length) this.changeItem(_list[0].list[0].ID);
             },
         },
+        prices(data) {
+            this.toCart(data);
+        },
+    },
+    mounted() {
+        Bus.$on("changePrice", ({ priceID, Price }) => {
+            this.$set(this.prices, priceID, Price);
+        });
     },
 };
 </script>

@@ -69,15 +69,11 @@
                                 id: el.ID,
                                 priceID: el.priceID,
                             }"
-                            v-on="$listeners"
                         />
                     </div>
                     <div class="u-price" v-else>
                         [NPC出售] 单价：
-                        <PriceItem
-                            :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID, priceID: el.priceID }"
-                            v-on="$listeners"
-                        />
+                        <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID, priceID: el.priceID }" />
                     </div>
                 </div>
             </div>

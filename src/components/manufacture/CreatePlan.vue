@@ -6,9 +6,9 @@
                 <el-button size="mini" icon="el-icon-edit" @click="dialogVisible = true">编辑信息</el-button>
                 <el-button size="mini" icon="el-icon-thumb" type="primary" @click="setMyPlan">直接保存</el-button>
             </div>
-            <el-button slot="reference" type="success" icon="el-icon-document-checked" size="small"
-                >保存至我的清单</el-button
-            >
+            <el-button slot="reference" type="success" icon="el-icon-document-checked" size="small">
+                保存至我的清单
+            </el-button>
         </el-popover>
         <el-alert class="u-tip" v-if="done" type="success">
             <span slot="title">清单创建成功，<a :href="url" target="_blank">点击查看</a></span>

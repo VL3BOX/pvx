@@ -24,6 +24,7 @@
 <script>
 import GamePrice from "@jx3box/jx3box-common-ui/src/wiki/GamePrice.vue";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import Bus from "@/store/bus.js";
 export default {
     name: "PriceItem",
     props: ["data"],
@@ -50,7 +51,7 @@ export default {
             yin = yin * 100;
             tong = tong * 1;
             const Price = jin + yin + tong;
-            this.$emit("changePrice", { Price, priceID: this.data.priceID });
+            Bus.$emit("changePrice", { Price, priceID: this.data.priceID });
 
             this.visible = false;
             this.my_Price = {

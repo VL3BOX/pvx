@@ -10,17 +10,11 @@
             <!-- 配方 -->
             <div class="m-manufacture-box">
                 <div class="m-manufacture-server">{{ server }}</div>
-                <Recipe
-                    :list="showList"
-                    :craftKey="craftKey"
-                    :server="server"
-                    @addCart="addCart" 
-                />
+                <Recipe :list="showList" :craftKey="craftKey" :server="server" @addCart="addCart" />
             </div>
             <!-- 成本计算器 -->
             <div class="m-m">
-                <span>成本计算器</span>
-                <Cart />
+                <Cart :data="cartList" :server="server" />
             </div>
             <!-- 我的清单 -->
         </div>
@@ -32,10 +26,8 @@ import { getCraftJson, getManufactures } from "@/service/manufacture";
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import { craft_types } from "@/assets/data/manufacture.json";
-// import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 import Recipe from "@/components/manufacture/Recipe.vue";
-// import Make from "@/components/manufacture/Make.vue";
 import Cart from "@/components/manufacture/Cart.vue";
 
 export default {
@@ -51,12 +43,7 @@ export default {
             craftKey: "",
             craftTypes: craft_types,
             server: "蝶恋花",
-            // craft_key: "",
-            // item_id: "",
-            // count: 0,
-            // cart_list: [],
-            // cache_data: {},
-            // my_prices: {},
+            cartList: [],
         };
     },
     computed: {
@@ -124,8 +111,8 @@ export default {
             this.index = i;
         },
         // 添加至成本计算
-        addCart(a) {
-            console.log(a);
+        addCart(item) {
+            this.cartList.push(item);
         },
     },
 
