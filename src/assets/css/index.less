@@ -188,4 +188,44 @@
             }
         }
     }
+    .m-newest {
+        .flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        .mt(60px);
+        & > div {
+            width: calc(50% - 20px);
+            .u-header {
+                .flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-bottom: 20px;
+            }
+            .u-title {
+                font-weight: 700;
+                font-size: 32px;
+                line-height: 42px;
+                color: #24292e;
+            }
+            .u-more {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 21px;
+                color: rgba(36, 41, 46, 0.5);
+            }
+            .u-list {
+                width: 100%;
+                border-radius: 10px;
+                overflow: hidden;
+                .u-face {
+                    width: 420px;
+                    height: 200px;
+                }
+                .u-pic {
+                    .size(100%, 100%);
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
 }

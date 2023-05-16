@@ -1,6 +1,6 @@
 <template>
     <aside class="m-pvx-aside" :class="navStatusClass">
-        <a class="u-home" :class="!active && 'is-active'" href="/">
+        <a class="u-home" :class="active === 'pvx' && 'is-active'" href="/pvx">
             <img src="@/assets/img/nav/home.svg" svg-inline />
         </a>
         <div class="m-pvx-nav">
@@ -103,14 +103,6 @@ export default {
         },
     },
     methods: {
-        getAppLink: function (appKey) {
-            let isDev = location.hostname == "localhost";
-            if (isDev) {
-                return `/${appKey}/`;
-            } else {
-                return `/pvx/${appKey}`;
-            }
-        },
         getNavIcon(key) {
             return require(`../assets/img/nav/${key}.png`);
         },

@@ -35,13 +35,23 @@
             </div>
             <img src="@/assets/img/index.png" />
         </div>
+        <div class="m-newest">
+            <Face></Face>
+            <Pet></Pet>
+        </div>
     </div>
 </template>
 
 <script>
 import menus from "@/assets/data/menus.json";
+import Face from "@/components/pvx/Face";
+import Pet from "@/components/pvx/Pet";
 export default {
     name: "Index",
+    components: {
+        Face,
+        Pet
+    },
     data() {
         return {
             active: 0,

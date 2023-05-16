@@ -9,7 +9,7 @@ VueRouter.prototype.push = function push(to) {
 
 const routes = [
     {
-        name: "home",
+        name: "pvx",
         path: "/",
         component: () => import("@/views/index/Index.vue"),
         meta: {
@@ -20,7 +20,7 @@ const routes = [
 
 const router = new VueRouter({
     routes,
-    base: "/",
+    base: "/pvx",
     mode: "history",
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
