@@ -26,7 +26,8 @@ export default {
     },
     methods: {
         go(id) {
-            this.$router.push({ path: `/${id}` });
+            // this.$router.push({ path: `/${id}` });
+            window.open(`/reputation/${id}`, "_self");
         },
         getIcon(iconPath) {
             const rPath = iconPath ? iconPath.replace(/\//g, "\\") : "";

@@ -156,6 +156,7 @@
         .m-index-info {
             margin-top: 20px;
             .m-intro {
+                width: 100%;
                 .u-title {
                     width: 100%;
                     font-size: 20px;
@@ -181,6 +182,7 @@
                     overflow-x: auto;
                     overflow-y: hidden;
                     .scrollbar(2px);
+
                     .u-item {
                         flex: none;
                     }
@@ -213,23 +215,49 @@
                 line-height: 21px;
                 color: rgba(36, 41, 46, 0.5);
             }
-            .u-list {
-                width: 100%;
-                border-radius: 10px;
-                overflow: hidden;
-                .u-face {
-                    width: 420px;
-                    height: 200px;
-                }
-                .u-pic {
-                    .size(100%, 100%);
+            &.m-pets,
+            &.m-faces {
+                .u-list {
+                    width: 100%;
                     border-radius: 10px;
+                    overflow: hidden;
+                    .u-face,
+                    .u-pet {
+                        width: 420px;
+                        height: 200px;
+                        .u-pic {
+                            .size(100%, 100%);
+                            border-radius: 10px;
+                        }
+                    }
+                }
+            }
+            &.m-reputation {
+                .u-list {
+                    .flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    .reputation-item {
+                        width: calc(50% - 5px);
+                        margin: 0;
+                    }
                 }
             }
         }
         @media screen and (max-width: @ipad) {
             & > div {
                 width: 100%;
+            }
+        }
+        @media screen and (max-width: @phone) {
+            & > div {
+                &.m-reputation {
+                    .u-list {
+                        .reputation-item {
+                            width: 100%;
+                        }
+                    }
+                }
             }
         }
     }

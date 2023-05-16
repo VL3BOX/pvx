@@ -14,7 +14,7 @@
                 <div class="u-nav-list" :class="`u-nav-list__${active}`">
                     <a
                         :href="item.path"
-                        v-for="item in menus[active].submenus"
+                        v-for="item in submenus"
                         :key="item.key"
                         :target="item.target || '_self'"
                         class="u-item"
@@ -38,6 +38,7 @@
         <div class="m-newest">
             <Face></Face>
             <Pet></Pet>
+            <Reputation></Reputation>
         </div>
     </div>
 </template>
@@ -46,11 +47,13 @@
 import menus from "@/assets/data/menus.json";
 import Face from "@/components/pvx/Face";
 import Pet from "@/components/pvx/Pet";
+import Reputation from "@/components/pvx/Reputation";
 export default {
     name: "Index",
     components: {
         Face,
-        Pet
+        Pet,
+        Reputation,
     },
     data() {
         return {
@@ -65,6 +68,9 @@ export default {
                 return item;
             });
             return menus;
+        },
+        submenus() {
+            return this.menus[this.active].submenus;
         },
     },
     methods: {

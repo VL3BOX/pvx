@@ -1,5 +1,5 @@
 <template>
-    <div class="m-faces">
+    <div class="m-pets">
         <div class="u-header">
             <div class="u-title">{{ title }}</div>
             <a class="u-more" href="/pet">查看更多</a>
@@ -7,7 +7,7 @@
         <div class="u-list">
             <list-cross v-if="list.length" :list="list" :gap="10">
                 <template v-slot="data">
-                    <a class="u-face" :href="getLink(data.item)" target="_blank">
+                    <a class="u-pet" :href="getLink(data.item)" target="_blank">
                         <img class="u-pic" :src="getThumbnail(data.item.img)" loading="lazy" />
                     </a>
                 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="m-faces">
         <div class="u-header">
-            <div class="u-title">精选捏脸</div>
+            <div class="u-title">{{ title }}</div>
             <a class="u-more" href="/face">查看更多</a>
         </div>
         <div class="u-list">
@@ -33,6 +33,9 @@ export default {
     computed: {
         client() {
             return this.$store.state.client;
+        },
+        title() {
+            return "精选捏脸";
         },
     },
     methods: {
