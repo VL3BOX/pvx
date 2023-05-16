@@ -50,7 +50,7 @@ export default {
             yin = yin * 100;
             tong = tong * 1;
             const Price = jin + yin + tong;
-            this.$store.commit("changePrice", { Price, id: this.data.id });
+            this.$emit("changePrice", { Price, priceID: this.data.priceID });
 
             this.visible = false;
             this.my_Price = {
@@ -60,9 +60,6 @@ export default {
             };
         },
     },
-    mounted () {
-        console.log(this.data)
-    }
 };
 </script>
 <style lang="less">

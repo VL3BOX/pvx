@@ -10,10 +10,18 @@
             <!-- 配方 -->
             <div class="m-manufacture-box">
                 <div class="m-manufacture-server">{{ server }}</div>
-                <Recipe :list="showList" :craftKey="craftKey" :server="server" />
+                <Recipe
+                    :list="showList"
+                    :craftKey="craftKey"
+                    :server="server"
+                    @addCart="addCart" 
+                />
             </div>
-
             <!-- 成本计算器 -->
+            <div class="m-m">
+                <span>成本计算器</span>
+                <Cart />
+            </div>
             <!-- 我的清单 -->
         </div>
     </div>
@@ -28,11 +36,11 @@ import { craft_types } from "@/assets/data/manufacture.json";
 
 import Recipe from "@/components/manufacture/Recipe.vue";
 // import Make from "@/components/manufacture/Make.vue";
-// import Cart from "@/components/manufacture/Cart.vue";
+import Cart from "@/components/manufacture/Cart.vue";
 
 export default {
     name: "Manufacture",
-    components: { Recipe },
+    components: { Recipe, Cart },
     data: function () {
         return {
             craftList: [],
@@ -114,6 +122,10 @@ export default {
         // 切换技艺
         changeCraft(i) {
             this.index = i;
+        },
+        // 添加至成本计算
+        addCart(a) {
+            console.log(a);
         },
     },
 

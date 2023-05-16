@@ -16,7 +16,14 @@
             </span>
         </div>
         <div class="m-recipe-detail" v-loading="loading">
-            <RecipeDetail :showItem="showItem" :prices="prices" :children="children" :server="server" />
+            <RecipeDetail
+                :showItem="showItem"
+                :prices="prices"
+                :children="children"
+                :server="server"
+                @changePrice="changePrice"
+                v-on="$listeners"
+            />
         </div>
     </div>
 </template>
@@ -145,6 +152,10 @@ export default {
         // 切换物品
         changeItem(id) {
             this.loadItem(id);
+        },
+        // 改变价格
+        changePrice({ priceID, Price }) {
+            this.$set(this.prices, priceID, Price);
         },
     },
     watch: {

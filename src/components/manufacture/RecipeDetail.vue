@@ -67,12 +67,17 @@
                                 Price: prices[el.priceID] || prices[el.ID],
                                 Name: el.Name,
                                 id: el.ID,
+                                priceID: el.priceID,
                             }"
+                            v-on="$listeners"
                         />
                     </div>
                     <div class="u-price" v-else>
                         [NPC出售] 单价：
-                        <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID }" />
+                        <PriceItem
+                            :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID, priceID: el.priceID }"
+                            v-on="$listeners"
+                        />
                     </div>
                 </div>
             </div>
@@ -107,7 +112,11 @@ export default {
     },
     methods: {
         iconLink,
-        addCart() {},
+        // 添加购物车
+        addCart() {
+            const data = { ...this.item, children: this.childrenList };
+            this.$emit("addCart", data);
+        },
 
         // 描述过滤
         textFilter(str) {
@@ -154,7 +163,6 @@ export default {
             deep: true,
             handler: function (list) {
                 this.childrenList = list;
-                console.log(list);
             },
         },
     },
