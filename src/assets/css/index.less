@@ -196,7 +196,7 @@
         gap: 40px;
         .mt(60px);
         & > div {
-            width: calc(50% - 20px);
+            width: 870px;
             .u-header {
                 .flex;
                 justify-content: space-between;
@@ -240,25 +240,63 @@
                     .reputation-item {
                         width: calc(50% - 5px);
                         margin: 0;
-                    }
-                }
-            }
-        }
-        @media screen and (max-width: @ipad) {
-            & > div {
-                width: 100%;
-            }
-        }
-        @media screen and (max-width: @phone) {
-            & > div {
-                &.m-reputation {
-                    .u-list {
-                        .reputation-item {
-                            width: 100%;
+                        .reputation-name-wrap {
+                            .progress-wrap {
+                                width: 100%;
+                            }
                         }
                     }
                 }
             }
         }
+    }
+}
+.is-opened,
+.is-regular {
+    .p-index {
+        .m-newest {
+            & > div {
+                width: calc(50% - 20px);
+            }
+        }
+    }
+}
+@media screen and (max-width: @ipad) {
+    .is-opened,
+    .is-regular,
+    .is-closed {
+        .p-index {
+            .m-newest {
+                & > div {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .is-opened,
+    .is-regular,
+    .is-closed {
+        .p-index {
+            .m-newest {
+                & > div {
+                    &.m-reputation {
+                        .u-list {
+                            .reputation-item {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@maxW: @pc + @openedWidth;
+@media screen and (min-width: @maxW) {
+    .p-index {
+        width: 1783px;
+        margin: 0 auto;
     }
 }
