@@ -63,7 +63,7 @@ export default {
             return item.source_id ? `/pet/${item.source_id}` : item.link;
         },
         getThumbnail(url) {
-            return getThumbnail(url, [400 * 2, 200 * 2]);
+            return getThumbnail(url, [420, 200]);
         },
     },
     mounted() {

@@ -28,7 +28,7 @@
                     <span>对我们的栏目有建设性意见？</span>
                     <a
                         target="_blank"
-                        href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=o8LHzsrN48nbkMHM243AzM4"
+                        href="/feedback"
                         >告诉我们</a
                     >
                 </div>
