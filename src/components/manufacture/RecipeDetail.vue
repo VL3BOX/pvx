@@ -80,7 +80,7 @@
         </div>
         <div class="m-add">
             <el-input-number v-model="item.count" :min="1" @click.stop.native></el-input-number>
-            <el-button icon="el-icon-shopping-cart-2" type="success" @click="addCart"> </el-button>
+            <el-button icon="el-icon-shopping-cart-2" type="success" @click="addCartItem"> </el-button>
         </div>
     </div>
 </template>
@@ -109,9 +109,9 @@ export default {
     methods: {
         iconLink,
         // 添加购物车
-        addCart() {
+        addCartItem() {
             const data = { ...this.item, children: this.childrenList };
-            this.$emit("addCart", data);
+            this.$emit("addCartItem", data);
         },
 
         // 描述过滤

@@ -157,6 +157,7 @@ export default {
         },
         // 改变价格
         changePrice({ priceID, Price }) {
+            this.prices = Object.assign(this.prices, { [priceID]: Price });
             this.$set(this.prices, priceID, Price);
         },
         // 传价格给购物车

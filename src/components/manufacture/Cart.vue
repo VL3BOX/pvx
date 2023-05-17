@@ -9,7 +9,7 @@
                 plain
                 size="mini"
                 icon="el-icon-delete"
-                @click="clientCart(0)"
+                @click="clientAllCart"
             >
                 全部清空
             </el-button>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="u-item-num">
                             <span>制作次数：</span>
-                            <el-input-number v-model="item.count" size="mini"></el-input-number>
+                            <el-input-number v-model="item.count" size="mini" :min="1"></el-input-number>
                         </div>
                         <div class="u-item-num">
                             <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
@@ -91,7 +91,7 @@
                         <div class="u-item-num">
                             <span><i class="el-icon-coin"></i> 小计金额：</span>
                             <span class="u-price">
-                                <GamePrice class="u-price-num" :price="item.allPrice * item.count" />
+                                <GamePrice class="u-price-num" :price="item.allPrices * item.count" />
                             </span>
                         </div>
                     </div>
@@ -133,49 +133,30 @@ export default {
     data: function () {
         return {
             counts: {},
-            allExp: "",
             cartList: [],
             prices: {},
         };
     },
     computed: {
-        // ...mapState(["server"]),
-        // cartList: {
-        //     get() {
-        //         let list = this.$store.state.cartList.map((item, key) => {
-        //             let sum = 0;
-        //             item.childrenList = item.childrenList.map((el) => {
-        //                 sum += ~~el.Price * el.count;
-        //                 return el;
-        //             });
-        //             item.allPrice = sum;
-        //             return item;
-        //         });
-        //         return list;
-        //     },
-        //     set(arr) {
-        //         this.$store.commit("toState", { cartList: arr });
-        //     },
-        // },
-        // allExp() {
-        //     if (!this.cartList.length) return 0;
-        //     let _num = 0;
-        //     let _list = this.cartList.map((el) => {
-        //         return { exp: el.CostVigor || el.CostStamina, count: el.count };
-        //     });
-        //     _list.forEach((item) => {
-        //         _num += item.count * item.exp;
-        //     });
-        //     return _num;
-        // },
-        // allPrice() {
-        //     if (!this.cartList.length) return 0;
-        //     let _num = 0;
-        //     this.cartList.forEach((item) => {
-        //         _num += item.allPrice * item.count;
-        //     });
-        //     return _num;
-        // },
+        allExp() {
+            if (!this.cartList.length) return 0;
+            let _num = 0;
+            let _list = this.cartList.map((el) => {
+                return { exp: el.CostVigor || el.CostStamina, count: el.count };
+            });
+            _list.forEach((item) => {
+                _num += item.count * item.exp;
+            });
+            return _num;
+        },
+        allPrice() {
+            if (!this.cartList.length) return 0; 
+            return this.cartList
+                .map((item) => item.allPrices * item.count)
+                .reduce((acc, cur) => {
+                    return acc + cur;
+                }, 0);
+        },
     },
 
     methods: {
@@ -183,6 +164,23 @@ export default {
         // 移除
         clientCart(id) {
             this.cartList = id ? this.cartList.filter((item) => item.ID !== id) : [];
+        },
+        // 全部清空
+        clientAllCart() {
+            this.cartList = [];
+        },
+        // 材料价格
+        itemPrices(children) {
+            return children
+                .map((item) => {
+                    let num = 0;
+                    if (this.prices[item.ID]) num = item.count * this.prices[item.ID];
+                    if (this.prices[item.priceID]) num = item.count * this.prices[item.priceID];
+                    return num;
+                })
+                .reduce((acc, cur) => {
+                    return acc + cur;
+                }, 0);
         },
         // icon边框
         item_border(id) {
@@ -201,8 +199,25 @@ export default {
     watch: {
         data: {
             deep: true,
-            handler: function (list) {
-                this.cartList = list;
+            handler: function (item) {
+                const hasItem = this.cartList.some((cart) => cart.ID == item.ID);
+                item.allPrices = this.itemPrices(item.children) || 0;
+
+                hasItem
+                    ? this.cartList.map((cart) => {
+                          if (item.ID == cart.ID) cart.count += item.count;
+                          return cart;
+                      })
+                    : this.cartList.push(item);
+            },
+        },
+        prices: {
+            deep: true,
+            handler: function () {
+                this.cartList = this.cartList.map((item) => {
+                    item.allPrices = this.itemPrices(item.children) || 0;
+                    return item;
+                });
             },
         },
     },

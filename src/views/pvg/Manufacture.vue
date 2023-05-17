@@ -10,11 +10,11 @@
             <!-- 配方 -->
             <div class="m-manufacture-box">
                 <div class="m-manufacture-server">{{ server }}</div>
-                <Recipe :list="showList" :craftKey="craftKey" :server="server" @addCart="addCart" />
+                <Recipe :list="showList" :craftKey="craftKey" :server="server" @addCartItem="addCartItem" />
             </div>
             <!-- 成本计算器 -->
             <div class="m-m">
-                <Cart :data="cartList" :server="server" />
+                <Cart :data="cartItem" :server="server" />
             </div>
             <!-- 我的清单 -->
         </div>
@@ -43,7 +43,7 @@ export default {
             craftKey: "",
             craftTypes: craft_types,
             server: "蝶恋花",
-            cartList: [],
+            cartItem: {},
         };
     },
     computed: {
@@ -110,9 +110,9 @@ export default {
         changeCraft(i) {
             this.index = i;
         },
-        // 添加至成本计算
-        addCart(item) {
-            this.cartList.push(item);
+        // 选择新添配方
+        addCartItem(item) {
+            this.cartItem = item;
         },
     },
 
