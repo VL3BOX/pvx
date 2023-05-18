@@ -64,16 +64,15 @@
                         {{ prices[el.ID] ? "[NPC出售] 单价：" : `[${server}] 昨日平均单价：` }}
                         <PriceItem
                             :data="{
-                                Price: prices[el.priceID] || prices[el.ID],
+                                Price: prices[el.ID] || prices[el.priceID],
                                 Name: el.Name,
                                 id: el.ID,
-                                priceID: el.priceID,
                             }"
                         />
                     </div>
                     <div class="u-price" v-else>
                         [NPC出售] 单价：
-                        <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID, priceID: el.priceID }" />
+                        <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID }" />
                     </div>
                 </div>
             </div>

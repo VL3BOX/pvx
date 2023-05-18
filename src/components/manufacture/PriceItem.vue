@@ -51,7 +51,7 @@ export default {
             yin = yin * 100;
             tong = tong * 1;
             const Price = jin + yin + tong;
-            Bus.$emit("changePrice", { Price, priceID: this.data.priceID });
+            Bus.$emit("changePrice", { Price, id: this.data.id });
 
             this.visible = false;
             this.my_Price = {

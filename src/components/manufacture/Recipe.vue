@@ -23,7 +23,6 @@
                 :prices="prices"
                 :children="children"
                 :server="server"
-                @changePrice="changePrice"
                 v-on="$listeners"
             />
         </div>
@@ -85,7 +84,10 @@ export default {
                     // 获取配方材料价格
                     const itemPrice = await this.getItemPrice(_child);
                     const tradePrice = await this.getTradePrice(_child, _data.itemKey);
-                    this.prices = Object.assign(itemPrice, tradePrice, this.prices);
+                    const _prices = Object.assign(itemPrice, tradePrice);
+                    Object.keys(_prices).forEach((id) => {
+                        this.prices[id] = _prices[id];
+                    });
 
                     // 获取材料详情
                     this.getItemDetail(_child).then((res) => {
@@ -159,11 +161,7 @@ export default {
             this.itemId = id;
             this.loadItem(id);
         },
-        // 改变价格
-        changePrice({ priceID, Price }) {
-            this.prices = Object.assign(this.prices, { [priceID]: Price });
-            this.$set(this.prices, priceID, Price);
-        },
+
         // 传价格给购物车
         toCart() {
             Bus.$emit("itemPrice", this.prices);
@@ -184,8 +182,9 @@ export default {
         },
     },
     mounted() {
-        Bus.$on("changePrice", ({ priceID, Price }) => {
-            this.$set(this.prices, priceID, Price);
+        Bus.$on("changePrice", ({ id, Price }) => {
+            if (this.prices[id]) delete this.prices[id];
+            this.$set(this.prices, [id], Price);
         });
     },
 };
