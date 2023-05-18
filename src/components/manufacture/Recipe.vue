@@ -2,10 +2,12 @@
     <div class="m-manufacture-recipe">
         <div class="m-recipe-list">
             <span class="m-recipe-group" v-for="(item, i) in list" :key="i">
-                <span class="m-list m-title" @click="changeIndex(i)">{{ item.BelongName }}</span>
+                <span :class="['m-list m-title', { active: i == showIndex }]" @click="changeIndex(i)">{{
+                    item.BelongName
+                }}</span>
                 <span
                     v-show="showIndex == i"
-                    class="m-list"
+                    :class="['m-list', { active: itemId == _list.ID }]"
                     v-for="(_list, k) in item.list"
                     :key="k"
                     @click="changeItem(_list.ID)"
@@ -43,6 +45,7 @@ export default {
             loading: false,
             children: [],
             prices: {},
+            itemId: 0,
         };
     },
     components: { RecipeDetail },
@@ -82,7 +85,7 @@ export default {
                     // 获取配方材料价格
                     const itemPrice = await this.getItemPrice(_child);
                     const tradePrice = await this.getTradePrice(_child, _data.itemKey);
-                    this.prices = Object.assign(itemPrice, tradePrice);
+                    this.prices = Object.assign(itemPrice, tradePrice, this.prices);
 
                     // 获取材料详情
                     this.getItemDetail(_child).then((res) => {
@@ -153,6 +156,7 @@ export default {
         },
         // 切换物品
         changeItem(id) {
+            this.itemId = id;
             this.loadItem(id);
         },
         // 改变价格
@@ -175,6 +179,9 @@ export default {
         prices(data) {
             this.toCart(data);
         },
+        server() {
+            this.loadItem(this.itemId);
+        },
     },
     mounted() {
         Bus.$on("changePrice", ({ priceID, Price }) => {
@@ -188,7 +195,7 @@ export default {
     .flex;
     gap: 20px;
     .m-recipe-list {
-        .w(460px);
+        .w(360px);
         .flex;
         flex-direction: column;
         gap: 20px;
@@ -214,15 +221,19 @@ export default {
                 .h(38px);
                 .fz(16px);
             }
+            &.active {
+                background-color: #07ad36;
+                color: #fff;
+            }
             .u-img {
                 .size(20px);
             }
         }
     }
     .m-recipe-detail {
-        .w(460px);
+        .w(560px);
         .r(10px);
-        padding: 20px;
+        padding: 20px 30px;
         box-sizing: border-box;
         background-color: #fff;
     }

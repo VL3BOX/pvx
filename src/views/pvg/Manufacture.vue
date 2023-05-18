@@ -1,15 +1,31 @@
 <template>
     <div class="m-manufacture">
         <div class="m-manufacture-header">
-            <span v-for="(item, i) in craftList" :key="i" @click="changeCraft(i)">{{ item.name }}</span>
-            <el-input class="u-input" v-model.lazy="search" :placeholder="`搜索${craftName}配方`">
-                <el-button slot="prepend" icon="el-icon-search"></el-button>
+            <span
+                :class="['u-craft', item.name == craftName ? 'active' : '']"
+                v-for="(item, i) in craftList"
+                :key="i"
+                @click="changeCraft(i)"
+                >{{ item.name }}</span
+            >
+            <el-input
+                class="u-input"
+                v-model.lazy="search"
+                :placeholder="`搜索${craftName}配方`"
+                suffix-icon="el-icon-search"
+            >
             </el-input>
         </div>
         <div class="m-manufacture-body">
             <!-- 配方 -->
             <div class="m-manufacture-box">
-                <div class="m-manufacture-server">{{ server }}</div>
+                <div class="m-manufacture-title">
+                    <span class="u-title">{{ craftName }}</span>
+                    <el-select class="m-server" v-model="server" placeholder="请选择" size="small">
+                        <span slot="prefix" class="u-prefix"> 区服价格</span>
+                        <el-option v-for="item in serverList" :key="item" :label="item" :value="item"> </el-option>
+                    </el-select>
+                </div>
                 <Recipe :list="showList" :craftKey="craftKey" :server="server" @addCartItem="addCartItem" />
             </div>
             <!-- 成本计算器 -->
@@ -130,5 +146,81 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/manufacture/new_index.less";
+.m-manufacture-header {
+    .flex;
+    gap: 20px;
+    padding: 20px 0 40px 0;
+    .u-craft {
+        .size(100px,40px);
+        .r(30px);
+        .fz(16px);
+        .bold;
+        .lh(40px);
+        .x;
+        .pointer;
+        padding: 0 10px;
+        background-color: #fff;
+        letter-spacing: 1px;
+        &.active {
+            background-color: #07ad36;
+            color: #fff;
+        }
+    }
+    .u-input {
+        .w(420px);
+
+        .el-input__inner {
+            .r(20px);
+            padding: 0 20px;
+        }
+        .el-input__suffix {
+            right: 15px;
+        }
+    }
+}
+.m-manufacture-body {
+    .flex;
+    gap: 30px;
+}
+.m-manufacture-title {
+    .flex;
+    .pb(20px);
+    gap: 20px;
+    .u-title {
+        .bold;
+        .fz(32px);
+        .lh(40px);
+        .color(#24292e);
+    }
+    .m-server {
+        background: #fff;
+        .r(20px);
+        .el-input {
+            .w(120px);
+            .pl(85px);
+        }
+        .el-input__inner {
+            .fz(16px);
+            .r(20px);
+            .bold;
+            .x;
+            .h(40px);
+            .lh(40px);
+            color: #24292e;
+            border: 0;
+            padding: 0 22px 0 0;
+        }
+        .u-prefix {
+            .db;
+            .lh(40px);
+            .bold;
+            .fz(16px);
+            .x;
+            cursor: default;
+            color: #909399;
+            padding: 0 0 0 15px;
+            white-space: nowrap;
+        }
+    }
+}
 </style>

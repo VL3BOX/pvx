@@ -1,12 +1,13 @@
 <template>
     <div class="m-manufacture-cart">
-        <div class="m-cart-title">
-            <span>成本计算器</span>
+        <div class="m-manufacture-title">
+            <span class="u-title">成本计算器</span>
             <el-button
                 v-if="cartList.length"
                 class="u-del"
-                type="info"
                 plain
+                round
+                type="info"
                 size="mini"
                 icon="el-icon-delete"
                 @click="clientAllCart"
@@ -41,6 +42,7 @@
                             class="u-del"
                             type="info"
                             plain
+                            round
                             size="mini"
                             icon="el-icon-delete"
                             @click="clientCart(item.ID)"
@@ -150,7 +152,7 @@ export default {
             return _num;
         },
         allPrice() {
-            if (!this.cartList.length) return 0; 
+            if (!this.cartList.length) return 0;
             return this.cartList
                 .map((item) => item.allPrices * item.count)
                 .reduce((acc, cur) => {
