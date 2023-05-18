@@ -74,7 +74,7 @@
                                 <PriceItem
                                     class="u-price-num"
                                     :data="{
-                                        Price: (prices[child.ID] || prices[child.priceID]) * child.count * item.count,
+                                        Price: prices[child.ID] || prices[child.priceID] * child.count * item.count,
                                         Name: child.Name,
                                         id: child.ID,
                                     }"
@@ -175,8 +175,9 @@ export default {
             return children
                 .map((item) => {
                     let num = 0;
-                    if (this.prices[item.ID]) num = item.count * this.prices[item.ID];
                     if (this.prices[item.priceID]) num = item.count * this.prices[item.priceID];
+                    if (this.prices[item.ID]) num = item.count * this.prices[item.ID];
+
                     return num;
                 })
                 .reduce((acc, cur) => {

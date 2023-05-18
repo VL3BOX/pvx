@@ -88,6 +88,8 @@ export default {
                     Object.keys(_prices).forEach((id) => {
                         this.prices[id] = _prices[id];
                     });
+                    // 将价格传给购物车
+                    Bus.$emit("itemPrice", this.prices);
 
                     // 获取材料详情
                     this.getItemDetail(_child).then((res) => {
@@ -161,11 +163,6 @@ export default {
             this.itemId = id;
             this.loadItem(id);
         },
-
-        // 传价格给购物车
-        toCart() {
-            Bus.$emit("itemPrice", this.prices);
-        },
     },
     watch: {
         list: {
@@ -175,7 +172,7 @@ export default {
             },
         },
         prices(data) {
-            this.toCart(data);
+            Bus.$emit("itemPrice", data);
         },
         server() {
             this.loadItem(this.itemId);
