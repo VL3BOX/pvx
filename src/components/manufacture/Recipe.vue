@@ -2,9 +2,9 @@
     <div class="m-manufacture-recipe">
         <div class="m-recipe-list">
             <span class="m-recipe-group" v-for="(item, i) in list" :key="i">
-                <span :class="['m-list m-title', { active: i == showIndex }]" @click="changeIndex(i)">{{
-                    item.BelongName
-                }}</span>
+                <span :class="['m-list m-title', { active: i == showIndex }]" @click="changeIndex(i)">
+                    {{ item.BelongName }}
+                </span>
                 <span
                     v-show="showIndex == i"
                     :class="['m-list', { active: itemId == _list.ID }]"
@@ -168,7 +168,7 @@ export default {
         list: {
             deep: true,
             handler: function (_list) {
-                if (_list.length) this.changeItem(_list[0].list[0].ID);
+                if (_list.length && _list[0].list.length) this.changeItem(_list[0].list[0].ID);
             },
         },
         prices(data) {

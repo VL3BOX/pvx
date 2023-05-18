@@ -26,7 +26,12 @@
                         <el-option v-for="item in serverList" :key="item" :label="item" :value="item"> </el-option>
                     </el-select>
                 </div>
-                <Recipe :list="showList" :craftKey="craftKey" :server="server" @addCartItem="addCartItem" />
+                <Recipe
+                    :list="search ? searchList : showList"
+                    :craftKey="craftKey"
+                    :server="server"
+                    @addCartItem="addCartItem"
+                />
             </div>
             <!-- 成本计算器 -->
             <div class="m-m">
@@ -53,6 +58,7 @@ export default {
         return {
             craftList: [],
             search: "",
+            searchList: [],
             craftName: "",
             index: -1,
             showList: [],
@@ -137,6 +143,15 @@ export default {
             const { name, key } = this.craftList[i];
             this.craftName = name;
             this.loadList(key, i);
+        },
+        search(key) {
+            let list = [];
+            this.showList.forEach((item) => {
+                item.list.forEach((_list) => {
+                    if (_list.Name.includes(key)) list.push(_list);
+                });
+            });
+            this.searchList = [{ BelongName: "搜索结果", list }];
         },
     },
     mounted() {
