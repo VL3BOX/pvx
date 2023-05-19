@@ -202,6 +202,7 @@
             :userId="post.user_id"
             :adminBoxcoinEnable="true"
             :userBoxcoinEnable="true"
+            :client="post.client"
         />
         <!-- 评论 -->
         <div class="m-single-content-box">
