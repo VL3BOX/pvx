@@ -16,7 +16,7 @@
             </el-button>
         </div>
         <div class="m-cart-body">
-            <template v-if="cartList.length">
+            <div class="m-cart-list" v-if="cartList.length">
                 <div class="m-item" v-for="(item, index) in cartList" :key="index">
                     <div class="u-header">
                         <el-popover
@@ -97,25 +97,27 @@
                         </div>
                     </div>
                 </div>
-            </template>
+            </div>
 
             <div class="m-null" v-else>- 暂未添加生产配方 -</div>
 
-            <div class="m-all" v-if="allExp">
-                <div class="u-label">总计</div>
-                <div class="u-value">
-                    <div class="u-num">
-                        <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
-                        <b>{{ allExp }}</b>
-                    </div>
-                    <div class="u-num u-price">
-                        <span><i class="el-icon-coin"></i> 消耗金钱：</span>
-                        <GamePrice v-if="allPrice" class="u-price-num" :price="allPrice" />
+            <div class="m-stat">
+                <div class="m-all" v-if="allExp">
+                    <div class="u-label">总计</div>
+                    <div class="u-value">
+                        <div class="u-num">
+                            <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
+                            <b>{{ allExp }}</b>
+                        </div>
+                        <div class="u-num u-price">
+                            <span><i class="el-icon-coin"></i> 消耗金钱：</span>
+                            <GamePrice v-if="allPrice" class="u-price-num" :price="allPrice" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <CreatePlan :list="cartList" @clear="clearAllCart" />
+                <CreatePlan :list="cartList" @clear="clearAllCart" />
+            </div>
         </div>
     </div>
 </template>
@@ -231,5 +233,5 @@ export default {
 };
 </script>
 <style lang="less">
-@import "~@/assets/css/manufacture/cart.less";
+@import "~@/assets/css/manufacture/cart.less"; 
 </style>
