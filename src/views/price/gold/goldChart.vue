@@ -1,138 +1,97 @@
 <template>
-  <div class="m-goldPrice" ref="wrap">
-    <div class="m-chart-box" ref="chartBox">
-      <div class="lengends">
-        <div v-for="(item,index) in currentServerGoldPriceData" :key="index" :class="{loading}" :style="{background:colorMap[item.key]}" @mouseover="heightLight(index)" @mouseout="blur(index)" class="lengends-item">
-          <div class="item-header">
-            <div class="item-title">{{item.name}}</div>
+  <div class="m-price-chart-box" ref="chartBox">
+    <div class="legends">
+      <div v-for="(item,index) in currentDataList" :key="index" :class="{loading}" :style="{background:colorMap[item.key]}" @mouseover="heightLight(index)" @mouseout="blur(index)" class="legends-item">
+        <div class="item-header">
+          <div class="item-title">{{item.name}}</div>
+        </div>
+        <div class="item-data">
+          <div>
+            <div class="data-value">{{item.beforeYesterday}}</div>
+            <div class="data-label">前日</div>
           </div>
-          <div class="item-data">
-            <div>
-              <div class="data-value">{{item.beforeYesterday}}</div>
-              <div class="data-label">前日</div>
-            </div>
-            <div>
-              <div class="data-value">{{item.yesterday}}</div>
-              <div class="data-label">昨日</div>
-            </div>
-            <div>
-              <div class="data-value">{{item.lastDay}}</div>
-              <div class="data-label">今日</div>
-            </div>
+          <div>
+            <div class="data-value">{{item.yesterday}}</div>
+            <div class="data-label">昨日</div>
+          </div>
+          <div>
+            <div class="data-value">{{item.lastDay}}</div>
+            <div class="data-label">今日</div>
           </div>
         </div>
       </div>
-      <div class="myChart" ref="chart"></div>
     </div>
+    <div class="myChart" ref="chart"></div>
   </div>
 </template>
-
 <script>
 import * as echarts from "echarts";
-import { axios, realUrl } from "@/service/api.js";
-let timer = null;
+import { getGoldPriceData } from "@/service/price.js";
+let timer;
 export default {
-    name: "GoldPrice",
-    inject: ["pricePage"],
-    props: [],
-    components: {},
-    data: function () {
+    props: { server: {} },
+    data() {
         return {
-            loading: false,
+            goldPriceData: {},
+            colorMap: {
+                WBL: "#F8B238",
+                UU898: "#AA66FF",
+                5173: "#5DA0ED",
+                DD373: "#30C7C7",
+                7881: "#FF768B",
+            },
             myChart: null,
-            allGoldPriceData: {}, // 所有服务器金价数据
         };
     },
     computed: {
-        colorMap() {
-            return this.pricePage.colorMap;
-        },
-        // 当前服务器,按渠道分组的金价数据
-        currentServerGoldPriceData() {
-            let sortArr = [];
-            const data = this.allGoldPriceData[this.pricePage.server] || {};
-            for (const key in data) {
-                const list = data[key];
-                const lastDay = list[list.length - 1].average.toFixed(2);
-                const yesterday = list[list.length - 2].average.toFixed(2);
-                const beforeYesterday = list[list.length - 3].average.toFixed(2);
-                const sum = list.reduce((total, item) => total + item.average, 0);
-                sortArr.push({
+        // 当前渠道列表
+        currentDataList() {
+            const server = this.server; // 当前服务器
+            const channelMap = this.goldPriceData[server];
+            let list = [];
+            for (const key in channelMap) {
+                const data = channelMap[key];
+                const lastDay = data[data.length - 1].average.toFixed(2);
+                const yesterday = data[data.length - 2].average.toFixed(2);
+                const beforeYesterday = data[data.length - 3].average.toFixed(2);
+                const sum = data.reduce((total, item) => total + item.average, 0);
+                const newItem = {
                     name: key === "WBL" ? "万宝楼" : key,
                     key,
                     sum,
                     lastDay,
                     yesterday,
                     beforeYesterday,
-                    data: list,
-                });
+                    data,
+                };
+                list.push(newItem);
             }
-            sortArr = sortArr.sort((a, b) => b.sum - a.sum);
-            if (sortArr.length == 0) {
-                const emptyData = [
-                    {
-                        name: "前日",
-                        value: 0,
-                    },
-                    {
-                        name: "昨日",
-                        value: 0,
-                    },
-                    {
-                        name: "今日",
-                        value: 0,
-                    },
-                ];
-                sortArr = [
-                    {
-                        name: "万宝楼",
-                        key: "WBL",
-                        data: emptyData,
-                    },
-                    {
-                        name: "UU898",
-                        key: "UU898",
-                        data: emptyData,
-                    },
-                    {
-                        name: "5173",
-                        key: "5173",
-                        data: emptyData,
-                    },
-                    {
-                        name: "DD373",
-                        key: "DD373",
-                        data: emptyData,
-                    },
-                    {
-                        name: "7881",
-                        key: "7881",
-                        data: emptyData,
-                    },
-                ];
-            }
-            return sortArr;
-        },
-    },
-    watch: {
-        "pricePage.server": {
-            handler: function (newVal, oldVal) {
-                this.setOption();
-            },
+            list = list.sort((a, b) => b.sum - a.sum);
+            return list;
         },
     },
     methods: {
+        getData() {
+            this.loading = true;
+            getGoldPriceData()
+                .then((res) => {
+                    this.goldPriceData = res;
+                })
+                .finally(() => {
+                    this.loading = false;
+                    this.initChart();
+                    this.setOption();
+                });
+        },
         // 初始化自适应图表
         initChart() {
             // 创建实例
             this.myChart = echarts.init(this.$refs.chart);
-
-            const myDiv = this.$refs.wrap;
+            const myDiv = this.$refs.chartBox;
             const observer = new ResizeObserver((entries) => {
                 this.chartResize();
             });
             observer.observe(myDiv);
-
             // 监听resize事件
             const resizeHandle = () => {
                 this.chartResize();
@@ -169,26 +128,10 @@ export default {
                 });
             }, 100);
         },
-        //  获取金价数据
-        getGoldPriceData() {
-            this.loading = true;
-            return new Promise((resolve, reject) => {
-                const priceUrl = "https://spider2.jx3box.com/api/spider/gold/trend";
-                axios(priceUrl, "GET", false, {}, {}, {})
-                    .then((res) => {
-                        this.allGoldPriceData = res;
-                    })
-                    .catch((err) => {})
-                    .finally(() => {
-                        this.loading = false;
-                        resolve();
-                    });
-            });
-        },
         // 设置图表数据
         setOption() {
             const series = [];
-            const data = this.currentServerGoldPriceData;
+            const data = this.currentDataList;
             const dates = []; // 日期集合
             let minV = Infinity;
             let maxV = -Infinity;
@@ -207,6 +150,7 @@ export default {
                         color: this.colorMap[key],
                     };
                 });
+
                 series.push({
                     name: key,
                     data: seriesData,
@@ -307,7 +251,7 @@ export default {
                     },
                     formatter: (params) => {
                         let str = `<span>${params[0].axisValue}</span><br/>`;
-                        str += `<span>服务器: ${this.pricePage.server}</span><br/>`;
+                        str += `<span>服务器: ${this.server}</span><br/>`;
                         params.forEach((item) => {
                             let marker = this.getMarker(item.data.color);
                             str += `${marker} <span style="display:inline-block;width:50px">${item.seriesName}</span>: ${item.value}<br/>`;
@@ -319,23 +263,116 @@ export default {
             };
             this.myChart.resize();
 
-            this.myChart.setOption(option);
+            this.myChart.setOption(option, true);
         },
         // get marker
         getMarker(color) {
             return `<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${color};"></span>`;
         },
     },
-    created: function () {},
-    mounted: async function () {
-        this.initChart();
-        await this.getGoldPriceData();
-        this.$nextTick(() => {
-            this.setOption();
-        });
+    mounted() {
+        this.getData();
     },
 };
 </script>
-<style lang="less" scoped>
-@import "~@/assets/css/price/goldPrice.less";
+<style lang="less">
+.m-price-chart-box {
+    display: flex;
+    user-select: none;
+    gap: 20px;
+    .legends {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .legends-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 232px;
+            min-height: 136px;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+
+            gap: 10px;
+            &.loading {
+                background: #fff;
+            }
+            .item-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 48px;
+
+                gap: 20px;
+                .item-title {
+                    color: #fff;
+                    font-family: "Microsoft YaHei";
+                    font-size: 36px;
+                    font-weight: bold;
+                    line-height: 48px;
+                }
+                .item-logo {
+                    order: 1;
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            .item-data {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 48px;
+                    height: 34px;
+                    .data-value,
+                    .data-label {
+                        color: #fff;
+                        font-family: "Microsoft YaHei";
+                        font-size: 14px;
+                        font-weight: bold;
+                        line-height: 18px;
+                    }
+                }
+            }
+        }
+    }
+    .myChart {
+        flex: 1;
+        height: 760px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .m-price-chart-box {
+        flex-wrap: wrap;
+        .legends {
+            width: 100%;
+            .legends-item {
+                width: 100%;
+            }
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-price-chart-box {
+        flex-wrap: wrap;
+        .legends {
+            width: 100%;
+            .legends-item {
+                width: 100%;
+            }
+        }
+    }
+}
 </style>

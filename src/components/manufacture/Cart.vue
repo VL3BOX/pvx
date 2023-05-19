@@ -101,8 +101,8 @@
 
             <div class="m-null" v-else>- 暂未添加生产配方 -</div>
 
-            <div class="m-stat">
-                <div class="m-all" v-if="allExp">
+            <div class="m-stat" v-if="allExp">
+                <div class="m-all">
                     <div class="u-label">总计</div>
                     <div class="u-value">
                         <div class="u-num">
@@ -233,5 +233,5 @@ export default {
 };
 </script>
 <style lang="less">
-@import "~@/assets/css/manufacture/cart.less"; 
+@import "~@/assets/css/manufacture/cart.less";
 </style>

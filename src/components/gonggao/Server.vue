@@ -64,14 +64,16 @@ export default {
     methods: {
         // 点击收藏服务器和取消服务器收藏
         clickServer(server) {
-            let list = new Set(this.favList);
-            let fav = [];
-            list.has(server) ? list.delete(server) : list.add(server);
-            for (let key of list.keys()) {
-                fav.push(key);
+            if (this.uid) {
+                let list = new Set(this.favList);
+                let fav = [];
+                list.has(server) ? list.delete(server) : list.add(server);
+                for (let key of list.keys()) {
+                    fav.push(key);
+                }
+                this.$store.commit("setFavList", fav);
+                this.setSavedServers();
             }
-            this.$store.commit("setFavList", fav);
-            this.setSavedServers();
         },
 
         // 将获取的服务器分类

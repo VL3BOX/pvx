@@ -10,15 +10,15 @@
     <div class="plane-chart" ref="chart" />
     <div class="plane-xAxis">
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[0].value||0}}</div>
+        <div class="xAxis-value">{{item.beforeYesterday||0}}</div>
         <div class="xAxis-label">前日</div>
       </div>
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[1].value||0}}</div>
+        <div class="xAxis-value">{{item.yesterday||0}}</div>
         <div class="xAxis-label">昨日</div>
       </div>
       <div class="xAxis-item">
-        <div class="xAxis-value">{{item.data && item.data[2].value||0}}</div>
+        <div class="xAxis-value">{{item.lastDay||0}}</div>
         <div class="xAxis-label">今日</div>
       </div>
     </div>
@@ -30,24 +30,27 @@ import * as echarts from "echarts";
 
 export default {
     name: "GoodsPrice",
-    inject: ["pricePage"],
     props: ["item"],
     components: {},
     data: function () {
         return {
             myChart: null,
+            colorMap: {
+                WBL: "#F8B238",
+                UU898: "#AA66FF",
+                5173: "#5DA0ED",
+                DD373: "#30C7C7",
+                7881: "#FF768B",
+            },
         };
-    },
-    computed: {
-        colorMap() {
-            return this.pricePage.colorMap;
-        },
     },
     watch: {
         item: {
             handler(value) {
                 if (value.key) {
-                    this.setOption();
+                    this.$nextTick(() => {
+                        this.setOption();
+                    });
                 }
             },
             deep: true,
@@ -74,9 +77,9 @@ export default {
         // 设置图表配置项
         setOption() {
             if (!this.myChart) return;
-            if (!this.item.data) return;
-            const data = this.item.data;
-
+            if (!this.item.data.length) return;
+            const { beforeYesterday, yesterday, lastDay } = this.item;
+            const data = [beforeYesterday, yesterday, lastDay];
             const min = Math.min(...data);
             const max = Math.max(...data);
             this.myChart.setOption({
@@ -120,7 +123,6 @@ export default {
     created: function () {},
     mounted: function () {
         this.initChart();
-        // this.setOption();
     },
 };
 </script>
@@ -130,8 +132,8 @@ export default {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    min-width: 640px;
-    min-height: 260px;
+    width: 640px;
+    height: 260px;
     padding: 14px 20px;
     border-radius: 10px;
     user-select: none;
@@ -196,6 +198,55 @@ export default {
             color: #fff;
             font-size: 14px;
             font-weight: bold;
+        }
+    }
+}
+
+@media screen and (max-width: @ipad) {
+    .u-data-plane {
+        width: 300px;
+        height: 200px;
+        .plane-chart {
+            width: 100%;
+            height: 61px;
+        }
+        .plane-header {
+            height: 55px;
+            width: 100%;
+            .plane-data {
+                font-size: 24px;
+                .data-value {
+                    font-size: 29px;
+                    line-height: initial;
+                }
+            }
+            .plane-channel {
+                font-size: 16px;
+            }
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .u-data-plane {
+        width: 300px;
+        height: 200px;
+        .plane-chart {
+            width: 100%;
+            height: 61px;
+        }
+        .plane-header {
+            height: 55px;
+            width: 100%;
+            .plane-data {
+                font-size: 24px;
+                .data-value {
+                    font-size: 29px;
+                    line-height: initial;
+                }
+            }
+            .plane-channel {
+                font-size: 16px;
+            }
         }
     }
 }

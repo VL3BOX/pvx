@@ -1,5 +1,5 @@
 <template>
-    <div ref="wrap" class="cross-wrapper">
+    <div ref="wrap" class="cross-wrapper" :class="`m-${type}`">
         <template v-if="isShow">
             <div
                 class="cross cross-left"
@@ -70,6 +70,16 @@ export default {
                 };
             },
         },
+        type: {
+            // pvx menus 分类
+            type: String,
+            default: "rare",
+        },
+        arrow: {
+            // 每次滚动的系数 默认为1 wrapper宽度的一半
+            type: Number,
+            default: 1,
+        },
     },
     data() {
         return {
@@ -83,12 +93,12 @@ export default {
         toLeft(e) {
             e.preventDefault();
             this.isInRight = false;
-            this.scroll(-1);
+            this.scroll(-this.arrow);
         },
         toRight(e) {
             e.preventDefault();
             this.isInLeft = false;
-            this.scroll(1);
+            this.scroll(this.arrow);
         },
         scroll(arrow = 1) {
             const list = this.$refs.list;
@@ -98,7 +108,7 @@ export default {
             const step = (wrapperWidth / 2) * arrow;
             let timer = null;
             timer = setInterval(() => {
-                if (arrow === 1) {
+                if (arrow === this.arrow) {
                     // 向右
                     if (list.scrollLeft < nowLeft + step) {
                         list.scrollLeft += Math.ceil(step / 100);
@@ -109,7 +119,7 @@ export default {
                         this.isInRight = true;
                         clearInterval(timer);
                     }
-                } else if (arrow === -1) {
+                } else if (arrow === -this.arrow) {
                     // 向左
                     if (list.scrollLeft > nowLeft + step) {
                         list.scrollLeft += Math.floor(step / 100);

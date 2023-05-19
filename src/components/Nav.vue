@@ -145,6 +145,13 @@ export default {
                             key: "price",
                             status: true,
                         },
+                        {
+                            path: "/pvg/gonggao",
+                            label: "活动告示",
+                            icon: "el-icon-sugar",
+                            key: "gonggao",
+                            status: true,
+                        },
                     ],
                 },
 

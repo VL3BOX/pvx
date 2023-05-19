@@ -8,11 +8,11 @@ function getProfile() {
         });
 }
 
-function getItemPrice(params) {
+function getGoodsData(params) {
     return $next().get(`api/item-groups/with-prices`, {
         params,
     });
 }
 
 
-export { getProfile, getItemPrice };
+export { getProfile, getGoodsData };

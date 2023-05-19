@@ -208,7 +208,7 @@ export default {
     .m-recipe-list {
         .w(460px);
         .flex;
-        min-height: 720px;
+        min-height: 700px;
         max-height: calc(100vh - 230px);
         overflow: auto;
         flex-direction: column;
@@ -279,7 +279,7 @@ export default {
     .m-recipe-detail {
         .w(460px);
         .r(10px);
-        padding: 20px 30px 0 30px;
+        padding: 13px 30px 0 30px;
         box-sizing: border-box;
         background-color: #fff;
     }

@@ -54,7 +54,7 @@ export default {
         overflow: auto;
         padding: 20px;
         background: #fff;
-        min-height: 720px;
+        min-height: 700px;
         max-height: calc(100vh - 230px);
         box-sizing: border-box;
         .m-item {
