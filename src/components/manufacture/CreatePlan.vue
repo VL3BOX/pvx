@@ -65,9 +65,10 @@ export default {
             let recipe = [],
                 materials = [];
             this.list.forEach((item) => {
-                recipe.push({ id: item.item_key, count: item.count });
-                item.childrenList.forEach((el) => {
-                    materials.push({ id: el.price_id, count: el.count * item.count });
+                recipe.push({ id: item.itemKey, count: item.count });
+                console.log(item);
+                item.children.forEach((el) => {
+                    materials.push({ id: el.priceID, count: el.count * item.count });
                 });
             });
             materials = this.merge(materials);
@@ -85,18 +86,21 @@ export default {
                     { title: "生产配方所需材料", data: materials },
                 ],
             };
-            addMyPlans(data).then((res) => {
-                this.done = true;
-                this.dialogVisible = false;
-                this.data = res.data.data;
-                this.$notify({
-                    title: "清单创建成功",
-                    message: "请在创作中心查看",
-                    type: "success",
+            addMyPlans(data)
+                .then((res) => {
+                    this.done = true;
+                    this.dialogVisible = false;
+                    this.data = res.data.data;
+                    this.$notify({
+                        title: "清单创建成功",
+                        message: "请在创作中心查看",
+                        type: "success",
+                    });
+                })
+                .then(() => {
+                    this.data = "";
+                    this.$emit("clear");
                 });
-            });
-            this.data = "";
-            this.$store.commit("toState", { cartList: [] });
         },
 
         // 合并所有材料的id和数量

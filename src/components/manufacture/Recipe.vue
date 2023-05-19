@@ -7,13 +7,23 @@
                 </span>
                 <span
                     v-show="showIndex == i"
-                    :class="['m-list', { active: itemId == _list.ID }]"
+                    :class="['m-list', { active: itemId == _list.ID }, `u-quality-bg--${_list.Quality}`]"
                     v-for="(_list, k) in item.list"
                     :key="k"
                     @click="changeItem(_list.ID)"
                 >
-                    <img class="u-img" :src="iconLink(_list.IconID)" :alt="_list.Name" />
-                    {{ _list.Name }}
+                    <span class="u-item">
+                        <img class="u-img" :src="iconLink(_list.IconID)" :alt="_list.Name" /> {{ _list.Name }}</span
+                    >
+                    <div class="m-add" v-if="itemId == _list.ID">
+                        <el-input-number
+                            v-model="showItem.count"
+                            size="small"
+                            :min="1"
+                            @click.stop.native
+                        ></el-input-number>
+                        <el-button icon="el-icon-shopping-cart-2" size="small" @click="addCartItem"> </el-button>
+                    </div>
                 </span>
             </span>
         </div>
@@ -160,8 +170,13 @@ export default {
         },
         // 切换物品
         changeItem(id) {
+            if (id == this.itemId) return;
             this.itemId = id;
             this.loadItem(id);
+        },
+        addCartItem() {
+            const data = { ...this.showItem, children: this.children };
+            this.$emit("addCartItem", data);
         },
     },
     watch: {
@@ -191,8 +206,11 @@ export default {
     .flex;
     gap: 20px;
     .m-recipe-list {
-        .w(360px);
+        .w(460px);
         .flex;
+        min-height: 720px;
+        max-height: calc(100vh - 230px);
+        overflow: auto;
         flex-direction: column;
         gap: 20px;
     }
@@ -207,29 +225,61 @@ export default {
             .r(10px);
             .pointer;
             .fz(14px);
+            justify-content: space-between;
             box-sizing: border-box;
             gap: 10px;
             font-weight: 700;
             background-color: #fff;
             padding: 0 20px;
             align-items: center;
+            .u-item {
+                .flex;
+                gap: 10px;
+                align-items: center;
+            }
             &.m-title {
                 .h(38px);
                 .fz(16px);
             }
-            &.active {
-                background-color: #07ad36;
+            &.active,
+            &:hover {
                 color: #fff;
+                background: #24292e;
+                &.u-quality-bg--0 {
+                    background: #24292e;
+                }
+                &.u-quality-bg--1 {
+                    background: @color;
+                }
+                &.u-quality-bg--2 {
+                    background: #00d24b;
+                }
+                &.u-quality-bg--3 {
+                    background: #007eff;
+                }
+                &.u-quality-bg--4 {
+                    background: #ff2dff;
+                }
+                &.u-quality-bg--5 {
+                    background: #ffa500;
+                }
+                &.u-quality-bg--6 {
+                    background: #c00;
+                }
             }
             .u-img {
                 .size(20px);
             }
+            .m-add {
+                .flex;
+                gap: 10px;
+            }
         }
     }
     .m-recipe-detail {
-        .w(560px);
+        .w(460px);
         .r(10px);
-        padding: 20px 30px;
+        padding: 20px 30px 0 30px;
         box-sizing: border-box;
         background-color: #fff;
     }

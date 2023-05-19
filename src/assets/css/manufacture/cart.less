@@ -1,4 +1,4 @@
-.m-manufacture-title { 
+.m-manufacture-title {
     .u-del {
         .fz(16px);
         background: #fff;
@@ -11,13 +11,14 @@
     }
 }
 .m-cart-body {
-    .size(420px,auto);
+    .w(420px);
     .r(10px);
+    min-height: 720px;
+    max-height: calc(100vh - 230px);
     box-sizing: border-box;
     padding: 20px;
-    box-sizing: border-box;
     background: #fff;
-    min-height: 80vh;
+    overflow: auto;
     .m-title {
         .flex;
         justify-content: space-between;
@@ -54,7 +55,7 @@
             }
             .u-del {
                 background: #fff;
-                letter-spacing: 1px; 
+                letter-spacing: 1px;
                 &:hover {
                     background: #07ad36;
                     border: 1px solid #07ad36;

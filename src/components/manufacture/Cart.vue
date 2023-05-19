@@ -10,7 +10,7 @@
                 type="info"
                 size="mini"
                 icon="el-icon-delete"
-                @click="clientAllCart"
+                @click="clearAllCart"
             >
                 全部清空
             </el-button>
@@ -45,7 +45,7 @@
                             round
                             size="mini"
                             icon="el-icon-delete"
-                            @click="clientCart(item.ID)"
+                            @click="clearCart(item.ID)"
                         >
                             移除
                         </el-button>
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <CreatePlan :list="cartList" />
+            <CreatePlan :list="cartList" @clear="clearAllCart" />
         </div>
     </div>
 </template>
@@ -163,11 +163,11 @@ export default {
     methods: {
         iconLink,
         // 移除
-        clientCart(id) {
+        clearCart(id) {
             this.cartList = id ? this.cartList.filter((item) => item.ID !== id) : [];
         },
         // 全部清空
-        clientAllCart() {
+        clearAllCart() {
             this.cartList = [];
         },
         // 材料价格

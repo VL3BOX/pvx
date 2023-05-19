@@ -34,10 +34,10 @@
                 />
             </div>
             <!-- 成本计算器 -->
-            <div class="m-m">
-                <Cart :data="cartItem" :server="server" />
-            </div>
+            <Cart :data="cartItem" :server="server" />
+
             <!-- 我的清单 -->
+            <MyList />
         </div>
     </div>
 </template>
@@ -50,10 +50,11 @@ import { craft_types } from "@/assets/data/manufacture.json";
 
 import Recipe from "@/components/manufacture/Recipe.vue";
 import Cart from "@/components/manufacture/Cart.vue";
+import MyList from "@/components/manufacture/MyList.vue";
 
 export default {
     name: "Manufacture",
-    components: { Recipe, Cart },
+    components: { Recipe, Cart, MyList },
     data: function () {
         return {
             craftList: [],

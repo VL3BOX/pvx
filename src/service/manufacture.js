@@ -39,6 +39,14 @@ function addMyPlans(params) {
 function getUserInfo() {
     return $cms().get("/api/cms/user/my/info");
 }
+// 获取我的物品清单
+function getMyPlans(params) {
+	return $cms()
+		.get(`/api/cms/app/item_plans/mine`, { params })
+		.then((res) => {
+			return res.data.data;
+		});
+}
 export {
     getManufactures,
     getManufactureItem,
@@ -48,4 +56,5 @@ export {
     getAuctionPrice,
     addMyPlans,
     getUserInfo,
+    getMyPlans
 };
