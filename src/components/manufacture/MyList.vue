@@ -5,7 +5,7 @@
         </div>
         <div class="m-box">
             <a :href="link + item.id" target="_blank" class="m-item" v-for="(item, i) in list" :key="i">
-                <i :class="item.public ? 'el-icon-lock' : 'el-icon-caret-right'"></i> {{ item.title }}
+                <span> <i :class="item.public ? 'el-icon-lock' : 'el-icon-caret-right'"></i> {{ item.title }}</span>
             </a>
         </div>
     </div>
@@ -48,22 +48,26 @@ export default {
     min-width: 300px;
     .m-box {
         .flex;
-        .r(10px);
         flex-direction: column;
-
+        gap: 20px;
         overflow: auto;
-        padding: 20px;
-        background: #fff;
         min-height: 700px;
         max-height: calc(100vh - 230px);
-        box-sizing: border-box;
+
         .m-item {
             .db;
             .bold;
-            .nobreak;
             .fz(16px);
-            .lh(38px);
             .color( #24292e,#07ad36);
+            .lh(50px);
+            .r(10px);
+            background: #fff;
+            padding: 0 20px;
+
+            span {
+                .db;
+                .nobreak;
+            }
         }
     }
 }

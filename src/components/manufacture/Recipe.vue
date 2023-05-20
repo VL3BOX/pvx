@@ -27,15 +27,14 @@
                 </span>
             </span>
         </div>
-        <div class="m-recipe-detail" v-loading="loading">
-            <RecipeDetail
-                :showItem="showItem"
-                :prices="prices"
-                :children="children"
-                :server="server"
-                v-on="$listeners"
-            />
-        </div>
+        <RecipeDetail
+            v-loading="loading"
+            :showItem="showItem"
+            :prices="prices"
+            :children="children"
+            :server="server"
+            v-on="$listeners"
+        />
     </div>
 </template>
 <script>
@@ -237,34 +236,39 @@ export default {
                 gap: 10px;
                 align-items: center;
             }
-            &.m-title {
-                .h(38px);
-                .fz(16px);
-            }
+
             &.active,
             &:hover {
                 color: #fff;
-                background: #24292e;
+                background: rgba(50, 65, 72, 0.3);
                 &.u-quality-bg--0 {
-                    background: #24292e;
+                    background: rgba(50, 65, 72, 0.3);
                 }
                 &.u-quality-bg--1 {
                     background: @color;
                 }
                 &.u-quality-bg--2 {
-                    background: #00d24b;
+                    background: #07ad36;
                 }
                 &.u-quality-bg--3 {
-                    background: #007eff;
+                    background: #3d83d3;
                 }
                 &.u-quality-bg--4 {
-                    background: #ff2dff;
+                    background: #b242da;
                 }
                 &.u-quality-bg--5 {
-                    background: #ffa500;
+                    background: #f8983f;
                 }
                 &.u-quality-bg--6 {
                     background: #c00;
+                }
+            }
+            &.m-title {
+                .h(38px);
+                .fz(16px);
+                &.active,
+                &:hover {
+                    background: #24292e;
                 }
             }
             .u-img {
@@ -278,8 +282,7 @@ export default {
     }
     .m-recipe-detail {
         .w(460px);
-        .r(10px);
-        padding: 13px 30px 0 30px;
+        .r(10px); 
         box-sizing: border-box;
         background-color: #fff;
     }
