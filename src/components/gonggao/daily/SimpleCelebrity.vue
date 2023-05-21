@@ -6,13 +6,13 @@
             </div>
             <div class="m-celebrity-item" :class="!i && 'current-item'">
                 <div class="u-celebrity-title">
-                    <div>{{ i ? item.timeFormat : "当前" }}</div>
+                    <div>{{ i ? item.timeFormat : "▶ 当前" }}</div>
                     <div>{{ item.map }}</div>
                 </div>
                 <div class="u-celebrity-desc">
                     <div>
                         <span>位置：</span>
-                        <span>{{ item.site }}</span>
+                        <b>{{ item.site }}</b>
                     </div>
                     <div>
                         <span>阶段：</span>
