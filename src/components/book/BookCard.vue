@@ -1,8 +1,13 @@
 <template>
     <div class="m-book-card">
-        <div class="u-book-info" :class="`u-profession-bg--` + item.ExtendProfessionID1" @click="go(item.idKey)">
+        <a
+            class="u-book-info"
+            :class="`u-profession-bg--` + item.ExtendProfessionID1"
+            :href="getLink(item.idKey)"
+            target="_blank"
+        >
             <div class="title">{{ item.Name }}</div>
-        </div>
+        </a>
         <div class="u-desc-info">
             <div class="desc" v-html="item.Desc"></div>
             <div class="desc-title" v-html="item.Name"></div>
@@ -27,8 +32,8 @@ export default {
         },
     },
     methods: {
-        go(id) {
-            this.$router.push({ path: `${id}` });
+        getLink(id) {
+            return `/book/${id}`;
         },
     },
 };

@@ -13,7 +13,7 @@
             <SimpleCelebrity></SimpleCelebrity>
         </div>
         <div class="m-daily-item">
-            <div class="u-title">今日福源</div>
+            <div class="u-title">今日福缘</div>
             <SimplePet></SimplePet>
         </div>
         <!-- <div class="m-daily-item is-disabled">

@@ -1,5 +1,5 @@
 <template>
-    <div class="m-horse-card" :class="`u-quality-bg--` + item.Quality" @click="go(item)">
+    <a class="m-horse-card" :class="`u-quality-bg--` + item.Quality" :href="getLink(item)" target="_blank">
         <el-image v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image">
             <div slot="error" class="image-slot">
                 <img src="../../assets/img/horse_item_bg_sm.jpg" />
@@ -42,7 +42,7 @@
                 <img class="u-attr-icon" :src="data.iconUrl" :alt="data.name" />
             </el-tooltip>
         </div>
-    </div>
+    </a>
 </template>
 
 <script>
@@ -69,11 +69,11 @@ export default {
         },
     },
     methods: {
-        go(item) {
+        getLink(item) {
             const id = item.ItemID;
             // 2 马具 1 坐骑
             const type = item.SubType === 15 ? 1 : 2;
-            this.$router.push({ path: `${id}`, query: { type } });
+            return `/horse/${id}?type=${type}`;
         },
         getImgSrc(item) {
             const path = item.ImgPath;

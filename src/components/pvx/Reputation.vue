@@ -5,7 +5,7 @@
             <a class="u-more" href="/reputation">查看更多</a>
         </div>
         <div class="u-list">
-            <ReputationItem v-for="item in list" :key="item.id" :item="item"></ReputationItem>
+            <ReputationItem class="m-pvx-item" v-for="item in list" :key="item.id" :item="item"></ReputationItem>
         </div>
     </div>
 </template>

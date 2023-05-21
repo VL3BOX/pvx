@@ -1,18 +1,24 @@
 <template>
-    <div class="m-adventures">
+    <div class="c-pvx-block m-adventures">
         <div class="u-header">
             <div class="u-title">{{ title }}</div>
             <a class="u-more" href="/adventure">查看更多</a>
         </div>
         <div class="u-tabs">
-            <div class="u-tab" v-for="tab in tabs" :key="tab.value" @click="tabActive = tab.value">{{ tab.label }}</div>
+            <div
+                class="u-tab"
+                :class="tabActive === tab.value && 'is-active'"
+                v-for="tab in tabs"
+                :key="tab.value"
+                @click="tabActive = tab.value"
+            >
+                {{ tab.label }}
+            </div>
         </div>
         <div class="u-list">
-            <list-cross v-if="list.length" :list="list" type="share" :gap="10" :arrow="2">
+            <list-cross v-if="list.length" :list="list" :gap="10">
                 <template v-slot="data">
-                    <a class="u-adventure" :href="getLink(data.item)" target="_blank">
-                        <img class="u-pic" :src="getThumbnail(data.item.img)" loading="lazy" />
-                    </a>
+                    <AdventureItem class="m-pvx-item" :item="data.item"></AdventureItem>
                 </template>
             </list-cross>
         </div>
@@ -22,11 +28,17 @@
 <script>
 import { getAdventures as getList } from "@/service/adventure";
 import ListCross from "../ListCross.vue";
-import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import AdventureItem from "@/components/adventure/item.vue";
+import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "NewAdventures",
     components: {
         ListCross,
+        AdventureItem,
+    },
+    provide: {
+        __imgRoot: __imgPath + "adventure/",
+        __dataRoot: __dataPath + "pvx/",
     },
     data() {
         return {
@@ -47,6 +59,7 @@ export default {
                     value: "pet",
                 },
             ],
+            school: "2",
         };
     },
     computed: {
@@ -56,7 +69,7 @@ export default {
         title() {
             return "最新奇遇";
         },
-        query() {
+        params() {
             return {
                 per: 10,
                 page: 1,
@@ -77,14 +90,29 @@ export default {
         load() {
             const params = this.params;
             getList(params).then((res) => {
-                this.list = res.data?.data?.list || [];
+                const list = [];
+                res.data.list.forEach((e) => {
+                    list.push(this.toSpecial(e));
+                });
+                this.list = list;
             });
         },
-        getLink(item) {
-            return item.source_id ? `/face/${item.source_id}` : item.link;
-        },
-        getThumbnail(url) {
-            return getThumbnail(url, [400 * 2, 200 * 2]);
+        //处理特殊的链接
+        toSpecial(data) {
+            const type = data.szRewardType;
+            let str = data.szOpenRewardPath;
+            const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
+
+            if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
+
+            if (type == "camp") {
+                data.bHide
+                    ? (str = "ui/Image/Adventure/reward/Open/camp/camp_2_Open.tga")
+                    : (str = "ui/Image/Adventure/reward/Open/camp/camp_0_Open.tga");
+            }
+
+            data.szOpenRewardPath = str;
+            return data;
         },
     },
     mounted() {

@@ -118,7 +118,7 @@ export default {
             ],
             query: {
                 page: 1,
-                pageSize: 20,
+                per: 20,
             },
             total: 0,
             totalPages: 0,
@@ -414,7 +414,6 @@ export default {
             this.loading = true;
             Promise.allSettled([type0, type1, type2])
                 .then((data) => {
-                    console.log(data);
                     const newData = data.map((item) => {
                         if (item.status === "fulfilled") {
                             return item.value;

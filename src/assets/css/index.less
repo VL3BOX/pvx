@@ -125,7 +125,7 @@
                 color: #000000;
             }
         }
-        & > img {
+        & > .u-normal-img {
             .size(500px, 620px);
             border-radius: 10px;
         }
@@ -223,11 +223,12 @@
                     overflow: hidden;
                     .u-face,
                     .u-pet {
-                        width: 420px;
+                        width: 430px;
                         height: 200px;
                         .u-pic {
                             .size(100%, 100%);
                             border-radius: 10px;
+                            object-fit: cover;
                         }
                     }
                 }
@@ -240,9 +241,86 @@
                     .reputation-item {
                         width: calc(50% - 5px);
                         margin: 0;
+                        margin-bottom: 16px;
                         .reputation-name-wrap {
+                            width: calc(100% - 50px);
                             .progress-wrap {
                                 width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+            &.c-pvx-block {
+                .u-tabs {
+                    .flex;
+                    gap: 20px;
+                    margin-bottom: 20px;
+                    .u-tab {
+                        .size(276px, 40px);
+                        background: #e2dfdf;
+                        border-radius: 10px;
+                        font-weight: 700;
+                        font-size: 18px;
+                        line-height: 40px;
+                        color: rgba(36, 41, 46, 0.5);
+                        text-align: center;
+                        cursor: pointer;
+                        &.is-active,
+                        &:hover {
+                            color: #fff;
+                            background-color: @active-color;
+                        }
+                    }
+                }
+            }
+            &.m-adventures {
+                .m-pvx-item {
+                    margin: 0;
+                    .size(277px, 334px);
+                    box-sizing: border-box;
+                    padding: 35px 14.5px;
+                    .u-img {
+                        width: 248px;
+                        height: 264px;
+                        left: 14.5px;
+                        top: 35px;
+                    }
+                }
+            }
+            &.m-horses {
+                .u-tabs {
+                    .u-tab {
+                        .size(425px, 40px);
+                    }
+                }
+                .m-pvx-item {
+                    .size(200px, 334px);
+                    .m-horse-card {
+                        .u-image {
+                            .size(160px, 160px);
+                        }
+                    }
+                }
+            }
+            &.m-books {
+                .u-tabs {
+                    .u-tab {
+                        &.is-active,
+                        &:hover {
+                            color: #fff;
+                            background-color: @active-color;
+                            &.select-item-11 {
+                                // 全部、杂集
+                                background-color: #324148;
+                            }
+                            &.select-item-9 {
+                                // 佛学
+                                background-color: #947d2e;
+                            }
+                            &.select-item-10 {
+                                // 道学
+                                background-color: #194372;
                             }
                         }
                     }
@@ -251,17 +329,17 @@
         }
     }
 }
-.is-closed,
-.is-opened,
-.is-regular {
-    .p-index {
-        .m-newest {
-            & > div {
-                width: calc(50% - 20px);
-            }
-        }
-    }
-}
+// .is-closed,
+// .is-opened,
+// .is-regular {
+//     .p-index {
+//         .m-newest {
+//             & > div {
+//                 width: calc(50% - 20px);
+//             }
+//         }
+//     }
+// }
 @media screen and (max-width: @ipad) {
     .is-opened,
     .is-regular,
@@ -284,7 +362,7 @@
                 & > div {
                     &.m-reputation {
                         .u-list {
-                            .reputation-item {
+                            .m-pvx-item {
                                 width: 100%;
                             }
                         }
@@ -299,12 +377,5 @@
                 }
             }
         }
-    }
-}
-@maxW: @pc + @openedWidth;
-@media screen and (min-width: @maxW) {
-    .p-index {
-        width: 1783px;
-        margin: 0 auto;
     }
 }

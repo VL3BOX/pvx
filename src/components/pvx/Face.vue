@@ -48,7 +48,7 @@ export default {
             return item.source_id ? `/face/${item.source_id}` : item.link;
         },
         getThumbnail(url) {
-            return getThumbnail(url, [400 * 2, 200 * 2]);
+            return getThumbnail(url, [430 * 2, 200 * 2]);
         },
     },
     mounted() {
