@@ -16,7 +16,7 @@
             <div class="u-title">今日福源</div>
             <SimplePet></SimplePet>
         </div>
-        <div class="m-daily-item is-disabled">
+        <!-- <div class="m-daily-item is-disabled">
             <div class="u-title">武林通鉴·秘境</div>
             <SimpleFb :list="fbList"></SimpleFb>
         </div>
@@ -27,22 +27,24 @@
         <div class="m-daily-item is-disabled">
             <div class="u-title">门派事件</div>
             <SimpleMp></SimpleMp>
+        </div> -->
+        <div class="m-daily-item">
+            <!-- <div class="m-child-item">
+                <div class="u-title">美人图</div>
+                <SimpleMrt></SimpleMrt>
+            </div> -->
+            <div class="m-child-item">
+                <div class="u-title">园宅会赛</div>
+                <SimpleFurniture :furniture="currentFurniture"></SimpleFurniture>
+            </div>
+            <div class="m-child-item">
+                <div class="u-title">园宅会赛-下期</div>
+                <SimpleFurniture :furniture="nextFurniture"></SimpleFurniture>
+            </div>
         </div>
         <div class="m-daily-item">
             <div class="u-title">抓马播报</div>
             <SimpleHorse></SimpleHorse>
-        </div>
-        <div class="m-daily-item">
-            <div class="m-child-item">
-                <div class="u-title">美人图</div>
-                <SimpleMrt></SimpleMrt>
-            </div>
-            <div class="m-child-item">
-                <div class="u-title">园宅会赛</div>
-                <SimpleFurniture :furniture="currentFurniture"></SimpleFurniture>
-                <!-- <div class="u-title">园宅会赛-下期</div>
-                <SimpleFurniture :furniture="nextFurniture"></SimpleFurniture> -->
-            </div>
         </div>
     </div>
 </template>
@@ -56,10 +58,10 @@ import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
 import SimplePet from "./daily/SimplePet.vue";
-import SimpleFb from "./daily/SimpleFb.vue";
-import SimpleMp from "./daily/SimpleMp.vue";
+// import SimpleFb from "./daily/SimpleFb.vue";
+// import SimpleMp from "./daily/SimpleMp.vue";
 import SimpleFurniture from "./daily/SimpleFurniture.vue";
-import SimpleMrt from "./daily/SimpleMrt.vue";
+// import SimpleMrt from "./daily/SimpleMrt.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
 export default {
     name: "Daily",
@@ -68,10 +70,10 @@ export default {
         SimpleDaily,
         SimpleCelebrity,
         SimplePet,
-        SimpleFb,
-        SimpleMp,
+        // SimpleFb,
+        // SimpleMp,
         SimpleFurniture,
-        SimpleMrt,
+        // SimpleMrt,
         SimpleHorse,
     },
     data() {
@@ -127,7 +129,8 @@ export default {
                     category: list.find((item) => item.subtype === "category")?.content || "",
                 };
                 const nextContent = list.find((item) => item.subtype === "next_match")?.content || "";
-                const nextArr = nextContent ? nextContent.replace(/.*：/g, "").split("\n") : [];
+                const reg = nextContent.indexOf("：") > -1 ? /.*：/g : /.*:/g;
+                const nextArr = nextContent ? nextContent.replace(reg, "").split("\n") : [];
                 this.nextFurniture = {
                     property: nextArr[0] || "",
                     category: nextArr[1] || "",

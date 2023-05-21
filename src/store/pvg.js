@@ -9,7 +9,7 @@ Vue.use(Vuex);
 let store = {
     state: {
         client: location.href.includes("origin") ? "origin" : "std",
-        server: "蝶恋花",
+        server: "",
         craft_key: "",
         item_id: "",
         item: {},

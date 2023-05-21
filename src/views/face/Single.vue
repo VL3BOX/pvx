@@ -108,7 +108,7 @@
                             fit="contain"
                             :src="showPic(item)"
                             class="u-pic"
-                            :preview-src-list="previewSrcList"
+                            :preview-src-list="resolveImageArr(previewSrcList)"
                             @click.capture="handlePreviewImage(i)"
                         ></el-image>
                     </div>
@@ -202,6 +202,7 @@
             :userId="post.user_id"
             :adminBoxcoinEnable="true"
             :userBoxcoinEnable="true"
+            :client="post.client"
         />
         <!-- 评论 -->
         <div class="m-single-content-box">
@@ -232,8 +233,6 @@ import facedata from "@jx3box/jx3box-facedat/src/Facedat.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import {
     editLink,
-    showMinibanner,
-    showBanner,
     showAvatar,
     authorLink,
     resolveImagePath,
@@ -574,6 +573,11 @@ export default {
                     this.topic_info = list[0];
                 }
             })
+        },
+
+        // 将图片地址替换为cdn
+        resolveImageArr(arr) {
+            return arr.map(item => resolveImagePath(item));
         }
     },
 };

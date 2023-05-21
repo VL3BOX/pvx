@@ -1,15 +1,21 @@
 <template>
     <div ref="listRef" class="book-home-wrapper" v-loading="loading">
         <PvxSearch ref="search" :items="searchProps" class="book-search" @search="searchEvent($event)">
-            <div
-                class="select-item"
-                v-for="profession in professions"
+            <el-tooltip
+                effect="dark"
+                v-for="profession in professionList"
                 :key="profession.id"
-                :class="[profession.id === selected && 'is-active', 'select-item-' + profession.id]"
-                @click="selected = profession.id"
+                :content="`共 ${profession.total || 0} 本 ${profession.name === '全部' ? '书籍' : profession.name}`"
+                placement="bottom"
             >
-                {{ profession.name }}
-            </div>
+                <div
+                    class="select-item"
+                    :class="[profession.id === selected && 'is-active', 'select-item-' + profession.id]"
+                    @click="selected = profession.id"
+                >
+                    {{ profession.name }}
+                </div>
+            </el-tooltip>
         </PvxSearch>
         <div class="list-wrapper" ref="crossWrap">
             <!-- 全部模式 -->
@@ -41,14 +47,14 @@
                 <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
                     <div v-if="list.length" class="title-header">
                         <div class="title">
-                            {{ professions[index + 1].name }}
+                            {{ professionList[index + 1].name }}
                         </div>
-                        <a href="javascript:;" @click="selected = professions[index + 1].id">查看全部</a>
+                        <a href="javascript:;" @click="selected = professionList[index + 1].id">查看全部</a>
                     </div>
                     <list-cross
                         v-if="showCross[index]"
-                        :ref="professions[index + 1].name"
-                        :key="professions[index + 1].name"
+                        :ref="professionList[index + 1].name"
+                        :key="professionList[index + 1].name"
                         :list="list"
                         :radius="0"
                     >
@@ -67,7 +73,7 @@
             <div v-else class="list-item-wrapper">
                 <div v-if="list.length" class="title-header">
                     <div class="title">
-                        {{ professions.find((item) => item.id === this.selected).name }}
+                        {{ professionList.find((item) => item.id === this.selected).name }}
                     </div>
                     <div v-if="showSwitch" class="operate-wrap">
                         <div class="list-type-wrapper">
@@ -171,6 +177,7 @@ export default {
             showRecentCross: false,
             gap: 20,
             base: 190,
+            professions,
         };
     },
     computed: {
@@ -181,9 +188,16 @@ export default {
         params() {
             return { ...this.query, ...this.search, client: this.client };
         },
-        professions() {
-            return professions.map((item) => {
-                item.id === 8 && (item.name = "全部");
+        professionList() {
+            const list = this.professions.filter((item) => item.id !== 8).map((item) => item.total);
+            const allTotal = list.reduce((prev, cur) => {
+                return prev + cur;
+            }, 0);
+            return this.professions.map((item) => {
+                if (item.id === 8) {
+                    item.name = "全部";
+                    item.total = allTotal;
+                }
                 return item;
             });
         },
@@ -290,7 +304,14 @@ export default {
             return new Promise((resolve, reject) => {
                 getList(params)
                     .then((res) => {
-                        const newList = res.data.list;
+                        const newList = res.data?.list || [];
+                        const total = res.data?.total || 0;
+                        this.professions = this.professions.map((item) => {
+                            if (item.id === ~~profession) {
+                                item.total = total;
+                            }
+                            return item;
+                        });
                         if (returnList) {
                             // 是否只返回List
                             resolve(newList);

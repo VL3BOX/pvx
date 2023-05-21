@@ -69,7 +69,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 
-import { getProfile, getItemPrice } from "@/service/item";
+import { getProfile, getGoodsData } from "@/service/item";
 
 export default {
     name: "ItemPrice",
@@ -104,7 +104,7 @@ export default {
         get_data() {
             if (!this.server) return;
             this.loading = true;
-            getItemPrice({
+            getGoodsData({
                 server: this.server,
                 limit: 18,
             })
