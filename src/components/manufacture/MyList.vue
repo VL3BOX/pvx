@@ -46,6 +46,7 @@ export default {
 .m-myList {
     .w(100%);
     min-width: 300px;
+    max-width: 420px;
     .m-box {
         .flex; 
         .pr(10px);
