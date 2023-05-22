@@ -12,7 +12,7 @@
             <div class="u-title">楚天社</div>
             <SimpleCelebrity></SimpleCelebrity>
         </div>
-        <div class="m-daily-item is-disabled"></div>
+        <!-- <div class="m-daily-item is-disabled"></div> -->
         <!-- <div class="m-daily-item is-disabled">
             <div class="u-title">武林通鉴·秘境</div>
             <SimpleFb :list="fbList"></SimpleFb>
