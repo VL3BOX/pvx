@@ -202,11 +202,13 @@ export default {
 </script>
 <style lang="less">
 .m-manufacture-recipe {
-    .flex;
-    gap: 20px;
+    .flex; 
+    .mr(10px);
     .m-recipe-list {
         .w(460px);
         .flex;
+        .pr(10px);
+        .mr(20px);
         min-height: 700px;
         max-height: calc(100vh - 230px);
         overflow: auto;

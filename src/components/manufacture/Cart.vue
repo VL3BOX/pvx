@@ -16,90 +16,91 @@
             </el-button>
         </div>
         <div class="m-cart-body">
-            <div class="m-cart-list" v-if="cartList.length">
-                <div class="m-item" v-for="(item, index) in cartList" :key="index">
-                    <div class="u-header">
-                        <el-popover
-                            popper-class="u-icon-popper"
-                            placement="right"
-                            :visible-arrow="false"
-                            trigger="hover"
-                        >
-                            <Item :item_id="item.itemKey" />
-                            <div class="u-header-inner" slot="reference">
-                                <div
-                                    class="u-border"
-                                    :style="{
-                                        backgroundImage: item_border(item.Quality),
-                                        opacity: item.Quality == 5 ? 0.9 : 1,
-                                    }"
-                                ></div>
-                                <img class="u-img" :src="iconLink(item.IconID)" :alt="item.Name" />
-                                <span class="u-title" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
-                            </div>
-                        </el-popover>
-                        <el-button
-                            class="u-del"
-                            type="info"
-                            plain
-                            round
-                            size="mini"
-                            icon="el-icon-delete"
-                            @click="clearCart(item.ID)"
-                        >
-                            移除
-                        </el-button>
-                    </div>
+            <div class="m-cart-scroll">
+                <div class="m-cart-list" v-if="cartList.length">
+                    <div class="m-item" v-for="(item, index) in cartList" :key="index">
+                        <div class="u-header">
+                            <el-popover
+                                popper-class="u-icon-popper"
+                                placement="right"
+                                :visible-arrow="false"
+                                trigger="hover"
+                            >
+                                <Item :item_id="item.itemKey" />
+                                <div class="u-header-inner" slot="reference">
+                                    <div
+                                        class="u-border"
+                                        :style="{
+                                            backgroundImage: item_border(item.Quality),
+                                            opacity: item.Quality == 5 ? 0.9 : 1,
+                                        }"
+                                    ></div>
+                                    <img class="u-img" :src="iconLink(item.IconID)" :alt="item.Name" />
+                                    <span class="u-title" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
+                                </div>
+                            </el-popover>
+                            <el-button
+                                class="u-del"
+                                type="info"
+                                plain
+                                round
+                                size="mini"
+                                icon="el-icon-delete"
+                                @click="clearCart(item.ID)"
+                            >
+                                移除
+                            </el-button>
+                        </div>
 
-                    <div class="u-info">
-                        <el-divider content-position="left">
-                            [ {{ server }} ] - <i class="el-icon-box"></i> 材料成本统计
-                        </el-divider>
-                        <div class="u-children" v-if="item.children.length">
-                            <div class="u-child" v-for="(child, k) in item.children" :key="k">
-                                <el-popover
-                                    popper-class="u-icon-popper"
-                                    placement="right"
-                                    :visible-arrow="false"
-                                    trigger="hover"
-                                >
-                                    <Item :item_id="child.price_id" />
-                                    <div class="u-img" slot="reference">
-                                        <img :src="iconLink(child.IconID)" :alt="child.Name" />
-                                        <span>
-                                            {{ child.Name }}x <b>{{ child.count * item.count }}</b>
-                                        </span>
-                                    </div>
-                                </el-popover>
-                                <PriceItem
-                                    class="u-price-num"
-                                    :data="{
-                                        Price: prices[child.ID] || prices[child.priceID] * child.count * item.count,
-                                        Name: child.Name,
-                                        id: child.ID,
-                                    }"
-                                />
+                        <div class="u-info">
+                            <el-divider content-position="left">
+                                [ {{ server }} ] - <i class="el-icon-box"></i> 材料成本统计
+                            </el-divider>
+                            <div class="u-children" v-if="item.children.length">
+                                <div class="u-child" v-for="(child, k) in item.children" :key="k">
+                                    <el-popover
+                                        popper-class="u-icon-popper"
+                                        placement="right"
+                                        :visible-arrow="false"
+                                        trigger="hover"
+                                    >
+                                        <Item :item_id="child.price_id" />
+                                        <div class="u-img" slot="reference">
+                                            <img :src="iconLink(child.IconID)" :alt="child.Name" />
+                                            <span>
+                                                {{ child.Name }}x <b>{{ child.count * item.count }}</b>
+                                            </span>
+                                        </div>
+                                    </el-popover>
+                                    <PriceItem
+                                        class="u-price-num"
+                                        :data="{
+                                            Price: prices[child.ID] || prices[child.priceID] * child.count * item.count,
+                                            Name: child.Name,
+                                            id: child.ID,
+                                        }"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div class="u-item-num">
-                            <span>制作次数：</span>
-                            <el-input-number v-model="item.count" size="mini" :min="1"></el-input-number>
-                        </div>
-                        <div class="u-item-num">
-                            <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
-                            <b>{{ (item.CostVigor || item.CostStamina) * item.count }}</b>
-                        </div>
-                        <div class="u-item-num">
-                            <span><i class="el-icon-coin"></i> 小计金额：</span>
-                            <span class="u-price">
-                                <GamePrice class="u-price-num" :price="item.allPrices * item.count" />
-                            </span>
+                            <div class="u-item-num">
+                                <span>制作次数：</span>
+                                <el-input-number v-model="item.count" size="mini" :min="1"></el-input-number>
+                            </div>
+                            <div class="u-item-num">
+                                <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
+                                <b>{{ (item.CostVigor || item.CostStamina) * item.count }}</b>
+                            </div>
+                            <div class="u-item-num">
+                                <span><i class="el-icon-coin"></i> 小计金额：</span>
+                                <span class="u-price">
+                                    <GamePrice class="u-price-num" :price="item.allPrices * item.count" />
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="m-null" v-else>- 暂未添加生产配方 -</div>
             </div>
-
-            <div class="m-null" v-else>- 暂未添加生产配方 -</div>
 
             <div class="m-stat">
                 <div class="m-all">

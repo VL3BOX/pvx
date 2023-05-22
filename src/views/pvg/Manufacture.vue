@@ -196,7 +196,7 @@ export default {
 }
 .m-manufacture-body {
     .flex;
-    gap: 30px;
+    gap: 20px;
 }
 .m-manufacture-title {
     .flex;

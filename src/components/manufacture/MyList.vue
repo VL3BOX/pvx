@@ -47,7 +47,8 @@ export default {
     .w(100%);
     min-width: 300px;
     .m-box {
-        .flex;
+        .flex; 
+        .pr(10px);
         flex-direction: column;
         gap: 20px;
         overflow: auto;
