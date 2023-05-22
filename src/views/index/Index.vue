@@ -26,19 +26,19 @@
                 <div class="u-tips">
                     <i class="el-icon-warning"></i>
                     <span>对我们的栏目有建设性意见？</span>
-                    <a
-                        target="_blank"
-                        href="/feedback"
-                        >告诉我们</a
-                    >
+                    <a target="_blank" href="/feedback">告诉我们</a>
                 </div>
             </div>
-            <img src="@/assets/img/index.png" />
+            <img class="u-normal-img" src="@/assets/img/index.png" />
+            <!-- <img class="u-max-img" src="@/assets/img/index_l.png" /> -->
         </div>
         <div class="m-newest">
             <Face></Face>
             <Pet></Pet>
+            <Adventure></Adventure>
+            <Horse></Horse>
             <Reputation></Reputation>
+            <Book></Book>
         </div>
     </div>
 </template>
@@ -48,12 +48,18 @@ import menus from "@/assets/data/menus.json";
 import Face from "@/components/pvx/Face";
 import Pet from "@/components/pvx/Pet";
 import Reputation from "@/components/pvx/Reputation";
+import Adventure from "@/components/pvx/Adventure";
+import Horse from "@/components/pvx/Horse";
+import Book from "@/components/pvx/Book";
 export default {
     name: "Index",
     components: {
         Face,
         Pet,
         Reputation,
+        Adventure,
+        Horse,
+        Book,
     },
     data() {
         return {

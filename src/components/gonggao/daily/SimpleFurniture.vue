@@ -1,5 +1,6 @@
 <template>
     <div class="m-simple-furniture">
+        <div class="u-furniture-title">{{title}}</div>
         <div class="u-furniture-standard">
             <div class="u-label">评分标准：</div>
             <div class="u-value">
@@ -25,6 +26,10 @@ export default {
             type: Object,
             required: true,
         },
+        title : {
+            type: String,
+            default: ''
+        }
     },
 };
 </script>

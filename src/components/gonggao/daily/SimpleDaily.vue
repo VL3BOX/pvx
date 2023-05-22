@@ -23,7 +23,7 @@
                     <span>美人图</span>
                     <span class="u-week">{{ week }}</span>
                 </div>
-                {{ (meirentu && meirentu.name) || "今日暂无画像" }}
+                <span class="u-desc">{{ (meirentu && meirentu.name) || "今日暂无画像" }}</span>
             </div>
         </el-tooltip>
     </div>

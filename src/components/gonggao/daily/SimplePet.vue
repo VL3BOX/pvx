@@ -9,15 +9,18 @@
             target="_blank"
         >
             <div class="u-pet-title">
-                <itemIcon
-                    :item_id="String(item.ItemTabType + '_' + item.ItemTabIndex)"
-                    :size="38"
-                    :onlyIcon="true"
-                    :isLink="false"
-                ></itemIcon>
-                <div class="u-pet-name">{{ item.Name }}</div>
+                <div class="u-pet-name">
+                    <itemIcon
+                        :item_id="String(item.ItemTabType + '_' + item.ItemTabIndex)"
+                        :size="38"
+                        :onlyIcon="true"
+                        :isLink="false"
+                    ></itemIcon
+                    >{{ item.Name }}
+                </div>
+                <div class="u-pet-desc">{{ item.szTip }}</div>
             </div>
-            <div class="u-pet-detail">
+            <!-- <div class="u-pet-detail">
                 <div class="u-times">
                     <div class="u-time" :class="index <= ~~item.name && 'is-active'" v-for="index in 3" :key="index">
                         {{ index }}
@@ -29,7 +32,7 @@
                     src="@/assets/img/gonggao/check.svg"
                     :fill="item.isDone ? '#fff' : '#949494'"
                 />
-            </div>
+            </div> -->
         </a>
     </div>
 </template>

@@ -29,13 +29,6 @@
         "index": "2",
         "submenus": [
             {
-                "path": "/pet",
-                "label": "宠物大全",
-                "icon": "el-icon-files",
-                "key": "pet",
-                "status": true
-            },
-            {
                 "path": "/adventure",
                 "label": "奇遇大全",
                 "icon": "el-icon-files",
@@ -43,17 +36,17 @@
                 "status": true
             },
             {
+                "path": "/pet",
+                "label": "宠物大全",
+                "icon": "el-icon-files",
+                "key": "pet",
+                "status": true
+            },
+            {
                 "path": "/horse",
                 "label": "坐骑大全",
                 "icon": "el-icon-files",
                 "key": "horse",
-                "status": true
-            },
-            {
-                "path": "/book",
-                "label": "书籍大全",
-                "icon": "el-icon-files",
-                "key": "book",
                 "status": true
             },
             {
@@ -68,6 +61,13 @@
                 "label": "声望大全",
                 "icon": "el-icon-sugar",
                 "key": "reputation",
+                "status": true
+            },
+            {
+                "path": "/book",
+                "label": "书籍大全",
+                "icon": "el-icon-files",
+                "key": "book",
                 "status": true
             }
         ]

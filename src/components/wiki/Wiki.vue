@@ -32,6 +32,7 @@
                         :postTitle="source_title"
                         :adminBoxcoinEnable="false"
                         :userBoxcoinEnable="false"
+                        :client="client"
                     />
                 </template>
             </WikiPanel>

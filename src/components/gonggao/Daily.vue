@@ -12,10 +12,7 @@
             <div class="u-title">楚天社</div>
             <SimpleCelebrity></SimpleCelebrity>
         </div>
-        <div class="m-daily-item">
-            <div class="u-title">今日福源</div>
-            <SimplePet></SimplePet>
-        </div>
+        <div class="m-daily-item is-disabled"></div>
         <!-- <div class="m-daily-item is-disabled">
             <div class="u-title">武林通鉴·秘境</div>
             <SimpleFb :list="fbList"></SimpleFb>
@@ -29,17 +26,18 @@
             <SimpleMp></SimpleMp>
         </div> -->
         <div class="m-daily-item">
-            <!-- <div class="m-child-item">
-                <div class="u-title">美人图</div>
-                <SimpleMrt></SimpleMrt>
-            </div> -->
+            <div class="m-daily-item">
+                <div class="u-title">今日福缘</div>
+                <SimplePet></SimplePet>
+            </div>
+        </div>
+        <div class="m-daily-item">
+            <div class="u-title">园宅会赛</div>
             <div class="m-child-item">
-                <div class="u-title">园宅会赛</div>
-                <SimpleFurniture :furniture="currentFurniture"></SimpleFurniture>
+                <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
             </div>
             <div class="m-child-item">
-                <div class="u-title">园宅会赛-下期</div>
-                <SimpleFurniture :furniture="nextFurniture"></SimpleFurniture>
+                <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
             </div>
         </div>
         <div class="m-daily-item">

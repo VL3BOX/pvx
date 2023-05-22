@@ -1,11 +1,11 @@
 <template>
-    <router-link class="m-adventure-item" :to="'/' + item.dwID" target="_blank">
+    <a class="m-adventure-item" :href="`/adventure/${item.dwID}`" target="_blank">
         <!-- @click="getLink(item.dwID)" -->
         <img class="u-default" :src="defaultImg" />
         <img class="u-title" :src="titleImg" :style="titleStyle" />
         <span class="u-img" :style="`backgroundImage: url(${imgName})`"></span>
         <span class="u-icon"></span>
-    </router-link>
+    </a>
 </template>
 
 <script>
@@ -50,3 +50,6 @@ export default {
     mounted: function () {},
 };
 </script>
+<style lang="less">
+@import "~@/assets/css/adventure/item.less";
+</style>
