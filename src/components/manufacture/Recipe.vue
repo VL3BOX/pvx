@@ -210,7 +210,7 @@ export default {
         .pr(10px);
         .mr(20px);
         min-height: 700px;
-        max-height: calc(100vh - 230px);
+        max-height: calc(100vh - 250px);
         overflow: auto;
         flex-direction: column;
         gap: 20px;

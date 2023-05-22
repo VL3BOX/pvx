@@ -14,6 +14,7 @@
     .flex;
     .w(420px);
     .r(10px);
+    gap: 20px;
     justify-content: space-between;
     flex-direction: column;
     box-sizing: border-box;
@@ -23,8 +24,9 @@
         width: calc(100% - 10px);
         overflow: auto;
         min-height: 530px;
-        max-height: calc(100vh - 420px);
+        max-height: calc(100vh - 415px);
     }
+
     .m-cart-list {
         .r(10px);
         background-color: #fff;
@@ -125,11 +127,11 @@
     }
 
     .m-null {
-        .lh(400px);
         .fz(15px);
         .r(10px);
         .x;
-        height: 530px;
+        min-height: 530px;
+        line-height: calc(100vh - 415px);
         color: #999;
         background-color: #fff;
     }

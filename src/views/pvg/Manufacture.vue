@@ -162,6 +162,9 @@ export default {
 </script>
 
 <style lang="less">
+.m-main{
+    .pb(20px);
+}
 .m-manufacture-header {
     .flex;
     gap: 20px;
