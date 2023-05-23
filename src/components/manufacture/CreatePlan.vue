@@ -23,7 +23,7 @@
                     <el-input v-model="plan.description"></el-input>
                 </el-form-item>
                 <el-form-item label="是否公开">
-                    <el-switch v-model="plan.publics"></el-switch>
+                    <el-switch v-model="plan.publics" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -75,7 +75,8 @@ export default {
 
             let date = showTime(new Date());
             let { title, publics, description } = this.plan;
-            publics = publics ? 1 : 0;
+
+            console.log(publics);
             let data = {
                 title: title || `技艺助手成本计算 ${date}`,
                 type: 1,

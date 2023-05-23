@@ -6,7 +6,7 @@
         <div class="m-box">
             <template v-if="isLogin">
                 <a :href="link + item.id" target="_blank" class="m-item" v-for="(item, i) in list" :key="i">
-                    <span> <i :class="item.public ? 'el-icon-lock' : 'el-icon-caret-right'"></i> {{ item.title }}</span>
+                    <span> <i :class="item.public ? 'el-icon-caret-right' : 'el-icon-lock'"></i> {{ item.title }}</span>
                 </a>
             </template>
             <span class="m-null" v-else>- 请登录后查看 -</span>
@@ -43,7 +43,7 @@ export default {
         },
     },
     mounted() {
-        this.load(); 
+        this.load();
         Bus.$on("update", () => {
             this.load();
         });
