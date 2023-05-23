@@ -80,7 +80,13 @@
                             </div>
                             <div class="u-item-num">
                                 <span>制作次数：</span>
-                                <el-input-number v-model="item.count" size="mini" :min="1"></el-input-number>
+                                <el-input-number
+                                    v-model="item.count"
+                                    size="mini"
+                                    :min="1"
+                                    @input="onlyInteger(index, item.count)"
+                                    @click.stop.native
+                                ></el-input-number>
                             </div>
                             <div class="u-item-num">
                                 <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
@@ -126,6 +132,7 @@ import Item from "@jx3box/jx3box-editor/src/Item.vue";
 import PriceItem from "@/components/manufacture/PriceItem.vue";
 import CreatePlan from "@/components/manufacture/CreatePlan.vue";
 import Bus from "@/store/bus.js";
+import { cloneDeep } from "lodash";
 export default {
     name: "cart",
     props: ["data", "server"],
@@ -196,18 +203,24 @@ export default {
                     return "";
             }
         },
+        onlyInteger(index, number) {
+            number = number + "";
+            number = number.replace(/[^\.\d]/g, "");
+            number = number.replace(".", "");
+            this.cartList[index].count = ~~number;
+        },
     },
     watch: {
         data: {
             deep: true,
             handler: function (item) {
+                item = cloneDeep(item);
                 const hasItem = this.cartList.some((cart) => cart.ID == item.ID);
                 item.allPrices = this.itemPrices(item.children) || 0;
 
                 hasItem
-                    ? this.cartList.map((cart) => {
+                    ? this.cartList.forEach((cart) => {
                           if (item.ID == cart.ID) cart.count += item.count;
-                          return cart;
                       })
                     : this.cartList.push(item);
             },
