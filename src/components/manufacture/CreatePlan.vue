@@ -10,9 +10,6 @@
                 保存至我的清单
             </el-button>
         </el-popover>
-        <el-alert class="u-tip" v-if="done" type="success">
-            <span slot="title">清单创建成功，<a :href="url" target="_blank">点击查看</a></span>
-        </el-alert>
 
         <el-dialog title="编辑清单" :visible.sync="dialogVisible" custom-class="m-plan-dialog">
             <el-form :inline="true" :model="plan" class="demo-form-inline">
@@ -44,7 +41,6 @@ export default {
     props: ["list"],
     data: function () {
         return {
-            done: false,
             visible: false,
             dialogVisible: false,
             data: "",
@@ -89,7 +85,6 @@ export default {
             };
             addMyPlans(data)
                 .then((res) => {
-                    this.done = true;
                     this.dialogVisible = false;
                     this.data = res.data.data;
                     this.$notify({
