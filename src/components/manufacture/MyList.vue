@@ -4,9 +4,12 @@
             <span class="u-title">我的清单</span>
         </div>
         <div class="m-box">
-            <a :href="link + item.id" target="_blank" class="m-item" v-for="(item, i) in list" :key="i">
-                <span> <i :class="item.public ? 'el-icon-lock' : 'el-icon-caret-right'"></i> {{ item.title }}</span>
-            </a>
+            <template v-if="isLogin">
+                <a :href="link + item.id" target="_blank" class="m-item" v-for="(item, i) in list" :key="i">
+                    <span> <i :class="item.public ? 'el-icon-lock' : 'el-icon-caret-right'"></i> {{ item.title }}</span>
+                </a>
+            </template>
+            <span class="m-null" v-else>- 请登录后查看 -</span>
         </div>
     </div>
 </template>
@@ -14,11 +17,14 @@
 <script>
 import { getMyPlans } from "@/service/manufacture";
 import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
+import User from "@jx3box/jx3box-common/js/user";
+import Bus from "@/store/bus.js";
 export default {
     name: "MyList",
     data: function () {
         return {
             list: [],
+            isLogin: User.isLogin(),
         };
     },
     computed: {
@@ -37,7 +43,10 @@ export default {
         },
     },
     mounted() {
-        this.load();
+        this.load(); 
+        Bus.$on("update", () => {
+            this.load();
+        });
     },
 };
 </script>
@@ -48,8 +57,9 @@ export default {
     min-width: 300px;
     max-width: 420px;
     .m-box {
-        .flex; 
+        .flex;
         .pr(10px);
+        .fz(14px);
         flex-direction: column;
         gap: 20px;
         overflow: auto;
@@ -58,10 +68,8 @@ export default {
 
         .m-item {
             .db;
-            .bold;
-            .fz(16px);
             .color( #24292e,#07ad36);
-            .lh(50px);
+            .lh(30px);
             .r(10px);
             background: #fff;
             padding: 0 20px;
@@ -70,6 +78,13 @@ export default {
                 .db;
                 .nobreak;
             }
+        }
+        .m-null {
+            .x;
+            .r(10px);
+            color: #999;
+            background: #fff;
+            line-height: 200px;
         }
     }
 }

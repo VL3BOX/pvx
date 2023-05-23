@@ -17,9 +17,10 @@
                     >
                     <div class="m-add" v-if="itemId == _list.ID">
                         <el-input-number
-                            v-model="showItem.count"
+                            v-model.number="showItem.count"
                             size="small"
                             :min="1"
+                            @input="onlyInteger"
                             @click.stop.native
                         ></el-input-number>
                         <el-button icon="el-icon-shopping-cart-2" size="small" @click="addCartItem"> </el-button>
@@ -177,6 +178,12 @@ export default {
             const data = { ...this.showItem, children: this.children };
             this.$emit("addCartItem", data);
         },
+        onlyInteger() {
+            let number = this.showItem.count + "";
+            number = number.replace(/[^\.\d]/g, "");
+            number = number.replace(".", "");
+            this.showItem.count = ~~number;
+        },
     },
     watch: {
         list: {
@@ -202,7 +209,7 @@ export default {
 </script>
 <style lang="less">
 .m-manufacture-recipe {
-    .flex; 
+    .flex;
     .mr(10px);
     .m-recipe-list {
         .w(460px);
@@ -229,7 +236,6 @@ export default {
             justify-content: space-between;
             box-sizing: border-box;
             gap: 10px;
-            font-weight: 700;
             background-color: #fff;
             padding: 0 20px;
             align-items: center;
@@ -241,6 +247,7 @@ export default {
 
             &.active,
             &:hover {
+                .bold;
                 color: #fff;
                 background: rgba(50, 65, 72, 0.3);
                 &.u-quality-bg--0 {
@@ -284,7 +291,7 @@ export default {
     }
     .m-recipe-detail {
         .w(460px);
-        .r(10px); 
+        .r(10px);
         box-sizing: border-box;
         background-color: #fff;
     }

@@ -172,8 +172,7 @@ export default {
     .u-craft {
         .size(100px,40px);
         .r(30px);
-        .fz(16px);
-        .bold;
+        .fz(16px); 
         .lh(40px);
         .x;
         .pointer;
@@ -207,7 +206,7 @@ export default {
     gap: 20px;
     .u-title {
         .bold;
-        .fz(32px);
+        .fz(24px);
         .lh(40px);
         .color(#24292e);
     }

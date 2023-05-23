@@ -6,13 +6,11 @@
                 v-if="cartList.length"
                 class="u-del"
                 plain
-                round
                 type="info"
                 size="mini"
                 icon="el-icon-delete"
                 @click="clearAllCart"
             >
-                全部清空
             </el-button>
         </div>
         <div class="m-cart-body">
@@ -43,12 +41,10 @@
                                 class="u-del"
                                 type="info"
                                 plain
-                                round
                                 size="mini"
                                 icon="el-icon-delete"
                                 @click="clearCart(item.ID)"
                             >
-                                移除
                             </el-button>
                         </div>
 
@@ -235,4 +231,12 @@ export default {
 </script>
 <style lang="less">
 @import "~@/assets/css/manufacture/cart.less";
+</style>
+<style lang="less" scoped>
+.m-manufacture-title {
+    justify-content: space-between;
+    .u-del {
+        .mr(10px);
+    }
+}
 </style>

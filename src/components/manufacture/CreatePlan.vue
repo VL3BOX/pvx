@@ -38,6 +38,7 @@
 import { addMyPlans } from "@/service/manufacture";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { showTime } from "@/utils/moment";
+import Bus from "@/store/bus.js";
 export default {
     name: "CreatePlan",
     props: ["list"],
@@ -66,7 +67,6 @@ export default {
                 materials = [];
             this.list.forEach((item) => {
                 recipe.push({ id: item.itemKey, count: item.count });
-                console.log(item);
                 item.children.forEach((el) => {
                     materials.push({ id: el.priceID, count: el.count * item.count });
                 });
@@ -100,6 +100,7 @@ export default {
                 .then(() => {
                     this.data = "";
                     this.$emit("clear");
+                    Bus.$emit("update");
                 });
         },
 
