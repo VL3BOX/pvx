@@ -37,15 +37,7 @@
                                     <span class="u-title" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
                                 </div>
                             </el-popover>
-                            <el-button
-                                class="u-del"
-                                type="info"
-                                plain
-                                size="mini"
-                                icon="el-icon-delete"
-                                @click="clearCart(item.ID)"
-                            >
-                            </el-button>
+                            <i class="el-icon-delete u-del" @click="clearCart(item.ID)"></i>
                         </div>
 
                         <div class="u-info">
@@ -250,6 +242,18 @@ export default {
     justify-content: space-between;
     .u-del {
         .mr(10px);
+    }
+}
+.m-cart-body .m-item .u-header {
+    align-items: center;
+    .u-del {
+        color: #999;
+        &:hover {
+            background: none;
+            border: 0;
+            .pointer;
+            color: #000;
+        }
     }
 }
 </style>
