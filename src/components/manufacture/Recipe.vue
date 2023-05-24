@@ -3,7 +3,8 @@
         <div class="m-recipe-list">
             <span class="m-recipe-group" v-for="(item, i) in list" :key="i">
                 <span :class="['m-list m-title', { active: i == showIndex }]" @click="changeIndex(i)">
-                    {{ item.BelongName }}
+                    <span>{{ item.BelongName }}</span>
+                    <i :class="i == showIndex ? 'el-icon-arrow-right' : 'el-icon-arrow-down'"></i>
                 </span>
                 <span
                     v-show="showIndex == i"
@@ -198,6 +199,9 @@ export default {
         server() {
             this.loadItem(this.itemId);
         },
+        craftKey(){
+            this.showIndex = 0
+        }
     },
     mounted() {
         Bus.$on("changePrice", ({ id, Price }) => {
@@ -205,6 +209,7 @@ export default {
             this.$set(this.prices, [id], Price);
         });
     },
+   
 };
 </script>
 <style lang="less">
