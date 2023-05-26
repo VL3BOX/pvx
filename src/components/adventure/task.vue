@@ -34,6 +34,7 @@
 import { getAdventureTask } from "@/service/adventure";
 import { extractTextContent } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
+import dayjs from "dayjs";
 export default {
     name: "task",
     props: ["id", "info"],
@@ -50,6 +51,9 @@ export default {
         client: function () {
             return this.$store.state.client;
         },
+        camp() {
+            return dayjs().date() % 2 ? 1 : 2;
+        },
     },
     methods: {
         //处理特殊的链接
@@ -58,8 +62,9 @@ export default {
             let str = data.szOpenRewardPath;
             const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
             if (type == "school") str = `reward/open/${name}/school_${this.school}_open`;
+            console.log();
             if (type == "camp") {
-                data.bHide ? (str = "reward/open/camp/camp_2_open") : (str = "/reward/open/camp/camp_0_open");
+                str = `reward/open/${name}/camp_${this.camp}_open`;
             }
             return this.imgUrl(str);
         },

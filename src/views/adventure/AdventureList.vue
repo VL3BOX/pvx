@@ -72,6 +72,7 @@ import { isPhone } from "@/utils/index";
 import { clone } from "lodash";
 // import User from "@jx3box/jx3box-common/js/user";
 // import schoolImgID from "@/assets/data/school_img_id.json";
+import dayjs from "dayjs";
 export default {
     name: "adventureList",
     props: [],
@@ -139,6 +140,9 @@ export default {
                 list.push(this.toSpecial(e));
             });
             return list;
+        },
+        camp() {
+            return dayjs().date() % 2 ? 1 : 2;
         },
     },
     watch: {
@@ -255,8 +259,7 @@ export default {
 
             if (type == "camp") {
                 data.bHide
-                    ? (str = "ui/Image/Adventure/reward/Open/camp/camp_2_Open.tga")
-                    : (str = "ui/Image/Adventure/reward/Open/camp/camp_0_Open.tga");
+                str = `ui/Image/Adventure/reward/Open/${name}/camp_${this.camp}_Open.tga`;
             }
 
             data.szOpenRewardPath = str;

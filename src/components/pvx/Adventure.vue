@@ -30,6 +30,7 @@ import { getAdventures as getList } from "@/service/adventure";
 import ListCross from "../ListCross.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import dayjs from "dayjs";
 export default {
     name: "NewAdventures",
     components: {
@@ -77,6 +78,9 @@ export default {
                 client: this.client,
             };
         },
+        camp() {
+            return dayjs().date() % 2 ? 1 : 2;
+        },
     },
     watch: {
         tabActive: {
@@ -106,9 +110,7 @@ export default {
             if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
 
             if (type == "camp") {
-                data.bHide
-                    ? (str = "ui/Image/Adventure/reward/Open/camp/camp_2_Open.tga")
-                    : (str = "ui/Image/Adventure/reward/Open/camp/camp_0_Open.tga");
+                str = `ui/Image/Adventure/reward/Open/${name}/camp_${this.camp}_Open.tga`;
             }
 
             data.szOpenRewardPath = str;

@@ -100,23 +100,6 @@ export default {
                 this.list = list;
             });
         },
-        //处理特殊的链接
-        toSpecial(data) {
-            const type = data.szRewardType;
-            let str = data.szOpenRewardPath;
-            const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
-
-            if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
-
-            if (type == "camp") {
-                data.bHide
-                    ? (str = "ui/Image/Adventure/reward/Open/camp/camp_2_Open.tga")
-                    : (str = "ui/Image/Adventure/reward/Open/camp/camp_0_Open.tga");
-            }
-
-            data.szOpenRewardPath = str;
-            return data;
-        },
     },
     mounted() {
         this.load();
