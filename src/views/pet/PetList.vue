@@ -108,15 +108,15 @@ export default {
                     list: [],
                 },
                 {
-                    class: 3,
+                    class: 2,
                     type: 2,
-                    name: "走兽",
+                    name: "禽鸟",
                     list: [],
                 },
                 {
-                    class: 2,
+                    class: 3,
                     type: 3,
-                    name: "禽鸟",
+                    name: "走兽",
                     list: [],
                 },
                 {
