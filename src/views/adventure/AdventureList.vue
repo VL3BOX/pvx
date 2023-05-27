@@ -16,14 +16,14 @@
                 <div
                     class="u-shade-btn u-shade-btn-left"
                     :class="isDisabled('nav' + index, 1, isUpdate)"
-                    @click="crosswiseScrool($event, 'nav' + index, 1, 600)"
+                    @click="crosswiseScroll($event, 'nav' + index, 1, 600)"
                 >
                     <i class="el-icon-arrow-left"></i>
                 </div>
                 <div
                     class="u-shade-btn u-shade-btn-right"
                     :class="isDisabled('nav' + index, -1, isUpdate)"
-                    @click="crosswiseScrool($event, 'nav' + index, -1, 600)"
+                    @click="crosswiseScroll($event, 'nav' + index, -1, 600)"
                 >
                     <i class="el-icon-arrow-right"></i>
                 </div>
@@ -298,7 +298,7 @@ export default {
             }
             return "";
         },
-        crosswiseScrool(event, id, detail, distance) {
+        crosswiseScroll(event, id, detail, distance) {
             if (isPhone()) {
                 return;
             }
