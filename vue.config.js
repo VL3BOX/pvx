@@ -66,6 +66,12 @@ module.exports = {
             template: "public/index.html",
             filename: "pvg/index.html",
         },
+        exam: {
+            title: "剑三考试 - JX3BOX",
+            entry: "src/pages/exam.js",
+            template: "public/index.html",
+            filename: "exam/index.html",
+        },
     },
 
     //❤️ Proxy ~
