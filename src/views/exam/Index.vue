@@ -92,11 +92,6 @@ export default {
                 // tag: "",
                 // client: "",
             },
-            initValue: {
-                type: 2,
-                tag: "",
-                client: "",
-            },
             searchProps: [
                 {
                     key: "type",
@@ -140,10 +135,16 @@ export default {
         };
     },
     computed: {
-        hasNextPage: function () {
-            return this.totalPages > 1 && this.query.page < this.totalPages;
+        type() {
+            return ~~this.$route.params.type || 2;
         },
-        // 发布按钮链接
+        initValue() {
+            return {
+                type: this.type,
+                tag: "",
+                client: "",
+            };
+        },
         publishText: function () {
             let text = "";
             const type = this.search.type;
@@ -179,6 +180,9 @@ export default {
         },
     },
     watch: {
+        type(type) {
+            this.search.type = type;
+        },
         "search.type"(type) {
             if (type === 1) {
                 this.data = [];
@@ -247,9 +251,12 @@ export default {
             if (type === 2) {
                 this.$router.push({ name: "questionPublish" });
             }
+            if (type === 3) {
+                this.$router.push({ name: "paperPublish" });
+            }
         },
         load() {
-            const type = this.search.type;
+            const type = ~~this.search.type;
             switch (type) {
                 case 0:
                     break;

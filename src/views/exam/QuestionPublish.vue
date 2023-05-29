@@ -135,7 +135,12 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push({ path: "/" });
+            this.$router.push({
+                name: "index",
+                params: {
+                    type: 2,
+                },
+            });
         },
         publish: function () {
             this.processing = true;
@@ -190,5 +195,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/exam/question_publish.less";
+@import "~@/assets/css/exam/publish.less";
 </style>

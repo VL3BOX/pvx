@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         id() {
-            return this.$route.params.id;
+            return ~~this.$route.params.id;
         },
         user_id() {
             return this.data.createUserId;
