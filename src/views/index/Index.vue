@@ -26,7 +26,7 @@
                 <div class="u-tips">
                     <i class="el-icon-warning"></i>
                     <span>对我们的栏目有建设性意见？</span>
-                    <a target="_blank" href="/feedback">告诉我们</a>
+                    <a @click="onQQClick" class="u-link" title="点击复制">加入QQ群</a>
                 </div>
             </div>
             <img class="u-normal-img" src="@/assets/img/index.png" />
@@ -64,6 +64,8 @@ export default {
     data() {
         return {
             active: 0,
+
+            qq: '658035079'
         };
     },
     computed: {
@@ -83,6 +85,15 @@ export default {
         getNavIcon(key) {
             return require(`@/assets/img/nav/${key}.png`);
         },
+        onQQClick() {
+            navigator.clipboard.writeText(this.qq).then(() => {
+                this.$notify({
+                    title: "复制成功",
+                    message: "内容：" + this.qq,
+                    type: "success",
+                });
+            })
+        }
     },
 };
 </script>
