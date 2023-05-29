@@ -2,6 +2,14 @@
     <div ref="listRef" class="p-exam" v-loading="loading">
         <PvxSearch class="m-exam-search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)">
             <a
+                v-if="search.type === 1"
+                class="u-search-btn u-question"
+                :href="publish_link"
+                target="_blank"
+                slot="default"
+                >缺题补充</a
+            >
+            <a
                 v-if="[2, 3].includes(search.type)"
                 class="u-search-btn u-publish"
                 :href="publish_link"
@@ -36,6 +44,7 @@
         <div class="m-exam-content">
             <!-- 列表 -->
             <template v-if="data && data.length">
+                <ImperialExamList v-if="search.type === 1" :data="data"></ImperialExamList>
                 <QuestionList v-if="search.type === 2" :data="data"></QuestionList>
                 <PaperList v-if="search.type === 3" :data="data"></PaperList>
             </template>
@@ -43,6 +52,7 @@
             <el-empty v-else description="没有找到相关条目" :image-size="100"></el-empty>
             <!-- 分页 -->
             <el-pagination
+                v-if="search.type !== 1 && data.length"
                 class="m-exam-pagination"
                 background
                 :page-size="query.pageSize"
@@ -56,8 +66,9 @@
     </div>
 </template>
 <script>
-import { getExamPaperList, getExamQuestionList } from "@/service/exam.js";
+import { getExamPaperList, getExamQuestionList, getExamRandom } from "@/service/exam.js";
 import PvxSearch from "@/components/PvxSearch.vue";
+import ImperialExamList from "@/components/exam/imperial_exam_list.vue";
 import PaperList from "@/components/exam/paper_list.vue";
 import QuestionList from "@/components/exam/question_list.vue";
 import tags from "@/assets/data/exam_tags.json";
@@ -69,6 +80,7 @@ export default {
     name: "ExamList",
     components: {
         PvxSearch,
+        ImperialExamList,
         PaperList,
         QuestionList,
     },
@@ -162,6 +174,10 @@ export default {
     },
     watch: {
         "search.type"(type) {
+            if (type === 1) {
+                this.data = [];
+                this.loadImperialExam();
+            }
             if (type === 2 || type === 3) {
                 const tags = this.tags;
                 const hasTag = this.searchProps[1].options.find((item) => item.key === "tag");
@@ -221,8 +237,6 @@ export default {
             switch (type) {
                 case 0:
                     break;
-                case 1:
-                    break;
                 case 2:
                     this.loadMethod(getExamQuestionList);
                     break;
@@ -251,16 +265,31 @@ export default {
             if (this.data.length && this.data[0]?.paramsType !== params.type) {
                 this.data = [];
             }
-            fun(params).then((res) => {
-                const data = res.data?.data || [];
-                this.data = data.map((item) => {
-                    return {
-                        ...item,
-                        paramsType: params.type,
-                    };
+            this.loading = true;
+            fun(params)
+                .then((res) => {
+                    const data = res.data?.data || [];
+                    this.data = data.map((item) => {
+                        return {
+                            ...item,
+                            paramsType: params.type,
+                        };
+                    });
+                    this.totalPages = res.data?.page?.total;
+                })
+                .finally(() => {
+                    this.loading = false;
                 });
-                this.totalPages = res.data?.page?.total;
-            });
+        },
+        loadImperialExam() {
+            this.loading = true;
+            getExamRandom()
+                .then((res) => {
+                    this.data = res.data?.data || [];
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
         pageChange() {
             this.load();
