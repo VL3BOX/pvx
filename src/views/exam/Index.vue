@@ -2,21 +2,16 @@
     <div ref="listRef" class="p-exam" v-loading="loading">
         <PvxSearch class="m-exam-search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)">
             <a
-                v-if="search.type === 1"
-                class="u-search-btn u-question"
-                :href="publish_link"
-                target="_blank"
-                slot="default"
-                >缺题补充</a
-            >
-            <a
-                v-if="[2, 3].includes(search.type)"
+                v-if="publishText"
                 class="u-search-btn u-publish"
-                :href="publish_link"
-                target="_blank"
+                :class="`u-publish__${search.type}`"
+                href="javascript:;"
                 slot="default"
-                >{{ search.type === 2 ? "我要出题" : "我要出卷" }}</a
+                @click="toPublish"
             >
+                <i v-if="search.type === 1" class="el-icon-warning"></i>
+                <span>{{ publishText }}</span>
+            </a>
             <!-- <div v-if="[2, 3].includes(search.type)" class="m-exam-search__extra" slot="extra">
                 <div class="u-extra-title">筛选 <i class="el-icon-caret-top"></i></div>
                 <div class="m-filter-tags">
@@ -72,10 +67,10 @@ import ImperialExamList from "@/components/exam/imperial_exam_list.vue";
 import PaperList from "@/components/exam/paper_list.vue";
 import QuestionList from "@/components/exam/question_list.vue";
 import tags from "@/assets/data/exam_tags.json";
-import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
 import { cloneDeep } from "lodash";
 import { deleteNull } from "@/utils/index";
+import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "ExamList",
     components: {
@@ -149,8 +144,19 @@ export default {
             return this.totalPages > 1 && this.query.page < this.totalPages;
         },
         // 发布按钮链接
-        publish_link: function () {
-            return publishLink("exam");
+        publishText: function () {
+            let text = "";
+            const type = this.search.type;
+            if (type === 1) {
+                text = "缺题补充";
+            }
+            if (type === 2) {
+                text = "我要出题";
+            }
+            if (type === 3) {
+                text = "我要出卷";
+            }
+            return text;
         },
         tags() {
             return tags.map((item) => {
@@ -232,6 +238,16 @@ export default {
         },
     },
     methods: {
+        toPublish() {
+            if (!User.isLogin()) {
+                User.toLogin();
+                return;
+            }
+            const type = this.search.type;
+            if (type === 2) {
+                this.$router.push({ name: "questionPublish" });
+            }
+        },
         load() {
             const type = this.search.type;
             switch (type) {

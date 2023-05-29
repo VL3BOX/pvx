@@ -11,11 +11,13 @@ VueRouter.prototype.push = function push(to) {
 const Index = () => import("@/views/exam/Index.vue");
 const Paper = () => import("@/views/exam/Paper.vue");
 const Question = () => import("@/views/exam/Question.vue");
+const QuestionPublish = () => import("@/views/exam/QuestionPublish.vue");
 
 const routes = [
     { name: "index", path: "/", component: Index },
     { name: "paper", path: "/paper/:id?", component: Paper },
     { name: "question", path: "/question/:id?", component: Question },
+    { name: "questionPublish", path: "/questionPublish/:id?", component: QuestionPublish },
 ];
 
 const router = new VueRouter({
