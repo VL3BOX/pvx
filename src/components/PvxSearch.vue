@@ -86,6 +86,19 @@
                                         </el-checkbox-button>
                                     </el-checkbox-group>
                                 </div>
+                                <div v-if="fItem.type === 'radio'" class="check-box-wrapper">
+                                    <div class="name">{{ fItem.name }}</div>
+                                    <el-radio-group v-model="formData[fItem.key]">
+                                        <el-radio-button
+                                            class="type-item"
+                                            :class="{ active: radioItem.value === formData[fItem.key] }"
+                                            v-for="radioItem in fItem.options"
+                                            :key="radioItem.type"
+                                            :label="radioItem.key"
+                                            >{{ radioItem.value }}</el-radio-button
+                                        >
+                                    </el-radio-group>
+                                </div>
                             </div>
                             <el-row v-if="item.options.length">
                                 <el-col :offset="20" :span="4">
@@ -137,6 +150,7 @@
                 </template>
             </div>
         </div>
+        <slot name="extra"></slot>
     </div>
 </template>
 
@@ -214,6 +228,11 @@ export default {
             this.formData[key] = value.join(",");
         },
         reset() {
+            const filterOptions = this.items.find((item) => item.type === "filter")?.options || [];
+            const filterRadios = filterOptions.filter((item) => item.type === "radio");
+            filterRadios.forEach((item) => {
+                this.formData[item.key] = "";
+            });
             for (let key in this.checkboxData) {
                 this.checkboxData[key] = [];
             }

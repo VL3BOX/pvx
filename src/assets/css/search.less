@@ -3,15 +3,16 @@
     background-color: #f3f5f6;
     top: @header-height;
     z-index: 5;
-    width: 100%;
     margin-left: -40px;
     padding-left: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
     overflow-y: hidden;
     overflow-x: auto;
+    width: 100%;
     .scrollbar(2px);
     .search-group {
+        position: relative;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -175,7 +176,8 @@
                 font-weight: bold;
                 color: #000;
             }
-            .el-checkbox-group {
+            .el-checkbox-group,
+            .el-radio-group {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -183,13 +185,15 @@
                 max-height: 120px;
                 overflow-x: hidden;
                 overflow-y: auto;
-                .el-checkbox-button {
+                .el-checkbox-button,
+                .el-radio-button {
                     margin-right: 10px;
                     margin-bottom: 10px;
                     input {
                         height: 30px;
                     }
-                    .el-checkbox-button__inner {
+                    .el-checkbox-button__inner,
+                    .el-radio-button__inner {
                         border: none;
                         background-color: #e1dfdf;
                         color: #949494;
@@ -202,13 +206,21 @@
                         font-size: 12px;
                     }
                     &:hover {
-                        .el-checkbox-button__inner {
+                        .el-checkbox-button__inner,
+                        .el-radio-button__inner {
                             background-color: @active-color;
                             color: #fff;
                         }
                     }
                     &.is-checked {
                         .el-checkbox-button__inner {
+                            box-shadow: none;
+                            background-color: @active-color;
+                            color: #fff;
+                        }
+                    }
+                    &.is-active {
+                        .el-radio-button__inner {
                             box-shadow: none;
                             background-color: @active-color;
                             color: #fff;

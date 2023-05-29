@@ -8,10 +8,14 @@ VueRouter.prototype.push = function push(to) {
     return VueRouterPush.call(this, to).catch((err) => err);
 };
 
-const Index = () => import("@/views/Index.vue");
+const Index = () => import("@/views/exam/Index.vue");
+const Paper = () => import("@/views/exam/Paper.vue");
+const Question = () => import("@/views/exam/Question.vue");
 
 const routes = [
     { name: "index", path: "/", component: Index },
+    { name: "paper", path: "/paper/:id?", component: Paper },
+    { name: "question", path: "/question/:id?", component: Question },
 ];
 
 const router = new VueRouter({

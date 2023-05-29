@@ -6,7 +6,7 @@
             <div class="m-main">
                 <router-view></router-view>
             </div>
-            <PvxBacktop color="#fff" bgColor="#d16400"></PvxBacktop>
+            <PvxBacktop color="#fff" bgColor="#07AD36"></PvxBacktop>
         </Main>
     </div>
 </template>

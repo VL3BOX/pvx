@@ -9,3 +9,48 @@
 .c-sidebar-left {
     top: @header-height;
 }
+.m-exam-submit {
+    .size(30%, 40px);
+    .lh(40px);
+    .auto(x);
+    .x;
+    .mt(40px);
+
+    .u-btn {
+        .pointer;
+        .full;
+        .r(5px);
+        .color(#fff);
+        background-color: #49c10f;
+        border-color: #49c10f;
+        border: 0;
+    }
+    &.isSubmitted .u-btn {
+        background-color: #999;
+        border-color: #fff;
+        border: 1px solid #888;
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+.m-exam-mark {
+    .full;
+    .pa;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.m-thx {
+    .mt(40px);
+}
+.m-exam-pagination {
+    .x;
+}
+
+.m-goback {
+    .mb(10px);
+}

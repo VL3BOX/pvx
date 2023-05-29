@@ -69,6 +69,13 @@
                 "icon": "el-icon-files",
                 "key": "book",
                 "status": true
+            },
+            {
+                "path": "/exam",
+                "label": "科举大全",
+                "icon": "el-icon-files",
+                "key": "exam",
+                "status": true
             }
         ]
     },
