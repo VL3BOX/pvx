@@ -1,7 +1,7 @@
 <template>
     <div class="v-paper-single" v-loading="loading">
-        <div class="m-goback">
-            <el-button class="u-back" size="mini" icon="el-icon-arrow-left" @click="goBack">返回列表</el-button>
+        <div class="m-back">
+            <el-button @click="goBack">返回列表</el-button>
         </div>
 
         <SingleTitle :item="data" :score="score" type="paper" />

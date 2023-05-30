@@ -5,7 +5,9 @@
             <div class="u-info">
                 <div class="u-info-subblock">
                     <span>适用客户端：</span>
-                    <span :class="`u-client i-client-${item.client || 'std'}`">{{ clients[item.client||'std']}}</span>
+                    <span :class="`u-client i-client-${item.client || 'std'}`">{{
+                        clients[item.client || "std"]
+                    }}</span>
                 </div>
                 <div class="u-info-subblock u-star">
                     <span>难度：</span>
@@ -23,7 +25,8 @@
                 </div>
 
                 <div class="u-info-subblock u-author">
-                    <span>出卷人：</span><a :href="authorLink(item.createUserId) " target="_blank">{{ item.createUser }}</a>
+                    <span>出卷人：</span
+                    ><a :href="authorLink(item.createUserId)" target="_blank">{{ item.createUser }}</a>
                 </div>
 
                 <div class="u-info-subblock u-views">
@@ -35,7 +38,9 @@
                 </div>
 
                 <div class="u-info-subblock" v-if="canManage">
-                    <a class="u-edit" :href="editLink(type, item.id)"><i class="el-icon-edit-outline"></i><span>编辑</span></a>
+                    <a class="u-edit" :href="editLink(type, item.id)"
+                        ><i class="el-icon-edit-outline"></i><span>编辑</span></a
+                    >
                 </div>
             </div>
             <div class="u-desc" v-if="item.desc">简介：{{ desc || "-" }}</div>
@@ -76,7 +81,7 @@ export default {
             return this.$route.params.id;
         },
         title: function () {
-            if (this.type == "paper") return "《" + this.item.title + "》";
+            if (this.type == "paper") return this.item.title ? "《" + this.item.title + "》" : "";
             return this.item.title;
         },
         desc: function () {
@@ -142,5 +147,5 @@ export default {
 </script>
 
 <style lang="less">
-    @import "~@/assets/css/exam/single_title.less";
+@import "~@/assets/css/exam/single_title.less";
 </style>

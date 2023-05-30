@@ -21,8 +21,8 @@
         .full;
         .r(5px);
         .color(#fff);
-        background-color: #49c10f;
-        border-color: #49c10f;
+        background-color: @examColor;
+        border-color: @examColor;
         border: 0;
     }
     &.isSubmitted .u-btn {
@@ -51,6 +51,29 @@
     .x;
 }
 
-.m-goback {
-    .mb(10px);
+.m-back {
+    position: fixed;
+    background-color: #f3f5f6;
+    padding: 20px 0;
+    top: 64px;
+    width: calc(100% - 40px);
+    z-index: 4;
+    button {
+        width: 100px;
+        height: 40px;
+        .lh(40px);
+        font-weight: 400;
+        padding: 0;
+        border: none;
+        border-radius: 30px;
+        &:focus,
+        &:hover {
+            color: @examColor;
+            background-color: rgba(@examColor, 0.1);
+        }
+    }
+}
+.v-paper-single,
+.v-question-single {
+    padding-top: 60px;
 }

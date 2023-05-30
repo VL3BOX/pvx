@@ -29,7 +29,7 @@ export default {
             return title;
         },
         go(id) {
-            this.$router.push({ name: "gameQuestion", params: { id: id } });
+            // this.$router.push({ name: "gameQuestion", params: { id: id } });
         },
     },
 };
