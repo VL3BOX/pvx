@@ -258,7 +258,7 @@ export default {
             if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
 
             if (type == "camp") {
-                data.bHide
+                data.bHide;
                 str = `ui/Image/Adventure/reward/Open/${name}/camp_${this.camp}_Open.tga`;
             }
 
