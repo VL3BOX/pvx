@@ -139,9 +139,9 @@ export default {
             handler: function () {
                 this.$nextTick(() => {
                     this.initImgViewer();
-                })
+                });
             },
-        }
+        },
     },
     methods: {
         authorLink,
@@ -168,7 +168,8 @@ export default {
             return String.fromCharCode(65 + val);
         },
         tagsLink(tag) {
-            return `/exam/?tag=${tag}`;
+            const type = this.$route.name === "paper" ? 3 : 2;
+            return `/exam/${type}?tag=${tag}`;
         },
         initImgViewer() {
             const images = document.querySelectorAll(".m-html-title img");
@@ -181,7 +182,7 @@ export default {
                     });
                 };
             });
-        }
+        },
     },
 };
 </script>

@@ -323,6 +323,12 @@ export default {
             this.load();
         },
     },
+    mounted() {
+        const { tag } = this.$route.query;
+        if (tag) {
+            this.initValue.tag = tag;
+        }
+    },
 };
 </script>
 <style lang="less">
