@@ -108,7 +108,7 @@ export default {
             }
         },
         goBack: function () {
-            this.$router.push({ name: "index", params: { type: "question" } });
+            this.$router.push({ name: "index", params: { type: 2 } });
         },
     },
     filters: {},

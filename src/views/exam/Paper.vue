@@ -158,7 +158,7 @@ export default {
             }
         },
         goBack: function () {
-            this.$router.push({ name: "index", params: { type: "paper" } });
+            this.$router.push({ name: "index", params: { type: 3 } });
         },
     },
     created: function () {

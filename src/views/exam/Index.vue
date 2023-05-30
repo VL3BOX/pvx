@@ -39,7 +39,7 @@
         <div class="m-exam-content">
             <!-- 列表 -->
             <template v-if="data && data.length">
-                <ImperialExamList v-if="search.type === 1" :data="data"></ImperialExamList>
+                <ImperialExamList v-if="search.type === 1" :search="search.title" :data="data"></ImperialExamList>
                 <QuestionList v-if="search.type === 2" :data="data"></QuestionList>
                 <PaperList v-if="search.type === 3" :data="data"></PaperList>
             </template>
@@ -47,7 +47,7 @@
             <el-empty v-else description="没有找到相关条目" :image-size="100"></el-empty>
             <!-- 分页 -->
             <el-pagination
-                v-if="search.type !== 1 && data.length"
+                v-if="[2, 3].includes(search.type) && data.length"
                 class="m-exam-pagination"
                 background
                 :page-size="query.pageSize"
@@ -61,7 +61,7 @@
     </div>
 </template>
 <script>
-import { getExamPaperList, getExamQuestionList, getExamRandom } from "@/service/exam.js";
+import { getExamPaperList, getExamQuestionList, getExamRandom, getExamByKey } from "@/service/exam.js";
 import PvxSearch from "@/components/PvxSearch.vue";
 import ImperialExamList from "@/components/exam/imperial_exam_list.vue";
 import PaperList from "@/components/exam/paper_list.vue";
@@ -89,8 +89,7 @@ export default {
             total: 0,
             totalPages: 0,
             search: {
-                // tag: "",
-                // client: "",
+                title: "",
             },
             searchProps: [
                 {
@@ -131,20 +130,15 @@ export default {
                     name: "关键词",
                 },
             ],
+            initValue: {
+                tag: "",
+                client: "",
+                type: ~~this.$route.params.type || 1,
+            },
             data: [],
         };
     },
     computed: {
-        type() {
-            return ~~this.$route.params.type || 2;
-        },
-        initValue() {
-            return {
-                type: this.type,
-                tag: "",
-                client: "",
-            };
-        },
         publishText: function () {
             let text = "";
             const type = this.search.type;
@@ -180,13 +174,27 @@ export default {
         },
     },
     watch: {
-        type(type) {
-            this.search.type = type;
+        "search.title": {
+            handler(key) {
+                if (this.search.type === 1) {
+                    if (key && key.length >= 2) {
+                        getExamByKey({ key }).then((res) => {
+                            this.data = res.data?.data || [];
+                        });
+                    }
+                    if (!key) {
+                        this.loadImperialExam();
+                    }
+                }
+            },
         },
         "search.type"(type) {
             if (type === 1) {
+                this.searchProps[2].name = `关键词(长度不少于2个字符)`;
                 this.data = [];
                 this.loadImperialExam();
+            } else {
+                this.searchProps[2].name = `关键词`;
             }
             if (type === 2 || type === 3) {
                 const tags = this.tags;
@@ -248,6 +256,9 @@ export default {
                 return;
             }
             const type = this.search.type;
+            if (type === 1) {
+                this.$router.push({ name: "gameQuestionPublish" });
+            }
             if (type === 2) {
                 this.$router.push({ name: "questionPublish" });
             }
@@ -257,17 +268,11 @@ export default {
         },
         load() {
             const type = ~~this.search.type;
-            switch (type) {
-                case 0:
-                    break;
-                case 2:
-                    this.loadMethod(getExamQuestionList);
-                    break;
-                case 3:
-                    this.loadMethod(getExamPaperList);
-                    break;
-                case 4:
-                    break;
+            if (type === 2) {
+                this.loadMethod(getExamQuestionList);
+            }
+            if (type === 3) {
+                this.loadMethod(getExamPaperList);
             }
         },
         selected(val) {

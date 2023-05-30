@@ -28,6 +28,11 @@
             }
         }
     }
+    @media screen and (max-width: @phone) {
+        .m-exam-search {
+            max-width: 100%;
+        }
+    }
     .u-search-btn {
         position: absolute;
         right: 0;
@@ -49,6 +54,11 @@
         }
         &.u-publish__1 {
             background: #e54059;
+        }
+    }
+    @media screen and (max-width: @ipad) {
+        .u-search-btn {
+            .none;
         }
     }
     .m-exam-search__extra {

@@ -56,6 +56,19 @@ function getExamRandom(count = 10) {
         },
     });
 }
+function getExamByKey(params) {
+    return $next().get("api/game/exam/search", {
+        params,
+    });
+}
+function createGameQuestion(data) {
+    return $next().post("api/game/exam/ugc", data);
+}
+
+function getGameQuestion(rid) {
+    return $next().get("api/game/exam/details/" + rid);
+}
+
 function createQuestion(data) {
     return $next().post("/api/question/create", data);
 }
@@ -111,4 +124,7 @@ export {
     getPapers,
     deleteQuestion,
     deletePaper,
+    getExamByKey,
+    createGameQuestion,
+    getGameQuestion,
 };
