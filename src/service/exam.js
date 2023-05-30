@@ -21,6 +21,13 @@ function getQuestion(id) {
     return $next({ proxy: true }).get("api/question/" + id + "/no-answer");
 }
 
+function getPublishQuestion(id) {
+    return $next({ proxy: true }).get(`/api/question/${id}`);
+}
+function getPublishPaper(id) {
+    return $next().get("/api/question/" + "exam-paper/" + id);
+}
+
 function submitAnswer(id, answers, force = false) {
     return $next({ proxy: true }).post(
         `api/question/user-exam-paper/${id}/i-finish-all${force ? "?force" : ""}`,
@@ -127,4 +134,6 @@ export {
     getExamByKey,
     createGameQuestion,
     getGameQuestion,
+    getPublishQuestion,
+    getPublishPaper,
 };

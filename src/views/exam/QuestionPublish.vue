@@ -82,7 +82,7 @@
 import publish_client from "@/components/exam/publish_client.vue";
 import exam_tags from "@/components/exam/exam_tags.vue";
 import Tinymce from "@jx3box/jx3box-editor/src/Tinymce";
-import { getQuestion, createQuestion, updateQuestion } from "@/service/exam";
+import { getPublishQuestion, createQuestion, updateQuestion } from "@/service/exam";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "exam_question",
@@ -173,7 +173,7 @@ export default {
         },
         loadData: function () {
             this.loading = true;
-            getQuestion(this.id)
+            getPublishQuestion(this.id)
                 .then((res) => {
                     let data = res.data;
                     this.primary = data;

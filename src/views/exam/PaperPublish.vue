@@ -5,7 +5,6 @@
             <el-button @click="goBack">返回列表</el-button>
         </div>
 
-        <!-- <h1 class="m-publish-exam-header">制作试卷</h1> -->
         <el-form label-position="left" label-width="80px" class="m-publish-exam">
             <!-- 客户端 -->
             <publish-client v-model="primary.client"></publish-client>
@@ -59,21 +58,7 @@
                 </el-select>
             </el-form-item>
             <exam_tags class="m-publish-exam-tags" v-model="primary.tags" />
-            <!-- <el-form-item label="称谓" class="m-publish-exam-common" v-if="isSuper">
-                <el-select v-model="primary.medalAward" placeholder="试卷称谓奖励">
-                    <el-option label="无" value></el-option>
-                    <el-option v-for="item in awards" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="角标" class="m-publish-exam-common" v-if="isSuper">
-                <el-select v-model="primary.corner" placeholder="试卷角标">
-                    <el-option label="无" value></el-option>
-                    <el-option v-for="item in marks" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item> -->
             <el-form-item label class="m-publish-exam-content">
-                <!-- <tinymce :content="primary.whyami" :height="400" />
-                <upload class="u-editor-upload" />-->
                 <el-button
                     class="u-publish"
                     icon="el-icon-s-promotion"
@@ -91,14 +76,12 @@
 import publish_client from "@/components/exam/publish_client.vue";
 import exam_tags from "@/components/exam/exam_tags.vue";
 import User from "@jx3box/jx3box-common/js/user";
-import { getPaper, createPaper, updatePaper } from "@/service/exam";
+import { getPublishPaper, createPaper, updatePaper } from "@/service/exam";
 import { awards, marks, styles } from "@/assets/data/exam.json";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "exam_paper",
     components: {
-        // upload,
-        // tinymce,
         exam_tags,
         "publish-client": publish_client,
     },
@@ -174,7 +157,7 @@ export default {
         },
         loadData: function () {
             this.loading = true;
-            getPaper(this.id, this)
+            getPublishPaper(this.id)
                 .then((res) => {
                     let data = res.data;
                     this.primary = data;

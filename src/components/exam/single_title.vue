@@ -53,7 +53,7 @@
     </div>
 </template>
 <script>
-import { publishLink, authorLink, editLink } from "@jx3box/jx3box-common/js/utils";
+import { authorLink } from "@jx3box/jx3box-common/js/utils";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
 import { getStat, checkPaper } from "@/service/exam.js";
 import User from "@jx3box/jx3box-common/js/user";
@@ -127,12 +127,13 @@ export default {
                 });
             }
         },
-        editLink,
         showTime: function (val) {
             return showTime(new Date(val * 1000));
         },
         authorLink,
-        publishLink,
+        editLink(type, id) {
+            return `/exam/${type}Publish/${id}`;
+        },
         examinee(num) {
             return num < 1 ? "-" : num;
         },
