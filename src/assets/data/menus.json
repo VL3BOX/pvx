@@ -72,7 +72,7 @@
             },
             {
                 "path": "/exam",
-                "label": "科举大全",
+                "label": "考试大全",
                 "icon": "el-icon-files",
                 "key": "exam",
                 "status": true

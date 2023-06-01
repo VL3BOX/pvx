@@ -97,10 +97,10 @@ export default {
                     name: "类型",
                     type: "radio",
                     options: [
-                        {
-                            type: 0,
-                            name: "全部",
-                        },
+                        // {
+                        //     type: 0,
+                        //     name: "全部",
+                        // },
                         {
                             type: 1,
                             name: "科举题库",
@@ -142,9 +142,9 @@ export default {
         publishText: function () {
             let text = "";
             const type = this.search.type;
-            if (type === 1) {
-                text = "缺题补充";
-            }
+            // if (type === 1) {
+            //     text = "缺题补充";
+            // }
             if (type === 2) {
                 text = "我要出题";
             }

@@ -1,9 +1,13 @@
 <template>
     <div class="m-imperial-list">
-        <div class="u-item" v-for="item in list" :key="item.rid" @click="go(item.rid)">
-            <div class="u-title" v-html="getTitle(item.title)"></div>
-            <div class="u-answer">{{ getAnswer(item) }}</div>
-        </div>
+        <el-row :gutter="20">
+            <el-col :span="8" v-for="item in list" :key="item.rid"
+                ><div class="u-item" @click="go(item.rid)">
+                    <div class="u-title" v-html="getTitle(item.title)"></div>
+                    <div class="u-answer">{{ getAnswer(item) }}</div>
+                </div></el-col
+            >
+        </el-row>
     </div>
 </template>
 
@@ -37,18 +41,11 @@ export default {
 
 <style lang="less">
 .m-imperial-list {
-    .flex;
-    flex-wrap: wrap;
-    gap: 20px;
     .u-item {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
         padding: 20px;
-        gap: 20px;
+        .mb(20px);
 
-        width: 580px;
-        max-height: 218px;
+        height: 168px;
         overflow-y: auto;
         box-sizing: border-box;
 
@@ -60,6 +57,7 @@ export default {
             font-size: 14px;
             line-height: 18px;
             color: #000000;
+            .mb(20px);
             b {
                 background-color: yellow;
             }
@@ -76,6 +74,20 @@ export default {
     @media screen and (max-width: @ipad) {
         .u-item {
             width: 100%;
+        }
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-imperial-list {
+        .el-col {
+            .w(50%);
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-imperial-list {
+        .el-col {
+            .w(100%);
         }
     }
 }

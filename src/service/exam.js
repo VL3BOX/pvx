@@ -56,7 +56,7 @@ function checkPaper(id, action) {
     });
 }
 
-function getExamRandom(count = 10) {
+function getExamRandom(count = 12) {
     return $next().get("api/game/exam/random", {
         params: {
             count,
