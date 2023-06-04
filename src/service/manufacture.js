@@ -1,11 +1,11 @@
 import { $node, $cms, $next } from "@jx3box/jx3box-common/js/https";
-import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import axios from "axios";
 const $n = $node();
 
 // 获取技艺分组分类
 async function getCraftJson() {
-    const res = await axios.get(`${__iconPath}pvx/manufacture/output/craft_belong.json`);
+    const res = await axios.get(`${__dataPath}pvx/manufacture/output/craft_belong.json`);
     return res;
 }
 // 获取技艺某种类型的列表

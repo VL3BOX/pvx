@@ -32,7 +32,7 @@
     </div>
 </template>
 <script>
-import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { iconLink, extractTextContent } from "@jx3box/jx3box-common/js/utils";
 import Item from "@jx3box/jx3box-editor/src/Item";
 export default {
@@ -54,7 +54,7 @@ export default {
         getImgSrc: function (path) {
             if (path) {
                 let img_name = path.match(/.*[\/,\\](.*?).tga/);
-                return __iconPath + "pvx/pet/images/" + img_name[1] + ".png";
+                return __imgPath + "pvx/pet/images/" + img_name[1] + ".png";
             }
         },
         // 宠物链接跳转
