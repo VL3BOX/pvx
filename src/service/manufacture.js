@@ -34,7 +34,7 @@ function getAuctionPrice(params) {
 }
 // 新增清单
 function addMyPlans(params) {
-    return $cms().post(`/api/cms/app/item_plan`, params);
+    return $cms().post(`/api/cms/app/item-plan`, params);
 }
 function getUserInfo() {
     return $cms().get("/api/cms/user/my/info");
@@ -42,7 +42,7 @@ function getUserInfo() {
 // 获取我的物品清单
 function getMyPlans(params) {
 	return $cms()
-		.get(`/api/cms/app/item_plans/mine`, { params })
+		.get(`/api/cms/app/item-plan/mine`, { params })
 		.then((res) => {
 			return res.data.data;
 		});

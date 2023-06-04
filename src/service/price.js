@@ -2,7 +2,7 @@ import { axios } from "@/service/api.js";
 import { $cms, $next } from "@jx3box/jx3box-common/js/https";
 
 // 获取金价数据
-function getGoldPriceData() {   
+function getGoldPriceData() {
     return axios("https://spider2.jx3box.com/api/spider/gold/trend", "GET", false, {}, {}, {})
 }
 
@@ -38,14 +38,14 @@ function setMyFollowList(params) {
 
 // 获取我的清单
 function getMyPlanList(params) {
-    return $cms().get("api/cms/app/item_plans/mine", {
+    return $cms().get("api/cms/app/item-plan/mine", {
         params
     });
 }
 
 // 获取清单详情
 function getMyGoodsDetail(id) {
-    return $cms().get("api/cms/app/item_plan/" + id);
+    return $cms().get("api/cms/app/item-plan/" + id);
 }
 
 

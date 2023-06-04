@@ -51,11 +51,6 @@ export default {
             },
         };
     },
-    computed: {
-        url: function () {
-            return getLink("item_plan", this.data?.id);
-        },
-    },
     methods: {
         // 保存清单
         setMyPlan() {
