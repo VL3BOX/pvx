@@ -2,9 +2,12 @@
     <div class="v-paper-single" v-loading="loading">
         <div class="m-back">
             <el-button @click="goBack">返回列表</el-button>
+            <a v-if="data.id && canManage" class="u-edit" :href="editLink('paper', data.id)"
+                ><i class="el-icon-edit-outline"></i><span>编辑</span></a
+            >
         </div>
 
-        <SingleTitle :item="data" :score="score" type="paper" />
+        <PaperTitle :item="data" :score="score" type="paper" />
 
         <template v-if="isIframe">
             <div class="m-paper-iframe">当前试卷为外链，<a :href="data.iframe" target="_blank">点击前往</a></div>
@@ -44,7 +47,7 @@
 </template>
 <script>
 import SingleCard from "@/components/exam/single_card.vue";
-import SingleTitle from "@/components/exam/single_title.vue";
+import PaperTitle from "@/components/exam/paper_title.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import { getPaper, submitAnswer } from "@/service/exam.js";
@@ -53,7 +56,7 @@ import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "PaperSingle",
     props: [],
-    components: { SingleCard, SingleTitle, Comment },
+    components: { SingleCard, PaperTitle, Comment },
     data: function () {
         return {
             data: {},
@@ -81,8 +84,15 @@ export default {
         client() {
             return this.data.client || "all";
         },
+        canManage: function () {
+            return User.isEditor() || User.getInfo().uid == this.data.createUserId;
+        },
     },
     methods: {
+        editLink(type, id) {
+            // return `/exam/${type}Publish/${id}`;
+            return `/publish/#/${type}/${id}`;
+        },
         loadData() {
             this.loading = true;
             getPaper(this.id)

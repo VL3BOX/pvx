@@ -10,7 +10,7 @@
     top: @header-height;
 }
 .m-exam-submit {
-    .size(30%, 40px);
+    .size(100%, 40px);
     .lh(40px);
     .auto(x);
     .x;
@@ -21,8 +21,8 @@
         .full;
         .r(5px);
         .color(#fff);
-        background-color: @examColor;
-        border-color: @examColor;
+        background-color: #53b27f;
+        border-color: #53b27f;
         border: 0;
     }
     &.isSubmitted .u-btn {
@@ -32,6 +32,11 @@
         &:hover {
             color: #fff;
         }
+    }
+}
+.v-question-single {
+    .m-exam-submit {
+        .w(232px);
     }
 }
 
@@ -49,8 +54,8 @@
 }
 .m-exam-pagination {
     .x;
-    background-color:#fff;
-    padding:30px 20px;
+    background-color: #fff;
+    padding: 30px 20px;
 }
 
 .m-back {
@@ -58,8 +63,11 @@
     background-color: #f3f5f6;
     padding: 20px 0;
     top: 64px;
-    width: calc(100% - 40px);
+    width: calc(100% - 140px);
     z-index: 4;
+    .flex;
+    justify-content: space-between;
+    align-items: center;
     button {
         width: 100px;
         height: 40px;
@@ -74,15 +82,51 @@
             background-color: rgba(@examColor, 0.1);
         }
     }
+    a {
+        i {
+            margin-right: 5px;
+        }
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.is-closed {
+    .m-back {
+        width: calc(100% - 80px);
+    }
+}
+.is-opened {
+    .m-back {
+        width: calc(100% - 260px);
+    }
+}
+@media screen and (max-width: @phone) {
+    .is-closed .m-back {
+        width: calc(100% - 40px);
+    }
+    .m-back {
+        width: calc(100% - 100px);
+    }
+    .is-opened .m-back .u-edit {
+        .none;
+    }
 }
 .v-paper-single,
 .v-question-single {
     padding-top: 60px;
+    .u-title {
+        padding-top: 20px;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 37px;
+        color: #000000;
+    }
 }
 
-.m-single-comment{
-    background-color:#fff;
+.m-single-comment {
+    background-color: #fff;
     .mt(20px);
-    padding:20px 30px;
+    padding: 20px 30px;
     .r(10px);
 }

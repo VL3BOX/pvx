@@ -5,7 +5,7 @@
                 v-if="publishText"
                 class="u-search-btn u-publish"
                 :class="`u-publish__${search.type}`"
-                :href="'/publish/#/' + search.key"
+                :href="publishLink"
                 slot="default"
             >
                 <i v-if="search.type === 1" class="el-icon-warning"></i>
@@ -103,21 +103,22 @@ export default {
                         {
                             type: 1,
                             name: "科举题库",
-                            key : 'keju'
+                            key: "keju",
                         },
                         {
                             type: 2,
                             name: "创作题库",
-                            key : "question"
+                            key: "question",
                         },
                         {
                             type: 3,
                             name: "模拟考试",
-                            key : "paper"
+                            key: "paper",
                         },
                         {
                             type: 4,
                             name: "剑三高考",
+                            link: "/event/gaokao",
                         },
                     ],
                 },
@@ -154,6 +155,13 @@ export default {
                 text = "我要出卷";
             }
             return text;
+        },
+        publishLink() {
+            let type = "question";
+            if (this.search.type === 3) {
+                type = "paper";
+            }
+            return "/publish/#/" + type;
         },
         tags() {
             return tags.map((item) => {

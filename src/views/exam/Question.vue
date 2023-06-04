@@ -2,10 +2,19 @@
     <div class="v-question-single" v-loading="loading">
         <div class="m-back">
             <el-button @click="goBack">返回列表</el-button>
+            <a v-if="data.id && canManage" class="u-edit" :href="editLink('question', data.id)"
+                ><i class="el-icon-edit-outline"></i><span>编辑</span></a
+            >
         </div>
-
-        <SingleTitle :item="data" type="question" />
-        <SingleCard :item="data" :answer="answer" :isSubmitted="isSubmitted" @changeVal="finalAnswer" />
+        <div class="u-title">题目</div>
+        <!-- <SingleTitle :item="data" type="question" /> -->
+        <SingleCard
+            :fromQuestion="true"
+            :item="data"
+            :answer="answer"
+            :isSubmitted="isSubmitted"
+            @changeVal="finalAnswer"
+        />
         <div class="m-exam-submit" @click="submit" :class="{ isSubmitted }">
             <el-button class="u-btn" :disabled="isSubmitted">提交</el-button>
         </div>
@@ -28,7 +37,7 @@
 </template>
 <script>
 import SingleCard from "@/components/exam/single_card";
-import SingleTitle from "@/components/exam/single_title";
+// import SingleTitle from "@/components/exam/single_title";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 import { getQuestion, submitQuestionAnswer } from "@/service/exam.js";
@@ -36,7 +45,11 @@ import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "QuestionSingle",
     props: [],
-    components: { SingleCard, SingleTitle, Comment },
+    components: {
+        // SingleTitle,
+        SingleCard,
+        Comment,
+    },
     data: function () {
         return {
             data: {},
@@ -59,9 +72,16 @@ export default {
         client() {
             return this.data.client || "all";
         },
+        canManage: function () {
+            return User.isEditor() || User.getInfo().uid == this.data.createUserId;
+        },
     },
     watch: {},
     methods: {
+        editLink(type, id) {
+            // return `/exam/${type}Publish/${id}`;
+            return `/publish/#/${type}/${id}`;
+        },
         loadData() {
             this.loading = true;
             getQuestion(this.id)
@@ -121,6 +141,6 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/exam/exam.less";
-@import "~@/assets/css/exam/single_title.less";
+// @import "~@/assets/css/exam/single_title.less";
 @import "~@/assets/css/exam/single_card.less";
 </style>

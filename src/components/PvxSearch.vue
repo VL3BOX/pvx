@@ -19,12 +19,22 @@
                         <el-radio-button
                             class="type-item"
                             :class="{ active: typeItem.type === formData[item.type] }"
-                            v-for="typeItem in item.options"
+                            v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
                             :key="typeItem.type"
                             :label="typeItem.type"
                             >{{ typeItem.name }}</el-radio-button
                         >
                     </el-radio-group>
+                    <template v-if="item.options.filter((rItem) => rItem.link).length">
+                        <a
+                            :href="typeItem.link"
+                            target="blank"
+                            class="type-item"
+                            v-for="typeItem in item.options.filter((rItem) => rItem.link)"
+                            :key="typeItem.type"
+                            >{{ typeItem.name }}</a
+                        >
+                    </template>
                 </template>
                 <template v-if="item.type === 'filter' && item.options.length">
                     <el-popover
