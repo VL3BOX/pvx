@@ -1,5 +1,5 @@
 <template>
-    <div class="p-furniture">
+    <div ref="listRef" class="p-furniture">
         <PvxSearch
             ref="search"
             :items="searchProps"
@@ -22,7 +22,33 @@
             </template>
         </PvxSearch>
         <div v-loading="loading" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
-            <FurnitureItem :item="item" v-for="item in list" :key="item.ID"></FurnitureItem>
+            <template v-if="list.length">
+                <FurnitureItem :item="item" v-for="item in list" :key="item.ID"></FurnitureItem>
+            </template>
+            <div class="m-furniture-null" v-else>
+                <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
+            </div>
+        </div>
+        <div class="m-furniture-pages">
+            <el-button
+                class="m-archive-more"
+                v-show="hasNextPage"
+                @click="appendPage"
+                :loading="loading"
+                icon="el-icon-arrow-down"
+                :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
+                >加载更多</el-button
+            >
+            <el-pagination
+                class="m-archive-pages"
+                background
+                layout="total, prev, pager, next, jumper"
+                :hide-on-single-page="true"
+                :page-size="per"
+                :total="total"
+                :current-page.sync="page"
+                @current-change="changePage"
+            ></el-pagination>
         </div>
     </div>
 </template>
@@ -34,7 +60,7 @@ import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { getFurnitureCategory, getFurnitureMatch } from "@/service/homeland.js";
 import { getFurniture } from "@/service/furniture.js";
-import { deleteNull } from "@/utils/index";
+import { deleteNull, isPhone } from "@/utils/index";
 import { sourceList, levelList, categoryList, categoryCss } from "@/assets/data/furniture.json";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -51,10 +77,8 @@ export default {
         return {
             loading: false,
             search: {},
-            query: {
-                page: 1,
-                per: 20,
-            },
+            page: 1,
+            per: 20,
             pages: 0,
             total: 0,
             category: [],
@@ -135,17 +159,48 @@ export default {
             ],
             active: "",
             childActive: "",
+            furniture: [],
+            buttonWidth: 0,
         };
     },
+    filters: {
+        formatMatchFurniture(val) {
+            return val.replace("+", "");
+        },
+    },
     computed: {
+        hasNextPage: function () {
+            return this.pages > 1 && this.page < this.pages;
+        },
+        matchFurniture() {
+            return (this.furniture && this.furniture.find((item) => item.subtype === "category")) || "";
+        },
+        matchProperty() {
+            return (this.furniture && this.furniture.find((item) => item.subtype === "property")) || "";
+        },
         client() {
             return this.$store.state.client;
         },
+        categoryFlat() {
+            let arr = [];
+
+            Object.entries(categoryCss).forEach(([key, value]) => {
+                value.forEach((item) => {
+                    arr.push({
+                        ...item,
+                        pId: ~~key,
+                    });
+                });
+            });
+
+            return arr;
+        },
         params() {
             return {
-                ...this.query,
-                ...this.search,
+                per: this.per,
+                page: this.page,
                 client: this.client,
+                ...this.search,
             };
         },
     },
@@ -154,6 +209,7 @@ export default {
             // 重置子类
             this.childActive = "";
             delete this.search.nCatag2Index;
+            this.page = 1;
 
             const category = this.category.find((item) => item.id === type);
             const children = category?.children || [];
@@ -162,11 +218,69 @@ export default {
         search: {
             deep: true,
             handler: function (val) {
-                this.getData();
+                this.showCount();
             },
         },
     },
     methods: {
+        isPhone,
+        appendPage() {
+            this.append = true;
+            this.page += 1;
+            this.getData();
+        },
+        changePage(i) {
+            this.page = i;
+            this.getData();
+        },
+        doPrams(data) {
+            let newData = Object.assign({}, data);
+            if (newData.other === "bInteract") {
+                newData.bInteract = 1;
+            }
+            if (newData.other === "isSet") {
+                newData.isSet = 1;
+            }
+            if (newData.other === "isMatch") {
+                newData = Object.assign({}, this.setMatch());
+            }
+            if (newData.attribute) {
+                for (const key in newData) {
+                    if (key.includes("Attribute")) {
+                        delete newData[key];
+                    }
+                }
+                newData[`Attribute${newData.attribute}`] = 1;
+                delete newData.attribute;
+            }
+            delete newData.other;
+            return newData;
+        },
+        setMatch() {
+            if (this.matchFurniture) {
+                // 家园属性
+                const attr = categoryList.find((item) => this.matchProperty?.content.includes(item.name))?.key || "1";
+                let temp = [];
+                const classify = this.matchFurniture?.content ? this.matchFurniture.content.split("、") : [];
+
+                classify.forEach((item) => {
+                    let _temp = this.categoryFlat.find((c) => item.includes(c.name));
+                    if (_temp) {
+                        temp.push({
+                            nCatag1Index: _temp.pId,
+                            nCatag2Index: _temp.id,
+                        });
+                    }
+                });
+                // this.$set(this.initValue, "other", "isMatch");
+                // this.$set(this.initValue, "attribute", attr);
+                return {
+                    isMatch: 1,
+                    match: JSON.stringify(temp),
+                    [`Attribute${attr}`]: 1,
+                };
+            }
+        },
         setIndex(i) {
             this.childActive = i;
             this.$set(this.search, "nCatag2Index", i);
@@ -206,19 +320,61 @@ export default {
         },
         searchEvent(data) {
             this.active = data.nCatag1Index;
-            let newData = Object.assign({}, data);
-            if (newData.other === "bInteract") {
-                newData.bInteract = 1;
-            }
-            if (newData.other === "isSet") {
-                newData.isSet = 1;
-            }
-            delete newData.other;
+            const newData = this.doPrams(data);
             this.search = newData;
+        },
+        setFurniture(res) {
+            let data = res.data.data.filter((item) => item);
+
+            try {
+                this.furniture = data;
+            } catch (e) {
+                this.furniture = [];
+            }
+        },
+        // 园宅会赛
+        loadFurniture() {
+            try {
+                let furniture = sessionStorage.getItem("furniture");
+
+                furniture = furniture && JSON.parse(furniture);
+
+                if (furniture) {
+                    this.setFurniture(furniture);
+                } else {
+                    const params = {
+                        subtypes: "category,property,next_match",
+                        start: dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
+                        end: dayjs().endOf("isoWeek").format("YYYY-MM-DD"),
+                    };
+                    getFurnitureMatch(params).then((res) => {
+                        this.setFurniture(res);
+
+                        res.data?.data?.length && sessionStorage.setItem("furniture", JSON.stringify(res));
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+                this.furniture = [];
+            }
+        },
+        // 列表card模式下按宽度显示个数
+        showCount() {
+            this.$nextTick(() => {
+                const listWidth = this.$refs.listRef?.clientWidth;
+                const base = 348;
+                this.per = Math.floor(listWidth / base) * 4;
+                // 加载更多按钮的实际宽度
+                if (!this.isPhone()) {
+                    this.buttonWidth = (this.per / 4) * (base + 20) - 20;
+                }
+                this.getData();
+            });
         },
     },
     mounted() {
         this.getCategory();
+        this.loadFurniture();
     },
 };
 </script>

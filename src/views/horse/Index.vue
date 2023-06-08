@@ -65,7 +65,7 @@
                         v-show="totalPages > 0"
                         :total="total"
                         :page.sync="query.page"
-                        :limit.sync="query.pageSize"
+                        :limit.sync="query.per"
                         @pagination="loadList"
                     />
                 </div>
@@ -210,7 +210,7 @@ export default {
                 this.query.page = 1;
                 this.list = [];
                 if (listType === "list") {
-                    this.query.pageSize = 20;
+                    this.query.per = 20;
                     this.loadList();
                 } else {
                     this.showCount();
@@ -394,17 +394,17 @@ export default {
         showCount() {
             this.$nextTick(() => {
                 const listWidth = this.$refs.listRef?.clientWidth;
-                this.query.pageSize = Math.floor(listWidth / this.base) * 4;
+                this.query.per = Math.floor(listWidth / this.base) * 4;
                 // 加载更多按钮的实际宽度
                 if (!this.isPhone()) {
-                    this.buttonWidth = (this.query.pageSize / 4) * (this.base + this.gap) - 20;
+                    this.buttonWidth = (this.query.per / 4) * (this.base + this.gap) - 20;
                 }
                 this.loadCardList();
             });
         },
         getAllList() {
             // 重置
-            this.query.pageSize = 20;
+            this.query.per = 20;
             this.listAll = [];
             this.showCross = [];
 
