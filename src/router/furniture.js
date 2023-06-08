@@ -2,18 +2,48 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const List = () => import("@/views/homeland/FurnitureList.vue");
-const Single = () => import("@/views/homeland/FurnitureSingle.vue");
+const VueRouterPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(to) {
+    return VueRouterPush.call(this, to).catch((err) => err);
+};
 
 const routes = [
-    { name: "list", path: "/", component: List },
-    { name: "single", path: "/:id(\\d+)", component: Single },
+    {
+        name: "furniture",
+        path: "/",
+        component: () => import("@/views/furniture/Index.vue"),
+        meta: {
+            sidebar: false,
+        },
+    },
+    // {
+    //     name: "single",
+    //     path: "/:id(\\d+)",
+    //     component: () => import("@/views/furniture/Single.vue"),
+    // },
 ];
 
 const router = new VueRouter({
     mode: "history",
-    base : '/furniture',
+    base: "/furniture",
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return {
+                x: 0,
+                y: 0,
+            };
+        }
+    },
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.fullPath.includes("/#")) {
+        next(to.fullPath.replace("/#", ""));
+    }
+    next();
 });
 
 export default router;
