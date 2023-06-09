@@ -16,11 +16,11 @@ const routes = [
             sidebar: false,
         },
     },
-    // {
-    //     name: "single",
-    //     path: "/:id(\\d+)",
-    //     component: () => import("@/views/furniture/Single.vue"),
-    // },
+    {
+        name: "single",
+        path: "/:id(\\d+)",
+        component: () => import("@/views/furniture/Single.vue"),
+    },
 ];
 
 const router = new VueRouter({
