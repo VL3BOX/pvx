@@ -314,6 +314,5 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/horse/single.less";
-@import "~@/assets/css/horse/map.less";
 @import "~@/assets/css/common/wiki.less";
 </style>
