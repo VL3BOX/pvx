@@ -90,6 +90,10 @@ export default {
             type: String,
             required: true,
         },
+        itemId: {
+            type: String,
+            default: "",
+        },
     },
     data() {
         return {
@@ -124,10 +128,10 @@ export default {
         },
         //wiki相关
         post_id: function () {
-            return this.$route.params.post_id;
+            return this.itemId || this.$route.params.post_id;
         },
         isRevision: function () {
-            return !!this.$route.params.post_id;
+            return this.itemId ? !!this.itemId : !!this.$route.params.post_id;
         },
         author_id: function () {
             return ~~this.wiki_post?.post?.user_id;
