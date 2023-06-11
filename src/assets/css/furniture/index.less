@@ -27,11 +27,6 @@
             }
         }
     }
-    @media screen and (max-width: @phone) {
-        .m-furniture-search {
-            max-width: 100%;
-        }
-    }
     .m-child-category {
         margin-top: 20px;
         .flex;
@@ -72,6 +67,21 @@
         .m-archive-more {
             width: 100%;
         }
+    }
+}
+@media screen and (max-width: @phone) {
+    .p-furniture {
+        margin-top: 160px;
+        .m-furniture-search {
+            max-width: 100%;
+        }
+        .m-archive-pages {
+            .none;
+        }
+    }
+    .el-popover {
+        width: 100% !important;
+        left: 0 !important;
     }
 }
 

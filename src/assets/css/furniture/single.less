@@ -23,16 +23,48 @@
             }
         }
     }
+    .cross-wrapper {
+        .cross {
+            &.active {
+                background-color: @furnitureColor;
+            }
+        }
+    }
+    .m-furniture-comment {
+        margin-top: 40px;
+        .u-title {
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 37px;
+            color: #24292e;
+        }
+        .u-desc {
+            margin-top: 4px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            color: #24292e;
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .p-furniture-single {
+        margin-top: 140px;
+        .back-wrap {
+            width: 100%;
+        }
+    }
 }
 
 .m-furniture-content {
     .mt(80px);
     .mb(20px);
     .flex;
+    gap: 20px;
     .u-img {
         .pr;
         .size(240px, 240px);
-        .mr(20px);
         .r(10px);
         box-sizing: border-box;
         background: #ffffff;
@@ -63,14 +95,14 @@
     .u-info {
         .pr;
         .size(100%,240px);
-        background-color: #f5f7fa;
-        padding: 10px 20px;
+        background-color: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+        .r(10px);
         .u-info-title {
-            .flex;
-            align-items: center;
-            .bold;
-            .fz(22px,2);
-            font-family: "KaiTi", "Microsoft YaHei";
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 37px;
         }
         .u-interact {
             .dbi;
@@ -80,18 +112,25 @@
             background: url("@{game_icons}homeland/interact.png") rgba(255, 255, 255, 0.5) center center no-repeat;
         }
         .u-attrs {
-            border-bottom: 1px dashed #ddd;
-            .pb(10px);
+            .flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            .pt(10px);
+            .pb(20px);
         }
         .u-attr {
-            .mr(20px);
-            .fz(14px);
-            .mt(10px);
+            box-sizing: border-box;
+            .fz(12px);
+            color: #000;
             .u-label {
+                .dbi;
                 color: #fff;
-                padding: 0 5px;
-                .r(3px);
-                .mr(5px);
+                padding: 2px 4px;
+                .r(2px);
+                .mr(4px);
+                .size(32px, 20px);
+                text-align: center;
+                line-height: 20px;
             }
             .blue {
                 background: #81b0cc;
@@ -112,16 +151,32 @@
             .purple {
                 background: #b381cc;
             }
-
-            font-family: "Consolas";
-        }
-        .u-metas {
-            .pt(10px);
-            .pb(10px);
         }
         .u-meta {
             .db;
-            .fz(13px,2);
+            margin-bottom: 10px;
+            font-size: 14px;
+            .flex;
+            align-items: center;
+            .u-label {
+                font-weight: 700;
+                line-height: 18px;
+                color: #000;
+            }
+            svg {
+                width: 12px;
+                height: 12px;
+                margin-right: 6px;
+            }
+            &:first-of-type {
+                svg {
+                    margin-left: -2px;
+                    margin-top: -2px;
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 2px;
+                }
+            }
         }
         .u-meta-scale {
             b::after {
@@ -159,6 +214,10 @@
         .m-buttons {
             .pa;
             .rt(10px,10px);
+            .flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
             .u-plansBox {
                 .mr(10px);
             }
@@ -170,50 +229,46 @@
         }
     }
 }
-.m-extend {
-    .mb(15px);
-    .pb(20px);
-    .r(5px);
-    .fz(14px);
-    background-color: #fafbfc;
-    border: 1px solid #eeeeee;
-
-    .m-extend-header {
-        .flex;
-        .lh(28px);
-        padding: 10px 15px;
-        background-color: #f5f7fa;
-        border-bottom: 1px solid #eeeeee;
-        .u-icon {
-            .size(28px);
-            .fz(22px);
-            .mr(7px);
-            color: #0366d6;
-            fill: #0366d6;
+@media screen and (max-width: @phone) {
+    .m-furniture-content {
+        flex-wrap: wrap;
+        .u-info {
+            padding-bottom: 40px;
+            box-sizing: content-box;
+            .m-buttons {
+                position: unset;
+            }
         }
-        span {
-            .fz(17px);
-            color: #6c645c;
-            font-weight: 300;
+        .u-img {
+            margin-right: 0;
+            width: 100%;
+            .flex;
+            justify-content: center;
+            .u-img-wrap {
+                width: 240px;
+            }
         }
-        .mb(10px);
     }
+}
+
+.m-extend {
+    margin-top: 40px;
 
     .u-title {
-        .bold;
-        .mb(10px);
-        i {
-            .mr(5px);
-        }
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 37px;
+        color: #24292e;
     }
 
-    .m-extend-content {
-        padding: 10px 20px;
-    }
-    .m-extend-desc {
+    .u-desc {
+        margin-bottom: 20px;
         .u-txt {
-            .fz(14px,24px);
-            .color(#fda522);
+            margin-top: 4px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            color: #24292e;
         }
     }
     .m-extend-relation {
@@ -229,18 +284,4 @@
 
 .m-furniture-wiki {
     .mt(20px);
-}
-
-@media screen and (max-width: @phone) {
-    .m-info-box {
-        .db;
-        .u-img {
-            .w(auto);
-            .mr(0);
-            .mb(10px);
-        }
-        .u-info {
-            box-sizing: border-box;
-        }
-    }
 }

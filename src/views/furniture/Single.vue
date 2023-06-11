@@ -3,20 +3,6 @@
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>
-        <!-- <div class="m-navigation">
-            <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
-                >返回列表</el-button
-            >
-            <div class="u-links">
-                <a v-if="other_id" class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
-                    ><i class="el-icon-collection-tag"></i>物品信息</a
-                >
-                <a v-if="achieve_id" class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
-                    <i class="el-icon-trophy"></i>
-                    成就信息
-                </a>
-            </div>
-        </div> -->
 
         <div class="m-furniture-content">
             <div class="u-info">
@@ -42,28 +28,52 @@
                     >
                 </div>
                 <div class="u-metas">
-                    <span class="u-meta"><span class="u-label">来源途径：</span>{{ data.szSource }}</span>
-                    <span class="u-meta"><span class="u-label">园宅等级：</span>{{ data.LevelLimit }}级</span>
-                    <span class="u-meta"><span class="u-label">摆放上限：</span>{{ data.MaxAmountPerLand }}</span>
+                    <span class="u-meta"
+                        ><img src="../../assets/img/furniture/origin.svg" svg-inline /><span class="u-label"
+                            >来源途径：</span
+                        >{{ data.szSource }}</span
+                    >
+                    <span v-if="data.LevelLimit" class="u-meta"
+                        ><img src="../../assets/img/furniture/level.svg" svg-inline /><span class="u-label"
+                            >摆放等级：</span
+                        >{{ data.LevelLimit }}级</span
+                    >
+                    <span v-if="data.MaxAmountPerLand" class="u-meta"
+                        ><img src="../../assets/img/furniture/limit.svg" svg-inline /><span class="u-label"
+                            >摆放上限：</span
+                        >{{ data.MaxAmountPerLand }}</span
+                    >
                     <span class="u-meta u-meta-scale" v-if="data.szScaleRange"
-                        ><span class="u-label">缩放大小：</span>
+                        ><img src="../../assets/img/furniture/scale.svg" svg-inline /><span class="u-label"
+                            >缩放大小：</span
+                        >
                         <span class="u-value">
-                            <b v-for="item in scaleRange(data.szScaleRange)" :key="item">{{ item }}</b>
+                            <b v-for="(item, index) in scaleRange(data.szScaleRange)" :key="index">{{ item }}</b>
                         </span>
                     </span>
                     <span class="u-meta u-meta-dyes" v-if="color_list.length"
-                        ><span class="u-label">染色选项：</span>
+                        ><img src="../../assets/img/furniture/level.svg" svg-inline /><span class="u-label"
+                            >染色选项：</span
+                        >
                         <span class="u-value">
                             <i
                                 v-for="item in color_list"
                                 :key="item"
                                 class="u-dye"
                                 :style="{ backgroundColor: `rgb(${item})` }"
-                            ></i> </span
-                    ></span>
+                            ></i>
+                        </span>
+                    </span>
                 </div>
 
                 <div class="m-buttons">
+                    <a v-if="other_id" class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
+                        ><i class="el-icon-collection-tag"></i>物品信息</a
+                    >
+                    <a v-if="achieve_id" class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
+                        <i class="el-icon-trophy"></i>
+                        成就信息
+                    </a>
                     <!-- 收藏按钮 -->
                     <Fav class="u-collect" post-type="furniture" :post-id="id" :post-title="data && data.szName" />
                 </div>
@@ -76,23 +86,24 @@
         </div>
 
         <div class="m-extend" v-if="has_extend">
-            <div class="m-extend-header">
-                <img class="u-icon" svg-inline src="../../assets/img/achievement.svg" />
-                <span class="u-txt">家具信息</span>
-            </div>
-            <div class="m-extend-content m-extend-desc" v-if="data.szTip">
-                <div class="u-title"><i class="el-icon-star-on"></i>家具介绍</div>
-                <div class="u-txt" v-html="description_filter(data.szTip)"></div>
-            </div>
             <div class="m-extend-content m-extend-relation" v-if="setData">
                 <div class="u-title">
-                    <i class="el-icon-star-on"></i>{{ setData.szName
-                    }}<el-rate class="u-star" v-model="setData.nStars" disabled></el-rate>
+                    <div>{{ setData.szName }}</div>
+                    <el-rate class="u-star" v-model="setData.nStars" disabled></el-rate>
                 </div>
-                <furnitureSet :data="setData" />
+                <div class="u-desc">
+                    <div v-if="data.szTip" class="u-txt" v-html="description_filter(data.szTip)"></div>
+                    <div v-else class="u-txt">暂无介绍</div>
+                </div>
+
+                <list-cross v-if="setData.furnitures.length" :width="30" :list="setData.furnitures">
+                    <template v-slot="data">
+                        <furnitureSet :data="data.item" :category="category" />
+                    </template>
+                </list-cross>
             </div>
             <div class="m-extend-content m-extend-materials" v-if="data.szSource == '生活技能' && data.__manufactureID">
-                <div class="u-title"><i class="el-icon-star-on"></i>合成材料</div>
+                <div class="u-title">合成材料</div>
                 <furnitureMaterials :id="other_id" />
             </div>
         </div>
@@ -111,21 +122,25 @@
 
         <!-- 评论 -->
         <div class="m-furniture-comment">
+            <div class="u-title">评论</div>
+            <div class="u-desc">请文明用语，共创美好社区。</div>
             <Comment :id="id" :category="type" order="desc" />
         </div>
     </div>
 </template>
 
 <script>
-import furnitureSet from "@/components/homeland/furniture_set.vue";
+import furnitureSet from "@/components/furniture/furniture_set.vue";
 import Wiki from "@/components/wiki/Wiki.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
-import furnitureMaterials from "@/components/homeland/furniture_materials.vue";
+import furnitureMaterials from "@/components/furniture/furniture_materials.vue";
 
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 
 import { getFurnitureDetail, getSetList, getFurnitureColor } from "@/service/furniture.js";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
+import ListCross from "@/components/ListCross.vue";
+import { getFurnitureCategory } from "@/service/homeland.js";
 
 export default {
     name: "FurnitureSingle",
@@ -136,6 +151,7 @@ export default {
         Comment,
         furnitureSet,
         furnitureMaterials,
+        ListCross,
     },
     data: function () {
         return {
@@ -144,8 +160,7 @@ export default {
             data: "", // 家具数据
             setData: "",
             colorData: "", // 染色数据
-
-            search: "",
+            category: {},
         };
     },
     computed: {
@@ -189,6 +204,11 @@ export default {
         },
     },
     methods: {
+        getCategory() {
+            getFurnitureCategory().then((res) => {
+                this.category = res?.data || {};
+            });
+        },
         // 数据加载
         // ==============
         getData() {
@@ -248,6 +268,7 @@ export default {
         },
     },
     created: function () {
+        this.getCategory();
         this.getData();
     },
 };
