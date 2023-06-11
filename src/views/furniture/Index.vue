@@ -9,6 +9,7 @@
         >
             <template slot="extra">
                 <div v-if="childCategory.length" class="m-child-category">
+                    <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
                     <div
                         class="u-item"
                         :class="item.nCatag2Index === childActive ? 'is-active' : ''"
