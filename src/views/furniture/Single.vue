@@ -109,7 +109,7 @@
         </div>
 
         <!-- 攻略 -->
-        <!-- <div class="m-furniture-wiki" v-if="other_id">
+        <div class="m-furniture-wiki" v-if="other_id">
             <Wiki
                 source_type="item"
                 :source_id="item_id"
@@ -119,23 +119,20 @@
                 :source_title="data.szName"
             ></Wiki>
         </div>
-
+        <!-- 
         <div class="m-furniture-comment">
             <div class="u-title">评论</div>
             <div class="u-desc">请文明用语，共创美好社区。</div>
             <Comment :id="id" :category="type" order="desc" />
         </div> -->
-        <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
-        <pvx-user v-if="item_id" :id="id" :itemId="item_id" name="家具" type="item"></pvx-user>
-        <WikiComments v-else type="item" :source-id="String(id)" />
+        <WikiComments type="item" :source-id="String(id)" />
     </div>
 </template>
 
 <script>
 import furnitureSet from "@/components/furniture/furniture_set.vue";
-// import Wiki from "@/components/wiki/Wiki.vue";
+import Wiki from "@/components/wiki/Wiki.vue";
 // import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
-import PvxUser from "@/components/PvxUser.vue";
 import furnitureMaterials from "@/components/furniture/furniture_materials.vue";
 
 import { getLink } from "@jx3box/jx3box-common/js/utils";
@@ -151,12 +148,11 @@ export default {
     props: [],
     inject: ["__imgRoot"],
     components: {
-        // Wiki,
+        Wiki,
         // Comment,
         furnitureSet,
         furnitureMaterials,
         ListCross,
-        PvxUser,
         WikiComments,
     },
     data: function () {
