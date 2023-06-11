@@ -38,7 +38,7 @@ import ReputationItem from "@/components/reputation/ReputationItem.vue";
 
 import { getList, getMenus } from "@/service/reputation";
 import maps_std from "@jx3box/jx3box-data/data/fb/fb_map.json";
-import maps_orgin from "@jx3box/jx3box-data/data/fb/fb_map_origin.json";
+import maps_origin from "@jx3box/jx3box-data/data/fb/fb_map_origin.json";
 import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc";
 import { deleteNull } from "@/utils/index";
 
@@ -149,7 +149,7 @@ export default {
             await getMenus({
                 client: this.client,
             }).then((res) => {
-                const maps = this.client === "std" ? maps_std : maps_orgin;
+                const maps = this.client === "std" ? maps_std : maps_origin;
                 const list = res.data.dlc || [];
                 const arr = Object.keys(maps)
                     .map((key) => {
