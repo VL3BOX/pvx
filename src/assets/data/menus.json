@@ -13,12 +13,11 @@
                 "isStd": true
             },
             {
-                "path": "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
-                "label": "家园蓝图",
+                "path": "/homeland",
+                "label": "家园指南",
                 "icon": "el-icon-download",
                 "key": "blueprint",
-                "status": true,
-                "target": "_blank"
+                "status": true
             }
         ]
     },

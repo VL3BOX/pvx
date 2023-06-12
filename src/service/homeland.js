@@ -35,5 +35,11 @@ function getFurnitureMatch(params){
         params
     })
 }
+// 获取家园BBS攻略
+function getBbsList(params) {
+    return $cms({mute: true}).get(`/api/cms/posts`, {
+        params
+    })
+}
 
-export { getHomelandLevelUp, getHomelandGame, getHomelandCoord, getFurnitureCategory, getFurnitureMatch };
+export { getHomelandLevelUp, getHomelandGame, getHomelandCoord, getFurnitureCategory, getFurnitureMatch, getBbsList };

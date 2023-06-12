@@ -6,8 +6,15 @@
 	// background-color: rgba(0, 0, 0, 0.8);
 	// overflow: auto;
 	min-width: 1024px;
-	overflow-x: auto;
+	// overflow-x: auto;
+	overflow: hidden;
 }
+@media screen and (max-width: @phone) {
+	.el-tab-pane {
+		overflow-x: auto;
+	}
+}
+
 .m-house-model {
 	width: 1024px;
 	height: 896px;
@@ -117,4 +124,9 @@
 }
 .v-homeland-maps .u-title {
 	.x;
+}
+@media screen and (max-width: @phone) {
+	.v-homeland-maps {
+		padding-top: 10px;
+	}
 }

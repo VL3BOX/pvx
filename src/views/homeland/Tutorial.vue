@@ -1,6 +1,6 @@
 <template>
 	<div class="v-homeland-tutorial">
-		<h1 class="m-homeland-title">家园指南</h1>
+		<!-- <h1 class="m-homeland-title">家园指南</h1> -->
 
 		<div class="m-homeland-info">
 			<div class="m-homeland-games">
@@ -35,12 +35,12 @@
 				</el-table>
 			</div>
 
-			<div class="m-homeland-posts" v-if="posts && posts.length">
+			<!-- <div class="m-homeland-posts" v-if="posts && posts.length">
 				<h2 class="u-header"><i class="el-icon-star-on"></i> 家园攻略</h2>
 				<div class="u-list">
 					<a class="u-item" :href="item.link" target="_blank" v-for="(item, i) in posts" :key="i">{{ item.label }}</a>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -94,7 +94,7 @@ export default {
 	},
 	mounted: function () {
 		this.loadInfo();
-		this.loadData();
+		// this.loadData();
 	},
 };
 </script>

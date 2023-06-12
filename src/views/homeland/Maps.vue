@@ -1,6 +1,6 @@
 <template>
 	<div class="v-homeland-maps">
-		<h1 class="u-title">家园地图</h1>
+		<!-- <h1 class="u-title">家园地图</h1> -->
 		<div class="m-homeland-maps-tabs">
 			<el-tabs v-model="active">
 				<el-tab-pane v-for="(label, map_id) in data" :key="map_id" :label="label" :name="map_id">

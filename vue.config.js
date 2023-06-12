@@ -19,7 +19,7 @@ module.exports = {
             filename: "face/index.html",
         },
         homeland: {
-            title: "家园建设 - JX3BOX",
+            title: "家园指南 - JX3BOX",
             entry: "src/pages/homeland.js",
             template: "public/index.html",
             filename: "homeland/index.html",

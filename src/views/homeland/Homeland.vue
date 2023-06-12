@@ -1,45 +1,39 @@
 <template>
     <div id="app">
         <Header></Header>
-        <Breadcrumb
-            name="家园建设"
-            slug="homeland"
-            root="/homeland"
-            :publishEnable="false"
-            :adminEnable="false"
-            :feedbackEnable="true"
-            :crumbEnable="false"
-        >
-            <img slot="logo" svg-inline :src="getAppIcon('furniture')" />
-        </Breadcrumb>
-        <LeftSidebar><Nav></Nav></LeftSidebar>
-        <Main :withoutRight="true">
+        <Nav @statusChange="statusChange"></Nav>
+        <Main :class="navStatusClass" :withoutRight="true">
             <div class="m-main">
                 <router-view></router-view>
             </div>
-            <Footer></Footer>
+            <PvxBacktop color="#fff" bgColor="#6b52ff"></PvxBacktop>
         </Main>
     </div>
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
-import { getAppIcon } from "@jx3box/jx3box-common/js/utils";
+import Nav from "@/components/Nav_v3.vue";
+import PvxBacktop from "@/components/PvxBacktop.vue";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
+
 export default {
-    name: "App",
+    name: "Homeland",
+    components: { Nav, PvxBacktop },
     props: [],
     provide: {
         __imgRoot: __imgPath + "homeland/",
         __dataRoot: __dataPath + "pvx/",
     },
     data: function () {
-        return {};
+        return {
+            navStatusClass: "is-regular",
+        };
     },
     computed: {},
-    methods: { getAppIcon },
-    components: {
-        Nav,
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
     },
 };
 </script>
