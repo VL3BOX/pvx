@@ -64,7 +64,7 @@ export default {
     methods: {
         toTip() {
             return this.$message({
-                type: "success",
+                type: "warning",
                 message: "即将上线，敬请期待！",
             });
         },
