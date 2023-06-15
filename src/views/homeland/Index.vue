@@ -50,10 +50,10 @@ export default {
                     label: "家园地图",
                     value: 1,
                 },
-                {
-                    label: "家园花价",
-                    value: 2,
-                },
+                // {
+                //     label: "家园花价",
+                //     value: 2,
+                // },
                 {
                     label: "家园攻略",
                     value: 3,
