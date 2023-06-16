@@ -9,7 +9,7 @@
                 @click="active = item.value"
                 >{{ item.label }}
             </a>
-            <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" target="_blank">蓝图导入</a>
+            <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" target="_blank">家园蓝图</a>
             <a href="javascript:;" @click="toTip">藏品蓝图</a>
         </div>
         <div class="m-homeland-content">
