@@ -36,14 +36,16 @@
             </div> -->
         </PvxSearch>
         <div class="m-exam-content">
-            <!-- 列表 -->
-            <template v-if="data && data.length">
-                <ImperialExamList v-if="search.type === 1" :search="search.title" :data="data"></ImperialExamList>
-                <QuestionList v-if="search.type === 2" :data="data"></QuestionList>
-                <PaperList v-if="search.type === 3" :data="data"></PaperList>
+            <ImperialExamList v-if="search.type === 1" :search="search.title" :data="data"></ImperialExamList>
+            <template v-else>
+                <!-- 列表 -->
+                <template v-if="data && data.length">
+                    <QuestionList v-if="search.type === 2" :data="data"></QuestionList>
+                    <PaperList v-if="search.type === 3" :data="data"></PaperList>
+                </template>
+                <!-- 空 -->
+                <el-empty v-else description="没有找到相关条目" :image-size="100"></el-empty>
             </template>
-            <!-- 空 -->
-            <el-empty v-else description="没有找到相关条目" :image-size="100"></el-empty>
             <!-- 分页 -->
             <el-pagination
                 v-if="[2, 3].includes(search.type) && data.length"
@@ -128,10 +130,10 @@ export default {
                     name: "过滤",
                     options: [],
                 },
-                {
-                    key: "title",
-                    name: "关键词",
-                },
+                // {
+                //     key: "title",
+                //     name: "关键词",
+                // },
             ],
             initValue: {
                 tag: "",
@@ -200,11 +202,16 @@ export default {
         },
         "search.type"(type) {
             if (type === 1) {
-                this.searchProps[2].name = `关键词(长度不少于2个字符)`;
+                // this.searchProps[2].name = `关键词(长度不少于2个字符)`;
+                this.searchProps.splice(2, 1);
                 this.data = [];
-                this.loadImperialExam();
+                // this.loadImperialExam();
             } else {
-                this.searchProps[2].name = `关键词`;
+                // this.searchProps[2].name = `关键词`;
+                this.searchProps[2] = {
+                    key: "title",
+                    name: "关键词",
+                };
             }
             if (type === 2 || type === 3) {
                 const tags = this.tags;

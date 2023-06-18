@@ -1,7 +1,12 @@
 <template>
     <div class="m-imperial-list">
-        <el-row :gutter="20">
-            <el-col :span="8" v-for="item in list" :key="item.rid"
+        <div class="m-search">
+            <el-input v-model="search" placeholder="在此输入内容开始搜索"></el-input>
+            <div class="u-tip" v-if="!search">请输入关键字开始搜索，搜索词长度不少于<span>2个字符</span>。</div>
+            <div class="u-tip" v-else>当前搜索关键字“<span>{{ search }}</span>”，返回结果<span>{{ total }}</span>条。</div>
+        </div>
+        <el-row class="u-list" :gutter="20">
+            <el-col :span="24" v-for="item in list" :key="item.rid"
                 ><div class="u-item" @click="go(item.rid)">
                     <div class="u-title" v-html="getTitle(item.title)"></div>
                     <div class="u-answer">{{ getAnswer(item) }}</div>
@@ -12,12 +17,33 @@
 </template>
 
 <script>
+import { getExamByKey } from "@/service/exam";
 export default {
     name: "ImperialExaminationList",
-    props: ["data", "search"],
+    // props: ["data", "search"],
     computed: {
-        list() {
-            return this.data.filter((item) => item.answer && JSON.parse(item.answer) && JSON.parse(item.answer).length);
+        // list() {
+        //     return this.data.filter((item) => item.answer && JSON.parse(item.answer) && JSON.parse(item.answer).length);
+        // },
+    },
+    data() {
+        return {
+            search: "",
+            total: 0,
+            list: [],
+        };
+    },
+    watch: {
+        search(key) {
+            if (key && key.length > 1) {
+                getExamByKey({ key }).then((res) => {
+                    this.list = res.data?.data || [];
+                    this.total = this.list.length;
+                });
+            }
+            if (!key) {
+                this.list = [];
+            }
         },
     },
     methods: {
@@ -41,11 +67,28 @@ export default {
 
 <style lang="less">
 .m-imperial-list {
+    .m-search {
+        .u-tip {
+            width: 100%;
+            background-color: #fff;
+            margin-top: 5px;
+            padding: 10px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+            box-sizing: border-box;
+            span {
+                color: #ff0000;
+            }
+        }
+    }
+    .u-list {
+        margin-top: 20px;
+    }
     .u-item {
         padding: 20px;
         .mb(20px);
 
-        height: 168px;
+        // height: 168px;
         overflow-y: auto;
         box-sizing: border-box;
 
@@ -77,18 +120,18 @@ export default {
         }
     }
 }
-@media screen and (max-width: @ipad) {
-    .m-imperial-list {
-        .el-col {
-            .w(50%);
-        }
-    }
-}
-@media screen and (max-width: @phone) {
-    .m-imperial-list {
-        .el-col {
-            .w(100%);
-        }
-    }
-}
+// @media screen and (max-width: @ipad) {
+//     .m-imperial-list {
+//         .el-col {
+//             .w(50%);
+//         }
+//     }
+// }
+// @media screen and (max-width: @phone) {
+//     .m-imperial-list {
+//         .el-col {
+//             .w(100%);
+//         }
+//     }
+// }
 </style>
