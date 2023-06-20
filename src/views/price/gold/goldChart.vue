@@ -75,7 +75,7 @@ export default {
             this.loading = true;
             getGoldPriceData()
                 .then((res) => {
-                    this.goldPriceData = res;
+                    this.goldPriceData = res.data;
                 })
                 .finally(() => {
                     this.loading = false;

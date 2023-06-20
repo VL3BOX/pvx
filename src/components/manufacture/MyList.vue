@@ -43,7 +43,7 @@ export default {
         },
     },
     mounted() {
-        this.load();
+        this.isLogin && this.load();
         Bus.$on("update", () => {
             this.load();
         });

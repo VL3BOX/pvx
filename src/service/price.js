@@ -1,9 +1,14 @@
-import { axios } from "@/service/api.js";
+import axios from "axios";
 import { $cms, $next } from "@jx3box/jx3box-common/js/https";
+import { __spider2 } from "@jx3box/jx3box-common/data/jx3box.json"
+
+const $spider = axios.create({
+    baseURL: __spider2,
+})
 
 // 获取金价数据
 function getGoldPriceData() {
-    return axios("https://spider2.jx3box.com/api/spider/gold/trend", "GET", false, {}, {}, {})
+    return $spider.get("/api/spider/gold/trend");
 }
 
 // 获取系统关注的物品信息
