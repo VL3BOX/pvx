@@ -30,7 +30,7 @@
                 </div>
             </div>
             <img class="u-normal-img" src="@/assets/img/index.png" />
-            <!-- <img class="u-max-img" src="@/assets/img/index_l.png" /> -->
+            <img class="u-max-img" src="@/assets/img/index_l.png" />
         </div>
         <div class="m-newest">
             <Face></Face>
