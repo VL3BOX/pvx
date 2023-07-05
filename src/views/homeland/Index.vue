@@ -10,7 +10,7 @@
                 >{{ item.label }}
             </a>
             <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" target="_blank">家园蓝图</a>
-            <a href="javascript:;" @click="toTip">藏品蓝图</a>
+            <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" target="_blank">藏品蓝图</a>
         </div>
         <div class="m-homeland-content">
             <!-- 家园信息 -->
