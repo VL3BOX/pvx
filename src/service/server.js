@@ -1,10 +1,10 @@
 import User from "@jx3box/jx3box-common/js/user";
 import axios from "axios";
-import { __spider } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __spider2 } from "@jx3box/jx3box-common/data/jx3box.json";
 import { $cms, $https } from "@jx3box/jx3box-common/js/https";
 const $spider = axios.create({
-    // __spider
-    baseURL: "https://spider2.jx3box.com/",
+    // __spider2
+    baseURL: __spider2
 });
 function setFlowerServer(server) {
     localStorage && localStorage.setItem("flower_server", server);

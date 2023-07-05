@@ -59,7 +59,7 @@
                 <!-- 列表 -->
                 <div v-if="listType === 'list'" class="list-content">
                     <ListHead></ListHead>
-                    <HorseItem :item="item" v-for="item in list" :key="item.id"></HorseItem>
+                    <HorseItem :item="item" v-for="item in list" :key="item.ID"></HorseItem>
                     <pagination
                         v-if="list.length"
                         v-show="totalPages > 0"
@@ -71,7 +71,7 @@
                 </div>
                 <!-- 卡片 -->
                 <div v-if="listType === 'card'" class="list-card-content">
-                    <HorseCard :item="item" v-for="item in list" :key="item.id"></HorseCard>
+                    <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
                     <el-button
                         v-if="list.length"
                         class="more-btn"
@@ -323,6 +323,7 @@ export default {
         },
         loadList() {
             this.getList(this.selected, false).then((data) => {
+                console.log(data);
                 this.list = data.list;
                 this.total = data.total;
                 this.totalPages = data.pages;

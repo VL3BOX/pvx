@@ -117,6 +117,12 @@ module.exports = {
                     request.setHeader("origin", "");
                 },
             },
+            "/api/spider": {
+                target: "https://spider2.jx3box.com",
+                onProxyReq: function (request) {
+                    request.setHeader("origin", "");
+                }
+            },
             "/api": {
                 target: "https://next2.jx3box.com",
                 onProxyReq: function (request) {

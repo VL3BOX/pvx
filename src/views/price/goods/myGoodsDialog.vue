@@ -24,6 +24,7 @@
 </template>
 <script>
 import { getMyPlanList } from "@/service/price.js"; // 系统关注物品类型
+import User from "@jx3box/jx3box-common/js/user";
 export default {
     props: {
         myFollowData: {},
@@ -77,7 +78,7 @@ export default {
     },
     mounted() {
         this.followIdList = JSON.parse(JSON.stringify(this.myFollowData));
-        this.getMyPlanList();
+        User.isLogin() && this.getMyPlanList();
     },
 };
 </script>
