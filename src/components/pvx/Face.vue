@@ -7,7 +7,18 @@
         <div class="u-list">
             <list-cross v-if="list.length" :list="list" type="share" :gap="10" :arrow="2">
                 <template v-slot="data">
-                    <a class="u-face" :href="getLink(data.item)" target="_blank">
+                    <a
+                        class="u-face"
+                        :href="getLink(data.item)"
+                        target="_blank"
+                        v-reporter="{
+                            data: {
+                                href: '/face/' + data.item.source_id,
+                                aggregate: aggregate,
+                            },
+                            caller: 'face_index_initial',
+                        }"
+                    >
                         <img class="u-pic" :src="getThumbnail(data.item.img)" loading="lazy" />
                     </a>
                 </template>
@@ -20,6 +31,7 @@
 import { getSliders as getList } from "@/service/face";
 import ListCross from "../ListCross.vue";
 import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { reportNow } from "@jx3box/jx3box-common/js/reporter";
 export default {
     name: "NewFaces",
     components: {
@@ -28,6 +40,7 @@ export default {
     data() {
         return {
             list: [],
+            aggregate: []
         };
     },
     computed: {
@@ -42,6 +55,14 @@ export default {
         load() {
             getList("slider", this.client, 9).then((res) => {
                 this.list = res.data?.data?.list || [];
+
+               this.aggregate = this.list?.map((item) => item.source_id);
+                reportNow({
+                    caller: "face_index_initial",
+                    data: {
+                        aggregate: this.aggregate,
+                    },
+                });
             });
         },
         getLink(item) {

@@ -1,6 +1,17 @@
 <template>
     <div class="m-face-item">
-        <router-link class="u-face" :to="`/${item.id}`" target="_blank">
+        <router-link
+            class="u-face"
+            :to="`/${item.id}`"
+            target="_blank"
+            v-reporter="{
+                data: {
+                    href: '/face/' + item.id,
+                    ...reporter,
+                },
+                caller: 'face_index',
+            }"
+        >
             <i class="u-img">
                 <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
                 <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
@@ -28,7 +39,7 @@ import { setPost } from "@/service/face";
 import { showAvatar, authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
-    props: ["item"],
+    props: ["item", "reporter"],
     data: function () {
         return {
             search: "",

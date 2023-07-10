@@ -11,6 +11,9 @@ import "@jx3box/jx3box-common/css/element.css";
 import "@jx3box/jx3box-common/css/normalize.css";
 Vue.use(JX3BOX_UI);
 
+import reporter from "@jx3box/jx3box-common/js/reporter";
+reporter.install(Vue);
+
 // 数据与路由
 import router from "../router/face.js";
 import store from "../store";

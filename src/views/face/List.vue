@@ -20,7 +20,7 @@
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-recommend-list" id="recommend">
-                    <faceRecommend v-for="item in slidersList" :key="item.id" :item="item"></faceRecommend>
+                    <faceRecommend v-for="item in slidersList" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }"></faceRecommend>
                 </div>
             </div>
         </template>
@@ -51,7 +51,7 @@
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-face-list" :id="'nav' + index">
-                    <faceItem v-for="item in item.list" :key="item.id" :item="item" />
+                    <faceItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
                 </div>
             </div>
         </template>
@@ -60,7 +60,7 @@
                 <div class="u-title">{{ body_types_name() }}</div>
             </div>
             <div class="m-face-list--all">
-                <faceItem v-for="item in list" :key="item.id" :item="item" />
+                <faceItem v-for="item in list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
             </div>
             <el-button
                 class="m-archive-more"
@@ -359,6 +359,9 @@ export default {
                 }
             }
         },
+        listId(list) {
+            return list.map((e) => e.id);
+        }
     },
 };
 </script>
