@@ -15,15 +15,15 @@
                     >
                 </template>
             </div>
-            <petCard :petObject="pet" :lucky="luckyList"></petCard>
+
             <div class="m-pet-info">
                 <h1 class="u-title">
                     <span class="u-name">{{ pet.Name }}</span>
                     <!-- <span class="u-type">{{ getPetType(pet.Class) }} · {{ getPetSource(pet.Source) }}</span> -->
-                    <i class="u-stars">
-                        <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
-                    </i>
                 </h1>
+                <i class="u-stars">
+                    <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
+                </i>
                 <div class="u-metas">
                     <div class="u-meta u-number"><span class="u-meta-label">编号：</span>{{ pet.Index }}</div>
                     <div class="u-meta u-type"><span class="u-meta-label">分类：</span>{{ getPetType(pet.Class) }}</div>
@@ -49,14 +49,14 @@
                     <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
                         <span class="u-meta-label">商城价格：</span>
                         <span class="u-price">
-                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0"
-                                >积分<b>{{ shopInfo.RewardsPrice }}</b
-                                ><i class="u-icon-rewards"></i
-                            ></el-tag>
-                            <el-tag class="u-price-item u-coin"
-                                >通宝<b>{{ shopInfo.CoinPrice }}</b
-                                ><i class="u-icon-coin"></i
-                            ></el-tag>
+                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
+                                积分<b>{{ shopInfo.RewardsPrice }}</b>
+                                <i class="u-icon-rewards"></i>
+                            </el-tag>
+                            <el-tag class="u-price-item u-coin">
+                                通宝<b>{{ shopInfo.CoinPrice }}</b>
+                                <i class="u-icon-coin"></i>
+                            </el-tag>
                         </span>
                     </div>
                 </div>
@@ -79,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            <petCard :petObject="pet" :lucky="luckyList"></petCard>
         </div>
         <!-- 宠物羁绊 -->
         <div class="m-pet-fetters" v-if="medalList && medalList.length">

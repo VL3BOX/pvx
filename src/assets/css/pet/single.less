@@ -1,9 +1,10 @@
 .m-pet-navigation {
     display: flex;
     position: sticky;
-    top: @header-height;.z(10);
-    background-color:#f3f5f6;
-    padding:20px 0;
+    top: @header-height;
+    .z(10);
+    background-color: #f3f5f6;
+    padding: 20px 0;
     .u-goback {
         .r(30px);
         .fz(16px,21px);
@@ -13,7 +14,7 @@
 
 .m-pet-links {
     .pa;
-    .rt(20px);
+    .rt(330px,20px);
 
     .u-link {
         .fz(14px);
@@ -32,53 +33,50 @@
 }
 
 .m-pet-content {
+    gap: 20px;
     justify-content: space-between;
     .mb(40px);
     .pr;
 
     .m-pet-card {
         .mb(0);
-        .mr(20px);
     }
 }
 
 .m-pet-info {
-    flex: 1;
-    min-height: 430px;
-    background: #ffffff;
     .r(10px);
+    flex: 1;
+    min-height: 330px;
+    background: #ffffff;
     padding: 20px;
     box-sizing: content-box;
     .u-title {
-        .fz(28px,42px);
+        .fz(28px,28px);
         .bold;
-        margin:0;
-        .flex;
-        align-items: center;
-        gap:10px;
+        margin: 0 0 10px 0;
     }
     .u-stars {
-        .fz(18px);
+        .fz(21px);
         color: #fbc324;
     }
 
     .u-metas {
-        margin-top: 10px;
+        .flex;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 8px;
+        .u-meta {
+            .fz(14px);
+            font-weight: 300;
+            .u-meta-label {
+                .bold;
+            }
+        }
         .u-lucky-dates {
             cursor: pointer;
         }
     }
 
-    .u-meta {
-        .lh(2.2);
-    }
-
-    .u-meta-label {
-        .bold;
-    }
-    .u-meta-value {
-        // .lh(1.5);
-    }
     .u-shop {
         i {
             .dbi;
@@ -93,12 +91,11 @@
     .u-price-item {
         display: inline-flex;
         align-items: center;
+        gap: 5px;
 
         i {
-            .size(24px);
+            .size(18px);
         }
-
-        .fz(15px);
     }
 
     .u-rewards {
@@ -111,24 +108,24 @@
 
     .u-icon-coin {
         background: url("@{game_icons}money-121.png") no-repeat 0 0;
+        background-size: 18px;
     }
 }
 
 .m-pet-wiki {
-    // background: #ffffff;
     .r(10px);
-    // padding: 20px;
     margin-top: 20px;
 }
 .u-pet-skill-title {
     .bold;
-    .mb(10px);
-    .mt(10px);
+    .fz(16px);
+    margin: 20px 0 10px 0;
 }
 .m-pet-skills {
-    display: flex;
+    .flex;
+    gap: 10px;
     .u-skill {
-        .mr(10px);
+        .size(38px);
     }
 }
 
@@ -166,9 +163,14 @@
 @media screen and (max-width: @phone) {
     .m-pet-content {
         justify-content: center;
-        padding-top: 60px;
         margin-bottom: 15px;
         flex-wrap: wrap;
+        .m-pet-links {
+            .w(100%);
+            .x(right);
+            flex-shrink: 0;
+            position: static;
+        }
         .m-pet-card {
             .mb(15px);
             .mr(0);

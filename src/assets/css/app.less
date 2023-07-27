@@ -1,5 +1,5 @@
 .scrollbar(6px);
-body { 
+body {
     background-color: #f3f5f6;
 }
 .m-main {
@@ -8,7 +8,12 @@ body {
     min-height: calc(100vh - @header-height);
     padding: 0 40px 20px 40px;
 }
-.c-main { 
+@media screen and(max-width:@phone) {
+    .m-main {
+        padding: 20px;
+    }
+}
+.c-main {
     .mt(0);
     &.is-closed {
         .ml(0px);
