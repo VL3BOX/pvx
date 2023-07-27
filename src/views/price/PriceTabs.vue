@@ -1,14 +1,21 @@
 <template>
-  <div class="m-price-tabs">
-    <div class="u-tabs">
-      <div class="u-tab" v-for="(tab,index) in tabs" :class="{active:params.currentTab == tab.value}" :key="index" @click="changeTab(tab)">
-        <div class="u-tab-label">{{tab.label}}</div>
-      </div>
+    <div class="m-price-tabs m-common-tabs">
+        <template v-for="(tab, index) in tabs">
+            <div :key="index" class="u-tab" @click="changeTab(tab)" :class="{ active: params.currentTab == tab.value }">
+                {{ tab.label }}
+            </div>
+        </template>
+
+        <div class="u-search">
+            <el-input
+                v-if="params.currentTab != 'gold'"
+                v-model="params.keywords"
+                placeholder="请输入"
+                suffix-icon="el-icon-search"
+                class="u-search-input"
+            />
+        </div>
     </div>
-    <div class="u-search">
-      <el-input v-if="params.currentTab!='gold'" v-model="params.keywords" placeholder="请输入" suffix-icon="el-icon-search" class="u-search-input" />
-    </div>
-  </div>
 </template>
 <script>
 export default {
@@ -53,5 +60,13 @@ export default {
 };
 </script>
 <style lang="less">
-@import "~@/assets/css/price/priceTabs.less";
+@import "~@/assets/css/common/tabs.less";
+.m-price-tabs {
+    .u-tab {
+        &.active,
+        &:hover {
+            background-color: @activeColor;
+        }
+    }
+}
 </style>

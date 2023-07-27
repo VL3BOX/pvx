@@ -1,19 +1,11 @@
 <template>
-    <div class="m-pet-tabs">
-        <div class="u-tabs">
-            <div v-for="item in types" :key="item.type">
-                <div
-                    class="u-tab-item"
-                    @click="clickTabs(item)"
-                    :class="{
-                        active: item.class == active,
-                    }"
-                >
-                    <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
-                    <span class="u-tabs-span">{{ item.name }}</span>
-                </div>
+    <div class="m-pet-tabs m-common-tabs">
+        <template v-for="item in types">
+            <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
+                {{ item.name }}
             </div>
-        </div>
+        </template>
+
         <!-- 地图筛选 -->
         <div class="u-maps">
             <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
@@ -21,6 +13,7 @@
                 </el-option>
             </el-select>
         </div>
+
         <div class="u-filter">
             <el-popover
                 placement="bottom-end"
@@ -29,23 +22,28 @@
                 v-model="filterOpen"
                 popper-class="u-filter-popover"
             >
-                <div class="m-pet-filter">
-                    <el-radio-group v-model="petSource">
-                        <el-radio-button
-                            class="u-source"
-                            v-for="(item, index) in Source"
-                            :key="'laiyuan' + index"
-                            :label="item.source"
-                            size="mini"
-                            >{{ item.name }}</el-radio-button
-                        >
-                    </el-radio-group>
-                </div>
+                <el-radio-group v-model="petSource" class="m-pet-filter m-common-filter">
+                    <el-radio-button
+                        class="u-filter"
+                        v-for="(item, index) in Source"
+                        :key="'laiyuan' + index"
+                        :label="item.source"
+                        size="mini"
+                        >{{ item.name }}</el-radio-button
+                    >
+                </el-radio-group>
+
                 <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
             </el-popover>
         </div>
+
         <div class="u-search">
-            <el-input placeholder="请输入搜索内容" v-model="title" suffix-icon="el-icon-search" />
+            <el-input
+                placeholder="请输入搜索内容"
+                v-model="title"
+                suffix-icon="el-icon-search"
+                class="u-search-input"
+            />
         </div>
     </div>
 </template>
@@ -83,8 +81,7 @@ export default {
     },
     methods: {
         //切换数据
-        clickTabs(item) {
-            // this.active = value;
+        clickTabs(item) {  
             this.$emit("setActive", item.class);
         },
     },
@@ -101,106 +98,31 @@ export default {
 </script>
 
 <style lang="less">
-//顶部按钮+搜索区域等
+@import "~@/assets/css/common/tabs.less";
 .m-pet-tabs {
-    /* 兼容chorme */
-    position: -webkit-sticky;
-    position: sticky;
-    top: 64px;
-    z-index: 8;
-    background-color: #f3f5f6;
-    padding: 20px 0;
-    .flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    .u-tabs {
-        .flex;
-        gap: 20px;
-    }
-    .u-tabs-btn,
-    .u-filter {
-        .pointer;
-        .size(40px);
-        .r(30px);
-        background-color: #fff;
-        &.right {
-            .ml(20px);
-            .mr(10px);
-        }
-        svg {
-            fill: #949494;
-        }
-        &:hover {
-            background-color: @petColor;
-            i {
-                color: #fff;
-            }
-            svg {
-                fill: #fff;
-            }
-        }
-    }
-
-    .u-tab-item {
-        .size(100px,40px);
-        .flex;
-        .flex(x);
-
-        align-items: center;
-        .pr;
-        .pointer;
-        .fz(16px,20px);
-        background-color: #fff;
-        .r(30px);
-        // letter-spacing: 5px;
+    .u-tab {
         &.active,
         &:hover {
             background-color: @petColor;
-            .u-tabs-span {
-                color: #fff;
-            }
+        }
+    }
+    .u-filter {
+        &:hover {
+            background-color: @petColor;
         }
     }
     .u-maps {
+        flex-shrink: 0;
         input {
             .r(30px);
         }
     }
-    .u-search {
-        // .w(100%);
-        min-width: 160px;
-        flex: 1;
-    }
-    .el-input__inner {
-        border: none;
-        background-color: #fff;
-        padding: 0 40px 0 20px;
-        .r(30px);
-        .fz(16px,40px);
-        .size(100%,40px);
-        color: #000;
-        &::placeholder {
-            .fz(14px);
-            color: #b0b0b0;
-        }
-    }
 }
+
 .m-pet-filter {
-    text-align: center;
-    .u-source {
-        .mb(10px);
-        .mr(10px);
+    .u-filter {
         .w(100px);
-        white-space: nowrap;
         .el-radio-button__inner {
-            .db;
-            .r(30px);
-            border: 1px solid #e1dfdf;
-            background-color: #e1dfdf;
-            color: #949494;
             &:hover {
                 background-color: @petColor;
                 color: #fff;
@@ -216,13 +138,6 @@ export default {
     }
 }
 .u-filter-popover {
-    width: 240px !important;
-}
-@media screen and (max-width:@phone){
-    .m-pet-tabs{
-        .u-maps,.u-search,.u-filter{
-            .none;
-        }
-    }
+    width: 220px !important;
 }
 </style>

@@ -1,13 +1,6 @@
 @themeColor: #d16400;
 
-.m-main {
-    top: @header-height !important;
-    min-height: calc(100vh - @header-height);
-    padding: 0 40px 20px 40px;
-}
 .p-adventure-List {
-    // .pr;
-    .pt(64px);
     .u-type {
         .flex;
         margin: 20px 0 20px 0;
@@ -27,115 +20,6 @@
     }
 }
 
-//顶部按钮+搜索区域等
-.m-share-tabs {
-    position: fixed;
-    top: 64px;
-    z-index: 13;
-    background-color: #f3f5f6;
-    padding: 20px 0;
-    width: 100%;
-    box-sizing: border-box;
-    .u-tabs {
-        .flex;
-        flex-wrap: wrap;
-    }
-    .u-tabs-btn,
-    .u-tabs-filter {
-        .pointer;
-        .size(40px);
-        .r(30px);
-        background-color: #fff;
-        .mb(20px);
-        &.right {
-            .ml(20px);
-            .mr(10px);
-        }
-        svg {
-            fill: #949494;
-        }
-        &:hover {
-            background-color: @themeColor;
-            i {
-                color: #fff;
-            }
-            svg {
-                fill: #fff;
-            }
-        }
-    }
-    // .u-tabs-filter {
-    //     .ml(10px);
-    // }
-
-    .u-tab-item {
-        .size(100px,40px);
-        .flex;
-        .flex(x);
-        align-items: center;
-        .pr;
-        .pointer;
-        .fz(16px,20px);
-        // .bold(550);
-        .mr(20px);
-        // padding: 4px 10px 2px 10px;
-        // border-bottom: 2px solid transparent;
-        background-color: #fff;
-        color: #949494;
-        .r(30px);
-        // letter-spacing: 5px;
-        &.active,
-        &:hover {
-            background-color: @themeColor;
-            .u-tabs-span {
-                color: #fff;
-            }
-        }
-    }
-    .u-tabs-search {
-        .ml(20px);
-        .mr(20px);
-        .w(100%);
-        min-width: 240px;
-        max-width: 360px;
-        .u-search input {
-            border: none;
-            background-color: #fff;
-            padding: 0 40px 0 20px;
-            .r(30px);
-            .fz(16px,40px);
-            .size(100%,40px);
-            color: #000;
-            &::placeholder {
-                .fz(14px);
-                color: #b0b0b0;
-            }
-        }
-    }
-    .u-right-btn {
-        flex: 1;
-        text-align: right;
-        .u-analysis-btn {
-            .r(5px);
-            // .size(100px,40px);
-            .fz(16px);
-            font-style: normal;
-            .mr(20px);
-            background-color: #e54059;
-            border-color: #e54059;
-        }
-
-        .u-btn {
-            .r(5px);
-            // .size(100px,40px);
-            .w(120px);
-            .fz(16px);
-            font-style: normal;
-            background-color: @themeColor;
-            border-color: @themeColor;
-        }
-    }
-}
 .m-adventure-list {
     .pr;
     .u-shade-btn {
@@ -208,29 +92,7 @@
             margin-top: 0 !important;
         }
     }
-    // 顶部切换
-    .m-share-tabs {
-        .pb(10px);
-        .u-tabs {
-            .flex;
-            .flex(x);
-            flex-wrap: wrap;
-        }
-        .u-tab-item {
-            .flex;
-            .u-icon-img {
-                .size(18px);
-            }
-            .u-tabs-span {
-                .fz(12px);
-            }
-            .mb(10px);
-        }
-        .u-right-btn {
-            .pr;
-            // .mt(20px);
-        }
-    }
+
     .m-face-list {
         overflow-x: auto;
         .scrollbar(2px);
@@ -238,12 +100,6 @@
 }
 @media screen and (max-width: @phone) {
     .m-share-tabs {
-        overflow-x: auto;
-        .scrollbar(2px);
         width: calc(100% - 30px);
-        .u-tabs {
-            justify-content: flex-start;
-            flex-wrap: nowrap;
-        }
     }
 }

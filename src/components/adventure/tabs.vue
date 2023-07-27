@@ -1,28 +1,21 @@
 <template>
-    <div class="m-share-tabs">
-        <div class="u-tabs">
-            <!-- <div class="u-tabs-btn">
-                <i class="el-icon-arrow-left"></i>
+    <div class="m-share-tabs m-common-tabs">
+        <template v-for="item in body_types">
+            <div
+                :key="item.value"
+                class="u-tab"
+                @click="clickTabs(item)"
+                :class="{
+                    active: item.value == active,
+                }"
+                v-if="item.client && item.client.indexOf(client) != -1"
+            >
+                {{ item.label }}
             </div>
-            <div class="u-tabs-btn right">
-                <i class="el-icon-arrow-right"></i>
-            </div> -->
-            <div v-for="item in body_types" :key="item.value">
-                <div
-                    class="u-tab-item"
-                    @click="clickTabs(item)"
-                    :class="{
-                        active: item.value == active,
-                    }"
-                    v-if="item.client && item.client.indexOf(client) != -1"
-                >
-                    <!-- <img class="u-icon-img" :src="getThumbnail(item.label)" :alt="item.label" /> -->
-                    <span class="u-tabs-span">{{ item.label }}</span>
-                </div>
-            </div>
-            <div class="u-tabs-search">
-                <el-input placeholder="请输入搜索内容" v-model="name" suffix-icon="el-icon-search" class="u-search" />
-            </div>
+        </template>
+
+        <div class="u-search">
+            <el-input placeholder="请输入搜索内容" v-model="name" suffix-icon="el-icon-search" class="u-search-input" />
         </div>
     </div>
 </template>
@@ -76,3 +69,14 @@ export default {
     },
 };
 </script>
+<style lang="less">
+@import "~@/assets/css/common/tabs.less";
+.m-share-tabs {
+    .u-tab {
+        &.active,
+        &:hover {
+            background-color: @themeColor;
+        }
+    }
+}
+</style>

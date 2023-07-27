@@ -184,8 +184,7 @@ export default {
             }
             return this.list.length > 0 ? false : true;
         },
-        setActive(val) {
-            // console.log(val);
+        setActive(val) { 
             this.active = val;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();

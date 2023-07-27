@@ -1,16 +1,12 @@
 <template>
     <div class="p-gonggao">
-        <div class="m-nav">
-            <div
-                class="m-nav-item"
-                v-for="tab in tabs"
-                :key="tab.key"
-                :class="active === tab.key && 'is-active'"
-                @click="go(tab)"
-            >
-                {{ tab.label }}
-            </div>
-        </div>
+        <div class="m-gonggao-tabs m-common-tabs">
+            <template v-for="tab in tabs">
+                <div :key="tab.key" class="u-tab" @click="go(tab)" :class="active === tab.key && 'active'">
+                    {{ tab.label }}
+                </div>
+            </template>
+        </div> 
         <div class="m-content">
             <!-- <component :is="tab"></component> -->
             <router-view></router-view>
@@ -128,5 +124,13 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/gonggao/gonggao.less";
+@import "~@/assets/css/common/tabs.less";
+.m-gonggao-tabs {
+    .u-tab {
+        &.active,
+        &:hover {
+            background-color: @priceColor;
+        }
+    }
+}
 </style>

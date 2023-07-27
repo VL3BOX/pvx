@@ -1,20 +1,21 @@
 <template>
     <div class="m-manufacture">
-        <div class="m-manufacture-header">
+        <div class="m-manufacture-tabs m-common-tabs">
             <span
-                :class="['u-craft', item.name == craftName ? 'active' : '']"
+                :class="['u-tab', item.name == craftName ? 'active' : '']"
                 v-for="(item, i) in craftList"
                 :key="i"
                 @click="changeCraft(i)"
                 >{{ item.name }}</span
             >
-            <el-input
-                class="u-input"
-                v-model.lazy="search"
-                :placeholder="`搜索${craftName}配方`"
-                suffix-icon="el-icon-search"
-            >
-            </el-input>
+            <div class="u-search">
+                <el-input
+                    :placeholder="`搜索${craftName}配方`"
+                    v-model.lazy="search"
+                    suffix-icon="el-icon-search"
+                    class="u-search-input"
+                />
+            </div>
         </div>
         <div class="m-manufacture-body">
             <!-- 配方 -->
@@ -162,40 +163,47 @@ export default {
 </script>
 
 <style lang="less">
-.m-main{
-    .pb(20px);
-}
-.m-manufacture-header {
-    .flex;
-    gap: 20px;
-    padding: 20px 0 40px 0;
-    .u-craft {
-        .size(100px,40px);
-        .r(30px);
-        .fz(16px); 
-        .lh(40px);
-        .x;
-        .pointer;
-        padding: 0 10px;
-        background-color: #fff;
-        letter-spacing: 1px;
-        &.active {
-            background-color: #07ad36;
-            color: #fff;
-        }
-    }
-    .u-input {
-        .w(420px);
+@import "~@/assets/css/common/tabs.less";
 
-        .el-input__inner {
-            .r(20px);
-            padding: 0 20px;
-        }
-        .el-input__suffix {
-            right: 15px;
+.m-manufacture-tabs {
+    .u-tab {
+        &.active,
+        &:hover {
+            background-color: #07ad36;
         }
     }
 }
+// .m-manufacture-header {
+//     .flex;
+//     gap: 20px;
+//     padding: 20px 0 40px 0;
+//     .u-craft {
+//         .size(100px,40px);
+//         .r(30px);
+//         .fz(16px);
+//         .lh(40px);
+//         .x;
+//         .pointer;
+//         padding: 0 10px;
+//         background-color: #fff;
+//         letter-spacing: 1px;
+//         &.active {
+//             background-color: #07ad36;
+//             color: #fff;
+//         }
+//     }
+//     .u-input {
+//         .w(420px);
+
+//         .el-input__inner {
+//             .r(20px);
+//             padding: 0 20px;
+//         }
+//         .el-input__suffix {
+//             right: 15px;
+//         }
+//     }
+// }
 .m-manufacture-body {
     .flex;
     gap: 20px;

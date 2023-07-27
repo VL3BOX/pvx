@@ -1,16 +1,17 @@
 <template>
     <div class="p-homeland">
-        <div class="m-buttons">
+        <div class="m-homeland-tabs m-common-tabs">
             <a
                 href="javascript:;"
-                :class="active === item.value && 'is-active'"
+                class="u-tab"
+                :class="active === item.value && 'active'"
                 v-for="item in tabs"
                 :key="item.value"
                 @click="active = item.value"
                 >{{ item.label }}
             </a>
-            <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" target="_blank">家园蓝图</a>
-            <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" target="_blank">藏品蓝图</a>
+            <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" class="u-tab" target="_blank">家园蓝图</a>
+            <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" class="u-tab" target="_blank">藏品蓝图</a>
         </div>
         <div class="m-homeland-content">
             <!-- 家园信息 -->
@@ -73,5 +74,14 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/homeland/index.less";
+.m-homeland-tabs {
+    .u-tab {
+        &.active,
+        &:hover {
+            background-color: @homelandColor;
+        }
+    }
+}
 </style>

@@ -1,0 +1,88 @@
+@themeColor: #d16400;
+
+.m-common-tabs {
+    .flex;
+    .z(3);
+    position: sticky;
+    top: 64px;
+    background-color: #f3f5f6;
+    overflow-x: auto;
+    padding: 20px 0;
+    flex-wrap: nowrap;
+    gap: 10px;
+
+    .u-tab {
+        .pr;
+        .pointer;
+        .size(100px,40px);
+        .flex;
+        .fz(16px,20px);
+        .r(30px);
+        flex-shrink: 0;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        color: #949494;
+        &.active,
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .u-filter {
+        .pointer;
+        .size(40px);
+        .r(30px);
+        background-color: #fff;
+        svg {
+            fill: #949494;
+        }
+        &:hover {
+            i {
+                color: #fff;
+            }
+            svg {
+                fill: #fff;
+            }
+        }
+    }
+
+    .u-search {
+        .w(100%);
+        min-width: 180px;
+        flex: 1;
+        .u-search-input input {
+            .r(30px);
+            .fz(16px,40px);
+            .size(100%,40px);
+            border: none;
+            background-color: #fff;
+            padding: 0 40px 0 20px;
+            color: #000;
+            &::placeholder {
+                .fz(14px);
+                color: #b0b0b0;
+            }
+        }
+    }
+}
+
+.m-common-filter {
+    .x;
+    .flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .u-filter {
+        white-space: nowrap;
+        .el-checkbox-button__inner,
+        .el-radio-button__inner {
+            .db;
+            .r(30px);
+            border: 1px solid #dcdfe6;
+            background-color: #e1dfdf;
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}
