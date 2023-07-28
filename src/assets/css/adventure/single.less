@@ -60,22 +60,25 @@
         .u-item {
             .flex;
             .h(250px);
-            flex-shrink: 0;
-            // align-items: center;
+            gap: 20px;
+            flex-shrink: 0; 
             &.u-task-name {
-                align-items: center;
+                .ml(20px);
+                align-items: center; 
+                .u-title{
+                    .x;
+                }
             }
 
             img {
                 .size(250px);
             }
             .u-info-box {
-                .min-width(250px);
-                .pl(20px);
+                .w(250px);
                 box-sizing: border-box;
                 .u-title {
-                    // .db;
-                    .fz(36px,48px);
+                    .db;
+                    .fz(28px,48px);
                     .bold;
                 }
                 &.u-desc-box {
@@ -83,7 +86,7 @@
                     .u-title {
                         // .db;
                         padding: 40px 0 20px 0;
-                        .fz(18px, 24px);
+                        .fz(16px, 24px);
                         .bold;
                     }
                     .u-desc {
