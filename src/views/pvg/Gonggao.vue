@@ -133,4 +133,7 @@ export default {
         }
     }
 }
+.p-gonggao .m-content{
+    .pt(20px);
+}
 </style>

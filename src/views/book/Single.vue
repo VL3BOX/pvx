@@ -9,37 +9,6 @@
                 <p class="book-desc" v-html="book.Desc"></p>
             </div>
             <div class="book-detail-wrapper">
-                <div
-                    v-if="book.contentInfo"
-                    class="book-content-wrapper"
-                    :class="`book-content-wrapper-${book.ExtendProfessionID1}`"
-                >
-                    <div class="right-div"></div>
-                    <div
-                        v-if="/^\d+$/g.test(book.contentInfo)"
-                        class="book-content"
-                        :class="/^\d+$/g.test(book.contentInfo) && 'img-content'"
-                    >
-                        <img :src="iconLink(book.contentInfo, client)" :alt="iconLink(book.contentInfo, client)" />
-                    </div>
-                    <template v-else>
-                        <div ref="bookWrap" class="book-content" :class="isVertical ? 'vertical' : 'row'">
-                            <div ref="bookTitle" class="title">{{ book.Name }}</div>
-                            <div ref="bookContent" class="content" v-html="book.contentInfo"></div>
-                        </div>
-                        <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
-                            <div class="left" :class="noMore && 'disabled'" @click="toMore">
-                                <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
-                                <!-- <span>继续</span> -->
-                            </div>
-                            <div class="right" :class="noBack && 'disabled'" @click="toBack">
-                                <!-- <span>返回</span> -->
-                                <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
-                            </div>
-                        </div>
-                        <div class="switch" @click="toSwitch">{{ isVertical ? "古风" : "现代" }}</div>
-                    </template>
-                </div>
                 <div class="book-info">
                     <p class="u-subtitle">
                         <img svg-inline src="@/assets/img/book/book-info.svg" />
@@ -129,6 +98,37 @@
                                 ></item-icon>
                             </div>
                         </div>
+                    </template>
+                </div>
+                <div
+                    v-if="book.contentInfo"
+                    class="book-content-wrapper"
+                    :class="`book-content-wrapper-${book.ExtendProfessionID1}`"
+                >
+                    <div class="right-div"></div>
+                    <div
+                        v-if="/^\d+$/g.test(book.contentInfo)"
+                        class="book-content"
+                        :class="/^\d+$/g.test(book.contentInfo) && 'img-content'"
+                    >
+                        <img :src="iconLink(book.contentInfo, client)" :alt="iconLink(book.contentInfo, client)" />
+                    </div>
+                    <template v-else>
+                        <div ref="bookWrap" class="book-content" :class="isVertical ? 'vertical' : 'row'">
+                            <div ref="bookTitle" class="title">{{ book.Name }}</div>
+                            <div ref="bookContent" class="content" v-html="book.contentInfo"></div>
+                        </div>
+                        <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
+                            <div class="left" :class="noMore && 'disabled'" @click="toMore">
+                                <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
+                                <!-- <span>继续</span> -->
+                            </div>
+                            <div class="right" :class="noBack && 'disabled'" @click="toBack">
+                                <!-- <span>返回</span> -->
+                                <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
+                            </div>
+                        </div>
+                        <div class="switch" @click="toSwitch">{{ isVertical ? "古风" : "现代" }}</div>
                     </template>
                 </div>
             </div>

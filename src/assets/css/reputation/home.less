@@ -26,6 +26,7 @@
         }
     }
     .reputaion-content-wrapper {
+        .pt(20px);
         .reputation-list-wrapper {
             &:first-child .reputation-title {
                 .mt(0);
@@ -46,10 +47,6 @@
     }
 }
 @media screen and (max-width: @ipad) {
-    .m-main {
-        min-height: calc(100vh - @header-height);
-        padding: 20px 0 !important;
-    }
     .reputation-container {
         padding: 20px;
         .reputation-search {
@@ -68,10 +65,6 @@
 }
 
 @media screen and (max-width: @phone) {
-    .m-main {
-        min-height: calc(100vh - @header-height);
-        padding: 20px 10px !important;
-    }
     .reputation-container {
         padding: 0;
         .reputation-search {
@@ -99,8 +92,7 @@
         .reputation-item {
             margin-right: 0;
         }
-        .reputaion-content-wrapper {
-            margin-top: 120px;
+        .reputaion-content-wrapper { 
             .reputation-list {
                 justify-content: center;
             }

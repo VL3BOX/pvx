@@ -32,13 +32,14 @@
                         ref="recentRead"
                         :list="recentReadList"
                         :radius="0"
+                        :gap="40"
                     >
                         <template v-slot="data">
                             <BookCard :item="data.item"></BookCard>
                         </template>
                     </list-cross>
                     <div v-else class="no-cross-wrap">
-                        <div class="list">
+                        <div class="list" style="gap: 40px">
                             <BookCard :item="item" v-for="(item, i) in recentReadList" :key="item.idKey + i"></BookCard>
                         </div>
                     </div>
@@ -57,13 +58,14 @@
                         :key="professionList[index + 1].name"
                         :list="list"
                         :radius="0"
+                        :gap="40"
                     >
                         <template v-slot="data">
                             <BookCard :item="data.item"></BookCard>
                         </template>
                     </list-cross>
                     <div v-else class="no-cross-wrap">
-                        <div class="list">
+                        <div class="list" style="gap: 40px">
                             <BookCard :item="item" v-for="(item, i) in list" :key="item.idKey + i"></BookCard>
                         </div>
                     </div>

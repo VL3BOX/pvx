@@ -26,7 +26,7 @@
             }
         }
     }
-    .book-single-content { 
+    .book-single-content {
         .book-header {
             margin-bottom: 20px;
             h2,
@@ -39,17 +39,16 @@
                 font-weight: 700;
             }
             .book-desc {
-                font-size: 12px;
-                line-height: 16px;
+                .fz(12px,1.5);
             }
         }
         .book-detail-wrapper {
-            display: flex;
+            .flex;
             gap: 20px;
             margin-bottom: 40px;
             .book-content-wrapper {
                 position: relative;
-                width: 1000px;
+                // width: 1000px;
                 height: 316px;
                 background-color: #324148;
                 padding: 14px;
@@ -266,15 +265,16 @@
                 }
             }
             .book-info {
-                flex: 1;
-                position: relative;
+                .pr;
+                .w(380px);
+                flex-shrink: 0;
                 padding: 20px;
                 background-color: #fff;
                 font-size: 14px;
                 font-weight: 400;
                 color: #000000;
                 box-sizing: border-box;
-                height: 316px;
+
                 p {
                     margin: 0;
                 }
@@ -415,7 +415,6 @@
 // @ipad
 @media screen and (max-width: 1450px) {
     .book-detail-wrapper {
-        flex-wrap: wrap;
         .book-content-wrapper {
             width: 100% !important;
             .book-content {
@@ -432,7 +431,6 @@
         width: 100% !important;
     }
     .book-detail-wrapper {
-        flex-wrap: wrap;
         .book-content-wrapper {
             width: 100% !important;
             .book-content {
