@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         load() {
-            getList().then((res) => {
+            getList({per:8}).then((res) => {
                 this.list = res.data?.list || [];
             });
         },
