@@ -205,6 +205,7 @@ export default {
 //     }
 // }
 .m-manufacture-body {
+    .pt(20px);
     .flex;
     gap: 20px;
 }

@@ -292,7 +292,7 @@ export default {
                 }
             }
             .u-img {
-                .size(20px);
+                .size(30px);
             }
             .m-add {
                 .flex;
