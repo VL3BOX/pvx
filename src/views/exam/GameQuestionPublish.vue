@@ -1,7 +1,7 @@
 <template>
-    <div class="m-publish-box">
+    <div class="m-publish-box m-single-wrapper ">
         <!-- 头部 -->
-        <div class="m-back">
+        <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>
         <el-form label-position="left" label-width="80px" class="m-publish-exam">

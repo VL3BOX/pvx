@@ -1,5 +1,5 @@
 <template>
-    <div ref="bookSingleWrap" class="book-single-wrapper">
+    <div ref="bookSingleWrap" class="book-single-wrapper m-single-wrapper">
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>

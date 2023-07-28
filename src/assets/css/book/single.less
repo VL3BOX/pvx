@@ -1,32 +1,8 @@
-.c-main {
-    background-color: #f3f5f6;
-}
-.book-single-wrapper {
-    position: relative;
-    width: 100%;
-    .back-wrap {
-        position: fixed;
-        background-color: #f3f5f6;
-        padding: 20px 0;
-        top: 64px;
-        width: calc(100% - 40px);
-        z-index: 4;
-        button {
-            width: 100px;
-            height: 40px;
-            .lh(40px);
-            font-weight: 400;
-            padding: 0;
-            border: none;
-            border-radius: 30px;
-            &:focus,
-            &:hover {
-                color: @active-color;
-                background-color: rgba(@active-color, 0.1);
-            }
-        }
-    }
+@import "~@/assets/css/common/back.less";
+
+.book-single-wrapper { 
     .book-single-content {
+        .pt(20px);
         .book-header {
             margin-bottom: 20px;
             h2,
@@ -359,30 +335,7 @@
             overflow: hidden;
         }
     }
-    .m-wiki-post-panel {
-        & > div {
-            margin-bottom: 40px !important;
-        }
-    }
-    .m-wiki-post-empty {
-        margin-bottom: 40px !important;
-        color: #8a6d3b;
-        background-color: #fcf8e3;
-        border: 1px solid #faebcc;
-        padding: 8px 14px 8px 14px;
-        border-radius: 4px;
-        text-align: center;
-        letter-spacing: 2px;
-        font-size: 14px;
-    }
-    .m-wiki-signature {
-        text-align: right;
-        color: #999;
-        font-size: 12px;
-        line-height: 2;
-        border-top: 1px dashed #ddd;
-        padding: 5px 0;
-    }
+
     .m-thx {
         margin-top: 40px;
         margin-bottom: 40px;

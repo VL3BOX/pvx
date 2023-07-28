@@ -1,5 +1,5 @@
 <template>
-    <div class="p-furniture-single" v-loading="loading">
+    <div class="p-furniture-single m-single-wrapper" v-loading="loading">
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>

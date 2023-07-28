@@ -1,10 +1,10 @@
 <template>
-    <div class="v-paper-single" v-loading="loading">
-        <div class="m-back">
+    <div class="v-paper-single m-single-wrapper" v-loading="loading">
+        <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
-            <a v-if="data.id && canManage" class="u-edit" :href="editLink('paper', data.id)"
-                ><i class="el-icon-edit-outline"></i><span>编辑</span></a
-            >
+            <a v-if="data.id && canManage" class="u-edit" :href="editLink('paper', data.id)">
+                <i class="el-icon-edit-outline"></i><span>编辑</span>
+            </a>
         </div>
 
         <PaperTitle :item="data" :score="score" type="paper" />
@@ -178,6 +178,7 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/assets/css/common/back.less";
 @import "~@/assets/css/exam/exam.less";
 @import "~@/assets/css/exam/single_title.less";
 @import "~@/assets/css/exam/single_card.less";

@@ -1,12 +1,11 @@
 <template>
-    <div class="v-question-single" v-loading="loading">
-        <div class="m-back">
+    <div class="v-question-single m-single-wrapper" v-loading="loading">
+        <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
-            <a v-if="data.id && canManage" class="u-edit" :href="editLink('question', data.id)"
-                ><i class="el-icon-edit-outline"></i><span>编辑</span></a
-            >
-        </div>
-        <div class="u-title">题目</div>
+            <a v-if="data.id && canManage" class="u-edit" :href="editLink('question', data.id)">
+                <i class="el-icon-edit-outline"></i><span>编辑</span>
+            </a>
+        </div> 
         <!-- <SingleTitle :item="data" type="question" /> -->
         <SingleCard
             :fromQuestion="true"
@@ -140,7 +139,7 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/assets/css/common/back.less";
 @import "~@/assets/css/exam/exam.less";
-// @import "~@/assets/css/exam/single_title.less";
 @import "~@/assets/css/exam/single_card.less";
 </style>

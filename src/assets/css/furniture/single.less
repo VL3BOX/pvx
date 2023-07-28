@@ -1,28 +1,6 @@
+@import "~@/assets/css/common/back.less";
+
 .p-furniture-single {
-    position: relative;
-    width: 100%;
-    .back-wrap {
-        position: fixed;
-        background-color: #f3f5f6;
-        padding: 20px 0;
-        top: 64px;
-        width: calc(100% - 40px);
-        z-index: 4;
-        button {
-            width: 100px;
-            height: 40px;
-            .lh(40px);
-            font-weight: 400;
-            padding: 0;
-            border: none;
-            border-radius: 30px;
-            &:focus,
-            &:hover {
-                color: @furnitureColor;
-                background-color: rgba(@furnitureColor, 0.1);
-            }
-        }
-    }
     .cross-wrapper {
         .cross {
             &.active {
@@ -57,7 +35,8 @@
     }
 }
 
-.m-furniture-content { 
+.m-furniture-content {
+    .pt(20px);
     .mb(20px);
     .flex;
     gap: 20px;

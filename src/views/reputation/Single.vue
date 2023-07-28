@@ -1,5 +1,5 @@
 <template>
-    <div class="m-reputation-wrapper">
+    <div class="m-reputation-wrapper m-single-wrapper">
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>
