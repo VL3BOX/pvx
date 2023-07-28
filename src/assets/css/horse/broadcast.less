@@ -1,6 +1,5 @@
 .m-horse-broadcast {
-    margin-bottom: 40px;
-    min-height: 492px;
+    .mb(40px);
     .m-horse-broadcast__header {
         .flex;
         align-items: flex-end;
@@ -36,41 +35,41 @@
     }
     .m-horse-broadcast__list {
         .m-horse-broadcast__item {
-            width: 520px;
-            height: 430px;
+            .size(346px,297px);
+            .r(10px);
             padding: 20px;
-            border-radius: 10px;
             background-color: #fff;
             box-sizing: border-box;
             .u-horse-map {
-                width: 480px;
-                height: 300px;
-                border-radius: 10px;
+                .size(306px,192px);
+                .r(10px);
                 overflow: hidden;
             }
             .u-horse-mapinfo {
                 .flex;
+                .mt(20px);
                 justify-content: space-between;
-                margin-top: 10px;
+                gap: 10px;
                 .u-horses {
+                    .scrollbar;
+                    .pb(6px);
                     max-width: 300px;
                     overflow-x: auto;
+
                     .u-horses-content {
                         .flex;
                         gap: 10px;
                     }
                     .u-horse {
+                        .r(10px);
+                        .size(45px);
                         flex-shrink: 0;
-                        width: 80px;
-                        height: 80px;
-                        border-radius: 10px;
                         background-image: url("../../img/horse_item_bg_sm.jpg");
                     }
                     img {
-                        width: 80px;
-                        height: 80px;
-                        border-radius: 10px;
-                        cursor: pointer;
+                        .pointer;
+                        .r(10px);
+                        .size(45px);
                         transition: all 0.5s;
                         &:hover {
                             transform: scale(1.1);
@@ -80,11 +79,13 @@
                 .u-times-info {
                     .flex;
                     flex-direction: column;
-                    justify-content: space-between;
-                    padding-right: 10px;
                     font-weight: 700;
-                    font-size: 24px;
-                    line-height: 32px;
+                    .u-map-name {
+                        .fz(18px,1.5);
+                    }
+                    .u-times {
+                        .fz(14px);
+                    }
                     .u-times-lately {
                         color: #f94343;
                     }

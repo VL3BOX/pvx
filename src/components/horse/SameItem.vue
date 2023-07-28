@@ -6,7 +6,7 @@
         </div>
         <div class="info-wrap">
             <div class="info-item name">{{ item.Name }}</div>
-            <div class="info-item name">ID: {{ item.ID }}</div>
+            <div class="info-item id">ID: {{ item.ID }}</div>
             <div class="info-item u-attr-wrap">
                 <div class="u-attr-content">
                     <div class="u-attr" v-for="(attr, index) in item.MagicAttributes || []" :key="index">

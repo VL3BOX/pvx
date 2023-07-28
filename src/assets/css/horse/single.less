@@ -30,7 +30,7 @@
     .main-info-wrapper {
         position: relative;
         width: 100%;
-        margin-top: 75px;
+        margin-top: 95px;
         margin-bottom: 40px;
         & > .title {
             margin-bottom: 20px;
@@ -44,42 +44,48 @@
             display: flex;
             gap: 20px;
             .img-wrap {
-                width: 450px;
-                height: 450px;
+                .size(390px);
+                .r(10px);
                 background-color: #fff;
                 padding: 20px;
-                border-radius: 10px;
                 box-sizing: border-box;
                 .u-image {
-                    width: 410px;
-                    height: 410px;
+                    .size(350px);
+                    .r(10px);
                     background-image: url("../../img/horse_item_bg.jpg");
-                    border-radius: 10px;
                 }
             }
             .info-wrap {
+                .pr;
+                .flex;
+                .r(10px);
+                flex-direction: column;
+                gap: 20px;
                 flex: 1;
-                position: relative;
                 padding: 20px;
                 background-color: #fff;
-                border-radius: 10px;
-                font-size: 16px;
                 font-weight: 700;
                 color: #24292e;
-                .name {
-                    font-size: 28px;
-                    margin-bottom: 20px;
-                    height: 42px;
-                    line-height: 42px;
-                }
-                .desc {
-                    margin-bottom: 10px;
-                    font-weight: normal;
-                }
-                .info-list {
-                    margin-top: 20px;
-                    .title {
-                        margin-bottom: 10px;
+                .info-item {
+                    .flex;
+                    .fz(14px,1.2);
+                    flex-direction: column;
+                    .u-id {
+                        .fz(12px);
+                        font-weight: 400;
+                    }
+                    .u-name {
+                        .fz(28px);
+                    }
+                    .u-title {
+                        .fz(16px);
+                    }
+                    .u-list {
+                        .flex;
+                        gap: 10px;
+                        .u-attr-icon {
+                            .size(38px);
+                        }
                     }
                     .no-data {
                         color: #aaa;
@@ -90,26 +96,18 @@
                         background-color: #000;
                         border-radius: 10px;
                     }
+                    &.u-desc {
+                        gap: 10px;
+                    }
                 }
             }
         }
-        .info-list {
-            .list {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-                min-width: 360px;
-                .u-attr {
-                    cursor: pointer;
-                    margin-right: 10px;
-                }
-            }
-            .basic-list {
-                font-size: 13px;
-                color: #00d24b;
-            }
-        }
+        // .info-list {
+        //     .basic-list {
+        //         font-size: 13px;
+        //         color: #00d24b;
+        //     }
+        // }
         .u-link {
             position: absolute;
             right: 30px;
@@ -120,11 +118,9 @@
     .same-list-container {
         margin-bottom: 40px;
         .title {
-            margin-bottom: 20px;
-            font-size: 28px;
+            .fz(24px,42px);
+            .mb(20px);
             font-weight: 700;
-            height: 42px;
-            line-height: 42px;
         }
         .same-list-wrapper {
             position: relative;
@@ -174,11 +170,45 @@
     .m-thx {
         margin-top: 20px;
     }
+
+    // 同类坐骑
+    .m-horse-list .list {
+        .same-item {
+            height: 110px;
+            padding: 10px;
+            .img-wrap {
+                .size(90px);
+                .u-image {
+                    .full;
+                }
+            }
+            .info-wrap {
+                height: auto;
+                .name {
+                    .fz(16px);
+                    margin: 0;
+                }
+                .id {
+                    .fz(12px);
+                }
+            }
+            .u-attr-content {
+                .flex;
+                gap: 10px;
+                .u-attr {
+                    margin: 0;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: @phone) {
     .horse-single-wrapper {
         overflow-x: hidden;
+        .main-info-wrapper {
+            .mt(0);
+        }
         .main-info-wrap {
             flex-direction: column;
             .img-wrap {

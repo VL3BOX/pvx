@@ -5,31 +5,31 @@
         </div>
         <div class="horse-single-content" v-loading="loading">
             <!-- 主要信息 -->
-            <div class="main-info-wrapper">
-                <div v-if="item.ID" class="title">{{ item.Name }} 的信息</div>
+            <div class="main-info-wrapper"> 
                 <div v-if="item.ID" class="main-info-wrap">
-                    <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
-                        <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
-                        <!-- <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon> -->
-                    </div>
                     <div class="info-wrap">
-                        <div class="info-item">ID: {{ item.ID }}</div>
-                        <div class="info-item name">{{ item.Name }}</div>
-                        <div class="info-item desc">
-                            分类:
-                            {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
+                        <div class="info-item">
+                            <span class="u-id">ID: {{ item.ID }}</span>
+                            <span class="u-name">{{ item.Name }}</span>
                         </div>
-                        <div class="info-item desc">品质: {{ item.Level }}</div>
-                        <div v-if="type !== '2'" class="info-item desc">跑速: {{ speedName }}</div>
-                        <div v-if="type !== '2'" class="info-item desc">饲料: {{ feedName }}</div>
-                        <div class="info-list">
-                            <div class="title">基础属性</div>
+                        <div class="info-item u-desc">
+                            <span>
+                                分类:
+                                {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
+                            </span>
+                            <span>品质: {{ item.Level }}</span>
+                            <span v-if="type !== '2'">跑速: {{ speedName }}</span>
+                            <span v-if="type !== '2'">饲料: {{ feedName }}</span>
+                        </div>
+
+                        <div class="info-item u-desc">
+                            <div class="u-title">基础属性</div>
                             <!-- <div v-if="basicAttrs.length" class="basic-list">
                                 <div class="item" v-for="item in basicAttrs" :key="item.id">
                                     {{ item.desc }}
                                 </div>
                             </div> -->
-                            <div v-if="basicAttrs.length" class="list">
+                            <div v-if="basicAttrs.length" class="u-list">
                                 <div class="u-attr" v-for="attr in basicAttrs" :key="attr.id">
                                     <el-tooltip trigger="hover" placement="top">
                                         <div class="u-attr-pop" slot="content">
@@ -49,9 +49,9 @@
                             </div>
                             <div v-else class="no-data">无</div>
                         </div>
-                        <div class="info-list">
+                        <div class="info-item u-desc">
                             <div class="title">特殊属性</div>
-                            <div v-if="magicAttrs.length" class="list">
+                            <div v-if="magicAttrs.length" class="u-list">
                                 <div class="u-attr" v-for="(attr, index) in magicAttrs" :key="index">
                                     <el-tooltip trigger="hover" placement="top">
                                         <div class="u-attr-pop" slot="content">
@@ -71,13 +71,17 @@
                             物品信息
                         </a>
                     </div>
+                    <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
+                        <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
+                        <!-- <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon> -->
+                    </div>
                 </div>
                 <div v-else>无此信息</div>
             </div>
             <!-- 同类坐骑 - 普通坐骑 -->
             <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
                 <div class="title">同类坐骑</div>
-                <list-cross :width="30" :list="sameList">
+                <list-cross :width="30" :list="sameList" class="m-horse-list">
                     <template v-slot="data">
                         <same-item :item="data.item" @click.native="getHorse(data.item.ItemID)"></same-item>
                     </template>

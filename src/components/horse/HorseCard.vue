@@ -12,7 +12,7 @@
         <!-- <div class="u-desc">{{ getType(item) + (item.SubType === 15 ? (" · " + item.modeName + " · " + item.speed) : "") }}</div> -->
         <!-- <div class="u-desc">等级: {{ item.Level }}</div> -->
         <!-- <div v-if="item.SubType === 15" class="u-desc">{{ item.MoveSpeedDesc }}</div> -->
-        <div class="u-desc">
+        <div class="u-img">
             <!-- <horse-cross :width="15" :gap="2" :radius="3" :list="item.MagicAttributes || []">
                 <template v-slot="data">
                     <el-tooltip trigger="hover" placement="top">
