@@ -77,25 +77,23 @@ export default {
                 line-height: 42px;
             }
             .m-systemgoods-list {
-                display: flex;
+                .flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-
                 gap: 20px;
-                .m-systemgoods-list-item {
-                    display: flex;
-                    align-items: center;
-                    width: 384px;
-                    height: 100px;
-                    padding: 0 10px;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    cursor: pointer;
 
+                .m-systemgoods-list-item {
+                    .flex;
+                    .pointer;
+                    .size(286px,68px);
+                    .r(10px);
+                    align-items: center;
+                    padding: 10px;
+                    background-color: #fff;
                     gap: 10px;
+
                     .u-icon {
-                        width: 80px;
-                        height: 80px;
+                        .size(48px);
                     }
                     .m-systemgoods-list-item-info {
                         display: flex;
@@ -103,43 +101,29 @@ export default {
                         justify-content: space-between;
                         width: 100%;
                         height: 100%;
-                        padding: 10px 0;
                         .m-systemgoods-list-item-label {
-                            flex: 1;
-                            width: 100%;
-                            padding-top: 7.5px;
-                            font-size: 24px;
+                            .flex;
+                            .full;
+                            .fz(14px,1.5);
+                            flex-direction: column;
+                            justify-content: space-between;
                             font-weight: 700;
-                            line-height: 32px;
                         }
                         .m-systemgoods-list-item-money {
-                            flex: 1;
-                            width: 100%;
-                            font-size: 24px;
-                            font-weight: 700;
-                            line-height: 32px;
-                            text-align: right;
                             .is-null {
                                 color: #999;
-                                font-size: 12px;
                                 font-weight: normal;
+                                .fz(14px);
                             }
                             .c-game-price {
-                                display: flex;
-                                justify-content: flex-end;
+                                .flex;
                                 align-items: center;
-                                width: 100%;
-                                height: 100%;
-                                font-size: 20px;
-                                font-weight: 700;
-                                line-height: 26px;
+                                gap: 10px;
 
-                                gap: 4px;
                                 & > span {
-                                    display: flex;
+                                    .flex;
                                     justify-content: flex-end;
                                     align-items: center;
-
                                     gap: 4px;
                                 }
                             }

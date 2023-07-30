@@ -130,7 +130,6 @@ export default {
                                     .flex;
                                     justify-content: flex-end;
                                     align-items: center;
-
                                     gap: 4px;
                                 }
                             }

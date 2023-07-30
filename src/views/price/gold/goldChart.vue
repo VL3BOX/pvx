@@ -1,28 +1,35 @@
 <template>
-  <div class="m-price-chart-box" ref="chartBox">
-    <div class="legends">
-      <div v-for="(item,index) in currentDataList" :key="index" :class="{loading}" :style="{background:colorMap[item.key]}" @mouseover="heightLight(index)" @mouseout="blur(index)" class="legends-item">
-        <div class="item-header">
-          <div class="item-title">{{item.name}}</div>
+    <div class="m-price-chart-box" ref="chartBox">
+        <div class="legends">
+            <div
+                v-for="(item, index) in currentDataList"
+                :key="index"
+                :class="{ loading }"
+                :style="{ background: colorMap[item.key] }"
+                @mouseover="heightLight(index)"
+                @mouseout="blur(index)"
+                class="legends-item"
+            >
+                <div class="item-title">{{ item.name }}</div>
+
+                <div class="item-data">
+                    <div>
+                        <div class="data-value">{{ item.beforeYesterday }}</div>
+                        <div class="data-label">前日</div>
+                    </div>
+                    <div>
+                        <div class="data-value">{{ item.yesterday }}</div>
+                        <div class="data-label">昨日</div>
+                    </div>
+                    <div>
+                        <div class="data-value">{{ item.lastDay }}</div>
+                        <div class="data-label">今日</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="item-data">
-          <div>
-            <div class="data-value">{{item.beforeYesterday}}</div>
-            <div class="data-label">前日</div>
-          </div>
-          <div>
-            <div class="data-value">{{item.yesterday}}</div>
-            <div class="data-label">昨日</div>
-          </div>
-          <div>
-            <div class="data-value">{{item.lastDay}}</div>
-            <div class="data-label">今日</div>
-          </div>
-        </div>
-      </div>
+        <div class="myChart" ref="chart"></div>
     </div>
-    <div class="myChart" ref="chart"></div>
-  </div>
 </template>
 <script>
 import * as echarts from "echarts";
@@ -277,55 +284,40 @@ export default {
 </script>
 <style lang="less">
 .m-price-chart-box {
-    display: flex;
-    user-select: none;
+    .flex;
+    flex-direction: column; 
     gap: 20px;
     .legends {
-        display: flex;
-        flex-direction: column;
+        .flex;
+        .size(100%,108px);
+        .scrollbar(2px);
+        overflow-x: auto;
+        overflow-y: hidden;
         gap: 20px;
         .legends-item {
-            display: flex;
+            .flex; 
+            .size(348px,98px);
+            .r(10px);
+            user-select: none;
+            flex-shrink: 0;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 232px;
-            min-height: 136px;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-
+            box-sizing: border-box;
+            padding: 10px;
             gap: 10px;
+
             &.loading {
                 background: #fff;
             }
-            .item-header {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 48px;
-
-                gap: 20px;
-                .item-title {
-                    color: #fff;
-                    font-family: "Microsoft YaHei";
-                    font-size: 36px;
-                    font-weight: bold;
-                    line-height: 48px;
-                }
-                .item-logo {
-                    order: 1;
-                    width: 50px;
-                    height: 50px;
-                }
+            .item-title {
+                .bold;
+                .fz(24px);
+                color: #fff;
+                font-family: "Microsoft YaHei";
             }
             .item-data {
-                display: flex;
+                .flex;
                 flex-direction: row;
                 justify-content: space-between;
-                width: 100%;
                 & > div {
                     display: flex;
                     flex-direction: column;
@@ -345,7 +337,7 @@ export default {
         }
     }
     .myChart {
-        flex: 1;
+        .size(100%,760px);
         height: 760px;
         padding: 20px;
         background-color: #fff;
