@@ -113,8 +113,7 @@ export default {
     background-color: transparent;
     transform: translateY(-10px);
 }
-</style>
-<style lang="less" scoped>
+
 .m-item-icon {
     .flex;
     align-items: center;
@@ -139,18 +138,17 @@ export default {
 }
 .u-item-icon {
     .pr;
-    .dbi;
+    .db;
 
     .u-border,
     .u-border-quest {
         .pa;
+        .full;
+        .z(2);
         top: 0;
-        left: 0;
-        .w(100%);
-        .h(100%);
+        left: 0; 
         box-sizing: border-box;
         background-size: contain;
-        .z(2);
     }
 
     .u-border-quest {
@@ -162,6 +160,7 @@ export default {
         .db;
         .z(1);
         .size(48px);
+        flex-shrink: 0;
     }
 }
 </style>

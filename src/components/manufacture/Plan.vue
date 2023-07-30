@@ -1,49 +1,54 @@
 <template>
     <el-dialog :title="plan.title" :visible.sync="show" custom-class="m-plan-dialog" @close="close">
-        <!-- 内容备注 -->
-        <div class="m-plan-description">
-            <span class="u-time">最后更新于 <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
-            <span class="u-title"><b>备注：</b> {{ plan.description || "无" }}</span>
-        </div>
-        <!-- 物品 -->
-        <div class="m-plan-item" v-if="plan.type == '1'">
-            <template v-for="(item, index) in plan.relation">
-                <div class="m-border" :key="index" v-if="item.data && item.data.length">
-                    <div class="u-title" v-if="item.title">{{ item.title }}</div>
-                    <div class="m-content">
-                        <router-link
-                            class="u-item"
-                            v-for="(el, key) in item.data"
-                            :key="key"
-                            :to="{ name: 'view', params: { item_id: el.id } }"
-                        >
-                            <span class="u-img">
-                                <itemIcon :item="el" />
-                                <span class="u-count">{{ el.count }}</span>
-                            </span>
-                            <span class="u-name" :class="`quality-${el.Quality}`"> {{ el.Name }}</span>
-                        </router-link>
-                    </div>
-                </div>
-            </template>
-        </div>
-        <!-- 装备 -->
-        <div class="m-border m-plan-equips" v-else-if="plan.type == '2'">
-            <Equip :data="plan" />
-            <div class="u-content">
-                <div class="u-list" v-for="(list, index) in equipList" :key="index">
-                    <div class="u-item" v-for="(item, key) in list" :key="key">
-                        <span class="u-title"> {{ item.label }}</span>
-                        <div v-if="item.list.length">
-                            <itemIcon
-                                class="u-equip"
-                                v-for="(eq, i) in item.list"
-                                :key="i"
-                                :has_title="true"
-                                :item="eq"
-                            />
+        <div class="m-dialog-content" v-loading="loading">
+            <!-- 内容备注 -->
+            <div class="m-plan-description">
+                <span class="u-time">
+                    <span>最后更新于 <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
+                    <span class="u-del" @click="deletePlan(planId)">删除清单</span>
+                </span>
+                <span class="u-title"><b>备注：</b> {{ plan.description || "无" }}</span>
+            </div>
+            <!-- 物品 -->
+            <div class="m-plan-item" v-if="plan.type == '1'">
+                <template v-for="(item, index) in plan.relation">
+                    <div class="m-border" :key="index" v-if="item.data && item.data.length">
+                        <div class="u-title" v-if="item.title">{{ item.title }}</div>
+                        <div class="m-content">
+                            <router-link
+                                class="u-item"
+                                v-for="(el, key) in item.data"
+                                :key="key"
+                                :to="{ name: 'view', params: { item_id: el.id } }"
+                            >
+                                <span class="u-img">
+                                    <itemIcon :item="el" />
+                                    <span class="u-count">{{ el.count }}</span>
+                                </span>
+                                <span class="u-name" :class="`quality-${el.Quality}`"> {{ el.Name }}</span>
+                            </router-link>
                         </div>
-                        <div v-else class="u-equip-null">- 暂无物品 -</div>
+                    </div>
+                </template>
+            </div>
+            <!-- 装备 -->
+            <div class="m-border m-plan-equips" v-else-if="plan.type == '2'">
+                <Equip :data="plan" />
+                <div class="m-content">
+                    <div class="u-list" v-for="(list, index) in equipList" :key="index">
+                        <div class="u-item" v-for="(item, key) in list" :key="key">
+                            <span class="u-title"> {{ item.label }}</span>
+                            <div v-if="item.list.length">
+                                <itemIcon
+                                    class="u-equip"
+                                    v-for="(eq, i) in item.list"
+                                    :key="i"
+                                    :has_title="true"
+                                    :item="eq"
+                                />
+                            </div>
+                            <div v-else class="u-equip-null">- 暂无物品 -</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,11 +57,10 @@
 </template>
 <script>
 import { getItemPlanID, delItemPlan, searchItemsID } from "@/service/plan.js";
-import { iconLink } from "@jx3box/jx3box-common/js/utils";
-import { __Links, default_avatar } from "@jx3box/jx3box-common/data/jx3box.json";
 import { ts2str } from "@jx3box/jx3box-common/js/utils";
 import itemIcon from "./ItemIcon.vue";
 import Equip from "./Equip.vue";
+import Bus from "@/store/bus.js";
 export default {
     name: "Plan",
     props: ["planId", "visible"],
@@ -66,7 +70,6 @@ export default {
             loading: false,
             plan: "",
             date_format: ts2str,
-            default_avatar,
             equipList: [
                 [
                     { title: "melee_weapon", label: "武器", AucGenre: 1, list: [] },
@@ -100,16 +103,13 @@ export default {
                 this.close();
             },
         },
-        type() {
-            return 1;
-        },
-        isEditor() {
-            return User.isEditor();
-        },
     },
     watch: {
-        planId(val) {
-            val && this.getItemData();
+        planId: {
+            immediate: true,
+            handler: function (val) {
+                val && this.getItemData();
+            },
         },
     },
     methods: {
@@ -117,8 +117,7 @@ export default {
         getItemData() {
             this.loading = true;
             getItemPlanID(this.planId)
-                .then((res) => {
-                    console.log(res);
+                .then((res) => { 
                     this.converted(res);
                     if (res.type == 2) this.toEquipList(res.relation);
                 })
@@ -224,10 +223,6 @@ export default {
             obj = this.equipItem(obj);
             this.plan.relation = obj;
         },
-        // 编辑清单
-        editPlan(planId) {
-            this.$router.push({ name: "plan_edit", params: { plan_id: planId } });
-        },
         // 删除清单
         deletePlan(planId) {
             this.$confirm("确认是否删除该物品清单？", "提示", {
@@ -237,17 +232,12 @@ export default {
             }).then(() => {
                 delItemPlan(planId).then(() => {
                     this.$message.success("删除成功");
-                    bus.emit("plan_list_refresh");
-                    this.$router.push({ name: "plan_list" });
+                    this.$emit("close");
                 });
             });
         },
-
-        iconLink,
-        getUserInfo: function (plan, key) {
-            return plan?.user_info?.[key];
-        },
         close() {
+            Bus.$emit("update");
             this.$emit("close");
         },
     },

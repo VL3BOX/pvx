@@ -1,9 +1,13 @@
 .m-plan-dialog {
+    .w(800px);
     .el-dialog__body {
         .pt(0);
+    }
+    .m-dialog-content {
         .flex;
         flex-direction: column;
         gap: 20px;
+        min-height: 300px;
     }
 
     .m-plan-description {
@@ -13,31 +17,39 @@
         color: #3d454d;
         .u-time {
             .fz(12px);
-            opacity: 0.5;
+            .color(#999);
         }
         .u-title b {
             .bold;
             .fz(16px);
+        }
+        .u-del {
+            .ml(20px);
+            .color(#007eff);
+            .pointer;
+            &:hover {
+                filter: brightness(110%);
+            }
         }
     }
 
     .m-plan-item {
         .flex;
         flex-direction: column;
-        gap:20px;
+        gap: 20px;
         .m-border {
             .flex;
             .r(10px);
             flex-direction: column;
             gap: 20px;
-            padding: 20px;
+            padding: 10px 20px;
             border: 1px solid #eee;
             background-color: #f9f9f9;
             .m-content {
                 .flex;
                 flex-wrap: wrap;
-                gap:10px;
-            } 
+                gap: 10px;
+            }
             .u-title {
                 .fz(16px,2);
                 .bold;
@@ -46,18 +58,18 @@
             }
 
             .u-item {
-                .flex; 
+                .flex;
                 margin: 0 20px 10px 0;
                 flex-direction: column;
                 align-items: center;
-                gap:5px;
-                
+                gap: 5px;
+
                 .u-name {
                     .fz(12px);
                 }
             }
             .u-img {
-                .pr; 
+                .pr;
                 .u-count {
                     .pa;
                     .rb(0,0);
@@ -78,13 +90,17 @@
     // 装备
     .m-plan-equips {
         padding: 30px 0 0 0;
-        .u-content {
+        .m-content {
             .flex;
-            padding: 30px 20px;
+            .pt(40px);
+            flex-direction: row;
+            gap: 10px;
+        }
+        .m-item-icon {
+            .fz(12px);
         }
         .u-list {
             width: 25%;
-            .mr(10px);
             .u-item {
                 .r(5px);
                 .mb(10px);

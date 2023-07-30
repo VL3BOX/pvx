@@ -172,42 +172,14 @@ export default {
             background-color: #07ad36;
         }
     }
-}
-// .m-manufacture-header {
-//     .flex;
-//     gap: 20px;
-//     padding: 20px 0 40px 0;
-//     .u-craft {
-//         .size(100px,40px);
-//         .r(30px);
-//         .fz(16px);
-//         .lh(40px);
-//         .x;
-//         .pointer;
-//         padding: 0 10px;
-//         background-color: #fff;
-//         letter-spacing: 1px;
-//         &.active {
-//             background-color: #07ad36;
-//             color: #fff;
-//         }
-//     }
-//     .u-input {
-//         .w(420px);
-
-//         .el-input__inner {
-//             .r(20px);
-//             padding: 0 20px;
-//         }
-//         .el-input__suffix {
-//             right: 15px;
-//         }
-//     }
-// }
+} 
 .m-manufacture-body {
     .pt(20px);
     .flex;
+    .pb(20px);
+    overflow-x: auto;
     gap: 20px;
+
 }
 .m-manufacture-title {
     .flex;
