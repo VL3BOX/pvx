@@ -125,10 +125,8 @@ export default {
                     const p = getItemPlanID(id);
                     allPromises.push(p);
                 });
-                Promise.all(allPromises).then((res) => {
-                    this.myFollowPlan = res.map((item) => {
-                        return item.data.data;
-                    });
+                Promise.all(allPromises).then((res) => { 
+                    this.myFollowPlan = res || [];
                     this.getMyFollowGoodsPrice();
                 });
                 this.loading = false;
