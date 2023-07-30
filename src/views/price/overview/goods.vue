@@ -85,7 +85,6 @@ export default {
             this.loading = true;
             getMyFollowList().then((res) => {
                 if (res.data.data) {
-                    console.log(res.data.data, "res.data.data,getMyFollowList");
                     this.myFollowData = res.data.data.split(",").map((item) => +item);
                 } else {
                     this.myFollowData = [];
@@ -96,9 +95,7 @@ export default {
                     allPromises.push(p);
                 });
                 Promise.all(allPromises).then((res) => {
-                    this.myFollowPlan = res.map((item) => {
-                        return item.data.data;
-                    });
+                    this.myFollowPlan = res || [];
                     this.getMyFollowGoodsPrice();
                 });
                 this.loading = false;
@@ -107,17 +104,18 @@ export default {
         getMyFollowGoodsPrice() {
             const ids = [];
             const idsMap = {};
-            this.myFollowPlan.forEach((plan) => {
-                plan.relation.forEach((item) => {
-                    item.data.forEach((good) => {
-                        const id = good.id;
-                        if (this.priceMap[id] == undefined && idsMap[id] == undefined) {
-                            ids.push(id);
-                            idsMap[id] = true;
-                        }
+            this.myFollowPlan?.length &&
+                this.myFollowPlan.forEach((plan) => {
+                    plan?.relation.forEach((item) => {
+                        item?.data.forEach((good) => {
+                            const id = good.id;
+                            if (this.priceMap[id] == undefined && idsMap[id] == undefined) {
+                                ids.push(id);
+                                idsMap[id] = true;
+                            }
+                        });
                     });
                 });
-            });
             const itemIds = ids.join(",");
             getServerPriceData({
                 itemIds,

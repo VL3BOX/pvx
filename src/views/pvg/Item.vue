@@ -31,7 +31,7 @@
                             </span>
                             <span class="u-price">
                                 <span class="u-trending" :class="showItemTrendingClass(item)">{{
-                                        showItemTrending(item)
+                                    showItemTrending(item)
                                 }}</span>
                                 <template v-if="item.sub_days_0_price">
                                     <span>今日：</span>
@@ -41,9 +41,11 @@
                                     <span>昨日：</span>
                                     <GamePrice :price="item.sub_days_1_price" />
                                 </template>
-                                <template v-else-if="
-                                    !item.sub_days_0_price && !item.sub_days_1_price && item.sub_days_2_price
-                                ">
+                                <template
+                                    v-else-if="
+                                        !item.sub_days_0_price && !item.sub_days_1_price && item.sub_days_2_price
+                                    "
+                                >
                                     <span>前日：</span>
                                     <GamePrice :price="item.sub_days_2_price" />
                                 </template>
@@ -56,7 +58,14 @@
             <!-- </div> -->
         </div>
         <div class="m-price-empty" v-else>
-            <el-alert class="u-alert" title="没有对应的物品" type="info" center show-icon @close="close_alert"></el-alert>
+            <el-alert
+                class="u-alert"
+                title="没有对应的物品"
+                type="info"
+                center
+                show-icon
+                @close="close_alert"
+            ></el-alert>
         </div>
     </div>
 </template>
@@ -110,7 +119,7 @@ export default {
             })
                 .then((data) => {
                     data = data.data;
-                    const arr = Object.values(data.data) || []
+                    const arr = Object.values(data.data) || [];
                     this.groups = arr;
                     this.allGroups = arr;
                 })
@@ -121,26 +130,26 @@ export default {
         goItemPage: function (id) {
             let host = location.origin;
             window.open(`${host}/item/view/${id}`, "_blank");
-            sessionStorage.setItem('server_name', this.server)
+            sessionStorage.setItem("server_name", this.server);
         },
         //搜索物品
         search_data() {
-            let arr = []
-            let goodsArr = []
+            let arr = [];
+            let goodsArr = [];
             if (this.search) {
-                this.allGroups.forEach(item => {
-                    goodsArr = item.items.filter(goodsItem => goodsItem.label.indexOf(this.search) !== -1)
+                this.allGroups.forEach((item) => {
+                    goodsArr = item.items.filter((goodsItem) => goodsItem.label.indexOf(this.search) !== -1);
                     if (goodsArr.length > 0) {
                         arr.push({
                             ...item,
-                            items: goodsArr
-                        })
+                            items: goodsArr,
+                        });
                     }
-                })
+                });
             } else {
-                arr = this.allGroups
+                arr = this.allGroups;
             }
-            return arr
+            return arr;
             // this.groups = this.search ? this.allGroups.map(item => {
             //     return {
             //         ...item,
@@ -150,7 +159,7 @@ export default {
         },
         //关闭提示框
         close_alert() {
-            this.search = ''
+            this.search = "";
         },
         icon_url: function (id) {
             return iconLink(id, this.client);
@@ -189,8 +198,7 @@ export default {
         },
         search: {
             immediate: true,
-            handler(val, oldval) {
-                console.log(val, oldval);
+            handler() {
                 this.search_data();
             },
             deep: true,

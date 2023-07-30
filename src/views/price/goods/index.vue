@@ -30,7 +30,7 @@ import {
     getServerPriceData,
     getUserInfo,
     getMyFollowList,
-    setMyFollowList, 
+    setMyFollowList,
 } from "@/service/price.js"; // 系统关注物品类型
 import { getItemPlanID } from "@/service/plan.js";
 import systemGoodList from "./systemGoodList.vue";

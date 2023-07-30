@@ -66,8 +66,7 @@ export default {
                         Name: el.Name,
                     });
                 });
-            });
-            console.log(this.list);
+            }); 
             materials = this.merge(materials);
 
             let date = showTime(new Date());

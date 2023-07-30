@@ -61,8 +61,7 @@ export default {
             const type = data.szRewardType;
             let str = data.szOpenRewardPath;
             const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
-            if (type == "school") str = `reward/open/${name}/school_${this.school}_open`;
-            console.log();
+            if (type == "school") str = `reward/open/${name}/school_${this.school}_open`; 
             if (type == "camp") {
                 str = `reward/open/${name}/camp_${this.camp}_open`;
             }

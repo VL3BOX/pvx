@@ -16,15 +16,7 @@
                 <div class="m-price-goods-empty" @click="goItem">还没有清单，<span class="strong">去创建</span></div>
             </div>
         </div>
-        <el-pagination
-            @current-change="getPlanList"
-            background
-            layout="prev, pager, next"
-            :total="query.total"
-            :page-size.sync="query.per"
-            :current-page.sync="query.page"
-        >
-        </el-pagination>
+
         <span slot="footer" class="dialog-footer">
             <el-button @click="$emit('close')">取 消</el-button>
             <el-button type="primary" @click="setMyFollowList">确 定</el-button>
@@ -42,11 +34,6 @@ export default {
         return {
             myPlanList: [],
             dialogVisible: true,
-            query: {
-                page: 1, // 页码
-                per: 10, // 单页条数
-                total: 0,
-            },
             loading: false,
         };
     },
@@ -56,13 +43,12 @@ export default {
         },
         getPlanList() {
             this.loading = true;
-            getMyPlans(this.query).then((res) => {
+            getMyPlans({ no_page: true }).then((res) => {
                 this.loading = false;
-                this.myPlanList = res.data.data.list;
+                this.myPlanList = res.reverse() || [];
                 this.myPlanList.forEach((item) => {
                     this.$set(item, "checked", this.followIdList.includes(item.id));
                 });
-                this.query.total = res.data.data.total;
             });
         },
         choiceGroup(group) {
@@ -82,7 +68,7 @@ export default {
         },
         goItem() {
             let host = location.origin;
-            window.open(`${host}/item`);
+            window.open(`${host}/pvg/manufacture`);
         },
     },
     mounted() {

@@ -322,8 +322,7 @@ export default {
             }
         },
         loadList() {
-            this.getList(this.selected, false).then((data) => {
-                console.log(data);
+            this.getList(this.selected, false).then((data) => { 
                 this.list = data.list;
                 this.total = data.total;
                 this.totalPages = data.pages;

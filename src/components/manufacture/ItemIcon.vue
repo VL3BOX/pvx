@@ -82,8 +82,7 @@ export default {
             if (item.IsQuest > 0) return `url(${__imgPath}image/item/renwu.png)`;
             return "";
         },
-        icon_url: function (id) {
-            // return iconLink(id, this.client);
+        icon_url: function (id) { 
             return iconLink(id); //收藏跨重制/缘起
         },
     },

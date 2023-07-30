@@ -50,10 +50,7 @@ export default {
         clickTabs({ value }) {
             // this.active = value;
             this.$emit("setActive", value);
-        },
-        test(v) {
-            console.log(v);
-        },
+        }, 
         getThumbnail: function (filename) {
             return __imgPath + "image/adventure/" + filename + ".jpg";
         },

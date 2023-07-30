@@ -116,14 +116,11 @@ export default {
         // 获取数据
         getItemData() {
             this.loading = true;
-            getItemPlanID(this.planId)
-                .then((res) => { 
-                    this.converted(res);
-                    if (res.type == 2) this.toEquipList(res.relation);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+            getItemPlanID(this.planId).then((res) => {
+                this.loading = false;
+                this.converted(res);
+                if (res.type == 2) this.toEquipList(res.relation);
+            });
         },
 
         // 兼容旧数据,转换数据

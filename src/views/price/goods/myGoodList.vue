@@ -52,11 +52,12 @@ export default {
         // 合并数据
         mergeData(list) {
             let arr = [];
-            list.forEach((item) => {
-                item.data.forEach((item2) => {
-                    arr.push(item2);
+            list?.length &&
+                list.forEach((item) => {
+                    item.data.forEach((item2) => {
+                        arr.push(item2);
+                    });
                 });
-            });
             return arr;
         },
         // 物品详情页
@@ -107,21 +108,21 @@ export default {
                         .size(48px);
                     }
                     .m-mygoods-list-item-info {
-                        flex:1;
+                        flex: 1;
                         .flex;
                         .full;
                         .fz(14px,1.5);
                         flex-direction: column;
-                        justify-content: space-between; 
+                        justify-content: space-between;
                         font-weight: 700;
-                        .m-mygoods-list-item-money { 
+                        .m-mygoods-list-item-money {
                             .is-null {
                                 color: #999;
                                 font-size: 14px;
                                 font-weight: normal;
                             }
                             .c-game-price {
-                                .flex; 
+                                .flex;
                                 align-items: center;
                                 gap: 10px;
 

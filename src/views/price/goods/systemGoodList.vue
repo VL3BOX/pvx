@@ -1,24 +1,29 @@
 <template>
-  <div class="m-systemgoods">
-    <div class="m-systemgoods-group" v-for="group in data" :key="group.id">
-      <div class="m-systemgoods-group-label">
-        {{group.label}}
-      </div>
-      <div class="m-systemgoods-list">
-        <div class="m-systemgoods-list-item" v-for="item in filterSameItem(group.items)" :key="item.item_id" @click="goItemPage(item.item_id)">
-          <img class="u-icon" :src="iconLink(item.icon)" alt="">
-          <div class="m-systemgoods-list-item-info">
-            <div class="m-systemgoods-list-item-label">{{item.label||""}}</div>
-            <div class="m-systemgoods-list-item-money">
-              <GamePrice v-if="priceMap[item.item_id]" :price="priceMap[item.item_id].AvgPrice" />
-              <div v-else class="is-null">暂无价目</div>
+    <div class="m-systemgoods">
+        <div class="m-systemgoods-group" v-for="group in data" :key="group.id">
+            <div class="m-systemgoods-group-label">
+                {{ group.label }}
             </div>
-          </div>
+            <div class="m-systemgoods-list">
+                <div
+                    class="m-systemgoods-list-item"
+                    v-for="item in filterSameItem(group.items)"
+                    :key="item.item_id"
+                    @click="goItemPage(item.item_id)"
+                >
+                    <img class="u-icon" :src="iconLink(item.icon)" alt="" />
+                    <div class="m-systemgoods-list-item-info">
+                        <div class="m-systemgoods-list-item-label">{{ item.label || "" }}</div>
+                        <div class="m-systemgoods-list-item-money">
+                            <GamePrice v-if="priceMap[item.item_id]" :price="priceMap[item.item_id].AvgPrice" />
+                            <div v-else class="is-null">暂无价目</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <el-backtop />
     </div>
-    <el-backtop />
-  </div>
 </template>
 <script>
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
