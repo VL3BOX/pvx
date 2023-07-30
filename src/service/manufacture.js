@@ -32,21 +32,11 @@ function getItemsPrice(params) {
 function getAuctionPrice(params) {
     return $next().get(`/api/item-price/list`, { params });
 }
-// 新增清单
-function addMyPlans(params) {
-    return $cms().post(`/api/cms/app/item-plan`, params);
-}
+
 function getUserInfo() {
     return $cms().get("/api/cms/user/my/info");
 }
-// 获取我的物品清单
-function getMyPlans(params) {
-	return $cms()
-		.get(`/api/cms/app/item-plan/mine`, { params })
-		.then((res) => {
-			return res.data.data;
-		});
-}
+
 export {
     getManufactures,
     getManufactureItem,
@@ -54,7 +44,5 @@ export {
     getOther,
     getItemsPrice,
     getAuctionPrice,
-    addMyPlans,
     getUserInfo,
-    getMyPlans
 };

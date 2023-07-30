@@ -1,34 +1,38 @@
 <template>
-  <div class="p-price-goods">
-    <div class="m-price-goods-header">
-      <div class="u-title">物价总览</div>
-      <div class="u-servers">
-        <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="updatePrice">
-          <div slot="prefix">区服价格</div>
-          <el-option v-for="server in server_std" :key="server" :label="server" :value="server">
-          </el-option>
-        </el-select>
-      </div>
+    <div class="p-price-goods">
+        <div class="m-price-goods-header">
+            <div class="u-title">物价总览</div>
+            <div class="u-servers">
+                <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="updatePrice">
+                    <div slot="prefix">区服价格</div>
+                    <el-option v-for="server in server_std" :key="server" :label="server" :value="server"> </el-option>
+                </el-select>
+            </div>
+        </div>
+        <div class="m-price-goods-body">
+            <div class="m-system-goods">
+                <systemGoodList :data="systemGoodsDataFilter" :priceMap="priceMap"></systemGoodList>
+            </div>
+        </div>
+        <myGoodsDialog
+            v-if="showMyGoods"
+            @close="showMyGoods = false"
+            :myFollowData="myFollowData"
+            @setMyFollowList="setMyFollowList"
+        ></myGoodsDialog>
     </div>
-    <div class="m-price-goods-body">
-      <div class="m-system-goods">
-        <systemGoodList :data="systemGoodsDataFilter" :priceMap="priceMap"></systemGoodList>
-      </div>
-    </div>
-    <myGoodsDialog v-if="showMyGoods" @close="showMyGoods=false" :myFollowData="myFollowData" @setMyFollowList="setMyFollowList"></myGoodsDialog>
-  </div>
 </template>
 <script>
 import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
-import systemGoodsType from "./systemGoodsType.json";
+import systemGoodsType from "@/assets/data/systemGoodsType.json";
 import {
     getSystemGoodsData,
     getServerPriceData,
     getUserInfo,
     getMyFollowList,
-    setMyFollowList,
-    getMyGoodsDetail,
+    setMyFollowList, 
 } from "@/service/price.js"; // 系统关注物品类型
+import { getItemPlanID } from "@/service/plan.js";
 import systemGoodList from "./systemGoodList.vue";
 import myGoodsDialog from "./myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
@@ -118,7 +122,7 @@ export default {
                 }
                 const allPromises = [];
                 this.myFollowData.forEach((id) => {
-                    const p = getMyGoodsDetail(id);
+                    const p = getItemPlanID(id);
                     allPromises.push(p);
                 });
                 Promise.all(allPromises).then((res) => {
@@ -182,7 +186,7 @@ export default {
     },
 };
 </script>
-<style lang="less" >
+<style lang="less">
 .p-price-goods {
     position: relative;
     .m-price-goods-header {
@@ -226,18 +230,17 @@ export default {
     }
     .m-price-goods-body {
         .u-title {
+            .bold;
+            .fz(28px,1.2);
             margin: 20px 0 20px 0;
             color: #24292e;
-            font-size: 32px;
-            font-weight: bold;
-            line-height: 42px;
         }
         .m-my-follow-goods {
             .u-btn {
-                cursor: pointer;
+                .pointer;
             }
             .m-empty-follow {
-                display: flex;
+                .flex;
                 justify-content: center;
                 align-items: center;
                 width: 384px;

@@ -1,28 +1,28 @@
 <template>
-  <div class="u-data-plane" :style="{background:colorMap[item.key]}" :class="{noData:!item.key}">
-    <div class="plane-header">
-      <div class="plane-data">
-        <div class="data-value">{{item.recommend||0}}</div>
-        <div class="data-label">建议价格</div>
-      </div>
-      <div class="plane-channel">{{item.name}}</div>
+    <div class="u-data-plane" :style="{ background: colorMap[item.key] }" :class="{ noData: !item.key }">
+        <div class="plane-header">
+            <div class="plane-data">
+                <div class="data-value">{{ item.recommend || 0 }}</div>
+                <div class="data-label">建议价格</div>
+            </div>
+            <div class="plane-channel">{{ item.name }}</div>
+        </div>
+        <div class="plane-chart" ref="chart" />
+        <div class="plane-xAxis">
+            <div class="xAxis-item">
+                <div class="xAxis-value">{{ item.beforeYesterday || 0 }}</div>
+                <div class="xAxis-label">前日</div>
+            </div>
+            <div class="xAxis-item">
+                <div class="xAxis-value">{{ item.yesterday || 0 }}</div>
+                <div class="xAxis-label">昨日</div>
+            </div>
+            <div class="xAxis-item">
+                <div class="xAxis-value">{{ item.lastDay || 0 }}</div>
+                <div class="xAxis-label">今日</div>
+            </div>
+        </div>
     </div>
-    <div class="plane-chart" ref="chart" />
-    <div class="plane-xAxis">
-      <div class="xAxis-item">
-        <div class="xAxis-value">{{item.beforeYesterday||0}}</div>
-        <div class="xAxis-label">前日</div>
-      </div>
-      <div class="xAxis-item">
-        <div class="xAxis-value">{{item.yesterday||0}}</div>
-        <div class="xAxis-label">昨日</div>
-      </div>
-      <div class="xAxis-item">
-        <div class="xAxis-value">{{item.lastDay||0}}</div>
-        <div class="xAxis-label">今日</div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -129,16 +129,15 @@ export default {
 
 <style lang="less" scoped>
 .u-data-plane {
-    display: flex;
+    .flex;
+    .r(10px);
+    .size(480px,220px);
     flex-direction: column;
     box-sizing: border-box;
-    width: 640px;
-    height: 260px;
-    padding: 14px 20px;
-    border-radius: 10px;
+    padding: 20px;
     user-select: none;
+    gap: 20px;
 
-    gap: 10px;
     * {
         box-sizing: border-box;
     }
@@ -154,50 +153,43 @@ export default {
         }
     }
     .plane-header {
-        display: flex;
+        .flex;
+        .size(100%,46px);
         justify-content: space-between;
-        width: 600px;
-        height: 90px;
+
         .plane-data {
             display: flex;
             flex-direction: column;
-            margin-bottom: 10px;
             color: #fff;
-            font-size: 24px;
-            font-weight: 500;
+            font-weight: 700;
             .data-value {
-                font-size: 58px;
-                font-weight: bold;
-                line-height: 77px;
+                font-size: 28px;
             }
             .data-label {
-                font-size: 14px;
-                font-weight: bold;
-                line-height: 18px;
+                .fz(14px,1.5);
             }
         }
         .plane-channel {
             color: #fff;
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 700;
-            line-height: 42px;
+            line-height: 46px;
         }
     }
     .plane-chart {
-        width: 600px;
-        height: 86px;
+        .size(100%,60px);
     }
     .plane-xAxis {
-        display: flex;
+        .flex;
         justify-content: space-between;
         .xAxis-item {
-            display: flex;
+            .flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: #fff;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
         }
     }
 }
@@ -215,34 +207,6 @@ export default {
             width: 100%;
             .plane-data {
                 font-size: 24px;
-                .data-value {
-                    font-size: 29px;
-                    line-height: initial;
-                }
-            }
-            .plane-channel {
-                font-size: 16px;
-            }
-        }
-    }
-}
-@media screen and (max-width: @phone) {
-    .u-data-plane {
-        width: 300px;
-        height: 200px;
-        .plane-chart {
-            width: 100%;
-            height: 61px;
-        }
-        .plane-header {
-            height: 55px;
-            width: 100%;
-            .plane-data {
-                font-size: 24px;
-                .data-value {
-                    font-size: 29px;
-                    line-height: initial;
-                }
             }
             .plane-channel {
                 font-size: 16px;

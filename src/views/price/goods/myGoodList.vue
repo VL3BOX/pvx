@@ -1,24 +1,29 @@
 <template>
-  <div class="m-mygoods">
-    <div class="m-mygoods-plan" v-for="plan in data" :key="plan.id">
-      <div class="m-mygoods-plan-label">
-        {{plan.title}}
-      </div>
-      <div class="m-mygoods-list">
-        <div class="m-mygoods-list-item" v-for="item in  mergeData(plan.relation)" :key="item.id" @click="goItemPage(item.id)">
-          <img class="u-icon" :src="iconLink(item.IconID)" alt="">
-          <div class="m-mygoods-list-item-info">
-            <div class="m-mygoods-list-item-label">{{item.Name||""}}</div>
-            <div class="m-mygoods-list-item-money">
-              <GamePrice v-if="priceMap[item.id]" :price="priceMap[item.id].AvgPrice||0" />
-              <div v-else class="is-null">暂无价目</div>
+    <div class="m-mygoods">
+        <div class="m-mygoods-plan" v-for="plan in data" :key="plan.id">
+            <div class="m-mygoods-plan-label">
+                {{ plan.title }}
             </div>
-          </div>
+            <div class="m-mygoods-list">
+                <div
+                    class="m-mygoods-list-item"
+                    v-for="item in mergeData(plan.relation)"
+                    :key="item.id"
+                    @click="goItemPage(item.id)"
+                >
+                    <img class="u-icon" :src="iconLink(item.IconID)" alt="" />
+                    <div class="m-mygoods-list-item-info">
+                        <div class="m-mygoods-list-item-label">{{ item.Name || "" }}</div>
+                        <div class="m-mygoods-list-item-money">
+                            <GamePrice v-if="priceMap[item.id]" :price="priceMap[item.id].AvgPrice || 0" />
+                            <div v-else class="is-null">暂无价目</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <el-backtop />
     </div>
-    <el-backtop />
-  </div>
 </template>
 <script>
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
@@ -69,80 +74,59 @@ export default {
         box-sizing: border-box;
     }
     .m-mygoods {
-        display: flex;
+        .flex;
         flex-direction: column;
-
         gap: 20px;
+
         .m-mygoods-plan {
-            padding-left: 30px;
+            .pl(30px);
             .m-mygoods-plan-label {
+                .bold;
+                .fz(24px,1.2);
                 margin: 20px 0 20px 0;
                 color: #24292e;
-                font-size: 26px;
-                font-weight: bold;
-                line-height: 42px;
             }
             .m-mygoods-list {
-                display: flex;
+                .flex;
                 flex-direction: row;
                 flex-wrap: wrap;
-
                 gap: 20px;
-                .m-mygoods-list-item {
-                    display: flex;
-                    align-items: center;
-                    width: 384px;
-                    height: 100px;
-                    padding: 0 10px;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    cursor: pointer;
 
+                .m-mygoods-list-item {
+                    .flex;
+                    .pointer;
+                    .r(10px);
+                    .size(286px,68px);
+                    box-sizing: border-box;
+                    align-items: center;
+                    padding: 10px;
+                    background-color: #fff;
                     gap: 10px;
+
                     .u-icon {
-                        width: 80px;
-                        height: 80px;
+                        .size(48px);
                     }
                     .m-mygoods-list-item-info {
-                        display: flex;
+                        flex:1;
+                        .flex;
+                        .full;
+                        .fz(14px,1.5);
                         flex-direction: column;
-                        justify-content: space-between;
-                        width: 100%;
-                        height: 100%;
-                        padding: 10px 0;
-                        .m-mygoods-list-item-label {
-                            flex: 1;
-                            width: 100%;
-                            padding-top: 7.5px;
-                            font-size: 24px;
-                            font-weight: 700;
-                            line-height: 32px;
-                        }
-                        .m-mygoods-list-item-money {
-                            flex: 1;
-                            width: 100%;
-                            font-size: 24px;
-                            font-weight: 700;
-                            line-height: 32px;
-                            text-align: right;
+                        justify-content: space-between; 
+                        font-weight: 700;
+                        .m-mygoods-list-item-money { 
                             .is-null {
                                 color: #999;
-                                font-size: 12px;
+                                font-size: 14px;
                                 font-weight: normal;
                             }
                             .c-game-price {
-                                display: flex;
-                                justify-content: flex-end;
+                                .flex; 
                                 align-items: center;
-                                width: 100%;
-                                height: 100%;
-                                font-size: 20px;
-                                font-weight: 700;
-                                line-height: 26px;
+                                gap: 10px;
 
-                                gap: 4px;
                                 & > span {
-                                    display: flex;
+                                    .flex;
                                     justify-content: flex-end;
                                     align-items: center;
 

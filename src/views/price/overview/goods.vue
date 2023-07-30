@@ -1,37 +1,40 @@
 <template>
-  <div class="p-price-goods overview">
-    <div class="m-price-goods-body">
-      <div class="m-my-follow-goods">
-        <div class="u-title">我的关注
-          <i v-if="myFollowData.length" class="u-btn el-icon-setting" v-popover:myPlans title="设置清单" @click="openAddDialog"></i>
+    <div class="p-price-goods overview">
+        <div class="m-price-goods-body">
+            <div class="m-my-follow-goods">
+                <div class="u-title">
+                    我的关注
+                    <i
+                        v-if="myFollowData.length"
+                        class="u-btn el-icon-setting"
+                        v-popover:myPlans
+                        title="设置清单"
+                        @click="openAddDialog"
+                    ></i>
+                </div>
+                <div class="m-empty-follow" v-if="myFollowData.length == 0">
+                    <div class="m-empty-follow-title" v-loading="loading">
+                        {{ isLogin ? "暂无关注" : "暂未登录" }}
+                        <span class="m-empty-follow-add" @click="openAddDialog" v-if="isLogin"> 去添加 </span>
+                        <span class="m-empty-follow-login" @click="openAddDialog" v-else> 去登陆 </span>
+                    </div>
+                </div>
+                <myGoodList v-else :data="myFollowPlan" :priceMap="priceMap"></myGoodList>
+            </div>
         </div>
-        <div class="m-empty-follow" v-if="myFollowData.length==0">
-          <div class="m-empty-follow-title" v-loading="loading">
-            {{isLogin ? '暂无关注':'暂未登录'}}
-            <span class="m-empty-follow-add" @click="openAddDialog" v-if="isLogin">
-              去添加
-            </span>
-            <span class="m-empty-follow-login" @click="openAddDialog" v-else>
-              去登陆
-            </span>
-          </div>
-        </div>
-        <myGoodList v-else :data="myFollowPlan" :priceMap="priceMap"></myGoodList>
-      </div>
+        <myGoodsDialog
+            v-if="showMyGoods"
+            @close="showMyGoods = false"
+            :myFollowData="myFollowData"
+            @setMyFollowList="setMyFollowList"
+        ></myGoodsDialog>
     </div>
-    <myGoodsDialog v-if="showMyGoods" @close="showMyGoods=false" :myFollowData="myFollowData" @setMyFollowList="setMyFollowList"></myGoodsDialog>
-  </div>
 </template>
 <script>
 import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
-import systemGoodsType from "../goods/systemGoodsType.json";
-import {
-    getSystemGoodsData,
-    getServerPriceData,
-    getMyFollowList,
-    setMyFollowList,
-    getMyGoodsDetail,
-} from "@/service/price.js"; // 系统关注物品类型
+import systemGoodsType from "@/assets/data/systemGoodsType.json";
+import { getSystemGoodsData, getServerPriceData, getMyFollowList, setMyFollowList } from "@/service/price.js"; // 系统关注物品类型
+import { getItemPlanID } from "@/service/plan.js";
 import myGoodList from "../goods/myGoodList.vue";
 import myGoodsDialog from "../goods/myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
@@ -82,13 +85,14 @@ export default {
             this.loading = true;
             getMyFollowList().then((res) => {
                 if (res.data.data) {
+                    console.log(res.data.data, "res.data.data,getMyFollowList");
                     this.myFollowData = res.data.data.split(",").map((item) => +item);
                 } else {
                     this.myFollowData = [];
                 }
                 const allPromises = [];
                 this.myFollowData.forEach((id) => {
-                    const p = getMyGoodsDetail(id);
+                    const p = getItemPlanID(id);
                     allPromises.push(p);
                 });
                 Promise.all(allPromises).then((res) => {

@@ -64,6 +64,7 @@ export default {
     methods: {
         // 点击收藏服务器和取消服务器收藏
         clickServer(server) {
+            console.log(this.uid)
             if (this.uid) {
                 let list = new Set(this.favList);
                 let fav = [];
@@ -71,6 +72,7 @@ export default {
                 for (let key of list.keys()) {
                     fav.push(key);
                 }
+                console.log(list,fav)
                 this.$store.commit("setFavList", fav);
                 this.setSavedServers();
             }

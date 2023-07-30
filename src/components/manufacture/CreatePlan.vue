@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { addMyPlans } from "@/service/manufacture";
+import { addMyPlan } from "@/service/plan";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { showTime } from "@/utils/moment";
 import Bus from "@/store/bus.js";
@@ -57,17 +57,22 @@ export default {
             let recipe = [],
                 materials = [];
             this.list.forEach((item) => {
-                recipe.push({ id: item.itemKey, count: item.count });
+                recipe.push({ id: item.itemKey, count: item.count, IconID: item.IconID, Name: item.Name });
                 item.children.forEach((el) => {
-                    materials.push({ id: el.priceID, count: el.count * item.count });
+                    materials.push({
+                        id: el.priceID,
+                        count: el.count * item.count,
+                        IconID: el.IconID,
+                        Name: el.Name,
+                    });
                 });
             });
+            console.log(this.list);
             materials = this.merge(materials);
 
             let date = showTime(new Date());
             let { title, publics, description } = this.plan;
 
-            console.log(publics);
             let data = {
                 title: title || `技艺助手成本计算 ${date}`,
                 type: 1,
@@ -78,13 +83,12 @@ export default {
                     { title: "生产配方所需材料", data: materials },
                 ],
             };
-            addMyPlans(data)
+            addMyPlan(data)
                 .then((res) => {
                     this.dialogVisible = false;
                     this.data = res.data.data;
                     this.$notify({
                         title: "清单创建成功",
-                        message: "请在创作中心查看",
                         type: "success",
                     });
                 })
@@ -101,13 +105,17 @@ export default {
             let _obj = {};
             list.forEach((el) => {
                 if (_obj[el.id]) {
-                    _obj[el.id] += el.count;
+                    _obj[el.id].count += el.count;
                 } else {
-                    _obj[el.id] = el.count;
+                    _obj[el.id] = {
+                        IconID: el.IconID,
+                        Name: el.Name,
+                        count: el.count,
+                    };
                 }
             });
             for (const key in _obj) {
-                _list.push({ id: key, count: _obj[key] });
+                _list.push({ id: key, ..._obj[key] });
             }
             return _list;
         },

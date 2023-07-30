@@ -40,22 +40,17 @@ function setMyFollowList(params) {
     return $cms().post("api/cms/user/my/meta?key=follow_inventory", params);
 }
 
-
-// 获取我的清单
-function getMyPlanList(params) {
-    return $cms().get("api/cms/app/item-plan/mine", {
-        params
-    });
-}
-
 // 获取清单详情
 function getMyGoodsDetail(id) {
     return $cms().get("api/cms/app/item-plan/" + id);
 }
 
-
-
-
 export {
-    getGoldPriceData, getSystemGoodsData, getServerPriceData, getUserInfo, getMyFollowList, getMyPlanList, setMyFollowList, getMyGoodsDetail
+    getGoldPriceData,
+    getSystemGoodsData,
+    getServerPriceData,
+    getUserInfo,
+    getMyFollowList,
+    setMyFollowList,
+    getMyGoodsDetail
 }
