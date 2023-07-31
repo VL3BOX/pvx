@@ -93,8 +93,7 @@ export default {
     }
 }
 @media screen and (max-width: @ipad) {
-    .p-price-gold {
-        padding-top: 84px;
+    .p-price-gold { 
         .m-price-gold-header {
             flex-wrap: wrap;
             margin-bottom: 20px;
@@ -104,18 +103,5 @@ export default {
             }
         }
     }
-}
-@media screen and (max-width: @phone) {
-    .p-price-gold {
-        padding-top: 84px;
-        .m-price-gold-header {
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            .u-title {
-                margin: 0;
-                font-size: 24px;
-            }
-        }
-    }
-}
+} 
 </style>

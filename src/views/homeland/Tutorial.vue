@@ -4,7 +4,7 @@
 
 		<div class="m-homeland-info">
 			<div class="m-homeland-games">
-				<div v-for="(item, i) in game_data" :key="'game-' + i">
+				<div v-for="(item, i) in game_data" :key="'game-' + i" class="u-game">
 					<el-popover placement="top" width="200" trigger="hover" :content="showGameTip(item.szTip)" popper-class="m-homeland-games-pop" v-if="showGameTip(item.szTip)">
 						<div class="u-box" slot="reference">
 							<i class="u-pic"><img :src="showGamePic(item.nUnLockFrame)" /></i> <span class="u-name">{{ item.szName }}</span>

@@ -11,7 +11,7 @@
 
 .m-calendar-main {
     flex: 1;
-    .mr(@aside_width + 40px);  
+    .mr(@aside_width + 40px);
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: cover;
@@ -51,40 +51,6 @@
 }
 .c-footer.archive {
     .none;
-}
-
-@media screen and (min-width: 2000px) {
-    .m-calendar-aside {
-        width: @aside_width;
-    }
-}
-
-@media screen and (max-width: @phone) {
-    .m-calendar-detail-header {
-        width: calc(100% - 20px);
-    }
-    .m-calendar-aside {
-        position: unset;
-        width: 100%;
-    }
-    .m-calendar-main {
-        margin-right: 0;
-        .m-calendar-item {
-            width: auto;
-        }
-        .m-calendar-date .u-date {
-            align-items: center;
-        }
-        .u-date-count {
-            position: unset;
-            b {
-                margin-right: 0;
-            }
-            span {
-                .none;
-            }
-        }
-    }
 }
 
 .m-calendar-header {
@@ -273,17 +239,46 @@
         }
     }
 }
-@media screen and (max-width: @notebook) {
-    .m-calendar-date {
-        .u-date {
-            flex-basis: 11.8%;
-        }
+
+@media screen and (min-width: 2000px) {
+    .m-calendar-aside {
+        width: @aside_width;
     }
 }
 @media screen and (max-width: @ipad) {
-    .m-calendar-date {
-        .u-date {
-            flex-basis: 11.8%;
+    .m-calendar-main {
+        .mr(0);
+    }
+    .m-calendar-aside {
+        position: unset;
+        width: 100%;
+    }
+    .m-calendar-date .u-date {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-calendar-detail-header {
+        width: calc(100% - 20px);
+    }
+
+    .m-calendar-main {
+        margin-right: 0;
+        .m-calendar-item {
+            width: auto;
+        }
+        .m-calendar-date .u-date {
+            align-items: center;
+        }
+        .u-date-count {
+            position: unset;
+            b {
+                margin-right: 0;
+            }
+            span {
+                .none;
+            }
         }
     }
 }
