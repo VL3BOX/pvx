@@ -381,11 +381,14 @@
             .w(100%);
         }
     }
-
+    .book-single-wrapper .book-single-content .m-book-list .book-list-content {
+        flex-wrap: nowrap;
+    }
     .book-list-wrapper {
-        overflow-x: scroll;
+        .scrollbar(2px);
+        overflow-x: auto;
+       
         .book-list-content {
-            justify-content: center;
             .m-book-card {
                 display: flex;
                 flex-direction: column;

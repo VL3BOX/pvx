@@ -1,11 +1,11 @@
 @import "./pop.less";
 @import "~@/assets/css/common/back.less";
-.horse-single-wrapper { 
+.horse-single-wrapper {
     .main-info-wrapper {
         .pr;
         .pt(20px);
-        .mb(40px); 
-        width: 100%; 
+        .mb(40px);
+        width: 100%;
         & > .title {
             margin-bottom: 20px;
             font-size: 28px;
@@ -56,7 +56,11 @@
                     }
                     .u-list {
                         .flex;
+                        flex-wrap: wrap;
                         gap: 10px;
+                        .u-attr {
+                            flex-shrink: 0;
+                        }
                         .u-attr-icon {
                             .size(38px);
                         }

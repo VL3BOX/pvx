@@ -1,19 +1,18 @@
 <template>
-  <div class="p-price-gold">
-    <div class="m-price-gold-header">
-      <div class="u-title">金价走势</div>
-      <div class="u-servers">
-        <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="serverChange">
-          <div slot="prefix">区服价格</div>
-          <el-option v-for="server in server_cn" :key="server" :label="server" :value="server">
-          </el-option>
-        </el-select>
-      </div>
+    <div class="p-price-gold">
+        <div class="m-price-gold-header">
+            <div class="u-title">金价走势</div>
+            <div class="u-servers">
+                <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="serverChange">
+                    <div slot="prefix">区服价格</div>
+                    <el-option v-for="server in server_cn" :key="server" :label="server" :value="server"> </el-option>
+                </el-select>
+            </div>
+        </div>
+        <div class="m-price-gold-body">
+            <goldChart ref="chart" :server="server" v-if="server"></goldChart>
+        </div>
     </div>
-    <div class="m-price-gold-body">
-      <goldChart ref="chart" :server="server" v-if="server"></goldChart>
-    </div>
-  </div>
 </template>
 <script>
 import server_cn from "@jx3box/jx3box-data/data/server/server_cn.json";
@@ -44,9 +43,10 @@ export default {
     },
 };
 </script>
-<style lang="less" >
+<style lang="less">
 .p-price-gold {
-    position: relative;
+    .pr;
+    .pt(20px);
     * {
         box-sizing: border-box;
     }
@@ -87,13 +87,13 @@ export default {
                 border-radius: 40px;
             }
         }
-    } 
+    }
     .m-price-gold-body {
         width: 100%;
     }
 }
 @media screen and (max-width: @ipad) {
-    .p-price-gold { 
+    .p-price-gold {
         .m-price-gold-header {
             flex-wrap: wrap;
             margin-bottom: 20px;
@@ -103,5 +103,5 @@ export default {
             }
         }
     }
-} 
+}
 </style>

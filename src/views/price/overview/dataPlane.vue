@@ -193,25 +193,4 @@ export default {
         }
     }
 }
-
-@media screen and (max-width: @ipad) {
-    .u-data-plane {
-        width: 300px;
-        height: 200px;
-        .plane-chart {
-            width: 100%;
-            height: 61px;
-        }
-        .plane-header {
-            height: 55px;
-            width: 100%;
-            .plane-data {
-                font-size: 24px;
-            }
-            .plane-channel {
-                font-size: 16px;
-            }
-        }
-    }
-}
 </style>

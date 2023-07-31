@@ -345,17 +345,6 @@ export default {
     }
 }
 
-@media screen and (max-width: @ipad) {
-    .m-price-chart-box {
-        flex-wrap: wrap;
-        .legends {
-            width: 100%;
-            .legends-item {
-                width: 100%;
-            }
-        }
-    }
-}
 @media screen and (max-width: @phone) {
     .m-price-chart-box {
         flex-wrap: wrap;

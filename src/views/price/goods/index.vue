@@ -125,7 +125,7 @@ export default {
                     const p = getItemPlanID(id);
                     allPromises.push(p);
                 });
-                Promise.all(allPromises).then((res) => { 
+                Promise.all(allPromises).then((res) => {
                     this.myFollowPlan = res || [];
                     this.getMyFollowGoodsPrice();
                 });
@@ -186,7 +186,8 @@ export default {
 </script>
 <style lang="less">
 .p-price-goods {
-    position: relative;
+    .pr;
+    .pt(20px);
     .m-price-goods-header {
         display: flex;
         align-items: center;
@@ -262,7 +263,6 @@ export default {
 
 @media screen and (max-width: @ipad) {
     .p-price-goods:not(.overview) {
-        padding-top: 84px;
         .u-title {
             margin: 0;
             font-size: 24px;
@@ -275,7 +275,6 @@ export default {
 }
 @media screen and (max-width: @phone) {
     .p-price-goods:not(.overview) {
-        padding-top: 84px;
         .u-title {
             margin: 0;
             font-size: 24px;

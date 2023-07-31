@@ -6,7 +6,13 @@ body {
     .pr;
     min-height: calc(100vh - @header-height);
     padding: 60px 40px 40px 40px;
-    box-sizing:border-box;
+    box-sizing: border-box;
+}
+@media screen and(max-width:@ipad) {
+    .m-main {
+        .pl(20px);
+        .pr(20px);
+    }
 }
 @media screen and(max-width:@phone) {
     .m-main {
