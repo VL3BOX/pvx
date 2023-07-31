@@ -172,14 +172,18 @@ export default {
             background-color: #07ad36;
         }
     }
-} 
+}
 .m-manufacture-body {
     .pt(20px);
     .flex;
     .pb(20px);
     overflow-x: auto;
     gap: 20px;
-
+}
+@media screen and (max-width: @phone) {
+    .m-manufacture-body {
+        .pt(110px);
+    }
 }
 .m-manufacture-title {
     .flex;

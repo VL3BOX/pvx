@@ -104,4 +104,9 @@ export default {
         }
     }
 }
+@media screen and (max-width: @phone) {
+    .p-price-gold {
+        .pt(64px);
+    }
+}
 </style>

@@ -274,16 +274,8 @@ export default {
     }
 }
 @media screen and (max-width: @phone) {
-    .p-price-goods:not(.overview) {
-        .u-title {
-            margin: 0;
-            font-size: 24px;
-        }
-    }
-
-    .m-price-goods-header {
-        flex-wrap: wrap;
-        margin-bottom: 20px;
+    .p-price-goods {
+        .pt(64px);
     }
 }
 </style>

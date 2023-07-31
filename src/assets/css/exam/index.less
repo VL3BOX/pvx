@@ -1,6 +1,6 @@
 .p-exam {
     position: relative;
-    .m-exam-search { 
+    .m-exam-search {
         .search-group {
             .search-item {
                 &.type-list {
@@ -100,7 +100,7 @@
             }
         }
     }
-    .m-exam-content { 
+    .m-exam-content {
         .pt(20px);
         .el-empty {
             .flex;
@@ -133,5 +133,11 @@
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .p-exam .m-exam-content {
+        .pt(64px);
     }
 }

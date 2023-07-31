@@ -6,7 +6,7 @@
                     {{ tab.label }}
                 </div>
             </template>
-        </div> 
+        </div>
         <div class="m-content">
             <!-- <component :is="tab"></component> -->
             <router-view></router-view>
@@ -133,7 +133,12 @@ export default {
         }
     }
 }
-.p-gonggao .m-content{
+.p-gonggao .m-content {
     .pt(20px);
+}
+@media screen and (max-width: @phone) {
+    .p-gonggao .m-content {
+        .pt(64px);
+    }
 }
 </style>

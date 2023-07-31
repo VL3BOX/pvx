@@ -6,6 +6,7 @@
                 v-for="(item, index) in list_type"
                 :key="'l' + index"
                 class="m-adventure-list"
+                :class="`m-adventure-list-${index}`"
                 @mouseenter="mouseenter($event)"
                 @mouseleave="mouseleave($event)"
             >
