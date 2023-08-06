@@ -6,7 +6,16 @@
             <span class="u-dye" v-if="item.__canDye"></span>
         </div>
         <div class="m-furniture-detail">
-            <div class="u-name">{{ item.szName }}</div>
+            <div class="u-name">
+                {{ item.szName }}
+                <el-button
+                    v-if="copy"
+                    icon="el-icon-document-copy"
+                    circle
+                    size="mini"
+                    @click.stop="copyName(item.szName)"
+                ></el-button>
+            </div>
             <div class="m-attribute">
                 <div class="u-nature" v-if="item.Attribute1">
                     <span class="u-attribute u-blue">观赏</span> <span class="u-num">{{ data.Attribute1 }}</span>
@@ -36,6 +45,10 @@ export default {
         item: {
             type: Object,
             required: true,
+        },
+        copy: {
+            type: Boolean,
+            default: false,
         },
     },
     computed: {
@@ -69,6 +82,15 @@ export default {
         },
         quality(id) {
             return `u-quality-bg--${id}`;
+        },
+        copyName(val) {
+            navigator.clipboard.writeText(val).then(() => {
+                this.$notify({
+                    title: "复制成功",
+                    message: "内容：" + val,
+                    type: "success",
+                });
+            });
         },
     },
 };

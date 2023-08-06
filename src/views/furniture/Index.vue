@@ -24,7 +24,7 @@
         </PvxSearch>
         <div v-loading="loading" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
             <template v-if="list.length">
-                <FurnitureItem :item="item" v-for="item in list" :key="item.ID"></FurnitureItem>
+                <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
             </template>
             <div class="m-furniture-null" v-else>
                 <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
@@ -172,6 +172,9 @@ export default {
     computed: {
         hasNextPage: function () {
             return this.pages > 1 && this.page < this.pages;
+        },
+        hasCopy() {
+            return Object.values(this.search).filter(Boolean).length ? true : false;
         },
         matchFurniture() {
             return (this.furniture && this.furniture.find((item) => item.subtype === "category")) || "";
