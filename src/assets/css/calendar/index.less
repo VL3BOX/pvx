@@ -98,7 +98,7 @@
 
     .u-year {
         // margin: 0 20px;
-        .fz(42px);
+        .fz(28px);
         .bold;
         letter-spacing: 2px;
         // font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -259,6 +259,15 @@
 }
 
 @media screen and (max-width: @phone) {
+    .m-calendar-header {
+        .u-time,
+        .m-calendar-year {
+            .w(100%);
+        }
+        .u-year {
+            .fz(24px);
+        }
+    }
     .m-calendar-detail-header {
         width: calc(100% - 20px);
     }
@@ -267,9 +276,12 @@
         margin-right: 0;
         .m-calendar-item {
             width: auto;
-        }
+        } 
         .m-calendar-date .u-date {
+            height: auto;
+            flex: 0 0 14.2%;
             align-items: center;
+            padding: 5px;
         }
         .u-date-count {
             position: unset;
