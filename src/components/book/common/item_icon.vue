@@ -161,9 +161,12 @@ export default {
                 }
             },
         },
-    },
-    mounted() {
-        this.real_id = this.item_id;
+        item_id: {
+            immediate: true,
+            handler() {
+                this.real_id = this.item_id;
+            },
+        },
     },
 };
 </script>

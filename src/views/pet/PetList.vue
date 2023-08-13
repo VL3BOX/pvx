@@ -24,7 +24,7 @@
                     <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item v-for="item in item.list" :key="item.id" :petObject="item" />
+                    <pet-item v-for="pet in item.list" :key="pet.id" :petObject="pet" />
                 </div>
             </div>
         </template>
@@ -33,7 +33,7 @@
                 <div class="u-title">{{ typeName }}</div>
             </div>
             <div class="m-pet-list">
-                <pet-item v-for="item in list" :key="item.id" :petObject="item" />
+                <pet-item v-for="pet in list" :key="pet.id" :petObject="pet" />
             </div>
             <el-button
                 class="m-archive-more"
@@ -184,7 +184,7 @@ export default {
             }
             return this.list.length > 0 ? false : true;
         },
-        setActive(val) { 
+        setActive(val) {
             this.active = val;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();

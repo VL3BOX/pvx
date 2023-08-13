@@ -25,7 +25,7 @@
                     <img
                         class="u-item-icon__img"
                         :style="{ height: size + 'px', width: size + 'px', cursor: isLink ? 'pointer' : 'default' }"
-                        :src="iconLink(source.IconID,client)"
+                        :src="iconLink(source.IconID, client)"
                     />
                     <div
                         class="u-item-icon__quality"
@@ -168,9 +168,12 @@ export default {
                 }
             },
         },
-    },
-    mounted() {
-        this.real_id = this.item_id;
+        item_id: {
+            immediate: true,
+            handler() {
+                this.real_id = this.item_id;
+            },
+        },
     },
 };
 </script>
