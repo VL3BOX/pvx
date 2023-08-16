@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="p-body">
+    <div id="app">
         <Header></Header>
         <Nav @statusChange="statusChange"></Nav>
         <Main :class="navStatusClass" :withoutRight="true">
@@ -14,9 +14,15 @@ export default {
     name: "Body",
     components: { Nav },
     data: function () {
-        return {};
+        return { navStatusClass: "is-regular" };
     },
-    computed: {},
-    methods: {},
+    methods: {
+        statusChange(navStatusClass) {
+            this.navStatusClass = navStatusClass;
+        },
+    },
 };
 </script>
+<style lang="less">
+@import "~@/assets/css/app.less";
+</style>

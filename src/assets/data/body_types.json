@@ -1,0 +1,27 @@
+[
+    {
+        "value": "",
+        "label": "全部",
+        "client": ["std", "origin"]
+    },
+    {
+        "value": 1,
+        "label": "成男",
+        "client": ["std", "origin"]
+    },
+    {
+        "value": 2,
+        "label": "成女",
+        "client": ["std", "origin"]
+    },
+    {
+        "value": 5,
+        "label": "正太",
+        "client": ["std"]
+    },
+    {
+        "value": 6,
+        "label": "萝莉",
+        "client": ["std", "origin"]
+    }
+]

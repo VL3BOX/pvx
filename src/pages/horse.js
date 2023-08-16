@@ -16,6 +16,9 @@ Vue.use(JX3BOX_UI);
 import router from "../router/horse";
 import store from "../store";
 
+import reporter from "@jx3box/jx3box-common/js/reporter";
+reporter.install(Vue);
+
 import Pagination from "@/components/Pagination";
 Vue.component("Pagination", Pagination);
 

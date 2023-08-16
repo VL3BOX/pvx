@@ -1,6 +1,12 @@
 <template>
     <div class="p-face-list" v-loading="loading">
-        <faceTabs @change="handleFaceTabChange" :body_types="body_types" :active="active" @setActive="setActive" />
+        <faceTabs
+            @change="handleFaceTabChange"
+            :body_types="body_types"
+            :link="link"
+            :active="active"
+            @setActive="setActive"
+        />
 
         <template v-if="!showAllList">
             <div class="m-recommend-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
@@ -20,7 +26,12 @@
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-recommend-list" id="recommend">
-                    <faceRecommend v-for="item in slidersList" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }"></faceRecommend>
+                    <faceRecommend
+                        v-for="item in slidersList"
+                        :key="item.id"
+                        :item="item"
+                        :reporter="{ aggregate: listId(list) }"
+                    ></faceRecommend>
                 </div>
             </div>
         </template>
@@ -51,7 +62,12 @@
                     <i class="el-icon-arrow-right"></i>
                 </div>
                 <div class="m-face-list" :id="'nav' + index">
-                    <faceItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
+                    <faceItem
+                        v-for="item in item.list"
+                        :key="item.id"
+                        :item="item"
+                        :reporter="{ aggregate: listId(list) }"
+                    />
                 </div>
             </div>
         </template>
@@ -90,6 +106,7 @@ import { getFaceList, getSliders } from "@/service/face";
 import faceRecommend from "@/components/face/recommend";
 import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
+import body_types from "@/assets/data/body_types.json";
 import { clone } from "lodash";
 import { isPhone } from "@/utils/index";
 export default {
@@ -102,33 +119,7 @@ export default {
     data() {
         return {
             tabsData: {},
-            body_types: [
-                {
-                    value: "",
-                    label: "全部",
-                    client: ["std", "origin"],
-                },
-                {
-                    value: 1,
-                    label: "成男",
-                    client: ["std", "origin"],
-                },
-                {
-                    value: 2,
-                    label: "成女",
-                    client: ["std", "origin"],
-                },
-                {
-                    value: 5,
-                    label: "正太",
-                    client: ["std"],
-                },
-                {
-                    value: 6,
-                    label: "萝莉",
-                    client: ["std", "origin"],
-                },
-            ],
+            body_types,
             active: "",
             list: [],
             list_type: [
@@ -147,6 +138,10 @@ export default {
             showAllList: false, //是否显示单独某项全部
             slidersList: [],
             isUpdate: false,
+            link: {
+                data: "/face/facedata",
+                key: "face",
+            },
         };
     },
     computed: {
@@ -361,7 +356,7 @@ export default {
         },
         listId(list) {
             return list.map((e) => e.id);
-        }
+        },
     },
 };
 </script>

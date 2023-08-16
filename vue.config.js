@@ -18,6 +18,12 @@ module.exports = {
             template: "public/index.html",
             filename: "face/index.html",
         },
+        body: {
+            title: "体型分享 - JX3BOX",
+            entry: "src/pages/body.js",
+            template: "public/index.html",
+            filename: "body/index.html",
+        },
         homeland: {
             title: "家园指南 - JX3BOX",
             entry: "src/pages/homeland.js",

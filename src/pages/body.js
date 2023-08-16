@@ -5,10 +5,6 @@ import Vue from "vue";
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
 
-// 其他组件
-import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
-
 // 通用UI模块
 import JX3BOX_UI from '@jx3box/jx3box-common-ui'
 import "@jx3box/jx3box-common/css/element.css";
@@ -19,10 +15,10 @@ import reporter from "@jx3box/jx3box-common/js/reporter";
 reporter.install(Vue);
 
 // 数据与路由
-import router from "../router/homeland.js";
+import router from "../router/body";
 import store from "../store";
 
-import App from "@/views/homeland/Homeland.vue";
+import App from "@/views/body/Body.vue";
 new Vue({
     router,
     store,

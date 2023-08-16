@@ -34,12 +34,12 @@
             />
         </div>
 
-        <a href="/face/facedata" target="_blank">
+        <a :href="link.data" target="_blank">
             <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
                 数据解析
             </el-button>
         </a>
-        <a :href="publish_link" target="_blank">
+        <a :href="publish_link(link.key)" target="_blank">
             <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>
         </a>
     </div>
@@ -50,7 +50,7 @@ import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 export default {
     name: "tabs",
-    props: ["body_types", "active"],
+    props: ["body_types", "active", "link"],
     data: function () {
         return {
             star: false,
@@ -61,9 +61,6 @@ export default {
         };
     },
     computed: {
-        publish_link() {
-            return publishLink("face");
-        },
         params() {
             const _params = {};
             if (this.active) _params.body_type = this.active;
@@ -84,6 +81,9 @@ export default {
         },
         getThumbnail: function (filename) {
             return __imgPath + "image/face/" + filename + ".jpg";
+        },
+        publish_link(key) {
+            return publishLink(key);
         },
     },
     watch: {
@@ -138,9 +138,9 @@ export default {
 .m-face-filter {
     flex-direction: column;
     .u-filter {
-        .el-checkbox-button__inner { 
+        .el-checkbox-button__inner {
             &:hover {
-                background-color: @faceColor; 
+                background-color: @faceColor;
             }
         }
         &.is-checked {

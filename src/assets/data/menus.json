@@ -13,6 +13,14 @@
                 "isStd": true
             },
             {
+                "path": "/body",
+                "label": "体型数据",
+                "icon": "el-icon-download",
+                "key": "exterior",
+                "status": false,
+                "isStd": true
+            },
+            {
                 "path": "/homeland",
                 "label": "家园指南",
                 "icon": "el-icon-download",
