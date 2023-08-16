@@ -10,16 +10,25 @@
 
 <script>
 import Nav from "@/components/Nav_v3.vue";
+import { __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Body",
     components: { Nav },
     data: function () {
         return { navStatusClass: "is-regular" };
     },
+    computed: {
+        client() {
+            return location.href.includes("origin") ? "origin" : "std";
+        },
+    },
     methods: {
         statusChange(navStatusClass) {
             this.navStatusClass = navStatusClass;
         },
+    },
+    created() {
+        if (this.client !== "std") window.open(`${__OriginRoot}pvx`, "_self");
     },
 };
 </script>
