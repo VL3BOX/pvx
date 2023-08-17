@@ -4,6 +4,10 @@ function getBodyList(params) {
     return $next().get("/api/pvxbody", { params });
 }
 
+function getOneBodyInfo(id) {
+    return $next().get(`/api/pvxbody/${id}`);
+}
+
 // 设置精选 
 function setStar(id) {
     return $next().put(`/api/pvxbody/${id}/manager/set/star`);
@@ -51,7 +55,38 @@ function setPost(id, data) {
     return $cms().put(`/api/cms/post/${id}/setting`, data);
 }
 
+// 获取附件列表 
+function getAccessoryList(postId, params) {
+    return $next().get(`/api/charge_attachment/pvxbody/${postId}`, {
+        params: params,
+    });
+}
+// 获取下载地址
+function getDownUrl(postId, uuid) {
+    return $next().get(`/api/charge_attachment/download/pvxbody/${postId}/${uuid}`);
+}
+
+function getRandomFace(params) {
+    return $next().get(`/api/pvxbody/random`, {
+        params: params,
+    });
+}
+
+function getSliders(type, client, per = 10, source_ids) {
+    let _params = {
+        client: client,
+        type: type,
+        source_type: "body",
+    };
+    if (per) _params.per = per;
+    if (source_ids) _params.source_ids = source_ids;
+    return $cms({ mute: true }).get(`/api/cms/news/v2`, {
+        params: _params,
+    });
+}
+
 export {
+    getOneBodyInfo,
     getBodyList,
     setStar,
     cancelStar,
@@ -60,5 +95,9 @@ export {
     deleteBody,
     payBody,
     loopPayStatus,
-    setPost
+    setPost,
+    getAccessoryList,
+    getRandomFace,
+    getDownUrl,
+    getSliders
 };
