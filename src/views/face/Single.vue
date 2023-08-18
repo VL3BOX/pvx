@@ -51,15 +51,18 @@
         </div> -->
         <!-- 基本信息 -->
         <div class="m-header">
-            <Avatar
-                :uid="post.user_id"
-                :url="post.user_avatar"
-                :frame="post.user_avatar_frame"
-                class="u-avatar"
-                v-if="!!post.original"
-            />
-            <h2 class="u-title">{{ post.title || "无标题" }}</h2>
-            <div class="u-info">
+            <div class="m-avatar">
+                <Avatar
+                    :uid="post.user_id"
+                    :url="post.user_avatar"
+                    :frame="post.user_avatar_frame"
+                    class="u-avatar"
+                    v-if="!!post.original"
+                />
+            </div>
+
+            <div class="m-header-info">
+                <h2>{{ post.title || "无标题" }}</h2>
                 <div class="u-author">
                     By
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
@@ -75,7 +78,6 @@
                         编辑
                     </a>
                 </div>
-
                 <div class="u-meta">
                     <i class="u-mark" v-if="!!post.star">★ 编辑推荐</i>
                     <i class="u-fr" v-if="!!post.is_fr">首发</i>
@@ -85,75 +87,79 @@
                         showBodyTypeLabel(post.body_type)
                     }}</i>
                 </div>
-
-                <div class="u-topic" v-if="topicText">
-                    <span class="u-topic-text">{{ topicText }}</span>
-                    <img class="u-topic-bg" src="../../assets/img/topic_bg.svg" alt="">
+            </div>
+            <div class="m-topic" v-if="topicText">{{ topicText }}</div>
+        </div>
+        <div class="m-face-content">
+            <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
+                <!-- 动态改为当前图片 -->
+                <div class="u-bg">
+                    <img :src="showPic(activePic)" />
+                    <div class="u-mask"></div>
                 </div>
+                <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
+                    <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
+                        <div class="m-face-pic">
+                            <el-image
+                                ref="previewImage"
+                                fit="contain"
+                                :src="showPic(item)"
+                                class="u-pic"
+                                :preview-src-list="resolveImageArr(previewSrcList)"
+                                @click.capture="handlePreviewImage(i)"
+                            ></el-image>
+                        </div>
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+
+            <!-- 购买区 -->
+            <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
+                <div class="m-face-pay-info">
+                    <span class="u-text">该脸型数据售价：</span>
+                    <el-tag effect="dark" color="#ffad31" round>
+                        <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
+                        <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
+                    </el-tag>
+                    <el-button
+                        class="u-btn"
+                        type="primary"
+                        size="small"
+                        icon="el-icon-shopping-cart-2"
+                        @click="facePay"
+                        :loading="payBtnLoading"
+                        >购买</el-button
+                    >
+                </div>
+                <img class="u-box-img" src="../../assets/img/box.svg" alt="" />
+            </div>
+
+            <!-- 数据区 -->
+            <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
+                <el-divider content-position="left">独家数据分析</el-divider>
+                <facedata v-if="facedata" :data="facedata" />
             </div>
         </div>
-
-        <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
-            <el-divider content-position="left"><i class="el-icon-video-camera"></i> 预览</el-divider>
-            <!-- 动态改为当前图片 -->
-            <div class="u-bg">
-                <img :src="showPic(activePic)" />
-                <div class="u-mask"></div>
-            </div>
-            <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
-                <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
-                    <div class="m-face-pic">
-                        <el-image
-                            ref="previewImage"
-                            fit="contain"
-                            :src="showPic(item)"
-                            class="u-pic"
-                            :preview-src-list="resolveImageArr(previewSrcList)"
-                            @click.capture="handlePreviewImage(i)"
-                        ></el-image>
-                    </div>
-                </el-carousel-item>
-            </el-carousel>
-
+        <div class="m-desc" v-if="post.remark">
             <el-divider content-position="left"><i class="el-icon-collection-tag"></i> 说明</el-divider>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
-        <!-- 购买区 -->
-        <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
-            <div class="m-face-pay-info">
-                <span class="u-text">该脸型数据售价：</span>
-                <el-tag effect="dark" color="#ffad31" round>
-                    <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
-                    <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
-                </el-tag>
-                <el-button
-                    class="u-btn"
-                    type="primary"
-                    size="small"
-                    icon="el-icon-shopping-cart-2"
-                    @click="facePay"
-                    :loading="payBtnLoading"
-                    >购买</el-button
-                >
-            </div>
-            <img class="u-box-img" src="../../assets/img/box.svg" alt="">
-        </div>
-
-        <!-- 数据区 -->
-        <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
-            <el-divider content-position="left">独家数据分析</el-divider>
-            <facedata v-if="facedata" :data="facedata" />
-        </div>
         <!--下载区-->
         <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
             <el-divider content-position="left">原始文件列表</el-divider>
             <ul class="m-face-files-list">
                 <li v-for="item in downFileList" :key="item.id">
                     <div>
-                        <span class="u-label">名称: <em>{{ item.name }}</em></span>
-                        <span class="u-label">版本 : <em>{{ item.created_at }}</em></span>
-                        <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
+                        <span class="u-label"
+                            >名称: <em>{{ item.name }}</em></span
+                        >
+                        <span class="u-label"
+                            >版本 : <em>{{ item.created_at }}</em></span
+                        >
+                        <span class="u-label" v-if="item.describe"
+                            >备注 ： <em>{{ item.describe }}</em></span
+                        >
                     </div>
                     <el-button
                         class="u-action"
@@ -231,12 +237,7 @@ import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getStat, postStat } from "@jx3box/jx3box-common/js/stat";
 import facedata from "@jx3box/jx3box-facedat/src/Facedat.vue";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
-import {
-    editLink,
-    showAvatar,
-    authorLink,
-    resolveImagePath,
-} from "@jx3box/jx3box-common/js/utils";
+import { editLink, showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
@@ -263,7 +264,7 @@ export default {
             carouselActive: 0,
             isEditor: User.isEditor(),
 
-            topic_info: null
+            topic_info: null,
         };
     },
     computed: {
@@ -305,8 +306,8 @@ export default {
             return this.isStar ? "取消精选" : "精选";
         },
         topicText() {
-            return this.topic_info ? `${dayjs(this.topic_info.created_at).format('YYYY年MM月DD日')}荣登头条榜` : ''
-        }
+            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条榜` : "";
+        },
     },
     created: function () {
         this.getData();
@@ -392,7 +393,7 @@ export default {
         facePay() {
             if (!User.isLogin()) {
                 User.toLogin();
-                return
+                return;
             }
             this.$confirm("确认购买此捏脸？", "提示", {
                 confirmButtonText: "确定",
@@ -411,28 +412,33 @@ export default {
                     };
                     //支付
                     this.payBtnLoading = true;
-                    payFace(params).then((res) => {
-                        let payid = res.data.data.id;
-                        // 轮询接口
-                        let setIntervalId = setInterval(
-                            loopPayStatus(payid).then((d) => {
-                                this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
-                            }, 1000)
-                        );
-                    }).catch(err => {
-                        // 余额不足
-                        if (err.response?.data?.code == 40019) {
-                            this.$confirm("余额不足，是否前往充值？", "提示", {
-                                confirmButtonText: "确定",
-                                cancelButtonText: "取消",
-                                type: "warning",
-                            }).then(() => {
-                                window.open('/vip/cny', '_blank')
-                            }).catch(() => {});
-                        }
-                    }).finally(() => {
-                        this.payBtnLoading = false;
-                    });
+                    payFace(params)
+                        .then((res) => {
+                            let payid = res.data.data.id;
+                            // 轮询接口
+                            let setIntervalId = setInterval(
+                                loopPayStatus(payid).then((d) => {
+                                    this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
+                                }, 1000)
+                            );
+                        })
+                        .catch((err) => {
+                            // 余额不足
+                            if (err.response?.data?.code == 40019) {
+                                this.$confirm("余额不足，是否前往充值？", "提示", {
+                                    confirmButtonText: "确定",
+                                    cancelButtonText: "取消",
+                                    type: "warning",
+                                })
+                                    .then(() => {
+                                        window.open("/vip/cny", "_blank");
+                                    })
+                                    .catch(() => {});
+                            }
+                        })
+                        .finally(() => {
+                            this.payBtnLoading = false;
+                        });
                 })
                 .catch(() => {});
         },
@@ -566,19 +572,21 @@ export default {
 
         // 判断是否上过头条
         getSliders() {
-            getSliders('slider', this.post.client, 10, this.post.id).then(res => {
+            getSliders("slider", this.post.client, 10, this.post.id).then((res) => {
                 if (res.data.data?.list) {
                     // 取创建时间最新的一条
-                    const list = res.data.data.list.sort((a, b) => dayjs(b.created_at).isAfter(dayjs(a.created_at)) ? 1 : -1);
+                    const list = res.data.data.list.sort((a, b) =>
+                        dayjs(b.created_at).isAfter(dayjs(a.created_at)) ? 1 : -1
+                    );
                     this.topic_info = list[0];
                 }
-            })
+            });
         },
 
         // 将图片地址替换为cdn
         resolveImageArr(arr) {
-            return arr.map(item => resolveImagePath(item));
-        }
+            return arr.map((item) => resolveImagePath(item));
+        },
     },
 };
 </script>
