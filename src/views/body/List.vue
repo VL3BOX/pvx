@@ -7,7 +7,7 @@
             :active="active"
             @setActive="setActive"
         />
-        <div class="m-content">
+        <div class="m-content" v-loading="loading">
             <template v-if="list.length">
                 <div class="m-list" v-for="(_list, key) in groupList" :key="key">
                     <h2 class="u-title">{{ nameMap[key] }}</h2>
