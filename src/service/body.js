@@ -42,9 +42,8 @@ function deleteBody(id) {
  * accessUserId {int} 出售人的id  【可以从体型列表中获取 user_id】
  */
 function payBody(params) {
-    return $pay({ mute: true }).post(
-        `/api/buy-licence/article/${params.postType}/${params.PostId}/pay/${params.priceType}/${params.priceCount}/from/${params.payUserId}/to/${params.accessUserId}`, {}
-    );
+    const { postType, PostId, priceType, priceCount, payUserId, accessUserId } = params
+    return $pay({ mute: true }).post(`/api/buy-licence/article/${postType}/${PostId}/pay/${priceType}/${priceCount}/from/${payUserId}/to/${accessUserId}`);
 }
 // 循环获取支付结果 
 function loopPayStatus(id) {

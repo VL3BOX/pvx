@@ -389,7 +389,7 @@ export default {
                 .then(() => {
                     let res = this.post;
                     let params = {
-                        postType: "body",
+                        postType: "pvxbody",
                         PostId: res.id,
                         priceType: res.price_type,
                         priceCount: res.price_count,
