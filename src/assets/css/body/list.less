@@ -1,12 +1,23 @@
 .m-body-list {
     .m-list {
+        .flex;
+        flex-direction: column;
+        gap: 20px;
         .u-title {
             .fz(28px,1.5);
             .bold;
-            margin: 20px 0;
+            .mt(20px);
         }
     }
-    .m-archive-null{
-        .mt(20px); 
+    .m-all {
+        .flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        .m-body-item {
+            .mr(0);
+        }
+    }
+    .m-archive-null {
+        .mt(20px);
     }
 }
