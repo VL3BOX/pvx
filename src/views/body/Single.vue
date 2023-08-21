@@ -213,7 +213,7 @@ import {
     loopPayStatus,
     getAccessoryList,
     getDownUrl,
-    getRandomFace,
+    getRandomBody,
     setStar,
     cancelStar,
     onlineBody,
@@ -453,7 +453,7 @@ export default {
                 user_id: post.user_id,
                 limit: 8,
             };
-            getRandomFace(params).then((res) => {
+            getRandomBody(params).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;
                 }

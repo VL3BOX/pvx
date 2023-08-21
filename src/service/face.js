@@ -77,8 +77,7 @@ function deleteFace(id) {
  */
 function payFace(params) {
     return $pay({ mute: true }).post(
-        `/api/buy-licence/article/${params.postType}/${params.PostId}/pay/${params.priceType}/${params.priceCount}/from/${params.payUserId}/to/${params.accessUserId}`,
-        {}
+        `/api/buy-licence/article/${params.postType}/${params.PostId}/pay/${params.priceType}/${params.priceCount}/from/${params.payUserId}/to/${params.accessUserId}`, {}
     );
 }
 /**
@@ -128,11 +127,19 @@ function getDownHistory(params) {
         params: params,
     });
 }
+
 function getRandomFace(params) {
     return $next().get(`/api/face/random`, {
         params: params,
     });
 }
+
+function getRandomFaceAndBody(params) {
+    return $next().get(`/api/face/random-one/with-many-body`, {
+        params
+    });
+}
+
 // 捏脸海报
 function getSliders(type, client, per = 10, source_ids) {
     let _params = {
@@ -175,5 +182,6 @@ export {
     getRandomFace,
     getFaceOld,
     getSliders,
+    getRandomFaceAndBody,
     setPost
 };

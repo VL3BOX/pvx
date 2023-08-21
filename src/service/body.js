@@ -65,11 +65,18 @@ function getDownUrl(postId, uuid) {
     return $next().get(`/api/charge_attachment/download/pvxbody/${postId}/${uuid}`);
 }
 
-function getRandomFace(params) {
+function getRandomFaceAndBody(params) {
+    return $next().get(`/api/pvxbody/random-one/with-many-face`, {
+        params
+    });
+}
+
+function getRandomBody(params) {
     return $next().get(`/api/pvxbody/random`, {
         params: params,
     });
 }
+
 
 function getSliders(type, client, per = 10, source_ids) {
     let _params = {
@@ -96,7 +103,8 @@ export {
     loopPayStatus,
     setPost,
     getAccessoryList,
-    getRandomFace,
+    getRandomBody,
+    getRandomFaceAndBody,
     getDownUrl,
     getSliders
 };

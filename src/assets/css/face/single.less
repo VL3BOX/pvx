@@ -1,3 +1,9 @@
+.p-face-single {
+    .flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .m-navigation {
     // .mb(20px);
     display: flex;
@@ -75,10 +81,8 @@
 
 .m-header {
     .flex;
-    .mb(10px);
     align-items: center;
     gap: 20px;
-    padding: 10px 0;
     @media screen and (max-width: @phone) {
         .pt(60px);
     }
@@ -241,7 +245,6 @@
 
 .m-face-content {
     .flex;
-    .pb(40px);
     gap: 20px;
 }
 .m-single-content-box {
@@ -250,7 +253,6 @@
     padding: 20px;
     box-sizing: border-box;
 }
-.m-single-data,
 .m-face-pay {
     .clip;
     .size(565px,500px);
@@ -365,9 +367,6 @@
     }
 }
 
-.m-face-files {
-    .mb(20px);
-}
 .m-face-files-list {
     list-style: none;
     padding: 0;
@@ -397,7 +396,6 @@
     }
 }
 .m-author {
-    .mb(20px);
     .u-author-info {
         .flex;
         align-items: center;
@@ -426,6 +424,44 @@
         padding: 5px 5px 0 5px;
         overflow: hidden;
     }
+    .u-face {
+        .size(200px,264px);
+        text-align: left;
+        padding: 20px;
+        box-sizing: border-box;
+        background: rgba(36, 41, 46, 0.05);
+        .u-pic {
+            .r(10px);
+            .size(160px);
+        }
+        .u-title {
+            .break(1);
+            .mt(10px);
+            .fz(20px);
+            color: rgba(36, 41, 46, 1);
+        }
+        .u-name {
+            .fz(14px);
+        }
+    }
+    .u-body {
+        .size(160px,264px);
+        padding: 0;
+        border-radius: 10px;
+        background: rgba(36, 41, 46, 1);
+        .m-body-item{
+            padding: 0;
+            .full;
+        }
+        .u-pic {
+            .full;
+        }
+        .u-title,
+        .u-name {
+            .none;
+        }
+    }
+
     .u-pic {
         height: 100px;
         .w(auto);
@@ -462,7 +498,6 @@
 }
 
 .m-thx {
-    .mt(30px);
     padding: 20px;
 }
 
@@ -527,17 +562,9 @@
 }
 
 .m-desc {
-    .pb(20px);
-    .el-divider__text {
-        .bold;
-        .fz(18px);
-        background-color: #f3f5f6;
-    }
-    .u-desc {
-        .db;
-        .r(10px);
-        background-color: #fff;
-        color: #000;
-        padding: 20px;
-    }
+    .r(10px);
+    .lh(24px);
+    padding: 20px 20px 30px 20px;
+    background-color: #fff;
+    color: #000;
 }

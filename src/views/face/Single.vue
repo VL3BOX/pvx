@@ -90,6 +90,7 @@
             </div>
             <div class="m-topic" v-if="topicText">{{ topicText }}</div>
         </div>
+
         <div class="m-face-content">
             <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
                 <!-- 动态改为当前图片 -->
@@ -133,16 +134,17 @@
                 </div>
                 <img class="u-box-img" src="../../assets/img/box.svg" alt="" />
             </div>
-
-            <!-- 数据区 -->
-            <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
-                <el-divider content-position="left">独家数据分析</el-divider>
-                <facedata v-if="facedata" :data="facedata" />
-            </div>
         </div>
+
         <div class="m-desc" v-if="post.remark">
             <el-divider content-position="left"><i class="el-icon-collection-tag"></i> 说明</el-divider>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
+        </div>
+
+        <!-- 数据区 -->
+        <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
+            <el-divider content-position="left">独家数据分析</el-divider>
+            <facedata v-if="facedata" :data="facedata" type="face" />
         </div>
 
         <!--下载区-->
@@ -199,6 +201,28 @@
                 </a>
             </div>
         </div>
+        <!--搭配随机作品-->
+        <div class="m-random-list m-single-content-box" v-if="pvxbodyList.length">
+            <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
+            <div class="u-list">
+                <a class="u-item u-face" :href="`/face/` + face.id" target="_blank">
+                    <div class="u-pic">
+                        <el-image v-if="face.images" fit="cover" :src="showPic(imgLink(face.images))"> </el-image>
+                    </div>
+                    <div class="u-title" :title="face.title">{{ face.title || "未命名" }}</div>
+                    <div class="u-name" :title="post.display_name">作者：{{ post.display_name }}</div>
+                </a>
+                <a
+                    class="u-item u-body"
+                    :href="`/body/` + item.id"
+                    target="_blank"
+                    v-for="item in pvxbodyList"
+                    :key="item.id"
+                >
+                    <bodyItem :item="item" />
+                </a>
+            </div>
+        </div>
         <!-- 点赞 -->
         <Thx
             class="m-thx m-single-content-box"
@@ -227,6 +251,7 @@ import {
     getAccessoryList,
     getDownUrl,
     getRandomFace,
+    getRandomFaceAndBody,
     setStar,
     cancelStar,
     onlineFace,
@@ -240,11 +265,12 @@ import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { editLink, showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
-import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import dayjs from "dayjs";
+import bodyItem from "@/components/body/item";
 export default {
     name: "single",
-    components: { facedata, Comment },
+    components: { facedata, Comment, bodyItem },
     data: function () {
         return {
             loading: false,
@@ -265,6 +291,8 @@ export default {
             isEditor: User.isEditor(),
 
             topic_info: null,
+            face: {},
+            pvxbodyList: [],
         };
     },
     computed: {
@@ -313,6 +341,9 @@ export default {
         this.getData();
     },
     methods: {
+        imgLink: function (images) {
+            return images?.[0] || __imgPath + "image/face/null2.png";
+        },
         showAvatar(url) {
             return showAvatar(url, "l");
         },
@@ -352,9 +383,9 @@ export default {
                         this.post = this.$store.state.faceSingle = res.data.data;
                         document.title = this.post.title;
                         this.getAccessoryList();
-                        //获取作者作品
+                        //获取作者作品 和 系统推荐作品
                         this.getRandomFaceList();
-
+                        this.getRandomList();
                         this.getSliders();
                     })
                     .catch((err) => {
@@ -462,15 +493,19 @@ export default {
             }
         },
         getRandomFaceList() {
-            let post = this.post;
-            let params = {
-                user_id: post.user_id,
-                limit: 8,
-            };
-            getRandomFace(params).then((res) => {
+            let { user_id } = this.post;
+            getRandomFace({ user_id, limit: 8 }).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;
                 }
+            });
+        },
+        getRandomList() {
+            const { body_type, client } = this.post;
+            getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
+                const { face, pvxbodyList } = res.data.data;
+                this.face = face;
+                this.pvxbodyList = pvxbodyList || [];
             });
         },
         showPic(url) {
