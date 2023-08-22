@@ -21,9 +21,9 @@
         <span class="u-op">
             <div class="u-face-title">{{ item.title }}</div>
             <!-- 非原创显示名称，原创显示头像+作者 -->
-            <span class="u-author" :title="item.author_name" v-if="!item.original" @click="onAuthorClick">{{
-                item.author_name || "匿名"
-            }}</span>
+            <span class="u-author" :title="item.author_name" v-if="!item.original" @click="onAuthorClick">
+                {{ item.author_name || "匿名" }}
+            </span>
             <a class="u-author-box" :href="authorLink(item.user_id)" @click="onAuthorClick" v-else>
                 <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
                 <span class="u-author">{{ author }}</span>

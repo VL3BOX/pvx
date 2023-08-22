@@ -205,22 +205,8 @@
         <div class="m-random-list m-single-content-box" v-if="pvxbodyList.length">
             <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
             <div class="u-list">
-                <a class="u-item u-face" :href="`/face/` + face.id" target="_blank">
-                    <div class="u-pic">
-                        <el-image v-if="face.images" fit="cover" :src="showPic(imgLink(face.images))"> </el-image>
-                    </div>
-                    <div class="u-title" :title="face.title">{{ face.title || "未命名" }}</div>
-                    <div class="u-name" :title="post.display_name">作者：{{ post.display_name }}</div>
-                </a>
-                <a
-                    class="u-item u-body"
-                    :href="`/body/` + item.id"
-                    target="_blank"
-                    v-for="item in pvxbodyList"
-                    :key="item.id"
-                >
-                    <bodyItem :item="item" />
-                </a>
+                <faceItem :item="face" />
+                <bodyItem :item="item" v-for="item in pvxbodyList" :key="item.id" />
             </div>
         </div>
         <!-- 点赞 -->
@@ -268,9 +254,10 @@ import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients, __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import dayjs from "dayjs";
 import bodyItem from "@/components/body/item";
+import faceItem from "@/components/face/item";
 export default {
     name: "single",
-    components: { facedata, Comment, bodyItem },
+    components: { facedata, Comment, faceItem, bodyItem },
     data: function () {
         return {
             loading: false,
@@ -501,10 +488,10 @@ export default {
             });
         },
         getRandomList() {
-            const { body_type, client } = this.post;
+            const { body_type, client, display_name } = this.post;
             getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
                 const { face, pvxbodyList } = res.data.data;
-                this.face = face;
+                this.face = { ...face, author_name: display_name };
                 this.pvxbodyList = pvxbodyList || [];
             });
         },
