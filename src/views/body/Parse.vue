@@ -2,7 +2,7 @@
     <div class="m-facedata">
         <div class="m-face-parse" :class="{ on: done }">
             <h1 class="m-face-parse-title">体型数据解析器</h1>
-            <Upload type="pvxbody" @success="handleSuccess" />
+            <Upload type="body" @success="handleSuccess" />
             <Bodydat class="m-face-parse-preview" :data="json" :lock="false" v-show="done" />
         </div>
     </div>

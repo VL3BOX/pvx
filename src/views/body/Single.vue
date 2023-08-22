@@ -271,7 +271,8 @@ export default {
             return this.post?.user_id == User.getInfo().uid || false;
         },
         bodydata: function () {
-            return this.post?.data || "";
+            const data = this.post?.data || "";
+            return data.indexOf("\\") > -1 ? JSON.parse(data) : data;
         },
         previewSrcList: function () {
             return this.post?.images || [];
