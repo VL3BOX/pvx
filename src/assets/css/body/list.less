@@ -3,21 +3,36 @@
         .flex;
         flex-direction: column;
         gap: 20px;
-        .u-title {
+        .u-list-title {
             .fz(28px,1.5);
             .bold;
             .mt(20px);
+        }
+        .m-rare .list {
+            .flex;
+            gap: 20px;
         }
     }
     .m-all {
         .flex;
         flex-wrap: wrap;
         gap: 20px;
-        .m-body-item {
-            .mr(0);
-        }
     }
     .m-archive-null {
         .mt(20px);
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-body-list {
+        .m-content {
+            .pt(60px);
+        }
+        .m-list {
+            .u-list-title {
+                .fz(24px,1.5);
+                margin: 20px 0 0 0;
+            }
+        }
     }
 }

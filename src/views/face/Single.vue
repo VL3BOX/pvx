@@ -2,15 +2,6 @@
     <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
-            <!-- <el-input
-                placeholder="请输入搜索内容"
-                v-model="search"
-                class="input-with-select"
-                @keyup.enter.native="getFaceList"
-            >
-                <span slot="prepend">关键词</span>
-                <el-button slot="append" icon="el-icon-search" @click="getFaceList"></el-button>
-            </el-input> -->
             <div class="u-right-btn">
                 <div v-if="isSinglePage && isEditor" class="u-op m-face-btn-box">
                     <div class="m-face-btn-box">
@@ -129,8 +120,9 @@
                         icon="el-icon-shopping-cart-2"
                         @click="facePay"
                         :loading="payBtnLoading"
-                        >购买</el-button
                     >
+                        购买
+                    </el-button>
                 </div>
                 <img class="u-box-img" src="../../assets/img/box.svg" alt="" />
             </div>
@@ -189,16 +181,7 @@
         <div class="m-random-list m-single-content-box">
             <el-divider content-position="left">作者其他作品</el-divider>
             <div class="u-list">
-                <a class="u-item" :href="`/face/` + item.id" target="_blank" v-for="item in randomList" :key="item.id">
-                    <div class="u-pic">
-                        <el-image v-if="item.images" fit="cover" :src="showPic(item.images[0])">
-                            <div slot="error" class="u-image-slot">
-                                <i class="el-icon-picture-outline"></i>
-                            </div>
-                        </el-image>
-                    </div>
-                    <div class="u-name" :title="item.title">{{ item.title || "未命名" }}</div>
-                </a>
+                <faceItem :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
         </div>
         <!--搭配随机作品-->
@@ -206,7 +189,7 @@
             <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
             <div class="u-list">
                 <faceItem :item="face" />
-                <bodyItem :item="item" v-for="item in pvxbodyList" :key="item.id" />
+                <bodyItem :item="item" :onlyPic="true" v-for="item in pvxbodyList" :key="item.id" />
             </div>
         </div>
         <!-- 点赞 -->
@@ -481,7 +464,7 @@ export default {
             }
         },
         getRandomFaceList() {
-            let { user_id } = this.post;
+            const { user_id } = this.post;
             getRandomFace({ user_id, limit: 8 }).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;

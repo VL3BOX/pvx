@@ -1,5 +1,5 @@
 <template>
-    <div class="p-body-single" v-loading="loading">
+    <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
             <!-- 操作tool -->
@@ -37,15 +37,18 @@
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <Avatar
-                :uid="post.user_id"
-                :url="post.user_avatar"
-                :frame="post.user_avatar_frame"
-                class="u-avatar"
-                v-if="!!post.original"
-            />
-            <h2 class="u-title">{{ post.title || "无标题" }}</h2>
-            <div class="u-info">
+            <div class="m-avatar">
+                <Avatar
+                    :uid="post.user_id"
+                    :url="post.user_avatar"
+                    :frame="post.user_avatar_frame"
+                    class="u-avatar"
+                    v-if="!!post.original"
+                />
+            </div>
+
+            <div class="m-header-info">
+                <h2>{{ post.title || "无标题" }}</h2>
                 <div class="u-author">
                     By
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
@@ -56,12 +59,11 @@
                     }}</a>
                     <span class="u-name" v-else>{{ post.author_name }}</span>
                     <time class="u-time">{{ post.updated_at }}</time>
-                    <a v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
+                    <a v-if="canEdit" :href="editLink('face', post.id)" target="_blank">
                         <i class="el-icon-edit-outline u-edit-icon"></i>
                         编辑
                     </a>
                 </div>
-
                 <div class="u-meta">
                     <i class="u-mark" v-if="!!post.star">★ 编辑推荐</i>
                     <i class="u-fr" v-if="!!post.is_fr">首发</i>
@@ -71,67 +73,66 @@
                         showBodyTypeLabel(post.body_type)
                     }}</i>
                 </div>
+            </div>
+            <div class="m-topic" v-if="topicText">{{ topicText }}</div>
+        </div>
 
-                <div class="u-topic" v-if="topicText">
-                    <span class="u-topic-text">{{ topicText }}</span>
-                    <img class="u-topic-bg" src="../../assets/img/topic_bg.svg" alt="" />
+        <div class="m-face-content">
+            <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
+                <!-- 动态改为当前图片 -->
+                <div class="u-bg">
+                    <img :src="showPic(activePic)" />
+                    <div class="u-mask"></div>
                 </div>
+                <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
+                    <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
+                        <div class="m-face-pic">
+                            <el-image
+                                ref="previewImage"
+                                fit="contain"
+                                :src="showPic(item)"
+                                class="u-pic"
+                                :preview-src-list="resolveImageArr(previewSrcList)"
+                                @click.capture="handlePreviewImage(i)"
+                            ></el-image>
+                        </div>
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+
+            <!-- 购买区 -->
+            <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
+                <div class="m-face-pay-info">
+                    <span class="u-text">该体型数据售价：</span>
+                    <el-tag effect="dark" color="#ffad31" round>
+                        <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
+                        <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
+                    </el-tag>
+                    <el-button
+                        class="u-btn"
+                        type="primary"
+                        size="small"
+                        icon="el-icon-shopping-cart-2"
+                        @click="facePay"
+                        :loading="payBtnLoading"
+                    >
+                        购买
+                    </el-button>
+                </div>
+                <img class="u-box-img" src="../../assets/img/box.svg" />
             </div>
         </div>
 
-        <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
-            <el-divider content-position="left"><i class="el-icon-video-camera"></i> 预览</el-divider>
-            <!-- 动态改为当前图片 -->
-            <div class="u-bg">
-                <img :src="showPic(activePic)" />
-                <div class="u-mask"></div>
-            </div>
-            <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
-                <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
-                    <div class="m-face-pic">
-                        <el-image
-                            ref="previewImage"
-                            fit="contain"
-                            :src="showPic(item)"
-                            class="u-pic"
-                            :preview-src-list="resolveImageArr(previewSrcList)"
-                            @click.capture="handlePreviewImage(i)"
-                        ></el-image>
-                    </div>
-                </el-carousel-item>
-            </el-carousel>
-
+        <div class="m-desc" v-if="post.remark">
             <el-divider content-position="left"><i class="el-icon-collection-tag"></i> 说明</el-divider>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
-        <!-- 购买区 -->
-        <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
-            <div class="m-face-pay-info">
-                <span class="u-text">该体型数据售价：</span>
-                <el-tag effect="dark" color="#ffad31" round>
-                    <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
-                    <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
-                </el-tag>
-                <el-button
-                    class="u-btn"
-                    type="primary"
-                    size="small"
-                    icon="el-icon-shopping-cart-2"
-                    @click="facePay"
-                    :loading="payBtnLoading"
-                >
-                    购买
-                </el-button>
-            </div>
-            <img class="u-box-img" src="../../assets/img/box.svg" />
-        </div>
-
         <!-- 数据区 -->
-        <!-- <div class="m-single-data m-single-content-box" v-if="has_buy && facedata">
+        <div class="m-single-data m-single-content-box" v-if="has_buy && bodydata">
             <el-divider content-position="left">独家数据分析</el-divider>
-            <facedata v-if="facedata" :data="facedata" />
-        </div> -->
+            <bodydata v-if="bodydata" :data="bodydata" />
+        </div>
         <!--下载区-->
         <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
             <el-divider content-position="left">原始文件列表</el-divider>
@@ -174,16 +175,15 @@
         <div class="m-random-list m-single-content-box">
             <el-divider content-position="left">作者其他作品</el-divider>
             <div class="u-list">
-                <a class="u-item" :href="`/body/` + item.id" target="_blank" v-for="item in randomList" :key="item.id">
-                    <div class="u-pic">
-                        <el-image v-if="item.images" fit="cover" :src="showPic(item.images[0])">
-                            <div slot="error" class="u-image-slot">
-                                <i class="el-icon-picture-outline"></i>
-                            </div>
-                        </el-image>
-                    </div>
-                    <div class="u-name" :title="item.title">{{ item.title || "未命名" }}</div>
-                </a>
+                <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
+            </div>
+        </div>
+        <!--搭配随机作品-->
+        <div class="m-random-list m-single-content-box" v-if="faceList.length">
+            <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
+            <div class="u-list">
+                <bodyItem :onlyPic="true" :item="body" />
+                <faceItem :item="item" :onlyPic="true" v-for="item in faceList" :key="item.id" />
             </div>
         </div>
         <!-- 点赞 -->
@@ -214,6 +214,7 @@ import {
     getAccessoryList,
     getDownUrl,
     getRandomBody,
+    getRandomFaceAndBody,
     setStar,
     cancelStar,
     onlineBody,
@@ -228,9 +229,12 @@ import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
 import dayjs from "dayjs";
+import bodydata from "@jx3box/jx3box-facedat/src/Bodydat.vue";
+import bodyItem from "@/components/body/item";
+import faceItem from "@/components/face/item";
 export default {
     name: "single",
-    components: { Comment },
+    components: { Comment, faceItem, bodydata, bodyItem },
     data: function () {
         return {
             loading: false,
@@ -251,6 +255,8 @@ export default {
             isEditor: User.isEditor(),
 
             topic_info: null,
+            body: {},
+            faceList: [],
         };
     },
     computed: {
@@ -263,7 +269,7 @@ export default {
         isAuthor: function () {
             return this.post?.user_id == User.getInfo().uid || false;
         },
-        facedata: function () {
+        bodydata: function () {
             return this.post?.data || "";
         },
         previewSrcList: function () {
@@ -340,7 +346,7 @@ export default {
                         this.getAccessoryList();
                         //获取作者作品
                         this.getRandomFaceList();
-
+                        this.getRandomList();
                         this.getSliders();
                     })
                     .catch((err) => {
@@ -448,15 +454,19 @@ export default {
             }
         },
         getRandomFaceList() {
-            let post = this.post;
-            let params = {
-                user_id: post.user_id,
-                limit: 8,
-            };
-            getRandomBody(params).then((res) => {
+            const { user_id } = this.post;
+            getRandomBody({ user_id, limit: 8 }).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;
                 }
+            });
+        },
+        getRandomList() {
+            const { body_type, client, display_name } = this.post;
+            getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
+                const { pvxbody, faceList } = res.data.data;
+                this.body = { ...pvxbody, author_name: display_name };
+                this.faceList = faceList || [];
             });
         },
         showPic(url) {
@@ -579,4 +589,36 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/face/single.less";
+.m-random-list {
+    .m-body-item.onlyPic {
+        .m-op {
+            .pa;
+            .flex;
+            .lb(0);
+            .full;
+            .z(2);
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            &::after {
+                content: "";
+                .db;
+                .pa;
+                .full;
+                .tm(0.5);
+                .lt(0);
+                .z(-1);
+                .r(10px);
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%),
+                    rgba(225, 225, 225, 1);
+            }
+            .u-title,
+            .u-author {
+                color: #fff;
+            }
+        }
+    }
+}
 </style>

@@ -40,7 +40,7 @@
 
 .m-face-title {
     margin-top: 20px !important;
-} 
+}
 .m-recommend-box,
 .m-face-box {
     .pr;
@@ -99,19 +99,17 @@
 
 .m-face-list {
     .flex;
+    gap: 20px;
     overflow-x: hidden;
     overflow-y: hidden;
-    .w(100%);
 }
+
 //单个体型全部list
 .m-face-list--all {
-    display: inline-flex;
+    .flex;
+    .mb(20px);
     flex-wrap: wrap;
-    .m-face-item {
-        .pr;
-        .mb(20px);
-        overflow: hidden;
-    }
+    gap: 20px;
 }
 .m-face-item:last-child,
 .m-recommend-item:last-child {
@@ -178,9 +176,7 @@
         .scrollbar(2px);
         overflow-x: auto;
 
-        .m-face-item {
-            // .size(50%,70%);
-            .size(20vw,auto);
+        .m-face-item { 
             .u-img {
                 .size(20vw);
                 .u-star-mark {

@@ -10,11 +10,11 @@
         <div class="m-content" v-loading="loading">
             <template v-if="list.length">
                 <div class="m-list" v-for="(_list, key) in groupList" :key="key">
-                    <h2 class="u-title">{{ nameMap[key] }}</h2>
+                    <h2 class="u-list-title">{{ nameMap[key] }}</h2>
                     <!-- 显示一行 -->
                     <list-cross v-if="!tabsData.body_type" :list="_list" :gap="0" :radius="0">
                         <template v-slot="data">
-                            <bodyItem class="m-pvx-item" :item="data.item"></bodyItem>
+                            <bodyItem :item="data.item"></bodyItem>
                         </template>
                     </list-cross>
                     <!-- 显示多行 -->

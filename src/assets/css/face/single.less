@@ -88,18 +88,11 @@
     }
 
     .m-avatar {
-        .size(168px);
+        .size(128px);
         .flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        .u-avatar {
-            .db;
-            .size(120px);
-            .c-avatar-pic {
-                .full;
-            }
-        }
     }
     .m-topic {
         .pr;
@@ -416,75 +409,6 @@
         gap: 20px;
         flex-wrap: wrap;
     }
-    .u-item {
-        border-radius: 4px;
-        text-align: center;
-        .w(160px);
-        background-color: @bg-light;
-        padding: 5px 5px 0 5px;
-        overflow: hidden;
-    }
-    .u-face {
-        .r(10px);
-        .size(200px,264px);
-        text-align: left; 
-        box-sizing: border-box;
-        background: rgba(36, 41, 46, 0.05);
-        .u-pic {
-            .r(10px);
-            .size(160px);
-        }
-        .u-title {
-            .break(1);
-            .mt(10px);
-            .fz(20px);
-            color: rgba(36, 41, 46, 1);
-        }
-        .u-name {
-            .fz(14px);
-        }
-    }
-    .u-body {
-        .size(160px,264px);
-        padding: 0;
-        border-radius: 10px;
-        background: rgba(36, 41, 46, 1);
-        .m-body-item{
-            padding: 0;
-            .full;
-        }
-        .u-pic {
-            .full;
-        }
-        .u-title,
-        .u-name {
-            .none;
-        }
-    }
-
-    .u-pic {
-        height: 100px;
-        .w(auto);
-        overflow: hidden;
-        .el-image,
-        .u-image-slot {
-            .flex;
-            justify-content: center;
-            .size(100%);
-            align-items: center;
-            color: #999;
-        }
-        transition: all 0.3s;
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
-    .u-name {
-        .fz(12px,2.3);
-        color: @color;
-        .nobreak;
-        .w(100%);
-    }
 }
 .m-face-pic {
     .h(100%);
@@ -503,11 +427,6 @@
 
 .el-carousel__item.is-active {
     .z(100);
-    // pointer-events:none;
-
-    // &:hover .m-face-pic{
-    //     cursor:zoom-out !important;
-    // }
 }
 .m-carousel .el-carousel__container {
     height: 450px;
@@ -549,9 +468,6 @@
             background-color: @bg-light;
             padding: 5px 5px 0 5px;
             overflow: hidden;
-        }
-        .u-pic {
-            height: 70px;
         }
     }
     .m-single-pics {
