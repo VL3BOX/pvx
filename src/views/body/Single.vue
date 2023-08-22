@@ -78,12 +78,13 @@
         </div>
 
         <div class="m-face-content">
-            <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
+            <div class="m-single-pics m-single-content-box" v-if="showCarousel">
                 <!-- 动态改为当前图片 -->
                 <div class="u-bg">
                     <img :src="showPic(activePic)" />
                     <div class="u-mask"></div>
                 </div>
+
                 <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
                     <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
                         <div class="m-face-pic">
@@ -182,7 +183,7 @@
         <div class="m-random-list m-single-content-box" v-if="faceList.length">
             <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
             <div class="u-list">
-                <bodyItem :onlyPic="true" :item="body" />
+                <bodyItem :onlyPic="true" :item="pvxbody" />
                 <faceItem :item="item" :onlyPic="true" v-for="item in faceList" :key="item.id" />
             </div>
         </div>
@@ -190,7 +191,7 @@
         <Thx
             class="m-thx m-single-content-box"
             :postId="id"
-            postType="body"
+            postType="pvxbody"
             :postTitle="post.title || '无标题'"
             :userId="post.user_id"
             :adminBoxcoinEnable="true"
@@ -200,7 +201,7 @@
         <!-- 评论 -->
         <div class="m-single-content-box">
             <el-divider content-position="left">讨论</el-divider>
-            <Comment :id="id" category="body" />
+            <Comment :id="id" category="pvxbody" />
         </div>
     </div>
 </template>
@@ -255,7 +256,7 @@ export default {
             isEditor: User.isEditor(),
 
             topic_info: null,
-            body: {},
+            pvxbody: {},
             faceList: [],
         };
     },
@@ -270,7 +271,6 @@ export default {
             return this.post?.user_id == User.getInfo().uid || false;
         },
         bodydata: function () {
-            console.log(this.post?.data)
             return this.post?.data || "";
         },
         previewSrcList: function () {
@@ -300,6 +300,11 @@ export default {
         },
         topicText() {
             return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条榜` : "";
+        },
+        showCarousel() {
+            if (this.previewSrcList?.length > 0) return true;
+            if (!this.has_buy) return true;
+            return false;
         },
     },
     created: function () {
@@ -354,10 +359,10 @@ export default {
                         this.loading = false;
                     });
 
-                getStat("body", this.id).then((res) => {
+                getStat("pvxbody", this.id).then((res) => {
                     this.stat = res.data;
                 });
-                postStat("body", this.id);
+                postStat("pvxbody", this.id);
             }
         },
         downloadPageQuery(pageIndex) {
@@ -367,11 +372,11 @@ export default {
         getAccessoryList() {
             getAccessoryList(this.id, this.downloadParams)
                 .then((res) => {
-                    let data = res.data.data;
-                    this.has_buy = data.has_buy;
-                    if (data.has_buy) {
-                        this.downFileList = data.list;
-                        this.downloadParams.total = data.page.total;
+                    const { page, list, has_buy } = res.data.data;
+                    this.has_buy = has_buy ? has_buy : false;
+                    if (has_buy) {
+                        this.downFileList = list;
+                        this.downloadParams.total = page.total;
                     }
                 })
                 .finally(() => {
@@ -466,7 +471,7 @@ export default {
             const { body_type, client, display_name } = this.post;
             getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
                 const { pvxbody, faceList } = res.data.data;
-                this.body = { ...pvxbody, author_name: display_name };
+                this.pvxbody = { ...pvxbody, author_name: display_name };
                 this.faceList = faceList || [];
             });
         },
