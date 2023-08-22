@@ -47,7 +47,7 @@ export default {
         },
         link() {
             const _root = this.client ? __Root : __OriginRoot;
-            return _root + "/face";
+            return _root + "face";
         },
     },
     methods: {

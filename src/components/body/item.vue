@@ -48,7 +48,7 @@ export default {
             return this.item.images?.[0];
         },
         link() {
-            return __Root + "/body";
+            return __Root + "body";
         },
     },
     methods: {
