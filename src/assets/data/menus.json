@@ -17,7 +17,7 @@
                 "label": "体型数据",
                 "icon": "el-icon-download",
                 "key": "exterior",
-                "status": true,
+                "status": false,
                 "isStd": true
             },
             {

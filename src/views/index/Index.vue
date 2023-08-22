@@ -65,7 +65,7 @@ export default {
         return {
             active: 0,
 
-            qq: '658035079'
+            qq: "658035079",
         };
     },
     computed: {
@@ -78,7 +78,7 @@ export default {
             return menus;
         },
         submenus() {
-            return this.menus[this.active].submenus;
+            return this.menus[this.active].submenus.filter((item) => item.status);
         },
     },
     methods: {
@@ -92,8 +92,8 @@ export default {
                     message: "内容：" + this.qq,
                     type: "success",
                 });
-            })
-        }
+            });
+        },
     },
 };
 </script>

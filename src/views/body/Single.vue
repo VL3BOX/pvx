@@ -131,7 +131,7 @@
         <!-- 数据区 -->
         <div class="m-single-data m-single-content-box" v-if="has_buy && bodydata">
             <el-divider content-position="left">独家数据分析</el-divider>
-            <bodydata v-if="bodydata" :data="bodydata" />
+            <Bodydat v-if="bodydata" :data="bodydata" />
         </div>
         <!--下载区-->
         <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
@@ -229,12 +229,12 @@ import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
 import dayjs from "dayjs";
-import bodydata from "@jx3box/jx3box-facedat/src/Bodydat.vue";
+import Bodydat from "@jx3box/jx3box-facedat/src/Bodydat.vue";
 import bodyItem from "@/components/body/item";
 import faceItem from "@/components/face/item";
 export default {
     name: "single",
-    components: { Comment, faceItem, bodydata, bodyItem },
+    components: { Comment, faceItem, Bodydat, bodyItem },
     data: function () {
         return {
             loading: false,
@@ -270,6 +270,7 @@ export default {
             return this.post?.user_id == User.getInfo().uid || false;
         },
         bodydata: function () {
+            console.log(this.post?.data)
             return this.post?.data || "";
         },
         previewSrcList: function () {
