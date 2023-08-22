@@ -1,7 +1,7 @@
 <template>
-    <router-link
+    <a
         :class="['m-face-item', { noName }]"
-        :to="`/${item.id}`"
+        :href="`${link}/${item.id}`"
         target="_blank"
         v-reporter="{ data: { href: '/face/' + item.id, ...reporter }, caller: 'face_index' }"
     >
@@ -17,11 +17,11 @@
                 作者：{{ !item.original ? item.author_name || "匿名" : author }}
             </a>
         </div>
-    </router-link>
+    </a>
 </template>
 
 <script>
-import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
+import { __imgPath, __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box";
 import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "faceItem",
@@ -41,6 +41,13 @@ export default {
         },
         imgLink: function () {
             return this.item.images?.[0] || __imgPath + "image/face/null2.png";
+        },
+        client() {
+            return location.href.includes("origin") ? "origin" : "std";
+        },
+        link() {
+            const _root = this.client ? __Root : __OriginRoot;
+            return _root + "/face";
         },
     },
     methods: {
