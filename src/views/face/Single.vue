@@ -185,7 +185,7 @@
             </div>
         </div>
         <!--搭配随机作品-->
-        <div class="m-random-list m-single-content-box" v-if="pvxbodyList.length">
+        <div class="m-pvxbody-list m-single-content-box" v-if="pvxbodyList.length">
             <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
             <div class="u-list">
                 <faceItem :item="face" />

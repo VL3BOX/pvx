@@ -180,7 +180,7 @@
             </div>
         </div>
         <!--搭配随机作品-->
-        <div class="m-random-list m-single-content-box" v-if="faceList.length">
+        <div class="m-pvxbody-list m-single-content-box" v-if="faceList.length">
             <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
             <div class="u-list">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
@@ -595,7 +595,7 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/face/single.less";
-.m-random-list {
+.m-pvxbody-list {
     .m-body-item.onlyPic {
         .m-op {
             .pa;

@@ -1,0 +1,56 @@
+@media screen and (max-width: @ipad) {
+    .m-header,
+    .m-random-list .u-list {
+        flex-wrap: wrap;
+    }
+    .m-pvxbody-list .u-list {
+        overflow: auto;
+        .m-face-item,
+        .m-body-item {
+            flex-shrink: 0;
+        }
+    }
+    .m-face-content {
+        flex-wrap: wrap;
+        .m-face-pay {
+            .w(100%);
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-header {
+        .pt(50px);
+        .m-avatar {
+            .none;
+        }
+        .m-header-info {
+            width: 100%;
+        }
+    }
+    .m-face-pay .m-face-pay-info {
+        margin: 40px auto;
+    }
+
+    .p-face-single .el-input-group__prepend {
+        .none;
+    }
+
+    .m-random-list {
+        .u-list {
+            justify-content: center;
+        }
+        .u-item {
+            border-radius: 4px;
+            text-align: center;
+            .w(130px);
+            background-color: @bg-light;
+            padding: 5px 5px 0 5px;
+            overflow: hidden;
+        }
+    }
+
+    .m-navigation .u-op {
+        .none;
+    }
+}

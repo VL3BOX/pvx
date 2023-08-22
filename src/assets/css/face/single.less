@@ -5,7 +5,6 @@
 }
 
 .m-navigation {
-    // .mb(20px);
     display: flex;
     justify-content: space-between;
     position: sticky;
@@ -57,11 +56,7 @@
         }
     }
 }
-@media screen and (max-width: @phone) {
-    .m-navigation .u-op {
-        .none;
-    }
-}
+
 .m-banner {
     .mt(20px);
     background-color: @color;
@@ -83,10 +78,6 @@
     .flex;
     align-items: center;
     gap: 20px;
-    @media screen and (max-width: @phone) {
-        .pt(60px);
-    }
-
     .m-avatar {
         .size(128px);
         .flex;
@@ -109,7 +100,7 @@
         letter-spacing: 1px;
     }
     .m-header-info {
-        width: 100%;
+        width: calc(100% - 148px);
         color: #000;
     }
     h2 {
@@ -343,23 +334,6 @@
     }
 }
 
-@media screen and (max-width: @phone) {
-    .m-face-pay {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .m-face-pay-info {
-            position: relative;
-            text-align: center;
-            top: unset;
-            left: unset;
-            transform: unset;
-            padding: 10px 5px;
-            border-radius: 10px;
-        }
-    }
-}
-
 .m-face-files-list {
     list-style: none;
     padding: 0;
@@ -402,14 +376,15 @@
         }
     }
 }
-.m-random-list {
+.m-random-list,
+.m-pvxbody-list {
     padding-bottom: 30px;
     .u-list {
         display: flex;
         gap: 20px;
-        flex-wrap: wrap;
     }
 }
+
 .m-face-pic {
     .h(100%);
     display: flex;
@@ -447,36 +422,6 @@
     }
 }
 
-@media screen and (max-width: @phone) {
-    .m-header {
-        h2 {
-            .fz(1rem);
-        }
-    }
-    .p-face-single .el-input-group__prepend {
-        .none;
-    }
-
-    .m-random-list {
-        .u-list {
-            justify-content: center;
-        }
-        .u-item {
-            border-radius: 4px;
-            text-align: center;
-            .w(130px);
-            background-color: @bg-light;
-            padding: 5px 5px 0 5px;
-            overflow: hidden;
-        }
-    }
-    .m-single-pics {
-        .u-bg {
-            height: calc(100% - 305px);
-        }
-    }
-}
-
 .m-desc {
     .r(10px);
     .lh(24px);
@@ -484,3 +429,5 @@
     background-color: #fff;
     color: #000;
 }
+
+@import "./single_phone.less";
