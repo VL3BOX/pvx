@@ -25,8 +25,7 @@
     </a>
 </template>
 
-<script>
-import { __imgPath, __Root } from "@jx3box/jx3box-common/data/jx3box";
+<script> 
 import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
@@ -48,7 +47,7 @@ export default {
             return this.item.images?.[0];
         },
         link() {
-            return __Root + "body";
+            return location.origin + "/body";
         },
     },
     methods: {

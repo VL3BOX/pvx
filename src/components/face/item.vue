@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { __imgPath, __Root, __OriginRoot } from "@jx3box/jx3box-common/data/jx3box";
+import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "faceItem",
@@ -46,8 +46,7 @@ export default {
             return location.href.includes("origin") ? "origin" : "std";
         },
         link() {
-            const _root = this.client ? __Root : __OriginRoot;
-            return _root + "face";
+            return location.origin + "/face";
         },
     },
     methods: {
