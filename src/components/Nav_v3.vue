@@ -84,7 +84,7 @@ export default {
                             .map((el) => {
                                 if (el.key == "adventure") return false;
                                 if (el.key == "furniture") return false;
-                                if (el.key == "homeland") return false;
+                                if (el.key == "blueprint") return false;
                                 if (el.key == "exterior") return false;
                                 return el;
                             })
