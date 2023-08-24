@@ -13,9 +13,10 @@
 
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
-            <a class="u-author" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
-                作者：{{ !item.original ? item.author_name || "匿名" : author }}
+            <a class="u-author" v-if="item.user_id" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
+                作者：{{ item.author_name || "匿名" }}
             </a>
+            <span class="u-author" v-else> 作者：{{ item.author_name || "匿名" }}</span>
         </div>
     </a>
 </template>

@@ -475,7 +475,7 @@ export default {
             const { body_type, client, display_name } = this.post;
             getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
                 const { face, pvxbodyList } = res.data.data;
-                this.face = { ...face, author_name: display_name };
+                this.face = face;
                 this.pvxbodyList = pvxbodyList || [];
             });
         },

@@ -18,14 +18,16 @@
         <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
-            <a class="u-author" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
-                作者: {{ !item.original ? item.author_name || "匿名" : author }}
-            </a>
+
+            <a class="u-author" v-if="item.user_id" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
+                作者: {{ item.author_name || "匿名" }}
+            </a> 
+            <span class="u-author" v-else> 作者: {{ item.author_name || "匿名" }}</span>
         </div>
     </a>
 </template>
 
-<script> 
+<script>
 import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",

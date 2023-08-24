@@ -472,7 +472,7 @@ export default {
             const { body_type, client, display_name } = this.post;
             getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
                 const { pvxbody, faceList } = res.data.data;
-                this.pvxbody = { ...pvxbody, author_name: display_name };
+                this.pvxbody = pvxbody;
                 this.faceList = faceList || [];
             });
         },
