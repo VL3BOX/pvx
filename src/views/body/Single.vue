@@ -175,17 +175,19 @@
         <!--作者随机作品-->
         <div class="m-random-list m-single-content-box">
             <el-divider content-position="left">作者其他作品</el-divider>
-            <div class="u-list">
+            <div class="u-list" v-if="randomList.length">
                 <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
             </div>
+            <span class="u-list-null" v-else>· 作者没有更多作品了 ·</span>
         </div>
         <!--搭配随机作品-->
-        <div class="m-pvxbody-list m-single-content-box" v-if="faceList.length">
+        <div class="m-pvxbody-list m-single-content-box">
             <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
-            <div class="u-list">
+            <div class="u-list" v-if="faceList.length">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
                 <faceItem :item="item" :onlyPic="true" v-for="item in faceList" :key="item.id" />
             </div>
+            <span class="u-list-null" v-else>· 作者没有关联的作品 ·</span>
         </div>
         <!-- 点赞 -->
         <Thx
@@ -469,8 +471,8 @@ export default {
             });
         },
         getRandomList() {
-            const { body_type, client, display_name } = this.post;
-            getRandomFaceAndBody({ body_type, client, limit: 8 }).then((res) => {
+            const { body_type, client, user_id } = this.post;
+            getRandomFaceAndBody({ body_type, client, user_id, limit: 8 }).then((res) => {
                 const { pvxbody, faceList } = res.data.data;
                 this.pvxbody = pvxbody;
                 this.faceList = faceList || [];
