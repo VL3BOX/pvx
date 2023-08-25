@@ -11,8 +11,11 @@
             caller: 'body_index',
         }"
     >
-        <el-image class="u-pic" :src="showThumb(imgLink)" loading="lazy" v-if="imgLink" fit="cover"></el-image>
-        <img class="u-pic" v-else src="../../assets/img/body_null.png" />
+        <el-image class="u-pic" :src="item?.images[0]" fit="cover">
+            <div slot="error" class="image-slot">
+                <img class="u-pic" src="../../assets/img/body_null.png" />
+            </div>
+        </el-image>
 
         <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
         <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
@@ -45,9 +48,7 @@ export default {
         author: function () {
             return this.item.display_name || "匿名";
         },
-        imgLink: function () {
-            return this.item.images?.[0];
-        },
+
         link() {
             return location.origin + "/body";
         },
