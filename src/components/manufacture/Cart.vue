@@ -63,7 +63,9 @@
                                     <PriceItem
                                         class="u-price-num"
                                         :data="{
-                                            Price: prices[child.ID] || prices[child.priceID] * child.count * item.count,
+                                            Price:
+                                                prices[child.ID] * child.count * item.count ||
+                                                prices[child.priceID] * child.count * item.count,
                                             Name: child.Name,
                                             id: child.ID,
                                         }"
