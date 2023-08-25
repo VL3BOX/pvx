@@ -185,7 +185,7 @@
             <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
             <div class="u-list" v-if="faceList.length">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
-                <faceItem :item="item" :onlyPic="true" v-for="item in faceList" :key="item.id" />
+                <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
             </div>
             <span class="u-list-null" v-else>· 作者没有关联的作品 ·</span>
         </div>
@@ -597,37 +597,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/face/single.less";
-.m-pvxbody-list {
-    .m-body-item.onlyPic {
-        .m-op {
-            .pa;
-            .flex;
-            .lb(0);
-            .full;
-            .z(2);
-            padding: 20px;
-            box-sizing: border-box;
-            flex-direction: column;
-            justify-content: flex-end;
-
-            &::after {
-                content: "";
-                .db;
-                .pa;
-                .full;
-                .tm(0.5);
-                .lt(0);
-                .z(-1);
-                .r(10px);
-                background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%),
-                    rgba(225, 225, 225, 1);
-            }
-            .u-title,
-            .u-author {
-                color: #fff;
-            }
-        }
-    }
-}
+@import "~@/assets/css/face/single.less"; 
 </style>

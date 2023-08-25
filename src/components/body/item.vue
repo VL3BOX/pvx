@@ -95,7 +95,34 @@ export default {
             .rt(10px);
         }
         .m-op {
-            .none;
+            .pa;
+            .flex;
+            .lb(0);
+            .full;
+            .z(2);
+            padding: 20px;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            &::after {
+                content: "";
+                .db;
+                .pa;
+                .full;
+                .tm(0.5);
+                .lt(0);
+                .z(-1);
+                .r(10px);
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            }
+            .u-title {
+                .break(2);
+                color: #fff;
+            }
+            .u-author {
+                .none;
+            }
         }
     }
     &.noName {
