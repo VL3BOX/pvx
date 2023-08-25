@@ -23,10 +23,10 @@
         margin: 20px 0 20px 0;
     }
 }
-
 .m-recommend-list {
     .flex;
     .clip;
+    .r(10px);
     .w(100%);
     .scrollbar(2px);
 }
@@ -41,6 +41,7 @@
 .m-face-title {
     margin-top: 20px !important;
 }
+
 .m-recommend-box,
 .m-face-box {
     .pr;
@@ -48,7 +49,7 @@
         .pointer;
         .pa;
         // top: 50%;
-        z-index: 2;
+        z-index: 12;
         .flex;
         .flex(x);
         align-items: center;
@@ -176,7 +177,7 @@
         .scrollbar(2px);
         overflow-x: auto;
 
-        .m-face-item { 
+        .m-face-item {
             .u-img {
                 .size(20vw);
                 .u-star-mark {

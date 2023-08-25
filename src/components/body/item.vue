@@ -11,7 +11,7 @@
             caller: 'body_index',
         }"
     >
-        <img class="u-pic" v-if="imgLink" :src="showThumb(imgLink)" loading="lazy" />
+        <el-image class="u-pic" :src="showThumb(imgLink)" loading="lazy" v-if="imgLink" fit="cover"></el-image>
         <img class="u-pic" v-else src="../../assets/img/body_null.png" />
 
         <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
@@ -21,7 +21,7 @@
 
             <a class="u-author" v-if="item.user_id" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
                 作者: {{ item.author_name || "匿名" }}
-            </a> 
+            </a>
             <span class="u-author" v-else> 作者: {{ item.author_name || "匿名" }}</span>
         </div>
     </a>

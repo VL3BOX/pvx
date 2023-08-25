@@ -14,14 +14,14 @@
                 <div
                     class="u-shade-btn u-shade-btn-left"
                     :class="isDisabled('recommend', 1, isUpdate)"
-                    @click="crosswiseScrool($event, 'recommend', 1, 840)"
+                    @click="crosswiseScroll($event, 'recommend', 1, 840)"
                 >
                     <i class="el-icon-arrow-left"></i>
                 </div>
                 <div
                     class="u-shade-btn u-shade-btn-right"
                     :class="isDisabled('recommend', -1, isUpdate)"
-                    @click="crosswiseScrool($event, 'recommend', -1, 840)"
+                    @click="crosswiseScroll($event, 'recommend', -1, 840)"
                 >
                     <i class="el-icon-arrow-right"></i>
                 </div>
@@ -50,14 +50,14 @@
                 <div
                     class="u-shade-btn u-shade-btn-left"
                     :class="isDisabled('nav' + index, 1, isUpdate)"
-                    @click="crosswiseScrool($event, 'nav' + index, 1, 600)"
+                    @click="crosswiseScroll($event, 'nav' + index, 1, 600)"
                 >
                     <i class="el-icon-arrow-left"></i>
                 </div>
                 <div
                     class="u-shade-btn u-shade-btn-right"
                     :class="isDisabled('nav' + index, -1, isUpdate)"
-                    @click="crosswiseScrool($event, 'nav' + index, -1, 600)"
+                    @click="crosswiseScroll($event, 'nav' + index, -1, 600)"
                 >
                     <i class="el-icon-arrow-right"></i>
                 </div>
@@ -311,6 +311,7 @@ export default {
             // 获取要绑定事件的元素
 
             const nav = document.getElementById(id);
+            console.log(id, detail, nav);
             if (!nav) return;
             if (nav.scrollLeft == 0 && detail == 1) {
                 return "u-disabled";
@@ -320,15 +321,15 @@ export default {
             }
             return "";
         },
-        crosswiseScrool(event, id, detail, distance) {
-            if (isPhone()) {
-                return;
-            }
+        crosswiseScroll(event, id, detail, distance) {
+            if (isPhone()) return;
+
             event.preventDefault();
 
             // 获取要绑定事件的元素
             // const nav = this.$refs[id];
             const nav = document.getElementById(id);
+            if (!nav) return;
             let scrollWidth = nav.scrollWidth;
             // return;
             if (nav.scrollLeft == 0 && detail == 1) return;

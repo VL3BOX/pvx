@@ -74,6 +74,7 @@ export default {
             return this.$store.state.client;
         },
     },
+
     methods: {
         //切换数据
         clickTabs({ value }) {

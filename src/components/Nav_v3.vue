@@ -67,8 +67,6 @@ export default {
             if (str === "pvg") str = arr[1];
             if (str === "homeland") str = "blueprint";
             if (str === "body") str = "exterior";
-
-            console.log(str);
             return str;
         },
         client() {

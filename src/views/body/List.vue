@@ -9,22 +9,28 @@
         />
         <div class="m-content" v-loading="loading">
             <template v-if="list.length">
-                <div class="m-list" v-for="(_list, key) in groupList" :key="key">
-                    <h2 class="u-list-title">{{ nameMap[key] }}</h2>
+                <div class="m-list" v-for="(_list, index) in groupList" :key="index">
+                    <h2 class="u-list-title">
+                        <span>{{ nameMap[_list.key] }}</span>
+                        <span class="u-more" @click="setActive(_list.key)">查看全部</span>
+                    </h2>
                     <!-- 显示一行 -->
-                    <list-cross v-if="!tabsData.body_type" :list="_list" :gap="0" :radius="0">
-                        <template v-slot="data">
-                            <bodyItem :item="data.item"></bodyItem>
-                        </template>
-                    </list-cross>
+                    <div class="m-list-box" v-if="!tabsData.body_type">
+                        <list-cross :list="_list.list" :gap="0" :radius="0" :id="'nav' + index">
+                            <template v-slot="data">
+                                <bodyItem :item="data.item"></bodyItem>
+                            </template>
+                        </list-cross>
+                    </div>
+
                     <!-- 显示多行 -->
                     <template v-else>
                         <div class="m-all">
                             <bodyItem
-                                v-for="item in _list"
+                                v-for="item in _list.list"
                                 :key="item.id"
                                 :item="item"
-                                :reporter="{ aggregate: listId(list) }"
+                                :reporter="{ aggregate: listId(groupList) }"
                             />
                         </div>
                         <el-button
@@ -65,6 +71,7 @@ export default {
         return {
             active: "",
             body_types,
+            bodyId: "",
             tabsData: {},
             link: {
                 data: "/body/bodydata",
@@ -77,7 +84,6 @@ export default {
             pageSize: 14,
             pageTotal: 1,
             total: 0,
-            showAllList: false,
             appendMode: false,
 
             nameMap: {
@@ -88,25 +94,26 @@ export default {
             },
         };
     },
-    components: {
-        faceTabs,
-        ListCross,
-        bodyItem,
-    },
+    components: { faceTabs, ListCross, bodyItem },
     computed: {
         params({ tabsData }) {
             return {
                 ...tabsData,
                 pageIndex: this.page,
                 pageSize: this.pageSize,
-                client: this.client,
+                client: "std",
             };
         },
         groupList() {
-            return this.list.reduce((acc, cur) => {
-                acc[cur.body_type] ? acc[cur.body_type].push(cur) : (acc[cur.body_type] = [cur]);
-                return acc;
-            }, {});
+            return Object.keys(this.nameMap)
+                .map((item) => {
+                    let list = [];
+                    this.list.forEach((el) => {
+                        if (el.body_type == item) list.push(el);
+                    });
+                    return { key: item, list };
+                })
+                .filter((item) => item.list.length);
         },
         hasNextPage() {
             return this.page < this.pageTotal;
@@ -115,7 +122,7 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler() {
+            handler: function () {
                 this.getData();
             },
         },

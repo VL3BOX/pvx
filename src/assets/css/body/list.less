@@ -4,15 +4,29 @@
         flex-direction: column;
         gap: 20px;
         .u-list-title {
+            .flex;
             .fz(28px,1.5);
             .bold;
             .mt(20px);
+            justify-content: space-between;
+            align-items: baseline;
+            .u-more {
+                .pointer;
+                .fz(16px);
+                font-weight: normal;
+                color: #a5a5a5;
+            }
         }
-        .m-rare .list {
-            .flex;
-            gap: 20px;
+        .m-rare {
+            .clip;
+            .r(10px);
+            .list {
+                .flex;
+                gap: 20px;
+            }
         }
     }
+
     .m-all {
         .flex;
         flex-wrap: wrap;
@@ -20,6 +34,13 @@
     }
     .m-archive-null {
         .mt(20px);
+    }
+}
+.cross-wrapper .cross {
+    .z(9);
+    background-color: rgba(0, 0, 0, 0.7);
+    &.active {
+        background-color: #6b52ff;
     }
 }
 
