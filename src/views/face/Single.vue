@@ -190,7 +190,7 @@
             <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
             <div class="u-list" v-if="pvxbodyList.length">
                 <faceItem :item="face" />
-                <bodyItem :item="item" :onlyPic="true" v-for="item in pvxbodyList" :key="item.id" />
+                <bodyItem :item="item" :onlyPic="true" :noName="true" v-for="item in pvxbodyList" :key="item.id" />
             </div>
             <span class="u-list-null" v-else>· 作者没有关联的作品 ·</span>
         </div>
@@ -474,7 +474,7 @@ export default {
             });
         },
         getRandomList() {
-            const { body_type, client, user_id } = this.post; 
+            const { body_type, client, user_id } = this.post;
             getRandomFaceAndBody({ body_type, client, user_id, limit: 8 }).then((res) => {
                 const { face, pvxbodyList } = res.data.data;
                 this.face = face;

@@ -13,17 +13,18 @@
 
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
-            <a class="u-author" v-if="item.user_id" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
-                作者：{{ item.author_name || "匿名" }}
-            </a>
-            <span class="u-author" v-else> 作者：{{ item.author_name || "匿名" }}</span>
+            <div class="m-author" @click.stop="onAuthorClick">
+                <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
+                <span class="u-name"> {{ item.author_name || "匿名" }} </span>
+            </div>
         </div>
     </a>
 </template>
 
 <script>
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
-import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+
 export default {
     name: "faceItem",
     props: ["item", "reporter", "noName"],
@@ -54,7 +55,7 @@ export default {
         showThumb: function (url) {
             return getThumbnail(url, 360);
         },
-        authorLink,
+        showAvatar,
         onAuthorClick() {
             if (!this.item.original) {
                 window.open(this.item.author_link, "_blank");
@@ -65,74 +66,5 @@ export default {
 </script>
 
 <style lang="less">
-.m-face-item {
-    .pr;
-    .flex;
-    .pointer;
-    .r(10px);
-    .size(200px,264px);
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    box-sizing: border-box;
-    background: rgba(36, 41, 46, 0.05);
-    &.noName {
-        .m-op {
-            .u-title {
-                .break(2);
-            }
-            .u-author {
-                .none;
-            }
-        }
-    }
-
-    &:hover {
-        filter: brightness(110%);
-    }
-
-    .m-img {
-        .pr;
-        .size(160px);
-        .r(10px);
-        .u-pic {
-            .full;
-            .r(10px);
-            object-fit: cover;
-        }
-        .u-mark {
-            .pa;
-            .fz(12px,16px);
-            .z(6);
-            .r(3px);
-            color: #fff;
-            padding: 2px 8px;
-            font-style: normal;
-        }
-        .u-mark--star {
-            .lt(10px);
-            background-color: @faceColor;
-        }
-
-        .u-mark--pay {
-            .rt(10px);
-            background-color: #ffad31;
-        }
-    }
-    .m-op {
-        .flex;
-        flex-direction: column;
-        gap: 10px;
-        .u-title {
-            .fz(20px,26px);
-            .break(1);
-            color: rgb(36, 41, 46);
-        }
-        .u-author {
-            .fz(14px,1.5);
-            .nobreak;
-            color: rgb(36, 41, 46);
-        }
-    }
-}
+@import "~@/assets/css/face/item.less";
 </style>

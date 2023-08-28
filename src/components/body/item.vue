@@ -1,6 +1,6 @@
 <template>
     <a
-        :class="['m-body-item', { onlyPic, noName }]"
+        :class="['m-body-item m-face-item', { onlyPic, noName }]"
         :href="`${link}/${item.id}`"
         target="_blank"
         v-reporter="{
@@ -11,27 +11,28 @@
             caller: 'body_index',
         }"
     >
-        <el-image class="u-pic" :src="item?.images[0]" fit="cover">
-            <div slot="error" class="image-slot">
-                <img class="u-pic" src="../../assets/img/body_null.png" />
-            </div>
-        </el-image>
+        <div class="m-img">
+            <el-image class="u-pic" :src="showThumb(imgLink)" fit="cover">
+                <div slot="error" class="image-slot">
+                    <img class="u-pic" src="../../assets/img/body_null.png" />
+                </div>
+            </el-image>
+            <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
+            <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
+        </div>
 
-        <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
-        <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
-
-            <a class="u-author" v-if="item.user_id" :href="authorLink(item.user_id)" @click.stop="onAuthorClick">
-                作者: {{ item.author_name || "匿名" }}
-            </a>
-            <span class="u-author" v-else> 作者: {{ item.author_name || "匿名" }}</span>
+            <div class="m-author" @click.stop="onAuthorClick">
+                <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
+                <span class="u-name"> {{ item.author_name || "匿名" }} </span>
+            </div>
         </div>
     </a>
 </template>
 
 <script>
-import { authorLink, getThumbnail } from "@jx3box/jx3box-common/js/utils";
+import { showAvatar, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "item",
     props: ["item", "reporter", "onlyPic", "noName"],
@@ -48,7 +49,9 @@ export default {
         author: function () {
             return this.item.display_name || "匿名";
         },
-
+        imgLink: function () {
+            return this.item.images?.[0];
+        },
         link() {
             return location.origin + "/body";
         },
@@ -57,7 +60,7 @@ export default {
         showThumb: function (url) {
             return getThumbnail(url, 360);
         },
-        authorLink,
+        showAvatar,
         onAuthorClick() {
             if (!this.item.original) {
                 window.open(this.item.author_link, "_blank");
@@ -68,115 +71,5 @@ export default {
 </script>
 
 <style lang="less">
-.m-body-item {
-    .flex;
-    .pr;
-    .pointer;
-    .size(200px,374px);
-    .r(10px);
-    padding: 20px;
-    gap: 10px;
-    box-sizing: border-box;
-    flex-direction: column;
-    background: rgba(36, 41, 46, 0.05);
-
-    &.onlyPic {
-        .size(160px,264px);
-        padding: 0;
-
-        .u-pic {
-            .full;
-        }
-
-        .u-mark--star {
-            .lt(10px);
-        }
-        .u-mark--pay {
-            .rt(10px);
-        }
-        .m-op {
-            .pa;
-            .flex;
-            .lb(0);
-            .full;
-            .z(2);
-            padding: 20px;
-            box-sizing: border-box;
-            flex-direction: column;
-            justify-content: flex-end;
-
-            &::after {
-                content: "";
-                .db;
-                .pa;
-                .full;
-                .tm(0.5);
-                .lt(0);
-                .z(-1);
-                .r(10px);
-                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            }
-            .u-title {
-                .break(2);
-                color: #fff;
-            }
-            .u-author {
-                .none;
-            }
-        }
-    }
-    &.noName {
-        .m-op {
-            .u-title {
-                .break(2);
-            }
-            .u-author {
-                .none;
-            }
-        }
-    }
-
-    &:hover {
-        filter: brightness(110%);
-    }
-
-    .u-pic {
-        .size(160px,264px);
-        .r(10px);
-    }
-
-    .u-mark {
-        .pa;
-        .fz(12px,16px);
-        .z(6);
-        .r(5px);
-        color: #fff;
-        padding: 2px 8px;
-        font-style: normal;
-    }
-    .u-mark--star {
-        .lt(30px);
-        background-color: @faceColor;
-    }
-    .u-mark--pay {
-        .rt(30px);
-        background-color: #ffad31;
-    }
-
-    .m-op {
-        .flex;
-        flex-direction: column;
-        gap: 10px;
-        .u-title {
-            .fz(20px,26px);
-            .break(1);
-            color: rgb(36, 41, 46);
-        }
-        .u-author {
-            .fz(14px,1.5);
-            .nobreak;
-            color: rgb(36, 41, 46);
-        }
-    }
-}
+@import "~@/assets/css/face/item.less";
 </style>

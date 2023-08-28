@@ -1,0 +1,120 @@
+.m-face-item {
+    .pr;
+    .flex;
+    .pointer;
+    .r(10px);
+    .size(200px,264px);
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: rgba(36, 41, 46, 0.05);
+    &.noName {
+        .h(234px);
+        .m-op .m-author {
+            .none;
+        }
+    }
+    &:hover {
+        background-color: #786cbb;
+        filter: brightness(110%);
+        .m-op {
+            .u-title {
+                color: #fff;
+            }
+            .m-author .u-name {
+                color: #fff;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .m-img {
+        .pr;
+        .size(160px);
+        .r(10px);
+        .u-pic {
+            .full;
+            .r(10px);
+            object-fit: cover;
+        }
+        .u-mark {
+            .pa;
+            .fz(12px,16px);
+            .z(6);
+            .r(3px);
+            color: #fff;
+            padding: 2px 8px;
+            font-style: normal;
+        }
+        .u-mark--star {
+            .lt(10px);
+            background-color: @faceColor;
+        }
+
+        .u-mark--pay {
+            .rt(10px);
+            background-color: #ffad31;
+        }
+    }
+    .m-op {
+        .flex;
+        flex-direction: column;
+        gap: 10px;
+        .u-title {
+            .fz(18px,26px);
+            .break(1);
+            color: #000;
+        }
+        .m-author {
+            .flex;
+            .fz(12px,1.5);
+            .nobreak;
+            gap: 4px;
+            align-items: center;
+            .u-avatar {
+                .size(18px);
+                .r(50%);
+            }
+            .u-name {
+                .tm(0.6);
+                color: #000;
+            }
+        }
+    }
+    // body
+    &.m-body-item {
+        .size(200px,368px);
+        .m-img {
+            .size(160px,264px);
+        }
+        &.noName {
+            .h(340px);
+        }
+        &.onlyPic {
+            .size(160px,264px);
+            padding: 0;
+            .m-op {
+                .pa;
+                .z(2);
+                .lb(0);
+                padding: 20px 10px;
+                .u-title {
+                    color: #fff;
+                }
+                .m-author {
+                    .none;
+                }
+                &::after {
+                    content: "";
+                    .pa;
+                    .size(160px,264px);
+                    .lb(0);
+                    .z(-1);
+                    .r(10px);
+                    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+                }
+            }
+        }
+    }
+}
