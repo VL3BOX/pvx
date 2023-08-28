@@ -37,20 +37,16 @@
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <div class="m-avatar">
-                <Avatar
-                    :uid="post.user_id"
-                    :url="post.user_avatar"
-                    :frame="post.user_avatar_frame"
-                    class="u-avatar"
-                    v-if="!!post.original"
-                />
-            </div>
+            <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover">
+                <div slot="error" class="image-slot">
+                    <img class="u-pic" src="../../assets/img/body_null.png" />
+                </div>
+            </el-image>
 
             <div class="m-header-info">
                 <h2>{{ post.title || "无标题" }}</h2>
                 <div class="u-author">
-                    By
+                    <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
                         post.display_name
                     }}</a>
@@ -125,69 +121,72 @@
         </div>
 
         <div class="m-desc" v-if="post.remark">
-            <el-divider content-position="left"><i class="el-icon-collection-tag"></i> 说明</el-divider>
+            <h3>说明</h3>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
         <!-- 数据区 -->
-        <div class="m-single-data m-single-content-box" v-if="has_buy && bodydata">
-            <el-divider content-position="left">独家数据分析</el-divider>
-            <Bodydat v-if="bodydata" :data="bodydata" />
+        <div class="m-single-data" v-if="has_buy && bodydata">
+            <h3>独家数据分析</h3>
+            <Bodydat class="m-single-content-box" v-if="bodydata" :data="bodydata" />
         </div>
         <!--下载区-->
-        <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
-            <el-divider content-position="left">原始文件列表</el-divider>
-            <ul class="m-face-files-list">
-                <li v-for="item in downFileList" :key="item.id">
-                    <div>
-                        <span class="u-label"
-                            >名称: <em>{{ item.name }}</em></span
+        <div class="m-face-files" v-if="has_buy && downFileList && downFileList.length > 0">
+            <h3>原始文件列表</h3>
+            <div class="m-single-content-box">
+                <ul class="m-face-files-list">
+                    <li v-for="item in downFileList" :key="item.id">
+                        <div>
+                            <span class="u-label"
+                                >名称: <em>{{ item.name }}</em></span
+                            >
+                            <span class="u-label"
+                                >版本 : <em>{{ item.created_at }}</em></span
+                            >
+                            <span class="u-label" v-if="item.describe"
+                                >备注 ： <em>{{ item.describe }}</em></span
+                            >
+                        </div>
+                        <el-button
+                            class="u-action"
+                            icon="el-icon-download"
+                            size="mini"
+                            type="primary"
+                            round
+                            @click="getDownUrl(item.uuid)"
+                            >下载</el-button
                         >
-                        <span class="u-label"
-                            >版本 : <em>{{ item.created_at }}</em></span
-                        >
-                        <span class="u-label" v-if="item.describe"
-                            >备注 ： <em>{{ item.describe }}</em></span
-                        >
-                    </div>
-                    <el-button
-                        class="u-action"
-                        icon="el-icon-download"
-                        size="mini"
-                        type="primary"
-                        round
-                        @click="getDownUrl(item.uuid)"
-                        >下载</el-button
-                    >
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--作者随机作品-->
+        <div class="m-random-list">
+            <h3>作者其他作品</h3>
+            <div class="u-list m-single-content-box" v-if="randomList.length">
+                <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
+            </div>
+            <span class="u-list-null m-single-content-box" v-else>· 作者没有更多作品了 ·</span>
+        </div>
+        <!--搭配随机作品-->
+        <div class="m-pvxbody-list">
+            <h3>搭配指南</h3>
+            <div class="u-list m-single-content-box" v-if="faceList.length">
+                <bodyItem :onlyPic="true" :item="pvxbody" />
+                <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
+            </div>
+            <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
         </div>
         <!-- 上传作者区域 -->
+
         <div class="m-author m-single-content-box">
-            <el-divider content-position="left">上传作者</el-divider>
             <div class="u-author-info">
                 <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" />
                 <a :href="authorLink(post.user_id)" target="_blank">
                     <div class="u-name">{{ post.display_name }}</div>
                 </a>
             </div>
-        </div>
-        <!--作者随机作品-->
-        <div class="m-random-list m-single-content-box">
-            <el-divider content-position="left">作者其他作品</el-divider>
-            <div class="u-list" v-if="randomList.length">
-                <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
-            </div>
-            <span class="u-list-null" v-else>· 作者没有更多作品了 ·</span>
-        </div>
-        <!--搭配随机作品-->
-        <div class="m-pvxbody-list m-single-content-box">
-            <el-divider content-position="left">搭配指南</el-divider>
-            <div class="u-list" v-if="faceList.length">
-                <bodyItem :onlyPic="true" :item="pvxbody" />
-                <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
-            </div>
-            <span class="u-list-null" v-else>· 作者没有关联的作品 ·</span>
         </div>
         <!-- 点赞 -->
         <Thx
@@ -314,6 +313,9 @@ export default {
         this.getData();
     },
     methods: {
+        imgLink: function (images) {
+            return images?.length ? images[0] : "";
+        },
         showAvatar(url) {
             return showAvatar(url, "l");
         },
@@ -597,5 +599,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/face/single.less"; 
+@import "~@/assets/css/face/single.less";
 </style>

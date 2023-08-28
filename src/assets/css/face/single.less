@@ -381,14 +381,16 @@
 }
 .m-random-list,
 .m-pvxbody-list {
-    padding-bottom: 30px;
     .u-list {
         display: flex;
         gap: 20px;
     }
     .u-list-null {
-        .fz(12px);
+        .fz(14px);
         .x;
+        .db;
+        .lh(280px);
+        user-select: none;
         color: #999;
     }
 }
@@ -431,11 +433,13 @@
 }
 
 .m-desc {
-    .r(10px);
-    .lh(24px);
-    padding: 20px 20px 30px 20px;
-    background-color: #fff;
-    color: #000;
+    .u-desc {
+        .lh(24px);
+        .r(10px);
+        color: #000;
+        padding: 20px;
+        background-color: #fff;
+    }
 }
 .p-face-single .m-pvxbody-list {
     .m-face-item.m-body-item.onlyPic .m-op .m-author {
@@ -453,6 +457,19 @@
         .m-op .u-title {
             .break(2);
         }
+    }
+}
+h3 {
+    .fz(28px,1);
+    margin: 20px 0 10px 0;
+    font-weight: 700;
+    line-height: 40.54px;
+    color: rgba(36, 41, 46, 1);
+}
+.p-face-single .m-pvxbody-list .m-face-item {
+    background: rgba(36, 41, 46, 0.05);
+    &:hover {
+        background-color: #786cbb;
     }
 }
 @import "./single_phone.less";
