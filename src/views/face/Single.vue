@@ -42,20 +42,12 @@
         </div> -->
         <!-- 基本信息 -->
         <div class="m-header">
-            <div class="m-avatar">
-                <Avatar
-                    :uid="post.user_id"
-                    :url="post.user_avatar"
-                    :frame="post.user_avatar_frame"
-                    class="u-avatar"
-                    v-if="!!post.original"
-                />
-            </div>
+            <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image>
 
             <div class="m-header-info">
                 <h2>{{ post.title || "无标题" }}</h2>
                 <div class="u-author">
-                    By
+                    <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
                         post.display_name
                     }}</a>
@@ -187,7 +179,7 @@
         </div>
         <!--搭配随机作品-->
         <div class="m-pvxbody-list m-single-content-box">
-            <el-divider content-position="left">脸型搭配 & 其他体型数据</el-divider>
+            <el-divider content-position="left">搭配指南</el-divider>
             <div class="u-list" v-if="pvxbodyList.length">
                 <faceItem :item="face" />
                 <bodyItem :item="item" :onlyPic="true" :noName="true" v-for="item in pvxbodyList" :key="item.id" />
@@ -311,7 +303,7 @@ export default {
         },
     },
     created: function () {
-        this.getData();
+        this.getData(); 
     },
     methods: {
         imgLink: function (images) {

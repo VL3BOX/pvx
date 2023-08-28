@@ -182,7 +182,7 @@
         </div>
         <!--搭配随机作品-->
         <div class="m-pvxbody-list m-single-content-box">
-            <el-divider content-position="left">体型搭配 & 其他脸型数据</el-divider>
+            <el-divider content-position="left">搭配指南</el-divider>
             <div class="u-list" v-if="faceList.length">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
                 <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
