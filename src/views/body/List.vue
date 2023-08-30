@@ -85,6 +85,7 @@ export default {
             pageTotal: 1,
             total: 0,
             appendMode: false,
+            all: true,
 
             nameMap: {
                 1: "成男体型",
@@ -122,21 +123,27 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler: function () {
-                this.getData();
+            handler: function (params) {
+                if (!this.all) {
+                    this.getData();
+                } else {
+                    Object.keys(this.nameMap).forEach((item) => {
+                        this.getData({ body_type: item });
+                    });
+                }
             },
         },
     },
     methods: {
-        getData() {
+        getData(params) {
             this.loading = true;
-            const params = clone(this.params);
-            getBodyList(params)
+            const _params = clone(this.params);
+            getBodyList({ ...params, ..._params })
                 .then((res) => {
                     const list = res.data.data.list || [];
                     this.total = res.data.data.page.total;
-                    this.list = this.appendMode ? this.list.concat(list) : list;
-                    if (this.params.body_type) this.pageTotal = res.data.data.page.pageTotal;
+                    this.list = this.list.concat(list);
+                    this.pageTotal = res.data.data.page.pageTotal;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -149,6 +156,8 @@ export default {
         },
         handleTabChange(data) {
             this.page = 1;
+            this.list = [];
+            this.all = data.body_type ? false : true;
             this.tabsData = data;
         },
         appendPage() {
