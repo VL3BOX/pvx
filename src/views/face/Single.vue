@@ -179,14 +179,7 @@
             <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
         </div>
         <!-- 上传作者区域 -->
-        <div class="m-author m-single-content-box">
-            <div class="u-author-info">
-                <Avatar :uid="post.user_id" :url="post.user_avatar" :frame="post.user_avatar_frame" class="u-avatar" />
-                <a :href="authorLink(post.user_id)" target="_blank">
-                    <div class="u-name">{{ post.display_name }}</div>
-                </a>
-            </div>
-        </div>
+        <authorItem :uid="post.user_id" />
         <!-- 点赞 -->
         <Thx
             class="m-thx m-single-content-box"
@@ -233,9 +226,10 @@ import { __clients, __imgPath, __Root } from "@jx3box/jx3box-common/data/jx3box.
 import dayjs from "dayjs";
 import bodyItem from "@/components/body/item";
 import faceItem from "@/components/face/item";
+import authorItem from "@/components/face/author";
 export default {
     name: "single",
-    components: { facedata, Comment, faceItem, bodyItem },
+    components: { facedata, Comment, faceItem, bodyItem ,authorItem},
     data: function () {
         return {
             loading: false,
