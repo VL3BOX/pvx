@@ -81,7 +81,6 @@ export default {
             loading: false,
             list: [],
             page: 1,
-            pageSize: 14,
             pageTotal: 1,
             total: 0,
             appendMode: false,
@@ -97,6 +96,9 @@ export default {
     },
     components: { faceTabs, ListCross, bodyItem },
     computed: {
+        pageSize() {
+            return this.all ? 14 : 21;
+        },
         params({ tabsData }) {
             return {
                 ...tabsData,
@@ -123,7 +125,7 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler: function (params) {
+            handler: function () {
                 if (!this.all) {
                     this.getData();
                 } else {
