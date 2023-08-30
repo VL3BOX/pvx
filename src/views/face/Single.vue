@@ -42,7 +42,7 @@
         </div> -->
         <!-- 基本信息 -->
         <div class="m-header">
-            <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image>
+            <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image> -->
 
             <div class="m-header-info">
                 <h2>{{ post.title || "无标题" }}</h2>

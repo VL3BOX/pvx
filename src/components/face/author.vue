@@ -1,28 +1,35 @@
 <template>
-    <div class="m-author-header" :style="hasBanner(userDefinedStyle.name)">
-        <Avatar class="u-avatar" :uid="uid" :url="avatar" :size="avatarSize" :frame="avatar_frame" />
-        <div class="m-author-info">
-            <span class="u-name" :style="{ color: userDefinedStyle.textcolor }">
-                <span>{{ data.display_name }}</span>
-                <span class="u-uid">(UID : {{ data.ID }})</span>
-            </span>
-            <div class="u-tips">
-                <el-tooltip :content="`当前经验 ${data.experience || 0}`" placement="top">
-                    <span class="u-level" :class="'lv-' + level" :style="{ backgroundColor: showLevelColor(level) }"
-                        >Lv.{{ level }}</span
-                    >
-                </el-tooltip>
-                <el-tooltip :content="vipTypeTitle" v-if="isPRO" placement="top">
-                    <a class="u-vip" href="/vip/premium?from=user_homepage" target="_blank">
-                        <i class="u-icon vip">{{ vipType }}</i>
-                    </a>
-                </el-tooltip>
-                <el-tooltip content="签约作者" v-if="isSuperAuthor" placement="top">
-                    <span class="u-superauthor">
-                        <i class="u-icon superauthor">签约作者</i>
-                    </span>
-                </el-tooltip>
+    <div class="m-author-header">
+        <div class="m-info">
+            <Avatar class="u-avatar" :uid="uid" :url="avatar" :size="avatarSize" :frame="avatar_frame" />
+            <div class="m-author-info">
+                <span class="u-name">
+                    <span>{{ data.display_name }}</span>
+                    <span class="u-uid">(UID : {{ data.ID }})</span>
+                </span>
+                <div class="u-tips">
+                    <el-tooltip :content="`当前经验 ${data.experience || 0}`" placement="top">
+                        <span class="u-level" :class="'lv-' + level" :style="{ backgroundColor: showLevelColor(level) }"
+                            >Lv.{{ level }}</span
+                        >
+                    </el-tooltip>
+                    <el-tooltip :content="vipTypeTitle" v-if="isPRO" placement="top">
+                        <a class="u-vip" href="/vip/premium?from=user_homepage" target="_blank">
+                            <i class="u-icon vip">{{ vipType }}</i>
+                        </a>
+                    </el-tooltip>
+                    <el-tooltip content="签约作者" v-if="isSuperAuthor" placement="top">
+                        <span class="u-superauthor">
+                            <i class="u-icon superauthor">签约作者</i>
+                        </span>
+                    </el-tooltip>
+                </div>
             </div>
+        </div>
+        <div class="m-mark">
+            <span class="u-img">
+                <img :src="`${img}/decoration/images/${userDefinedStyle.name}/homebanner.png`" />
+            </span>
         </div>
     </div>
 </template>
@@ -38,14 +45,10 @@ export default {
     watch: {},
     data: function () {
         return {
+            img: __imgPath,
             avatarSize: "l",
             data: {},
-            userDefinedStyle: {
-                fans: {},
-                btn: {},
-                userName: {},
-                sendMsg: {},
-            },
+            userDefinedStyle: {},
         };
     },
     watch: {
@@ -57,7 +60,7 @@ export default {
         },
     },
     computed: {
-        avatar: function () { 
+        avatar: function () {
             return this.data.user_avatar || "";
         },
         avatar_frame: function () {
@@ -92,6 +95,7 @@ export default {
             if (decoration_local) {
                 const decoration = JSON.parse(decoration_local);
                 this.userDefinedStyle = decoration ? decoration : {};
+                console.log(this.userDefinedStyle);
                 return;
             }
             await getDecoration({ using: 1, user_id: this.uid, type: "homebg" }).then((res) => {
@@ -112,11 +116,7 @@ export default {
                 }
             });
         },
-        hasBanner(name) {
-            return name ? { backgroundImage: `url(${__imgPath}/decoration/images/${name}/homebanner.png) ` } : "";
-        },
-
-        showLevelColor: function (level) {
+        showLevelColor(level) {
             return __userLevelColor[level];
         },
     },
@@ -125,16 +125,39 @@ export default {
 
 <style lang="less">
 .m-author-header {
-    .flex;
+    .pr;
+    .clip;
     .size(100%,220px);
     .r(10px);
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    background: linear-gradient(39deg, #fff 0%, rgba(255, 255, 255, 0) 100%), lightgray 50% / cover no-repeat;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #fff;
+
+    .m-mark {
+        .flex;
+        justify-content: flex-end;
+        .u-img {
+            .pr;
+            img {
+                .h(220px);
+            }
+            &:after {
+                content: "";
+                .pa;
+                .h(220px);
+                .lt(0);
+                min-width: 1100px;
+                background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            }
+        }
+    }
+    .m-info {
+        .flex;
+        .full;
+        .pa;
+        .z(2);
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+    }
     .u-avatar {
         .size(120px);
         flex-shrink: 0;

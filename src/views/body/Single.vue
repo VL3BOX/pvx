@@ -37,11 +37,11 @@
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover">
+            <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover">
                 <div slot="error" class="image-slot">
                     <img class="u-pic" src="../../assets/img/body_null.png" />
                 </div>
-            </el-image>
+            </el-image> -->
 
             <div class="m-header-info">
                 <h2>{{ post.title || "无标题" }}</h2>
