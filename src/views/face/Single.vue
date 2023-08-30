@@ -71,7 +71,7 @@
                     }}</i>
                 </div>
             </div>
-            <div class="m-topic" v-if="topicText">{{ topicText }}</div>
+            <a :href="tvLink" target="_blank" class="m-topic" v-if="topicText">{{ topicText }}</a>
         </div>
 
         <div class="m-face-content">
@@ -176,7 +176,7 @@
                 <faceItem :item="face" />
                 <bodyItem :item="item" :onlyPic="true" :noName="true" v-for="item in pvxbodyList" :key="item.id" />
             </div>
-            <span class="u-list-null  m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
+            <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
         </div>
         <!-- 上传作者区域 -->
         <div class="m-author m-single-content-box">
@@ -229,7 +229,7 @@ import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
 import { editLink, showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
-import { __clients, __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __imgPath, __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import dayjs from "dayjs";
 import bodyItem from "@/components/body/item";
 import faceItem from "@/components/face/item";
@@ -300,7 +300,10 @@ export default {
             return this.isStar ? "取消精选" : "精选";
         },
         topicText() {
-            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条榜` : "";
+            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条` : "";
+        },
+        tvLink() {
+            return __Root + "index/tv";
         },
     },
     created: function () {

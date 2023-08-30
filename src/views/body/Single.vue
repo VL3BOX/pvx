@@ -70,7 +70,7 @@
                     }}</i>
                 </div>
             </div>
-            <div class="m-topic" v-if="topicText">{{ topicText }}</div>
+            <a :href="tvLink" target="_blank" class="m-topic" v-if="topicText">{{ topicText }}</a>
         </div>
 
         <div class="m-face-content">
@@ -301,12 +301,15 @@ export default {
             return this.isStar ? "取消精选" : "精选";
         },
         topicText() {
-            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条榜` : "";
+            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条` : "";
         },
         showCarousel() {
             if (this.previewSrcList?.length > 0) return true;
             if (!this.has_buy) return true;
             return false;
+        },
+        tvLink() {
+            return __Root + "index/tv";
         },
     },
     created: function () {
