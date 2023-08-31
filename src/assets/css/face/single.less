@@ -107,8 +107,9 @@
     }
     .m-header-info {
         .flex;
+        .fz(12px);
         flex-direction: column;
-        gap: 5px;
+        gap: 8px;
         width: calc(100% - 300px);
         color: #000;
     }
@@ -142,8 +143,7 @@
         .mr(15px);
         .h(24px);
         gap: 5px;
-        align-items: center;
-        padding: 5px 0;
+        align-items: center; 
         * {
             flex-shrink: 0;
         }
@@ -402,6 +402,7 @@
 }
 .m-random-list,
 .m-pvxbody-list {
+    overflow: auto;
     .u-list {
         display: flex;
         gap: 20px;
