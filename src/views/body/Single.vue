@@ -55,7 +55,7 @@
                     }}</a>
                     <span class="u-name" v-else>{{ post.author_name }}</span>
                     <time class="u-time">{{ post.updated_at }}</time>
-                    <a v-if="canEdit" :href="editLink('face', post.id)" target="_blank">
+                    <a v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
                         <i class="el-icon-edit-outline u-edit-icon"></i>
                         编辑
                     </a>
