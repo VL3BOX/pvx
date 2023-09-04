@@ -7,7 +7,11 @@
     >
         <div class="m-img">
             <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
-            <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
+            <div class="m-mark-left">
+                <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
+                <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">可新建</i>
+            </div>
+
             <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
         </div>
 
