@@ -19,6 +19,7 @@
                 <div class="m-face-filter m-common-filter">
                     <el-checkbox-button v-model="star" class="u-filter">只看精选</el-checkbox-button>
                     <el-checkbox-button v-model="price_type" class="u-filter">只看免费</el-checkbox-button>
+                    <el-checkbox-button v-model="is_unlimited" class="u-filter">只看可新建</el-checkbox-button>
                     <el-checkbox-button v-model="filter_empty_images" class="u-filter">不看无图片</el-checkbox-button>
                 </div>
                 <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
@@ -54,8 +55,10 @@ export default {
     data: function () {
         return {
             star: false,
+            is_unlimited: false,
             price_type: false,
             filter_empty_images: true,
+
             title: "",
             filterOpen: false,
         };
@@ -65,6 +68,7 @@ export default {
             const _params = {};
             if (this.active) _params.body_type = this.active;
             if (this.star) _params.star = 1;
+            if (this.is_unlimited) _params.is_unlimited = 1;
             if (this.title) _params.title = this.title;
             if (this.price_type) _params.price_type = 0;
             if (this.filter_empty_images) _params.filter_empty_images = true;
