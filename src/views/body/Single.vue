@@ -55,7 +55,7 @@
                     }}</a>
                     <span class="u-name" v-else>{{ post.author_name }}</span>
                     <time class="u-time">{{ post.updated_at }}</time>
-                    <a v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
+                    <a class="u-edit" v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
                         <i class="el-icon-edit-outline u-edit-icon"></i>
                         编辑
                     </a>
@@ -170,14 +170,14 @@
             <span class="u-list-null m-single-content-box" v-else>· 作者没有更多作品了 ·</span>
         </div>
         <!--搭配随机作品-->
-        <div class="m-pvxbody-list">
+        <!-- <div class="m-pvxbody-list">
             <h3>搭配指南</h3>
             <div class="u-list m-single-content-box" v-if="faceList.length">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
                 <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
             </div>
             <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
-        </div>
+        </div> -->
         <!-- 上传作者区域 -->
         <authorItem :uid="post.user_id" />
         <!-- 点赞 -->
@@ -229,7 +229,13 @@ import faceItem from "@/components/face/item";
 import authorItem from "@/components/face/author";
 export default {
     name: "single",
-    components: { Comment, faceItem, Bodydat, bodyItem, authorItem },
+    components: {
+        Comment,
+        // faceItem,
+        Bodydat,
+        bodyItem,
+        authorItem,
+    },
     data: function () {
         return {
             loading: false,

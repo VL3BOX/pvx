@@ -2,12 +2,14 @@
     .m-list {
         .flex;
         flex-direction: column;
-        gap: 20px;
+        &:first-child .u-list-title {
+            margin: 20px 0;
+        }
         .u-list-title {
             .flex;
-            .fz(28px,1.5);
+            .fz(24px,1);
             .bold;
-            .mt(20px);
+            margin: 40px 0 20px 0;
             justify-content: space-between;
             align-items: baseline;
             .u-more {
@@ -52,7 +54,7 @@
         }
         .m-list {
             .u-list-title {
-                .fz(24px,1.5);
+                .fz(24px,1);
                 margin: 20px 0 0 0;
             }
         }
