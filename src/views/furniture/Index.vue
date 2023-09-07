@@ -4,6 +4,7 @@
             ref="search"
             :items="searchProps"
             :initValue="initValue"
+            :active="isActive"
             class="m-furniture-search"
             @search="searchEvent($event)"
         >
@@ -87,6 +88,7 @@ export default {
             initValue: {},
             append: false,
             list: [],
+            isActive: false, // 额外搜索是否激活
             searchProps: [
                 {
                     key: "nCatag1Index",
@@ -218,6 +220,19 @@ export default {
             const category = this.category.find((item) => item.id === type);
             const children = category?.children || [];
             this.childCategory = children;
+        },
+        "$route.query": {
+            immediate: true,
+            deep: true,
+            handler(query) {
+                const { match } = query;
+                if (match === "1") {
+                    this.initValue = {
+                        other: "isMatch",
+                    };
+                    this.isActive = true;
+                }
+            },
         },
         search: {
             deep: true,

@@ -38,6 +38,7 @@
                 </template>
                 <template v-if="item.type === 'filter' && item.options.length">
                     <el-popover
+                        ref="popover"
                         :placement="isPhone() ? 'right' : 'bottom'"
                         :width="!isPhone() && 420"
                         trigger="click"
@@ -178,6 +179,10 @@ export default {
             type: Object,
             default: () => {},
         },
+        active: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -249,6 +254,7 @@ export default {
             const oldFormData = cloneDeep(this.formData);
             this.formData = oldFormData;
             this.filterValue = false;
+            this.$router.push({ query: "" });
         },
         async remoteMethod(query) {
             const currentMethod = this.currentMethod;
@@ -257,6 +263,14 @@ export default {
                 this.selectLoading = "";
             });
         },
+    },
+    mounted() {
+        this.filterValue = this.active;
+        console.log(this.$route);
+        if (this.active && this.$route.name === "furniture") {
+            // 初始化激活搜索popover特殊处理
+            document.getElementsByClassName("type-list")[0].style.width = "1080px";
+        }
     },
 };
 </script>
