@@ -10,7 +10,8 @@
                 @click="active = item.value"
                 >{{ item.label }}
             </a>
-            <a href="https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/" class="u-tab" target="_blank">家园蓝图</a>
+            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html" class="u-tab" target="_blank">免费蓝图</a>
+            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html?" class="u-tab" target="_blank">付费蓝图</a>
             <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" class="u-tab" target="_blank">藏品蓝图</a>
         </div>
         <div class="m-homeland-content">
