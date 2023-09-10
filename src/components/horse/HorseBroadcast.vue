@@ -104,8 +104,10 @@ export default {
             this.$router.push({ path: `${itemId}`, query: { type } });
         },
         getImgSrc(horseName) {
+            // const client = this.client
+            const client = "std"; // 坐骑图片取正式服的
             const id = horseBroadcast[horseName]?.id || 0;
-            return this.__imgRoot2 + `${this.client}/` + id + ".png";
+            return this.__imgRoot2 + `${client}/` + id + ".png";
         },
         getOriginDatas(item) {
             let mapId = "";
@@ -210,7 +212,7 @@ export default {
                     })
                     .sort(function (a, b) {
                         return dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf();
-                    }); 
+                    });
             });
         },
     },

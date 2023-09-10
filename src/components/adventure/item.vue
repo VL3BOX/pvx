@@ -10,7 +10,13 @@
             <img v-if="camp === 2" class="u-camp-icon" src="@/assets/img/camp/camp_2.png" />
         </div>
         <div v-if="item.szRewardType === 'school'" class="u-school-switch" @click.prevent="switchCamp">
-            <el-popover ref="schoolPopover" placement="bottom" width="180" trigger="click" popper-class="m-school-choose">
+            <el-popover
+                ref="schoolPopover"
+                placement="bottom"
+                width="180"
+                trigger="click"
+                popper-class="m-school-choose"
+            >
                 <img slot="reference" class="u-school-icon" :src="forceIconUrl(force)" />
                 <div class="u-school-list">
                     <img
@@ -68,19 +74,21 @@ export default {
             return `${__imgPath}image/school/${forceName}.png`;
         },
         getImgUrl() {
+            // const client = this.client;
+            const client = "std"; // 怀旧服的奇遇图片先取正式服的
             let tgaPath = this.item.szOpenRewardPath?.toLowerCase();
             if (!tgaPath) return "";
             tgaPath = tgaPath.replace(/\\/g, "/").replace("ui/image/adventure/", "");
             if (!this.item.szRewardType) {
                 let pngPath = tgaPath.replace(/\.tga$/, ".png");
-                return `${this.__imgRoot}adventure/${this.client}/${pngPath}`;
+                return `${this.__imgRoot}adventure/${client}/${pngPath}`;
             }
             // 传给组件的数据是修改过的
             tgaPath = tgaPath.replace(/\/[^\/]+?\.tga$/, "");
             if (this.item.szRewardType === "camp")
-                return `${this.__imgRoot}adventure/${this.client}/${tgaPath}/camp_${this.camp}_open.png`;
+                return `${this.__imgRoot}adventure/${client}/${tgaPath}/camp_${this.camp}_open.png`;
             if (this.item.szRewardType === "school")
-                return `${this.__imgRoot}adventure/${this.client}/${tgaPath}/school_${this.force}_open.png`;
+                return `${this.__imgRoot}adventure/${client}/${tgaPath}/school_${this.force}_open.png`;
             return defaultImg;
         },
         getLink(adventure_id) {

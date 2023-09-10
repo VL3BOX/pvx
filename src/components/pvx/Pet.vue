@@ -41,9 +41,6 @@ export default {
     },
     methods: {
         load() {
-            getList("slider", this.client, 9).then((res) => {
-                this.faces = res.data?.data?.list || [];
-            });
             if (this.client === "std") {
                 // 只有正式服有 获取福缘宠物id
                 getPetLucky(this.client).then((res) => {
@@ -54,7 +51,8 @@ export default {
                     });
                 });
             } else {
-                getList("slider", this.client, "", 9).then((res) => {
+                // 取正式服的数据
+                getList("slider", "std").then((res) => {
                     this.list = res.data?.data?.list || [];
                 });
             }

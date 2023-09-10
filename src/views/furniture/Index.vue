@@ -1,5 +1,5 @@
 <template>
-    <div ref="listRef" class="p-furniture">
+    <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
             :items="searchProps"
@@ -8,6 +8,19 @@
             class="m-furniture-search"
             @search="searchEvent($event)"
         >
+            <template slot="default">
+                <div class="u-furniture-select" :class="version && 'is-selected'">
+                    <label>庐园广记</label>
+                    <el-select v-model="version" clearable>
+                        <el-option
+                            v-for="item in versions"
+                            :key="item.nDlcID"
+                            :value="item.nDlcID"
+                            :label="item.name"
+                        ></el-option>
+                    </el-select>
+                </div>
+            </template>
             <template slot="extra">
                 <div v-if="childCategory.length" class="m-child-category">
                     <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
@@ -23,15 +36,26 @@
                 </div>
             </template>
         </PvxSearch>
-        <div v-loading="loading" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
-            <template v-if="list.length">
-                <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
-            </template>
-            <div class="m-furniture-null" v-else>
+        <div v-if="list.length" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
+            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
+            <div class="m-furniture-null" v-if="!list.length">
                 <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
             </div>
         </div>
-        <div class="m-furniture-pages">
+        <div v-if="setList.length" class="m-furniture-wrap">
+            <div class="u-set-item" v-for="setItem in setList" :key="setItem.dwSetID">
+                <div class="u-title">{{ setItem.szName }}</div>
+                <div class="u-furniture-list">
+                    <furnitureSet
+                        :data="item"
+                        v-for="item in setItem.furnitures"
+                        :key="item.ID"
+                        :category="categoryObj"
+                    />
+                </div>
+            </div>
+        </div>
+        <div v-if="list.length" class="m-furniture-pages">
             <el-button
                 class="m-archive-more"
                 v-show="hasNextPage"
@@ -52,16 +76,19 @@
                 @current-change="changePage"
             ></el-pagination>
         </div>
+        <PvxBacktop color="#fff" bgColor="#07ad36"></PvxBacktop>
     </div>
 </template>
 
 <script>
 import PvxSearch from "@/components/PvxSearch.vue";
 import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
+import furnitureSet from "@/components/furniture/furniture_set.vue";
+import PvxBacktop from "@/components/PvxBacktop.vue";
 
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { getFurnitureCategory, getFurnitureMatch } from "@/service/homeland.js";
-import { getFurniture } from "@/service/furniture.js";
+import { getFurniture, getFurnitureSet } from "@/service/furniture.js";
 import { deleteNull, isPhone } from "@/utils/index";
 import { sourceList, levelList, categoryList, categoryCss } from "@/assets/data/furniture.json";
 import dayjs from "dayjs";
@@ -70,7 +97,7 @@ dayjs.extend(isoWeek);
 
 export default {
     name: "Index",
-    components: { PvxSearch, FurnitureItem },
+    components: { PvxSearch, FurnitureItem, furnitureSet, PvxBacktop },
     provide: {
         __imgRoot: __imgPath + "homeland/",
         __dataRoot: __dataPath + "pvx/",
@@ -83,11 +110,13 @@ export default {
             per: 20,
             pages: 0,
             total: 0,
+            categoryObj: {},
             category: [],
             childCategory: [],
-            initValue: {},
+            initValue: { nCatag1Index: "1" },
             append: false,
             list: [],
+            setList: [],
             isActive: false, // 额外搜索是否激活
             searchProps: [
                 {
@@ -164,6 +193,21 @@ export default {
             childActive: "",
             furniture: [],
             buttonWidth: 0,
+            versions: [
+                {
+                    name: "横刀断浪(120级)",
+                    nDlcID: 7,
+                },
+                {
+                    name: "奉天证道(110级)",
+                    nDlcID: 6,
+                },
+                {
+                    name: "世外蓬莱(100级)",
+                    nDlcID: 5,
+                },
+            ],
+            version: null,
         };
     },
     filters: {
@@ -233,6 +277,17 @@ export default {
                     this.isActive = true;
                 }
             },
+        },
+        version() {
+            if (this.version) {
+                this.$refs.search.reset();
+                this.$refs.search.formData.nCatag1Index = "";
+                this.childActive = "";
+                this.active = "";
+                this.getFurnitureSet();
+            } else {
+                this.$refs.search.formData.nCatag1Index = "1";
+            }
         },
         search: {
             deep: true,
@@ -306,11 +361,12 @@ export default {
         },
         getCategory() {
             getFurnitureCategory().then((res) => {
+                this.categoryObj = res?.data || {};
                 const list = Object.values(res?.data || {});
-                list.unshift({
-                    id: "",
-                    name: "全部",
-                });
+                // list.unshift({
+                //     id: "",
+                //     name: "全部",
+                // });
                 this.category = list.map((item) => {
                     return {
                         type: item.id,
@@ -318,9 +374,17 @@ export default {
                     };
                 });
                 this.searchProps[0].options = this.category;
+
+                if (this.initValue.nCatag1Index) {
+                    const category = this.category.find((item) => item.id === this.initValue.nCatag1Index);
+                    const children = category?.children || [];
+                    this.childCategory = children;
+                }
             });
         },
         getData() {
+            this.version = "";
+            this.setList = [];
             const params = deleteNull(this.params);
             this.loading = true;
             getFurniture(params)
@@ -338,9 +402,13 @@ export default {
                 });
         },
         searchEvent(data) {
-            this.active = data.nCatag1Index;
-            const newData = this.doPrams(data);
-            this.search = newData;
+            // 广记会将search置空
+            let isAllEmpty = Object.values(data).every((item) => !item);
+            if (!isAllEmpty) {
+                this.active = data.nCatag1Index;
+                const newData = this.doPrams(data);
+                this.search = newData;
+            }
         },
         setFurniture(res) {
             let data = res.data.data.filter((item) => item);
@@ -389,6 +457,22 @@ export default {
                 }
                 this.getData();
             });
+        },
+        getFurnitureSet() {
+            this.list = [];
+            this.pages = 0;
+            this.total = 0;
+            this.page = 1;
+
+            this.loading = true;
+            getFurnitureSet({ nDlcID: this.version, details: 1 })
+                .then((res) => {
+                    const list = res?.data || [];
+                    this.setList = list;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
     },
     mounted() {

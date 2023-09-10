@@ -1,5 +1,5 @@
 .p-furniture {
-    .m-furniture-search { 
+    .m-furniture-search {
         .search-group {
             .search-item {
                 &.type-list {
@@ -48,11 +48,11 @@
             }
         }
     }
-    .m-furniture-list { 
+    .m-furniture-list {
         .flex;
         .pt(20px);
         gap: 20px;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
     }
     .m-furniture-null {
         width: 100%;
@@ -62,6 +62,67 @@
         padding-bottom: 20px;
         .m-archive-more {
             width: 100%;
+        }
+    }
+    .u-furniture-select {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 20px;
+        height: 40px;
+        margin-right: 20px;
+        width: 240px;
+        flex: none;
+        label {
+            padding-left: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #949494;
+            flex: none;
+        }
+        .el-select {
+            .el-input {
+                width: 90%;
+            }
+            .el-input__inner {
+                border: none;
+            }
+        }
+        &.is-selected {
+            background-color: @furnitureColor;
+            label {
+                color: #fff;
+            }
+            .el-select {
+                .el-input__inner {
+                    background-color: @furnitureColor;
+                    color: #fff;
+                    font-weight: bold;
+                }
+                i {
+                    color: #fff !important;
+                }
+            }
+        }
+    }
+    .m-furniture-wrap {
+        margin-top: 20px;
+        .flex;
+        flex-direction: column;
+        gap: 40px;
+        .u-set-item {
+            .u-title {
+                color: #24292e;
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+            .u-furniture-list {
+                .flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
         }
     }
 }
@@ -80,7 +141,7 @@
         left: 0 !important;
     }
 }
-.m-furniture-item .m-furniture-detail .u-name{
+.m-furniture-item .m-furniture-detail .u-name {
     .fz(18px);
 }
 .filter-content {

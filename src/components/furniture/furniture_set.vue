@@ -35,8 +35,8 @@ export default {
             return this.__imgRoot + `homeland/${this.client}` + name + ".png";
         },
         getType(data) {
-            const Category1 = data.Category1;
-            const Category2 = data.Category2;
+            const Category1 = data.nCatag1Index;
+            const Category2 = data.nCatag2Index;
             const name1 = this.category[Category1]?.name || "";
             let name2 = "";
             if (name1) {

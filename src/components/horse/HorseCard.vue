@@ -76,15 +76,17 @@ export default {
             return `/horse/${id}?type=${type}`;
         },
         getImgSrc(item) {
+            // const client = this.client;
+            const client = "std"; // 怀旧服的坐骑图片取正式服的
             const path = item.ImgPath;
             if (path) {
                 let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
                 let name = img[1].replace(/\\/g, "/");
 
-                if (img[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";
-                return this.__imgRoot + `homeland/${this.client}` + name + ".png";
+                if (img[1] == "default") return this.__imgRoot + `homeland/${client}` + "/default/default.png";
+                return this.__imgRoot + `homeland/${client}` + name + ".png";
             } else {
-                return this.__imgRoot2 + `${this.client}/` + item.ID + ".png";
+                return this.__imgRoot2 + `${client}/` + item.ID + ".png";
             }
         },
         getType(item) {

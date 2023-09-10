@@ -5,7 +5,8 @@
             <!-- 全部模式 -->
             <template v-if="isAll">
                 <!-- 抓马播报 -->
-                <HorseBroadcast v-if="client === 'std'"></HorseBroadcast>
+                <!-- v-if="client === 'std'" -->
+                <HorseBroadcast></HorseBroadcast>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
                     <div v-if="list.length" class="title-header">
@@ -322,7 +323,7 @@ export default {
             }
         },
         loadList() {
-            this.getList(this.selected, false).then((data) => { 
+            this.getList(this.selected, false).then((data) => {
                 this.list = data.list;
                 this.total = data.total;
                 this.totalPages = data.pages;

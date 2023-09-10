@@ -266,7 +266,6 @@ export default {
     },
     mounted() {
         this.filterValue = this.active;
-        console.log(this.$route);
         if (this.active && this.$route.name === "furniture") {
             // 初始化激活搜索popover特殊处理
             document.getElementsByClassName("type-list")[0].style.width = "1080px";
