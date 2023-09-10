@@ -464,15 +464,21 @@ export default {
             this.total = 0;
             this.page = 1;
 
-            this.loading = true;
-            getFurnitureSet({ nDlcID: this.version, details: 1 })
-                .then((res) => {
-                    const list = res?.data || [];
-                    this.setList = list;
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+            const cache = sessionStorage.getItem(`FurnitureSet_${this.version}`);
+            if (cache) {
+                this.setList = JSON.parse(cache);
+            } else {
+                this.loading = true;
+                getFurnitureSet({ nDlcID: this.version, details: 1 })
+                    .then((res) => {
+                        const list = res?.data || [];
+                        this.setList = list;
+                        sessionStorage.setItem(`FurnitureSet_${this.version}`, JSON.stringify(list));
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            }
         },
     },
     mounted() {
