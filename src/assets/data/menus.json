@@ -112,7 +112,8 @@
                 "label": "活动告示",
                 "icon": "el-icon-sugar",
                 "key": "gonggao",
-                "status": true
+                "status": true,
+                "isStd": true
             }
         ]
     }
