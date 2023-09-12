@@ -70,7 +70,7 @@ export default {
             return str;
         },
         client() {
-            return location.href.includes("origin") ? "origin" : "std";
+            return this.$store.state.client;
         },
         clientMenus() {
             let menus = this.menus;
