@@ -2,7 +2,7 @@
     <a class="m-horse-card" :class="`u-quality-bg--` + item.Quality" :href="getLink(item)" target="_blank">
         <el-image v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image">
             <div slot="error" class="image-slot">
-                <img src="../../assets/img/horse_item_bg_sm.jpg" />
+                <img :src="getImgSrc(item, true)" @error="replaceByDefault" />
             </div>
         </el-image>
         <item-icon v-else :item_id="String(item.ItemID)" :isLink="false" :size="160" :onlyIcon="true"></item-icon>
@@ -69,15 +69,18 @@ export default {
         },
     },
     methods: {
+        replaceByDefault(e) {
+            e.target.src = require("../../assets/img/horse_item_bg_sm.jpg");
+        },
         getLink(item) {
             const id = item.ItemID;
             // 2 马具 1 坐骑
             const type = item.SubType === 15 ? 1 : 2;
             return `/horse/${id}?type=${type}`;
         },
-        getImgSrc(item) {
+        getImgSrc(item, isAuto = false) {
             // const client = this.client;
-            const client = "std"; // 怀旧服的坐骑图片取正式服的
+            const client = isAuto ? this.client : "std"; // 怀旧服的坐骑图片取正式服的, 没有再根据client获取
             const path = item.ImgPath;
             if (path) {
                 let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);

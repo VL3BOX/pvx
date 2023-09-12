@@ -8,7 +8,11 @@
                             <el-carousel-item v-for="horse in item.horses" :key="horse">
                                 <a class="u-horse-name" :href="getLink(horse)" target="_blank">
                                     <el-tooltip class="item" effect="dark" :content="horse" placement="top">
-                                        <el-image :src="getImgSrc(horse)" class="u-image"></el-image>
+                                        <el-image :src="getImgSrc(horse)" class="u-image">
+                                            <div slot="error" class="image-slot">
+                                                <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
+                                            </div>
+                                        </el-image>
                                     </el-tooltip>
                                 </a>
                             </el-carousel-item>
@@ -79,15 +83,19 @@ export default {
         },
     },
     methods: {
+        replaceByDefault(e) {
+            e.target.src = require("../../../assets/img/horse_item_bg_sm.jpg");
+        },
         getLink(horseName) {
             const itemId = horseBroadcast[horseName]?.itemId || 0;
             // 2 马具 1 坐骑
             const type = 1;
             return `/horse/${itemId}?type=${type}`;
         },
-        getImgSrc(horseName) {
+        getImgSrc(horseName, isAuto = false) {
+            const client = isAuto ? this.client : "std"; // 怀旧服的坐骑图片取正式服的, 没有再根据client获取
             const id = horseBroadcast[horseName]?.id || 0;
-            return __imgPath + `horse/${this.client}/` + id + ".png";
+            return __imgPath + `horse/${client}/` + id + ".png";
         },
         getOriginDatas(item) {
             let mapId = "";
@@ -192,7 +200,7 @@ export default {
                     })
                     .sort(function (a, b) {
                         return dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf();
-                    }); 
+                    });
             });
         },
     },

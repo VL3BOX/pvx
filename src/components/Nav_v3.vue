@@ -36,7 +36,7 @@
 import { compact } from "lodash";
 import menus from "@/assets/data/menus.json";
 export default {
-    name: "Nav",
+    name: "Nav_V3",
     props: [],
     components: {},
     data: function () {
@@ -77,13 +77,14 @@ export default {
             if (this.client !== "std") {
                 menus = menus
                     .map((item) => {
-                        if (item.index == "4") return false;
+                        // if (item.index == "4") return false;
                         item.submenus = item.submenus
                             .map((el) => {
-                                if (el.key == "adventure") return false;
-                                if (el.key == "furniture") return false;
-                                if (el.key == "blueprint") return false;
-                                if (el.key == "exterior") return false;
+                                // if (el.key == "adventure") return false;
+                                // if (el.key == "furniture") return false;
+                                // if (el.key == "blueprint") return false;
+                                // if (el.key == "exterior") return false;
+                                if (el.isStd) return false;
                                 return el;
                             })
                             .filter(Boolean);

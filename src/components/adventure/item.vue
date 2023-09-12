@@ -53,16 +53,18 @@ export default {
             return this.$store.state.client;
         },
         imgName: function () {
+            const client = "std"; // 图片使用正式服
             let img = this.item.szOpenRewardPath?.toLowerCase().match(/.*[\/,\\]adventure(.*?).tga/) || "";
             let name = "";
             if (img[1]) name = img[1].replace(/\\/g, "/");
-            return this.__imgRoot + `adventure/${this.client}` + name + ".png";
+            return this.__imgRoot + `adventure/${client}` + name + ".png";
         },
         defaultImg: function () {
             return __imgPath + "image/pvx/bg.png";
         },
         titleImg: function () {
-            return this.__imgRoot + `image_ui/${this.client}/luckymeeting7_` + this.item.nOpenFrame + ".png";
+            const client = "std"; // 图片使用正式服
+            return this.__imgRoot + `image_ui/${client}/luckymeeting7_` + this.item.nOpenFrame + ".png";
         },
         titleStyle: function () {
             return {};

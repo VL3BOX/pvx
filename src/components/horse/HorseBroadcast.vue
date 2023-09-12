@@ -23,7 +23,7 @@
                                     <el-tooltip class="item" effect="dark" :content="horse" placement="top">
                                         <el-image :src="getImgSrc(horse)" class="u-image">
                                             <div slot="error" class="image-slot">
-                                                <img src="../../assets/img/horse_item_bg_sm.jpg" />
+                                                <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
                                             </div>
                                         </el-image>
                                     </el-tooltip>
@@ -97,15 +97,18 @@ export default {
         },
     },
     methods: {
+        replaceByDefault(e) {
+            e.target.src = require("../../assets/img/horse_item_bg_sm.jpg");
+        },
         go(horseName) {
             const itemId = horseBroadcast[horseName]?.itemId || 0;
             // 2 马具 1 坐骑
             const type = 1;
             this.$router.push({ path: `${itemId}`, query: { type } });
         },
-        getImgSrc(horseName) {
+        getImgSrc(horseName, isAuto = false) {
             // const client = this.client
-            const client = "std"; // 坐骑图片取正式服的
+            const client = isAuto ? this.client : "std"; // 怀旧服的坐骑图片取正式服的, 没有再根据client获取
             const id = horseBroadcast[horseName]?.id || 0;
             return this.__imgRoot2 + `${client}/` + id + ".png";
         },

@@ -9,8 +9,7 @@
                 "label": "捏脸数据",
                 "icon": "el-icon-download",
                 "key": "face",
-                "status": true,
-                "isStd": true
+                "status": true
             },
             {
                 "path": "/body",
@@ -25,7 +24,8 @@
                 "label": "家园指南",
                 "icon": "el-icon-download",
                 "key": "blueprint",
-                "status": true
+                "status": true,
+                "isStd": true
             }
         ]
     },
@@ -61,7 +61,8 @@
                 "label": "家具大全",
                 "icon": "el-icon-files",
                 "key": "furniture",
-                "status": true
+                "status": true,
+                "isStd": true
             },
             {
                 "path": "/reputation",

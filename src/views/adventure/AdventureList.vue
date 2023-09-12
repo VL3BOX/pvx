@@ -125,6 +125,9 @@ export default {
         };
     },
     computed: {
+        client() {
+            return this.$store.state.client;
+        },
         hasNextPage: function () {
             return this.pages > 1 && this.page < this.pages;
         },
