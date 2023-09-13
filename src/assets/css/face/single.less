@@ -279,23 +279,19 @@
 .m-single-pics {
     .pr;
     .size(100%,500px);
-    .u-bg {
+    .u-bg-wrap {
         .pa;
         .size(calc(100% - 40px));
-        .r(10px);
-        box-sizing: border-box;
-        img {
-            .size(100%);
-            filter: blur(100px);
-        }
         overflow: hidden;
+        background-color: #fff;
+        .r(10px);
     }
-    .u-mask {
-        background-color: rgba(0, 0, 0, 0.2);
-        filter: blur(100px);
+    .u-bg {
         .pa;
-        .lt(0);
         .size(100%);
+        box-sizing: border-box;
+        filter: blur(100px);
+        background-size: 100% 100%;
     }
     .m-carousel {
         .pr;

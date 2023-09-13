@@ -77,9 +77,8 @@
         <div class="m-face-content">
             <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
                 <!-- 动态改为当前图片 -->
-                <div class="u-bg">
-                    <img :src="showPic(activePic)" />
-                    <div class="u-mask"></div>
+                <div class="u-bg-wrap">
+                    <div class="u-bg" :style="{ backgroundImage: `url(${showPic(activePic)})` }"></div>
                 </div>
                 <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
                     <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
