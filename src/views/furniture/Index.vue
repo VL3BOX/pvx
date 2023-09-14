@@ -113,7 +113,8 @@ export default {
             categoryObj: {},
             category: [],
             childCategory: [],
-            initValue: { nCatag1Index: "1" },
+            // initValue: { nCatag1Index: "1" },
+            initValue: {},
             append: false,
             list: [],
             setList: [],
@@ -207,7 +208,7 @@ export default {
                     nDlcID: 5,
                 },
             ],
-            version: null,
+            version: 7,
         };
     },
     filters: {
@@ -482,6 +483,7 @@ export default {
         },
     },
     mounted() {
+        this.getFurnitureSet();
         this.getCategory();
         this.loadFurniture();
     },
