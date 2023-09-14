@@ -287,7 +287,7 @@ export default {
                 this.active = "";
                 this.getFurnitureSet();
             } else {
-                this.$refs.search.formData.nCatag1Index = "1";
+                this.$refs.search.formData.nCatag1Index = this.search.match ? "" : "1";
             }
         },
         search: {
