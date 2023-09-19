@@ -19,11 +19,11 @@ reporter.install(Vue);
 
 // 数据与路由
 import router from "@/router/exam.js";
-// import store from "@/store/index";
+import store from "@/store/index";
 
 import App from "@/views/exam/Exam.vue";
 new Vue({
     router,
-    // store,
+    store,
     render: (h) => h(App),
 }).$mount("#app");
