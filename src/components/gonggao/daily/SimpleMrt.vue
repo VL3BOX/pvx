@@ -16,9 +16,8 @@
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import { getMeirentu } from "@/service/gonggao";
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
+
+import dayjs from "@/plugins/day";
 export default {
     name: "SimpleMrt",
     data() {
@@ -41,7 +40,7 @@ export default {
             return this.$store.state.server;
         },
         week() {
-            var datas = dayjs(this.meirentu?.date || new Date()).day();
+            var datas = dayjs.tz(this.meirentu?.date || new Date()).day();
             var week = ["日", "一", "二", "三", "四", "五", "六"];
             return "周" + week[datas];
         },

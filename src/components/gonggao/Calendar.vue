@@ -92,7 +92,7 @@
 <script>
 import { months, weeks } from "@/assets/data/calendar.json";
 import { getCalendar, getCalendarCount, getCalendarSlogans, getMyTeamRaid } from "@/service/calendar.js";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 import calendarDetail from "./calendar/CalendarDetail.vue";
 import calendarItem from "./calendar/CalendarItem.vue";
 import { resolveImagePath } from "@jx3box/jx3box-common/js/utils";
@@ -359,8 +359,8 @@ export default {
             const { year, month } = this.current;
 
             const params = {
-                start_time: dayjs(`${year}-${month}-01`).startOf("month").format("YYYY-MM-DD"),
-                end_time: dayjs(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD"),
+                start_time: dayjs.tz(`${year}-${month}-01`).startOf("month").format("YYYY-MM-DD"),
+                end_time: dayjs.tz(`${year}-${month}-01`).endOf("month").format("YYYY-MM-DD"),
             };
 
             getMyTeamRaid(params).then((res) => {
@@ -368,9 +368,9 @@ export default {
                 data.map((item) => {
                     return {
                         ...item,
-                        month: dayjs(item?.raid_info?.start_time).month() + 1,
-                        year: dayjs(item?.raid_info?.start_time).year(),
-                        date: dayjs(item?.raid_info?.start_time).date(),
+                        month: dayjs.tz(item?.raid_info?.start_time).month() + 1,
+                        year: dayjs.tz(item?.raid_info?.start_time).year(),
+                        date: dayjs.tz(item?.raid_info?.start_time).date(),
                     };
                 }).forEach((item) => {
                     let { year, month, date } = item;

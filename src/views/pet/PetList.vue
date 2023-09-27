@@ -75,7 +75,8 @@ import Source from "@/assets/data/pet_source.json";
 
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { getPets, getPetLucky, getSliders, getMapList } from "@/service/pet";
-import dayjs from "dayjs";
+
+import dayjs from "@/plugins/day";
 export default {
     name: "face",
     components: {
@@ -263,7 +264,7 @@ export default {
             if (this.client === "std")
                 getPetLucky(this.client).then((res) => {
                     let data = res.data;
-                    let dateIndex = dayjs(new Date()).format("MDD");
+                    let dateIndex = dayjs.tz(new Date()).format("MDD");
                     // this.luckyList = data[dateIndex];
                     getSliders("slider", this.client, data[dateIndex].toString()).then((res) => {
                         this.luckyList = res.data.data.list || [];

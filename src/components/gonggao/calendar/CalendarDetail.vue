@@ -90,7 +90,7 @@ import CalendarDialog from "./CalendarDialog";
 import CalendarDetailItem from "./CalendarDetailItem.vue";
 import DailyActivity from "./DailyActivity.vue";
 import DailySpecial from "./DailySpecial.vue";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 
 export default {
     name: "CalendarDetail",
@@ -120,7 +120,7 @@ export default {
         currentDay() {
             const { year, month, date } = this.dateObj;
             const currentDate = `${year}-${month}-${date}`;
-            const datas = dayjs(currentDate).day();
+            const datas = dayjs.tz(currentDate).day();
             const week = ["日", "一", "二", "三", "四", "五", "六"];
             return "周" + week[datas];
         },

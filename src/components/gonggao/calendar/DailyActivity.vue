@@ -11,18 +11,13 @@
 
 <script>
 import { getDaily } from "@/service/gonggao";
-import dayjs from "dayjs";
-import isToday from "dayjs/plugin/isToday";
-import isoWeek from "dayjs/plugin/isoWeek";
-
-dayjs.extend(isoWeek);
-dayjs.extend(isToday);
+import dayjs from "@/plugins/day";
 export default {
     name: "daily-activity",
     props: {
         date: {
             type: String,
-            default: dayjs().format("YYYY-MM-DD"),
+            default: dayjs.tz().format("YYYY-MM-DD"),
         },
     },
     data() {
@@ -35,11 +30,11 @@ export default {
             return this.$store.state.client;
         },
         today: function () {
-            return dayjs(this.date).isToday();
+            return dayjs.tz(this.date).isToday();
         },
         isCurrentWeek() {
-            let week = dayjs(this.date).isoWeek();
-            let currentWeek = dayjs().isoWeek();
+            let week = dayjs.tz(this.date).isoWeek();
+            let currentWeek = dayjs.tz().isoWeek();
 
             return week === currentWeek;
         },
@@ -56,11 +51,11 @@ export default {
         // =========== 数据获取==========
         // 获取每日活动
         loadDaily() {
-            let date = dayjs(this.date).format("YYYY-MM-DD");
+            let date = dayjs.tz(this.date).format("YYYY-MM-DD");
             if (this.today) {
-                const hour = dayjs().hour();
+                const hour = dayjs.tz().hour();
                 if (0 <= hour && hour < 7) {
-                    date = dayjs(date).subtract(1, "day").format("YYYY-MM-DD");
+                    date = dayjs.tz(date).subtract(1, "day").format("YYYY-MM-DD");
                 }
             }
             getDaily({ date }).then((res) => {

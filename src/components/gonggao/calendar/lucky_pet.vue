@@ -16,13 +16,13 @@
 
 <script>
 import { getPets, getPetLucky } from "@/service/gonggao";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "lucky-pet",
     props: {
         date: {
             type: String,
-            default: dayjs().format("YYYY-MM-DD"),
+            default: dayjs.tz().format("YYYY-MM-DD"),
         },
         client: {
             type: String,
@@ -47,7 +47,7 @@ export default {
         loadPetLucky: function () {
             getPetLucky().then((res) => {
                 let data = res.data.std;
-                let dateIndex = dayjs(this.date).format("MDD");
+                let dateIndex = dayjs.tz(this.date).format("MDD");
                 let ids = data[dateIndex];
                 getPets(ids).then((res) => {
                     this.luckyList = res.data.list;

@@ -255,9 +255,9 @@ export default {
         formatImg(link) {
             if (!link) return;
             let img = link.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
-            let name = img[1].replace(/\\/g, "/");
+            let name = img?.[1].replace(/\\/g, "/");
 
-            if (img[1] == "default") return this.__imgRoot + "homeland/std/default/default.png";
+            if (img?.[1] == "default") return this.__imgRoot + "homeland/std/default/default.png";
             return this.__imgRoot + "homeland/std" + name + ".png";
         },
 

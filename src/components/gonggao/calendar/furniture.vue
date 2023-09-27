@@ -14,16 +14,14 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
+import dayjs from "@/plugins/day";
 import { getFurniture } from "@/service/gonggao";
 export default {
     name: "furniture",
     props: {
         date: {
             type: String,
-            default: dayjs().format("YYYY-MM-DD"),
+            default: dayjs.tz().format("YYYY-MM-DD"),
         },
         client: {
             type: String,
@@ -85,8 +83,8 @@ export default {
                 } else {
                     const params = {
                         subtypes: "category,property,next_match",
-                        start: dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
-                        end: dayjs().endOf("isoWeek").format("YYYY-MM-DD"),
+                        start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
+                        end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
                     };
                     getFurniture(params).then((res) => {
                         this.setFurniture(res);

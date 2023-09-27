@@ -55,7 +55,7 @@ import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
 import { getGameReporter, getUserInfo } from "@/service/horse";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "HorseBroadcast",
     components: {
@@ -72,8 +72,8 @@ export default {
                 server: "",
                 type: "horse",
                 // subtype: "", // foreshow,npc_chat
-                // start: dayjs(new Date().valueOf() - 15 * 60 * 1000).format("YYYYMMDDHHmm"),
-                // end: dayjs(new Date()).format("YYYYMMDDHHmm"),
+                // start: dayjs.tz(new Date().valueOf() - 15 * 60 * 1000).format("YYYYMMDDHHmm"),
+                // end: dayjs.tz(new Date()).format("YYYYMMDDHHmm"),
             },
             timer: null,
         };
@@ -196,15 +196,15 @@ export default {
                         let fromTime = "";
                         let toTime = "";
                         if (!!("minute" in item)) {
-                            fromTime = dayjs(
+                            fromTime = dayjs.tz(
                                 new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000
                             ).format("HH:mm");
-                            toTime = dayjs(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
+                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
                                 "HH:mm"
                             );
                         } else {
-                            fromTime = dayjs(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
-                            toTime = dayjs(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                            fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
+                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
                         }
                         return {
                             ...item,
@@ -214,7 +214,7 @@ export default {
                         };
                     })
                     .sort(function (a, b) {
-                        return dayjs(b.created_at).valueOf() - dayjs(a.created_at).valueOf();
+                        return dayjs.tz(b.created_at).valueOf() - dayjs.tz(a.created_at).valueOf();
                     });
             });
         },

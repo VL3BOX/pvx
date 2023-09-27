@@ -56,7 +56,7 @@ export default {
             const client = "std"; // 图片使用正式服
             let img = this.item.szOpenRewardPath?.toLowerCase().match(/.*[\/,\\]adventure(.*?).tga/) || "";
             let name = "";
-            if (img[1]) name = img[1].replace(/\\/g, "/");
+            if (img?.[1]) name = img?.[1].replace(/\\/g, "/");
             return this.__imgRoot + `adventure/${client}` + name + ".png";
         },
         defaultImg: function () {

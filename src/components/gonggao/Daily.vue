@@ -48,9 +48,7 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
+import dayjs from "@/plugins/day";
 import { getFurniture } from "@/service/gonggao";
 import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
@@ -117,8 +115,8 @@ export default {
         getFurniture() {
             const params = {
                 subtypes: "category,property,next_match",
-                start: dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
-                end: dayjs().endOf("isoWeek").format("YYYY-MM-DD"),
+                start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
+                end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
             };
             getFurniture(params).then((res) => {
                 const list = res.data?.data;

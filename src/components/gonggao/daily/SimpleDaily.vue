@@ -32,11 +32,7 @@
 <script>
 import { getMeirentu } from "@/service/gonggao";
 import { getDaily } from "@/service/gonggao";
-import dayjs from "dayjs";
-import isToday from "dayjs/plugin/isToday";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
-dayjs.extend(isToday);
+import dayjs from "@/plugins/day";
 export default {
     name: "SimpleDaily",
     data() {
@@ -62,24 +58,24 @@ export default {
     computed: {
         date() {
             // 当7点以前，请求前面一天的日常 当7~24点，请求当天的日常
-            const hour = dayjs().get("hours");
+            const hour = dayjs.tz().get("hours");
             return 0 <= hour && hour < 7
-                ? dayjs().subtract(1, "day").format("YYYY-MM-DD")
-                : dayjs().format("YYYY-MM-DD");
+                ? dayjs.tz().subtract(1, "day").format("YYYY-MM-DD")
+                : dayjs.tz().format("YYYY-MM-DD");
         },
         client() {
             return this.$store.state.client;
         },
         isCurrentWeek() {
-            let week = dayjs(this.date).isoWeek();
-            let currentWeek = dayjs().isoWeek();
+            let week = dayjs.tz(this.date).isoWeek();
+            let currentWeek = dayjs.tz().isoWeek();
             return week === currentWeek;
         },
         server() {
             return this.$store.state.server;
         },
         week() {
-            var datas = dayjs(this.meirentu?.date || new Date()).day();
+            var datas = dayjs.tz(this.meirentu?.date || new Date()).day();
             var week = ["日", "一", "二", "三", "四", "五", "六"];
             return "周" + week[datas];
         },

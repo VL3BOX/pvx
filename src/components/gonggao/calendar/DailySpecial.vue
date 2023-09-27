@@ -9,15 +9,11 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
-import isToday from "dayjs/plugin/isToday";
-import isoWeek from "dayjs/plugin/isoWeek";
+import dayjs from "@/plugins/day";
 import luckyPet from "./lucky_pet";
 import furniture from "./furniture";
 import meirentu from "./meirentu.vue";
 
-dayjs.extend(isoWeek);
-dayjs.extend(isToday);
 export default {
     name: "daily-special",
     components: {
@@ -28,7 +24,7 @@ export default {
     props: {
         date: {
             type: String,
-            default: dayjs().format("YYYY-MM-DD"),
+            default: dayjs.tz().format("YYYY-MM-DD"),
         },
     },
     data() {
@@ -41,11 +37,11 @@ export default {
             return this.$store.state.client;
         },
         today: function () {
-            return dayjs(this.date).isToday();
+            return dayjs.tz(this.date).isToday();
         },
         isCurrentWeek() {
-            let week = dayjs(this.date).isoWeek();
-            let currentWeek = dayjs().isoWeek();
+            let week = dayjs.tz(this.date).isoWeek();
+            let currentWeek = dayjs.tz().isoWeek();
 
             return week === currentWeek;
         },

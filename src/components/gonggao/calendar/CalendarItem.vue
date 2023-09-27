@@ -58,7 +58,7 @@
 <script>
 import { resolveImagePath, getThumbnail } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "calendar-item",
     props: {
@@ -86,7 +86,7 @@ export default {
         dataWeek() {
             const data = this.data;
             const date = data.year + "-" + data.month + "-" + data.date;
-            const day = dayjs(date).day();
+            const day = dayjs.tz(date).day();
             const weeks = ["日", "一", "二", "三", "四", "五", "六"];
             data.week = "周" + weeks[day];
             return data;
@@ -138,7 +138,7 @@ export default {
          * @returns {String}
          */
         formatTime({ start_time: time }) {
-            return (time && dayjs(time).format("HH:mm")) || "";
+            return (time && dayjs.tz(time).format("HH:mm")) || "";
         },
         /**
          * @description 处理活动点击事件

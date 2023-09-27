@@ -20,7 +20,8 @@
 import { getPetLucky, getSliders as getList } from "@/service/pet";
 import ListCross from "../ListCross.vue";
 import { getThumbnail } from "@jx3box/jx3box-common/js/utils";
-import dayjs from "dayjs";
+
+import dayjs from "@/plugins/day";
 export default {
     name: "NewPets",
     components: {
@@ -45,7 +46,7 @@ export default {
                 // 只有正式服有 获取福缘宠物id
                 getPetLucky(this.client).then((res) => {
                     let data = res.data;
-                    let dateIndex = dayjs(new Date()).format("MDD");
+                    let dateIndex = dayjs.tz(new Date()).format("MDD");
                     getList("slider", this.client, data[dateIndex].toString()).then((res) => {
                         this.list = res.data?.data?.list || [];
                     });

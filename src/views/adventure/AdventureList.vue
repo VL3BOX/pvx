@@ -73,7 +73,7 @@ import { isPhone } from "@/utils/index";
 import { clone } from "lodash";
 // import User from "@jx3box/jx3box-common/js/user";
 // import schoolImgID from "@/assets/data/school_img_id.json";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "adventureList",
     props: [],
@@ -146,7 +146,7 @@ export default {
             return list;
         },
         camp() {
-            return dayjs().date() % 2 ? 1 : 2;
+            return dayjs.tz().date() % 2 ? 1 : 2;
         },
     },
     watch: {

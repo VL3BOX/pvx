@@ -8,9 +8,7 @@
                 </div>
             </div>
             <div class="u-server-ip">IP:{{ (myServer.ip_address || 0) + ":" + (myServer.ip_port || 0) }}</div>
-            <div class="u-server-time">
-                <span>最近维护时间:</span>{{ dayjs(myServer.maintain_time * 1000).format("YYYY-MM-DD HH:mm:ss") }}
-            </div>
+            <div class="u-server-time"><span>最近维护时间:</span>{{ formateTime(myServer.maintain_time * 1000) }}</div>
         </div>
         <div class="m-fav-servers">
             <div class="m-server-item" v-for="item in list" :key="item.main_server">
@@ -24,7 +22,7 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "SimpleServer",
     data() {
@@ -79,7 +77,9 @@ export default {
         },
     },
     methods: {
-        dayjs,
+        formateTime(time) {
+            return dayjs.tz(time).format("YYYY-MM-DD HH:mm:ss");
+        },
     },
     created() {
         if (this.uid) {
@@ -89,6 +89,4 @@ export default {
 };
 </script>
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>

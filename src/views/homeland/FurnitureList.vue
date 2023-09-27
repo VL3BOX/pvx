@@ -77,9 +77,8 @@ import { getFurnitureCategory, getFurnitureMatch } from "@/service/homeland.js";
 import { getFurniture } from "@/service/furniture.js";
 import { categoryCss } from "@/assets/data/furniture.json";
 import { sourceList, levelList, categoryList } from "@/assets/data/furniture.json";
-import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-dayjs.extend(isoWeek);
+
+import dayjs from "@/plugins/day";
 
 export default {
     name: "FurnitureList",
@@ -224,8 +223,8 @@ export default {
                 } else {
                     const params = {
                         subtypes: "category,property,next_match",
-                        start: dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
-                        end: dayjs().endOf("isoWeek").format("YYYY-MM-DD"),
+                        start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
+                        end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
                     };
                     getFurnitureMatch(params).then((res) => {
                         this.setFurniture(res);

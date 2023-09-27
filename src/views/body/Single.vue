@@ -221,7 +221,8 @@ import { editLink, showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3b
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
-import dayjs from "dayjs";
+
+import dayjs from "@/plugins/day";
 import Bodydat from "@jx3box/jx3box-facedat/src/Bodydat.vue";
 import bodyItem from "@/components/body/item";
 import faceItem from "@/components/face/item";
@@ -299,7 +300,7 @@ export default {
             return this.isStar ? "取消精选" : "精选";
         },
         topicText() {
-            return this.topic_info ? `${dayjs(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条` : "";
+            return this.topic_info ? `${dayjs.tz(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条` : "";
         },
         showCarousel() {
             if (this.previewSrcList?.length > 0) return true;
@@ -584,7 +585,7 @@ export default {
                 if (res.data.data?.list) {
                     // 取创建时间最新的一条
                     const list = res.data.data.list.sort((a, b) =>
-                        dayjs(b.created_at).isAfter(dayjs(a.created_at)) ? 1 : -1
+                        dayjs.tz(b.created_at).isAfter(dayjs.tz(a.created_at)) ? 1 : -1
                     );
                     this.topic_info = list[0];
                 }

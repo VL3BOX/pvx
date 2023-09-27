@@ -34,7 +34,7 @@
 import { getAdventureTask } from "@/service/adventure";
 import { extractTextContent } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
-import dayjs from "dayjs";
+import dayjs from "@/plugins/day";
 export default {
     name: "task",
     props: ["id", "info"],
@@ -52,7 +52,7 @@ export default {
             return this.$store.state.client;
         },
         camp() {
-            return dayjs().date() % 2 ? 1 : 2;
+            return dayjs.tz().date() % 2 ? 1 : 2;
         },
     },
     methods: {
@@ -61,7 +61,7 @@ export default {
             const type = data.szRewardType;
             let str = data.szOpenRewardPath;
             const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
-            if (type == "school") str = `reward/open/${name}/school_${this.school}_open`; 
+            if (type == "school") str = `reward/open/${name}/school_${this.school}_open`;
             if (type == "camp") {
                 str = `reward/open/${name}/camp_${this.camp}_open`;
             }
@@ -81,7 +81,7 @@ export default {
             } else {
                 let img = info.szOpenRewardPath?.toLowerCase().match(/.*[\/,\\]adventure(.*?).tga/) || "";
                 let name = "";
-                if (img[1]) name = img[1].replace(/\\/g, "/");
+                if (img?.[1]) name = img?.[1].replace(/\\/g, "/");
                 return this.imgUrl(name);
             }
         },

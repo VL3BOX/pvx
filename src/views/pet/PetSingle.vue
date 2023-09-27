@@ -128,7 +128,8 @@ import petType from "@/assets/data/pet_type.json";
 import petSource from "@/assets/data/pet_source.json";
 import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import dayjs from "dayjs";
+
+import dayjs from "@/plugins/day";
 import PetMap from "@/components/pet/PetMap.vue";
 // import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
@@ -286,7 +287,7 @@ export default {
             if (this.client === "std")
                 getPetLucky(this.client).then((res) => {
                     let data = res.data;
-                    let dateIndex = dayjs(new Date()).format("MDD");
+                    let dateIndex = dayjs.tz(new Date()).format("MDD");
                     this.luckyList = data[dateIndex];
                 });
         },

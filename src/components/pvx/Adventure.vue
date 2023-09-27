@@ -30,7 +30,8 @@ import { getAdventures as getList } from "@/service/adventure";
 import ListCross from "../ListCross.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
-import dayjs from "dayjs";
+
+import dayjs from "@/plugins/day";
 export default {
     name: "NewAdventures",
     components: {
@@ -79,7 +80,7 @@ export default {
             };
         },
         camp() {
-            return dayjs().date() % 2 ? 1 : 2;
+            return dayjs.tz().date() % 2 ? 1 : 2;
         },
     },
     watch: {

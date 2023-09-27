@@ -300,9 +300,9 @@ export default {
             const path = item.ImgPath;
             if (path) {
                 let img = path.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
-                let name = img[1].replace(/\\/g, "/");
+                let name = img?.[1].replace(/\\/g, "/");
 
-                if (img[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";
+                if (img?.[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";
                 return this.__imgRoot + `homeland/${this.client}` + name + ".png";
             } else {
                 return this.__imgRoot2 + `${this.client}/` + item.ID + ".png";
