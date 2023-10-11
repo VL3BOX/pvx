@@ -127,7 +127,7 @@ module.exports = {
                 target: "https://spider2.jx3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
-                }
+                },
             },
             "/api": {
                 target: "https://next2.jx3box.com",
@@ -157,6 +157,8 @@ module.exports = {
         (process.env.STATIC_PATH == "root" && "/") ||
         //for lost
         "/",
+
+    outputDir: process.env["BUILD_MODE"] == "preview" ? path.resolve(__dirname, pkg.name) : "dist", // 指定构建输出的目录
 
     chainWebpack: (config) => {
         //💘 html-webpack-plugin ~
