@@ -1,7 +1,11 @@
 <template>
     <div class="m-myList">
-        <div class="m-manufacture-title">
+        <div class="m-manufacture-title m-manufacture-title__myList">
             <span class="u-title">我的清单</span>
+            <a class="fr el-button el-button--success el-button--mini" @click="onAddPlan" v-if="isLogin">
+                <i class="el-icon-document-add"></i>
+                <span>创建</span>
+            </a>
         </div>
         <div class="m-box">
             <template v-if="isLogin">
@@ -16,7 +20,7 @@
 </template>
 
 <script>
-import { getMyPlans } from "@/service/plan";
+import { getMyPlans, addMyPlan } from "@/service/plan";
 import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
 import Bus from "@/store/bus.js";
@@ -44,6 +48,36 @@ export default {
         },
         close() {
             this.visible = false;
+        },
+        onAddPlan() {
+            this.$prompt("请输入清单名称", "创建空白清单", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                inputPlaceholder: "请输入清单名称",
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "请输入清单名称";
+                    }
+                },
+                callback: (action, instance) => {
+                    if (action === "confirm") {
+                        const data = {
+                            title: instance.inputValue,
+                            type: 1, // 1: 物品清单
+                            public: 1,
+                            relation: [],
+                            description: "",
+                        };
+                        addMyPlan(data).then((res) => {
+                            this.$message({
+                                message: "创建成功",
+                                type: "success",
+                            });
+                            this.list.unshift(res.data.data);
+                        });
+                    }
+                },
+            });
         },
     },
     mounted() {

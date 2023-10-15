@@ -4,14 +4,17 @@
             <div class="u-title">服务器状态</div>
             <SimpleServer></SimpleServer>
         </div>
-        <div class="m-daily-item">
-            <div class="u-title">日常</div>
-            <SimpleDaily></SimpleDaily>
-        </div>
-        <div class="m-daily-item">
-            <div class="u-title">楚天社</div>
-            <SimpleCelebrity></SimpleCelebrity>
-        </div>
+        <template v-if="!isOrigin">
+            <div class="m-daily-item">
+                <div class="u-title">日常</div>
+                <SimpleDaily></SimpleDaily>
+            </div>
+            <div class="m-daily-item">
+                <div class="u-title">楚天社</div>
+                <SimpleCelebrity></SimpleCelebrity>
+            </div>
+        </template>
+
         <!-- <div class="m-daily-item is-disabled"></div> -->
         <!-- <div class="m-daily-item is-disabled">
             <div class="u-title">武林通鉴·秘境</div>
@@ -31,6 +34,7 @@
                 <SimplePet></SimplePet>
             </div>
         </div>
+        <template v-if="!isOrigin">
         <div class="m-daily-item">
             <div class="u-title">园宅会赛</div>
             <div class="m-child-item">
@@ -44,6 +48,7 @@
             <div class="u-title">抓马播报</div>
             <SimpleHorse></SimpleHorse>
         </div>
+        </template>
     </div>
 </template>
 
@@ -109,6 +114,9 @@ export default {
     computed: {
         server() {
             return this.$store.state.server;
+        },
+        isOrigin() {
+            return location.href.includes("origin") ? "origin" : "std";
         },
     },
     methods: {

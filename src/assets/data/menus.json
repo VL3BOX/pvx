@@ -104,16 +104,14 @@
                 "label": "价格走势",
                 "icon": "el-icon-sugar",
                 "key": "price",
-                "status": true,
-                "isStd": true
+                "status": true
             },
             {
                 "path": "/pvg/gonggao",
                 "label": "活动告示",
                 "icon": "el-icon-sugar",
                 "key": "gonggao",
-                "status": true,
-                "isStd": true
+                "status": true
             }
         ]
     }

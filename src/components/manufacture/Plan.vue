@@ -5,6 +5,7 @@
             <div class="m-plan-description">
                 <span class="u-time">
                     <span>最后更新于 <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
+                    <a :href="editLink(plan)" target="_blank" class="u-del">编辑清单</a>
                     <span class="u-del" @click="deletePlan(planId)">删除清单</span>
                 </span>
                 <span class="u-title"><b>备注：</b> {{ plan.description || "无" }}</span>
@@ -61,6 +62,7 @@ import { ts2str } from "@jx3box/jx3box-common/js/utils";
 import itemIcon from "./ItemIcon.vue";
 import Equip from "./Equip.vue";
 import Bus from "@/store/bus.js";
+import { __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Plan",
     props: ["planId", "visible"],
@@ -232,6 +234,10 @@ export default {
                     this.$emit("close");
                 });
             });
+        },
+        // 编辑清单跳转
+        editLink({ id }) {
+            return __Root + "item/plan_view/" + id;
         },
         close() {
             Bus.$emit("update");
