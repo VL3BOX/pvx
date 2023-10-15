@@ -38,6 +38,9 @@ export default {
         uid() {
             return this.$store.state.uid;
         },
+        isOrigin() {
+            return location.href.includes("origin");
+        },
         myServer() {
             // 当前服务器
             if (this.uid) {
@@ -52,7 +55,10 @@ export default {
             let list = [];
             if (this.serverList.length) {
                 const favList = this.favList.filter((item) => item.main_server !== this.$store.state.server);
-                const serverList = this.serverList.filter((item) => item.main_server !== this.myServer?.main_server);
+                const clientServerList = this.isOrigin
+                    ? this.serverList.filter((item) => item.zone_name == "缘起大区")
+                    : this.serverList.filter((item) => item.main_server !== this.$store.state.server);
+                const serverList = clientServerList.filter((item) => item.main_server !== this.myServer?.main_server);
                 if (this.uid && favList.length > 3) {
                     list = favList.splice(0, 3);
                 } else {

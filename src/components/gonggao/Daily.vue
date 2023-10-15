@@ -35,19 +35,19 @@
             </div>
         </div>
         <template v-if="!isOrigin">
-        <div class="m-daily-item">
-            <div class="u-title">园宅会赛</div>
-            <div class="m-child-item">
-                <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
+            <div class="m-daily-item">
+                <div class="u-title">园宅会赛</div>
+                <div class="m-child-item">
+                    <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
+                </div>
+                <div class="m-child-item">
+                    <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
+                </div>
             </div>
-            <div class="m-child-item">
-                <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
+            <div class="m-daily-item">
+                <div class="u-title">抓马播报</div>
+                <SimpleHorse></SimpleHorse>
             </div>
-        </div>
-        <div class="m-daily-item">
-            <div class="u-title">抓马播报</div>
-            <SimpleHorse></SimpleHorse>
-        </div>
         </template>
     </div>
 </template>
@@ -115,31 +115,33 @@ export default {
         server() {
             return this.$store.state.server;
         },
-        isOrigin() {
-            return location.href.includes("origin") ? "origin" : "std";
+        isOrigin() { 
+            return location.href.includes("origin");
         },
     },
     methods: {
         getFurniture() {
-            const params = {
-                subtypes: "category,property,next_match",
-                start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
-                end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
-            };
-            getFurniture(params).then((res) => {
-                const list = res.data?.data;
-                this.currentFurniture = {
-                    property: list.find((item) => item.subtype === "property")?.content || "",
-                    category: list.find((item) => item.subtype === "category")?.content || "",
+            if (!this.isOrigin) {
+                const params = {
+                    subtypes: "category,property,next_match",
+                    start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
+                    end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
                 };
-                const nextContent = list.find((item) => item.subtype === "next_match")?.content || "";
-                const reg = nextContent.indexOf("：") > -1 ? /.*：/g : /.*:/g;
-                const nextArr = nextContent ? nextContent.replace(reg, "").split("\n") : [];
-                this.nextFurniture = {
-                    property: nextArr[0] || "",
-                    category: nextArr[1] || "",
-                };
-            });
+                getFurniture(params).then((res) => {
+                    const list = res.data?.data;
+                    this.currentFurniture = {
+                        property: list.find((item) => item.subtype === "property")?.content || "",
+                        category: list.find((item) => item.subtype === "category")?.content || "",
+                    };
+                    const nextContent = list.find((item) => item.subtype === "next_match")?.content || "";
+                    const reg = nextContent.indexOf("：") > -1 ? /.*：/g : /.*:/g;
+                    const nextArr = nextContent ? nextContent.replace(reg, "").split("\n") : [];
+                    this.nextFurniture = {
+                        property: nextArr[0] || "",
+                        category: nextArr[1] || "",
+                    };
+                });
+            }
         },
     },
     mounted() {
