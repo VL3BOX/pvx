@@ -8,7 +8,9 @@
                 </div>
             </div>
             <div class="u-server-ip">IP:{{ (myServer.ip_address || 0) + ":" + (myServer.ip_port || 0) }}</div>
-            <div class="u-server-time"><span>最近维护时间:</span>{{ formateTime(myServer.maintain_time * 1000) }}</div>
+            <div class="u-server-time">
+                <span>最近维护时间:</span>{{ myServer.maintain_time ? formateTime(myServer.maintain_time * 1000) : "-" }}
+            </div>
         </div>
         <div class="m-fav-servers">
             <div class="m-server-item" v-for="item in list" :key="item.main_server">
@@ -43,11 +45,20 @@ export default {
         },
         myServer() {
             // 当前服务器
+            const defaultServer = {
+                defaultServer: this.isOrigin ? "缘起大区" : "梦江南",
+                ip_address: "",
+                maintain_time: "",
+                heat: "6",
+                connect_state_name: "良好",
+                connect_state_class: "is-open",
+            };
             if (this.uid) {
-                const myServer = this.serverList.find((item) => item.main_server === this.$store.state.server) || {};
+                const myServer =
+                    this.serverList.find((item) => item.main_server === this.$store.state.server) || defaultServer;
                 return myServer;
             } else {
-                return this.serverList[0] || {};
+                return this.serverList?.[0] || defaultServer;
             }
         },
         list() {

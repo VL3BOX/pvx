@@ -5,7 +5,7 @@
             <div class="u-servers">
                 <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="updatePrice">
                     <div slot="prefix">区服价格</div>
-                    <el-option v-for="server in server_std" :key="server" :label="server" :value="server"> </el-option>
+                    <el-option v-for="server in serverList" :key="server" :label="server" :value="server"> </el-option>
                 </el-select>
             </div>
         </div>
@@ -23,7 +23,8 @@
     </div>
 </template>
 <script>
-import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
+import server_cn from "@jx3box/jx3box-data/data/server/server_cn.json";
+import server_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import systemGoodsType from "@/assets/data/systemGoodsType.json";
 import {
     getSystemGoodsData,
@@ -42,7 +43,6 @@ export default {
     components: { systemGoodList, myGoodsDialog },
     data() {
         return {
-            server_std,
             server: "",
             systemGoodsType,
             systemGoodsData: [], // 系统关注物品
@@ -54,6 +54,12 @@ export default {
         };
     },
     computed: {
+        client() {
+            return this.$store.state.client;
+        },
+        serverList() {
+            return this.client == "std" ? server_cn : server_origin;
+        },
         myFollowPlanFilter() {
             let data = JSON.parse(JSON.stringify(this.myFollowPlan));
             if (this.keywords) {
@@ -178,7 +184,7 @@ export default {
                 this.getMyFollowList();
             });
         } else {
-            this.server = "梦江南";
+            this.server = this.client == "std" ? "梦江南" : "缘起稻香";
             this.getSystemGoodsData();
         }
     },
