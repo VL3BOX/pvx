@@ -7,9 +7,16 @@
                     {{ myServer.connect_state_name }}
                 </div>
             </div>
-            <div class="u-server-ip">IP:{{ (myServer.ip_address || 0) + ":" + (myServer.ip_port || 0) }}</div>
+            <div class="u-server-ip">
+                IP:{{
+                    myServer.ip_address && myServer.ip_port
+                        ? `${myServer.ip_address}${myServer.ip_port ? ":" + myServer.ip_port : ""}`
+                        : "0.0.0.0"
+                }}
+            </div>
             <div class="u-server-time">
-                <span>最近维护时间:</span>{{ myServer.maintain_time ? formateTime(myServer.maintain_time * 1000) : "-" }}
+                <span>最近维护时间:</span
+                >{{ myServer.maintain_time ? formateTime(myServer.maintain_time * 1000) : "-" }}
             </div>
         </div>
         <div class="m-fav-servers">
@@ -38,15 +45,17 @@ export default {
             return this.$store.state.favList;
         },
         uid() {
-            return this.$store.state.uid;
+            return ~~this.$store.state.uid;
         },
         isOrigin() {
             return location.href.includes("origin");
         },
         myServer() {
             // 当前服务器
-            const defaultServer = {
-                defaultServer: this.isOrigin ? "缘起大区" : "梦江南",
+            const defaultServer = this.isOrigin ? "缘起稻香" : "梦江南";
+            const defaultServerObj = {
+                main_server: defaultServer,
+                server_name: defaultServer,
                 ip_address: "",
                 maintain_time: "",
                 heat: "6",
@@ -55,10 +64,10 @@ export default {
             };
             if (this.uid) {
                 const myServer =
-                    this.serverList.find((item) => item.main_server === this.$store.state.server) || defaultServer;
+                    this.serverList.find((item) => item.main_server === this.$store.state.server) || defaultServerObj;
                 return myServer;
             } else {
-                return this.serverList?.[0] || defaultServer;
+                return this.serverList.find((item) => item.main_server === defaultServer) || defaultServerObj;
             }
         },
         list() {
