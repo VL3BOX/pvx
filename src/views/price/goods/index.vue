@@ -177,7 +177,7 @@ export default {
         },
     },
     created() {
-        if (User.isLogin()) {
+        if (User.isLogin() && this.client === "std") {
             getUserInfo().then((res) => {
                 this.server = res.data?.data?.jx3_server || "梦江南";
                 this.getSystemGoodsData();
@@ -186,6 +186,9 @@ export default {
         } else {
             this.server = this.client == "std" ? "梦江南" : "缘起稻香";
             this.getSystemGoodsData();
+            if (User.isLogin()) {
+                this.getMyFollowList();
+            }
         }
     },
 };
