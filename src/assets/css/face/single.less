@@ -267,9 +267,65 @@
     padding: 20px;
     box-sizing: border-box;
 }
+
+.m-single-buy-box {
+    .pr;
+    height: 437px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    .m-face-buy-btn {
+        .pa;
+        .lt(calc(50% - 134.5px), 168px);
+        .size(269px, 60px);
+        .r(10px);
+        background: #F1B65C;
+        display: flex;
+        text-align: center;
+        .fz(14px);
+        .u-price {
+            margin: 9px 0px 9px 9px;
+            flex: 1;
+            .size(124px, 39px);
+            line-height: 39px;
+            .r(10px);
+            background: #fff;
+            color: #F1B65C;
+        }
+        .u-buy {
+            .size(124px, 39px);
+            flex: 1;
+            margin: 9px 9px 9px 0px;
+            line-height: 39px;
+            color: #fff;
+            img{
+                .size(20px, 20px);
+                vertical-align: middle;
+            }
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .u-face-buy-tip {
+        .pa;
+        .auto(x);
+        left: 0;
+        right: 0;
+        top: 248px;
+        text-align: center;
+        font-size: 16px;
+        line-height: 21px;
+        letter-spacing: 0em;
+        color: #F1B65C;
+    }
+}
+
+
 .m-face-pay {
     .clip;
-    .size(565px,500px);
+    .size(435px,500px);
     box-sizing: border-box;
     flex-shrink: 0;
 }
@@ -278,7 +334,7 @@
 }
 .m-single-pics {
     .pr;
-    .size(100%,500px);
+    .size(100%, 500px);
     .u-bg-wrap {
         .pa;
         .size(calc(100% - 40px));
@@ -309,54 +365,218 @@
 }
 .m-face-pay {
     .pr;
-    .flex;
     .fz(14px);
     .r(10px);
     color: #555;
-    background: url("../../img/face_pay_bg.svg") #ffad31;
-
-    .m-face-pay-info {
-        .flex;
-        .fz(16px);
-        .size(290px,135px);
+    .flex;
+    .flex(tb);
+    height: 500px;
+    div {
+        border: 1px solid transparent;
+    }
+    .m-face-buy {
+        .pr;
+        .size(100%, 110px);
         .r(10px);
-        align-items: center;
-        flex-wrap: wrap;
-        margin: 40px;
-        box-sizing: border-box;
-        background-color: #fff;
-        padding: 20px;
-        .u-text {
-            color: #ffad31;
+        margin-bottom:20px;
+        .fz(14px);
+        .bold(700);
+        background: url("../../img/face/face_bg.svg") #D2738F;
+        &.m-dowload {
+            background: url("../../img/face/face_bg.svg") #786CBB;
         }
-        .el-tag {
-            .fz(16px,26px);
-            .x;
-            .r(5px);
-            border-color: #ffad31;
-            padding: 0 20px;
-            height: 26px;
-            margin: 0;
+        .u-box-img {
+            .pa;
+            .rb(0);
+            z-index: 1;
         }
-        .u-btn {
-            .mt(10px);
-            .size(100%,40px);
-            .r(20px);
-            .fz(16px);
-            background-color: #ff7070;
-            border-color: #ff7070;
-
+        .m-face-buy-btn {
+            .size(269px, 60px);
+            .r(10px);
+            margin-top: 13px;
+            margin-left: 20px;
+            background: #F1B65C;
+            display: flex;
+            text-align: center;
+            .u-price {
+                margin: 9px 0px 9px 9px;
+                flex: 1;
+                .size(124px, 39px);
+                line-height: 39px;
+                .r(10px);
+                background: #fff;
+                color: #F1B65C;
+            }
+            .u-buy {
+                .size(124px, 39px);
+                flex: 1;
+                margin: 9px 9px 9px 0px;
+                line-height: 39px;
+                color: #fff;
+                img{
+                    .size(20px, 20px);
+                    vertical-align: middle;
+                }
+            }
             &:hover {
-                background-color: lighten(#ff7070, 10%);
-                border-color: lighten(#ff7070, 10%);
+                cursor: pointer;
             }
         }
-        z-index: 2;
+        .u-update-time {
+            .fz(10px);
+            .bold(400);
+            color: rgba(255,255,255,0.8);
+            margin-left: 20px;
+            margin-top: 10px;
+        }
     }
+    .m-face-tips {
+        .size(100%, 44px);
+        .r(10px);
+        .fz(14px, 20px);
+        margin-bottom:20px;
+        box-sizing: border-box;
+        padding: 12px 17px 12px 17px;
+        background: #4782E01A;
+        display: flex;
+        img{
+            .size(20px, 20px);
+        }
+        .u-tips-left {
+            color: #3D7CDE;
+            flex: 1;
+        }
+        .u-tips-right {
+            color: #F1B65C;
+            .bold(700);
+        }
+    }
+    .m-face-desc {
+        flex: 1;
+        box-sizing: border-box;
+        padding: 20px;
+        .w(100%);
+        background-color: #ffffff;
+        .r(10px);
+        margin-bottom:20px;
+        overflow-y: scroll;
+        .u-label {
+            display: block;
+        }
+        .u-action {
+            .fz(12px,28px);
+        }
+    }
+    .m-face-head {
+        .flex;
+        .size(100%, 44px);
+        .fz(14px, 20px);
+        gap: 10px;
+        box-sizing: border-box;
+        padding: 12px 17px 12px 17px;
+        background-color: #786CBB1A;
+        color: #786CBB;
+        .r(10px);
+        img {
+            .size(20px, 20px)
+        }
+    }
+    //background: url("../../img/face_pay_bg.svg") #ffad31;
+
+    //.m-face-pay-info {
+    //    .flex;
+    //    .fz(16px);
+    //    .size(290px,135px);
+    //    .r(10px);
+    //    align-items: center;
+    //    flex-wrap: wrap;
+    //    margin: 40px;
+    //    box-sizing: border-box;
+    //    background-color: #fff;
+    //    padding: 20px;
+    //    .u-text {
+    //        color: #ffad31;
+    //    }
+    //    .el-tag {
+    //        .fz(16px,26px);
+    //        .x;
+    //        .r(5px);
+    //        border-color: #ffad31;
+    //        padding: 0 20px;
+    //        height: 26px;
+    //        margin: 0;
+    //    }
+    //    .u-btn {
+    //        .mt(10px);
+    //        .size(100%,40px);
+    //        .r(20px);
+    //        .fz(16px);
+    //        background-color: #ff7070;
+    //        border-color: #ff7070;
+    //
+    //        &:hover {
+    //            background-color: lighten(#ff7070, 10%);
+    //            border-color: lighten(#ff7070, 10%);
+    //        }
+    //    }
+    //    z-index: 2;
+    //}
+    //.u-box-img {
+    //    .pa;
+    //    .rb(-40px,0);
+    //    z-index: 1;
+    //}
+}
+.m-face-download {
+    .pr;
+    .size(100%, 110px);
+    .r(10px);
+    .fz(14px);
+    .bold(700);
+    background: url("../../img/face/face_bg.svg") #786CBB;
     .u-box-img {
         .pa;
-        .rb(-40px,0);
+        .rb(0);
         z-index: 1;
+    }
+    .m-face-download-btn {
+        .pa;
+        .lt(calc(50% - 134.5px), 25px);
+        .size(269px, 60px);
+        .r(10px);
+        background: #F1B65C;
+        display: flex;
+        text-align: center;
+        .u-price {
+            margin: 9px 0px 9px 9px;
+            flex: 1;
+            .size(124px, 39px);
+            line-height: 39px;
+            .r(10px);
+            background: #fff;
+            color: #F1B65C;
+        }
+        .u-buy {
+            .size(124px, 39px);
+            flex: 1;
+            margin: 9px 9px 9px 0px;
+            line-height: 39px;
+            color: #fff;
+            img{
+                .size(20px, 20px);
+                vertical-align: middle;
+            }
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .u-update-time {
+        .fz(10px);
+        .bold(400);
+        color: rgba(255,255,255,0.8);
+        margin-left: 20px;
+        margin-top: 10px;
     }
 }
 

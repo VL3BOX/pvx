@@ -15,12 +15,24 @@
         </template>
 
         <div class="u-filter">
-            <el-popover placement="bottom-end" trigger="click" width="90" v-model="filterOpen">
+            <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
                 <div class="m-face-filter m-common-filter">
-                    <el-checkbox-button v-model="star" class="u-filter">只看精选</el-checkbox-button>
-                    <el-checkbox-button v-model="price_type" class="u-filter">只看免费</el-checkbox-button>
-                    <el-checkbox-button v-model="is_unlimited" class="u-filter">只看可新建</el-checkbox-button>
-                    <el-checkbox-button v-model="filter_empty_images" class="u-filter">不看无图片</el-checkbox-button>
+                    <el-radio-group v-model="isNewFace" v-if="client === 'std'">
+                        <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
+                        <el-radio-button class="u-filter" :label="1">写实</el-radio-button>
+                        <el-radio-button class="u-filter" :label="0">写意</el-radio-button>
+                    </el-radio-group>
+                    <p>
+                        <el-checkbox-button @click.native="star = false; price_type = false; is_unlimited = false; " :value="star === false && price_type === false && is_unlimited === false"  class="u-filter">全部</el-checkbox-button>
+                        <el-checkbox-button v-model="star" class="u-filter">精选</el-checkbox-button>
+                        <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
+                        <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
+                    </p>
+                    <el-radio-group v-model="filter_empty_images">
+                        <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
+                        <el-radio-button class="u-filter" :label="1">带图</el-radio-button>
+                        <el-radio-button class="u-filter" :label="0">无图</el-radio-button>
+                    </el-radio-group>
                 </div>
                 <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
             </el-popover>
@@ -54,11 +66,12 @@ export default {
     props: ["body_types", "active", "link"],
     data: function () {
         return {
+            all: true,
             star: false,
             is_unlimited: false,
             price_type: false,
-            filter_empty_images: true,
-
+            filter_empty_images: -1,
+            is_new_face: -1,
             title: "",
             filterOpen: false,
         };
@@ -72,6 +85,7 @@ export default {
             if (this.title) _params.title = this.title;
             if (this.price_type) _params.price_type = 0;
             if (this.filter_empty_images) _params.filter_empty_images = true;
+            _params.is_new_face = this.is_new_face;
             return _params;
         },
         client() {
@@ -111,11 +125,13 @@ export default {
         &.active,
         &:hover {
             background-color: @faceColor;
+            animation: dissolve 300ms ease-out;
         }
     }
     .u-filter {
         &:hover {
             background-color: @faceColor;
+            animation: dissolve 300ms ease-out;
         }
     }
     .u-analysis {
@@ -146,14 +162,26 @@ export default {
         .el-checkbox-button__inner {
             &:hover {
                 background-color: @faceColor;
+                animation: dissolve 300ms ease-out;
             }
         }
         &.is-checked {
             .el-checkbox-button__inner {
                 background-color: @faceColor;
                 border-color: @faceColor;
+                animation: dissolve 300ms ease-out;
             }
         }
+    }
+}
+@keyframes dissolve {
+    0% {
+        background-color: #e1dfdf;
+        color: #606266;
+    }
+    100% {
+        background-color: @faceColor;
+        color: #fff;
     }
 }
 </style>

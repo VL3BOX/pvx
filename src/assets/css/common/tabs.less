@@ -69,21 +69,28 @@
 }
 
 .m-common-filter {
-    .x;
     .flex;
     flex-wrap: wrap;
     gap: 10px;
     .u-filter {
         white-space: nowrap;
+        .el-button,
         .el-checkbox-button__inner,
         .el-radio-button__inner {
+            margin: 0 10px 0 10px;
             .db;
             .r(30px);
             border: 1px solid #dcdfe6;
             background-color: #e1dfdf;
             &:hover {
                 color: #fff;
+                background-color: #6b52ff;
+                border-color: #6b52ff;
             }
+        }
+        .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+            background-color: #6b52ff;
+            border-color: #6b52ff;
         }
     }
 }
