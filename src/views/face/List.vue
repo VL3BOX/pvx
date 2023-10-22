@@ -8,33 +8,33 @@
             @setActive="setActive"
         />
 
-        <template v-if="!showAllList">
-            <div class="m-recommend-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">
-                <div class="u-title u-recommend-title">编辑推荐</div>
-                <div
-                    class="u-shade-btn u-shade-btn-left"
-                    :class="isDisabled('recommend', 1, isUpdate)"
-                    @click="crosswiseScroll($event, 'recommend', 1, 840)"
-                >
-                    <i class="el-icon-arrow-left"></i>
-                </div>
-                <div
-                    class="u-shade-btn u-shade-btn-right"
-                    :class="isDisabled('recommend', -1, isUpdate)"
-                    @click="crosswiseScroll($event, 'recommend', -1, 840)"
-                >
-                    <i class="el-icon-arrow-right"></i>
-                </div>
-                <div class="m-recommend-list" id="recommend">
-                    <faceRecommend
-                        v-for="item in slidersList"
-                        :key="item.id"
-                        :item="item"
-                        :reporter="{ aggregate: listId(list) }"
-                    ></faceRecommend>
-                </div>
-            </div>
-        </template>
+<!--        <template v-if="!showAllList">-->
+<!--            <div class="m-recommend-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">-->
+<!--                <div class="u-title u-recommend-title">编辑推荐</div>-->
+<!--                <div-->
+<!--                    class="u-shade-btn u-shade-btn-left"-->
+<!--                    :class="isDisabled('recommend', 1, isUpdate)"-->
+<!--                    @click="crosswiseScroll($event, 'recommend', 1, 840)"-->
+<!--                >-->
+<!--                    <i class="el-icon-arrow-left"></i>-->
+<!--                </div>-->
+<!--                <div-->
+<!--                    class="u-shade-btn u-shade-btn-right"-->
+<!--                    :class="isDisabled('recommend', -1, isUpdate)"-->
+<!--                    @click="crosswiseScroll($event, 'recommend', -1, 840)"-->
+<!--                >-->
+<!--                    <i class="el-icon-arrow-right"></i>-->
+<!--                </div>-->
+<!--                <div class="m-recommend-list" id="recommend">-->
+<!--                    <faceRecommend-->
+<!--                        v-for="item in slidersList"-->
+<!--                        :key="item.id"-->
+<!--                        :item="item"-->
+<!--                        :reporter="{ aggregate: listId(list) }"-->
+<!--                    ></faceRecommend>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </template>-->
         <template v-if="!showAllList">
             <div
                 v-for="(item, index) in list_type"
@@ -103,7 +103,7 @@
 <script>
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getFaceList, getSliders } from "@/service/face";
-import faceRecommend from "@/components/face/recommend";
+// import faceRecommend from "@/components/face/recommend";
 import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
 import body_types from "@/assets/data/body_types.json";
@@ -112,7 +112,7 @@ import { isPhone } from "@/utils/index";
 export default {
     name: "face",
     components: {
-        faceRecommend,
+        // faceRecommend,
         faceTabs,
         faceItem,
     },

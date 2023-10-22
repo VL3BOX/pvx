@@ -17,7 +17,8 @@
         }
     }
     &:hover {
-        background-color: #786cbb; 
+        animation: dissolve 300ms ease-out;
+        background-color: #786cbb;
         .m-op {
             .u-title,
             .m-author .u-name {
@@ -38,10 +39,17 @@
         .m-mark-left {
             .pa;
             .lt(10px);
-            max-width: 72px;
+            .u-mark {
+                .mr(4px)
+            }
         }
-        .u-mark + .u-mark {
-            .mt(6px);
+        .m-mark-right {
+            .pa;
+            .rt(10px);
+            max-width: 72px;
+            .u-mark {
+                .ml(4px)
+            }
         }
         .u-mark {
             .dbi;
@@ -54,17 +62,40 @@
             padding: 2px 8px;
             font-style: normal;
         }
-        .u-mark--star {
-            background-color: @faceColor;
-        }
         .u-mark--new {
             background-color: #ff7991;
         }
-
+        .u-mark--type {
+            background-color: #53B27F;
+        }
+        .u-icon-star:before {
+            width: 0px;
+            height: 100%;
+            vertical-align: middle;
+            line-height: 20px;
+        }
+        .u-mark--star {
+            .pa;
+            .rt(10px);
+            background-color: @faceColor;
+            padding: 3px;
+            display: flex;
+            img{
+                .size(14px);
+            }
+        }
         .u-mark--pay {
             .pa;
             .rt(10px);
             background-color: #ffad31;
+            padding: 3px;
+            display: flex;
+            img{
+                .size(14px);
+            }}
+        .u-icon-coin:before {
+            vertical-align: middle;
+            line-height: 20px;
         }
     }
     .m-op {
@@ -129,5 +160,17 @@
                 }
             }
         }
+    }
+}
+
+
+@keyframes dissolve {
+    0% {
+        background-color: #e1dfdf;
+        color: #606266;
+    }
+    100% {
+        background-color: #786cbb;
+        color: #fff;
     }
 }

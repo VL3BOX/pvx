@@ -26,6 +26,7 @@
         "dayjs": "^1.10.7",
         "echarts": "^5.4.1",
         "element-ui": "^2.15.6",
+        "jszip": "^3.10.1",
         "localforage": "^1.7.3",
         "lodash": "^4.17.15",
         "lua-json": "^1.0.0",

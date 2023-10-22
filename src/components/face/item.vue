@@ -8,11 +8,18 @@
         <div class="m-img">
             <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
             <div class="m-mark-left">
-                <i class="u-mark u-mark--star" v-if="!!item.star">编辑推荐</i>
+                <template v-if="client === 'std'">
+                    <i class="u-mark u-mark--type" v-if="item.is_new_face">写实</i>
+                    <i class="u-mark u-mark--type" v-else>写意</i>
+                </template>
                 <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">可新建</i>
             </div>
-
-            <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">付费</i>
+            <i class="u-mark u-mark--star" v-if="!!item.star">
+                <img :src="require('@/assets/img/face/star.svg')" alt="">
+            </i>
+            <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">
+                <img :src="require('@/assets/img/face/coin.svg')" alt="">
+            </i>
         </div>
 
         <div class="m-op">

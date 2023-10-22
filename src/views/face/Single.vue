@@ -96,73 +96,139 @@
                 </el-carousel>
             </div>
 
-            <!-- 购买区 -->
-            <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
-                <div class="m-face-pay-info">
-                    <span class="u-text">该脸型数据售价：</span>
-                    <el-tag effect="dark" color="#ffad31" round>
-                        <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
-                        <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
-                    </el-tag>
-                    <el-button
-                        class="u-btn"
-                        type="primary"
-                        size="small"
-                        icon="el-icon-shopping-cart-2"
-                        @click="facePay"
-                        :loading="payBtnLoading"
-                    >
-                        购买
-                    </el-button>
+            <!-- 右侧 -->
+            <div class="m-face-pay">
+                <div class="m-face-buy" :class="{'m-dowload': post.price_type && post.price_type === 0 || has_buy}">
+                    <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
+                        <div class="u-price"  v-if="post.price_type == 1">{{ post.price_count }} 盒币</div>
+                        <div class="u-price"  v-if="post.price_type == 2">{{ post.price_count }} 金箔</div>
+                        <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
+                    </div>
+                    <div class="m-face-buy-btn" v-else @click="downloadAll">
+                        <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">下载数据</div>
+                    </div>
+
+                    <div class="u-update-time">
+                        更新时间： {{post.updated_at}}
+                    </div>
+                    <img class="u-box-img" :src="require('@/assets/img/face/face_stroke.svg')">
                 </div>
-                <img class="u-box-img" src="../../assets/img/box.svg" alt="" />
+                <div class="m-face-tips" v-if="totalPrice">
+                    <img :src="require('@/assets/img/face/info.svg')" alt="">
+                    <div class="u-tips-left">
+                        该数据含游戏内收费项目，总计约
+                    </div>
+                    <div class="u-tips-right">
+                        10000通宝
+                    </div>
+                </div>
+
+                <div class="m-face-desc">
+                    <h3>说明</h3>
+                    <div class="u-desc">{{ post.remark || '暂无说明' }}</div>
+                    <br />
+                    <h3 v-if="downFileList && downFileList.length">全部数据</h3>
+                    <ul class="m-face-files-list" v-if="downFileList && downFileList.length">
+                        <li v-for="item in downFileList" :key="item.id">
+                            <div>
+                                <span class="u-label">名称: <em>{{ item.name }}</em></span>
+                                <span class="u-label">版本 : <em>{{ item.created_at }}</em></span>
+                                <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
+                            </div>
+                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid)">下载</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="m-face-head" v-if="topic_info">
+                    <img :src="require('@/assets/img/face/cup.svg')" alt="">
+                    该脸型于{{topic_info.created_at}}荣登头条
+                </div>
+
+<!--                <div class="m-face-pay-info"  v-if="post.price_type && post.price_type != 0 && !has_buy">-->
+<!--                    <span class="u-text">该脸型数据售价：</span>-->
+<!--                    <el-tag effect="dark" color="#ffad31" round>-->
+<!--                        <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>-->
+<!--                        <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>-->
+<!--                    </el-tag>-->
+<!--                    <el-button-->
+<!--                        class="u-btn"-->
+<!--                        type="primary"-->
+<!--                        size="small"-->
+<!--                        icon="el-icon-shopping-cart-2"-->
+<!--                        @click="facePay"-->
+<!--                        :loading="payBtnLoading"-->
+<!--                    >-->
+<!--                        购买-->
+<!--                    </el-button>-->
+<!--                </div>-->
+<!--                <img class="u-box-img" src="../../assets/img/box.svg" alt="" />-->
             </div>
         </div>
 
-        <div class="m-desc" v-if="post.remark">
-            <h3>说明</h3>
-            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
-        </div>
+<!--        <div class="m-desc" v-if="post.remark">-->
+<!--            <h3>说明</h3>-->
+<!--            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>-->
+<!--        </div>-->
 
         <!-- 数据区 -->
-        <div class="m-single-data" v-if="has_buy && facedata">
+        <div class="m-single-data">
             <h3>独家数据分析</h3>
-            <facedata class="m-single-content-box" v-if="facedata" :data="facedata" type="face" />
-        </div>
-
-        <!--下载区-->
-        <div class="m-face-files m-single-content-box" v-if="has_buy && downFileList && downFileList.length > 0">
-            <h3>原始文件列表</h3>
-            <div class="m-single-content-box">
-                <ul class="m-face-files-list">
-                    <li v-for="item in downFileList" :key="item.id">
-                        <div>
-                            <span class="u-label"
-                                >名称: <em>{{ item.name }}</em></span
-                            >
-                            <span class="u-label"
-                                >版本 : <em>{{ item.created_at }}</em></span
-                            >
-                            <span class="u-label" v-if="item.describe"
-                                >备注 ： <em>{{ item.describe }}</em></span
-                            >
-                        </div>
-                        <el-button
-                            class="u-action"
-                            icon="el-icon-download"
-                            size="mini"
-                            type="primary"
-                            round
-                            @click="getDownUrl(item.uuid)"
-                            >下载</el-button
-                        >
-                    </li>
-                </ul>
+            <facedata class="m-single-content-box" v-if="has_buy && facedata" :data="facedata" :lock="true" ref="facedata" type="face" />
+            <div class="m-single-buy-box" v-else>
+                <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
+                    <div class="u-price"  v-if="post.price_type == 1">{{ post.price_count }} 盒币</div>
+                    <div class="u-price"  v-if="post.price_type == 2">{{ post.price_count }} 金箔</div>
+                    <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
+                </div>
+                <div class="u-face-buy-tip">
+                    数据分析将在购买后解锁
+                </div>
             </div>
         </div>
+        <div class="m-face-download" v-if="has_buy && facedata">
+            <div class="m-face-download-btn" @click="downloadAll">
+                <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">下载数据</div>
+            </div>
+            <img class="u-box-img" :src="require('@/assets/img/face/face_download.svg')">
+        </div>
+
+
+<!--        &lt;!&ndash;下载区&ndash;&gt;-->
+<!--        <div class="m-face-files m-single-content-box" v-if="downFileList && downFileList.length > 0">-->
+<!--            <h3>原始文件列表</h3>-->
+<!--            <div class="m-single-content-box">-->
+<!--                <ul class="m-face-files-list">-->
+<!--                    <li v-for="item in downFileList" :key="item.id">-->
+<!--                        <div>-->
+<!--                            <span class="u-label"-->
+<!--                                >名称: <em>{{ item.name }}</em></span-->
+<!--                            >-->
+<!--                            <span class="u-label"-->
+<!--                                >版本 : <em>{{ item.created_at }}</em></span-->
+<!--                            >-->
+<!--                            <span class="u-label" v-if="item.describe"-->
+<!--                                >备注 ： <em>{{ item.describe }}</em></span-->
+<!--                            >-->
+<!--                        </div>-->
+<!--                        <el-button-->
+<!--                            class="u-action"-->
+<!--                            icon="el-icon-download"-->
+<!--                            size="mini"-->
+<!--                            type="primValueary"-->
+<!--                            round-->
+<!--                            @click="getDownUrl(item.uuid)"-->
+<!--                            >下载</el-button-->
+<!--                        >-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
         <!--作者随机作品-->
+
+        <h3>关于作者</h3>
+        <authorItem :uid="post.user_id" />
         <div class="m-random-list">
-            <h3>作者其他作品</h3>
             <div class="u-list m-single-content-box" v-if="randomList.length">
                 <faceItem :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
@@ -178,7 +244,6 @@
             <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
         </div> -->
         <!-- 上传作者区域 -->
-        <authorItem :uid="post.user_id" />
         <!-- 点赞 -->
         <Thx
             class="m-thx m-single-content-box"
@@ -200,6 +265,7 @@
 
 <script>
 const single_pages = ["single"];
+import { downloadZip } from '@/utils/exportFileZip'
 import {
     getOneFaceInfo,
     payFace,
@@ -261,6 +327,12 @@ export default {
         };
     },
     computed: {
+        totalPrice() {
+          return this.$refs.facedata.totalPrice;
+        },
+        ready: function () {
+            return !!(this.facedata && this.decalDb.ready());
+        },
         publish_link() {
             return publishLink("face");
         },
@@ -389,6 +461,24 @@ export default {
             getDownUrl(this.id, uuid).then((res) => {
                 window.location.href = resolveImagePath(res.data.data?.url);
             });
+        },
+        downloadAll() {
+            const urlArr = []
+            this.downFileList.forEach(item => {
+                urlArr.push(getDownUrl(this.id, item.uuid));
+            })
+            let p = Promise.all(urlArr);
+            let downloadFiles = []
+            p.then(arr => {
+                console.log(arr);
+                downloadFiles = arr.map((item, index) => {
+                    return {
+                        name: this.downFileList[index].name + '.jx3dat',
+                        url: item.data.data?.url
+                    }
+                })
+                downloadZip(downloadFiles, 'face.zip', 'url', 'name')
+            })
         },
         facePay() {
             if (!User.isLogin()) {
