@@ -17,7 +17,7 @@
         <div class="u-filter">
             <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
                 <div class="m-face-filter m-common-filter">
-                    <el-radio-group v-model="isNewFace" v-if="client === 'std'">
+                    <el-radio-group v-model="is_new_face" v-if="client === 'std'">
                         <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
                         <el-radio-button class="u-filter" :label="1">写实</el-radio-button>
                         <el-radio-button class="u-filter" :label="0">写意</el-radio-button>
