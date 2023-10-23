@@ -311,7 +311,6 @@ export default {
             // 获取要绑定事件的元素
 
             const nav = document.getElementById(id);
-            console.log(id, detail, nav);
             if (!nav) return;
             if (nav.scrollLeft == 0 && detail == 1) {
                 return "u-disabled";

@@ -9,7 +9,6 @@ export function downloadZip(fileArr,exportName,fileUrl,fileName) {
     const zip = new JSZip();
     const promises = [];  // 用于存储多个promise
     const arr = fileArr.filter(item => item[fileUrl]!==''); // 将需要下载的文件路径存到数组中
-    console.log('arr',arr);
     arr.forEach( item => {
         const promise = new Promise((resolve, reject) => {
             // 实现下载单个文件
