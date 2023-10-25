@@ -113,13 +113,13 @@
                     </div>
                     <img class="u-box-img" :src="require('@/assets/img/face/face_stroke.svg')">
                 </div>
-                <div class="m-face-tips" v-if="totalPrice">
+                <div class="m-face-tips" v-if="post.game_prize">
                     <img :src="require('@/assets/img/face/info.svg')" alt="">
                     <div class="u-tips-left">
                         该数据含游戏内收费项目，总计约
                     </div>
                     <div class="u-tips-right">
-                        10000通宝
+                        {{ post.game_prize }}通宝
                     </div>
                 </div>
 
@@ -470,7 +470,6 @@ export default {
             let p = Promise.all(urlArr);
             let downloadFiles = []
             p.then(arr => {
-                console.log(arr);
                 downloadFiles = arr.map((item, index) => {
                     return {
                         name: this.downFileList[index].name + '.jx3dat',
