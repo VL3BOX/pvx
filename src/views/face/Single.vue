@@ -4,7 +4,12 @@
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
             <div class="u-right-btn">
                 <div v-if="isSinglePage && isEditor" class="u-op m-face-btn-box">
-                    <div class="m-face-btn-box">
+                    <el-popover
+                        placement="bottom"
+                        :append-to-body="false"
+                        trigger="click">
+                        <el-button icon="el-icon-arrow-down" slot="reference">更多</el-button>
+                         <div class="m-face-btn-box">
                         <el-button
                             type="danger"
                             class="u-btn"
@@ -15,6 +20,7 @@
                         >
                             {{ starText }}
                         </el-button>
+                             <br/>
                         <el-button
                             type="danger"
                             class="u-btn"
@@ -26,6 +32,7 @@
                             {{ statusText }}
                         </el-button>
                     </div>
+                    </el-popover>
                 </div>
                 <div class="m-face-btn-box">
                     <a :href="publish_link">
@@ -100,8 +107,8 @@
             <div class="m-face-pay">
                 <div class="m-face-buy" :class="{'m-dowload': post.price_type && post.price_type === 0 || has_buy}">
                     <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
-                        <div class="u-price"  v-if="post.price_type == 1">{{ post.price_count }} 盒币</div>
-                        <div class="u-price"  v-if="post.price_type == 2">{{ post.price_count }} 金箔</div>
+                        <div class="u-price"  v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
+                        <div class="u-price"  v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
                         <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
                     </div>
                     <div class="m-face-buy-btn" v-else @click="downloadAll">
@@ -113,13 +120,13 @@
                     </div>
                     <img class="u-box-img" :src="require('@/assets/img/face/face_stroke.svg')">
                 </div>
-                <div class="m-face-tips" v-if="post.game_prize">
+                <div class="m-face-tips" v-if="post.game_price">
                     <img :src="require('@/assets/img/face/info.svg')" alt="">
                     <div class="u-tips-left">
                         该数据含游戏内收费项目，总计约
                     </div>
                     <div class="u-tips-right">
-                        {{ post.game_prize }}通宝
+                        {{ post.game_price }}通宝
                     </div>
                 </div>
 
@@ -174,11 +181,11 @@
         <!-- 数据区 -->
         <div class="m-single-data">
             <h3>独家数据分析</h3>
-            <facedata class="m-single-content-box" v-if="has_buy && facedata" :data="facedata" :lock="true" ref="facedata" type="face" />
+            <facedata class="m-single-content-box" v-if="has_buy && facedata" :data="faceAllData" :lock="true" type="face" />
             <div class="m-single-buy-box" v-else>
                 <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
-                    <div class="u-price"  v-if="post.price_type == 1">{{ post.price_count }} 盒币</div>
-                    <div class="u-price"  v-if="post.price_type == 2">{{ post.price_count }} 金箔</div>
+                    <div class="u-price"  v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
+                    <div class="u-price"  v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
                     <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
                 </div>
                 <div class="u-face-buy-tip">
@@ -327,9 +334,6 @@ export default {
         };
     },
     computed: {
-        totalPrice() {
-          return this.$refs.facedata.totalPrice;
-        },
         ready: function () {
             return !!(this.facedata && this.decalDb.ready());
         },
@@ -377,6 +381,13 @@ export default {
         tvLink() {
             return __Root + "index/tv";
         },
+        faceAllData() {
+            return {
+                json: this.facedata,
+                object: JSON.parse(this.facedata),
+                type: 'face'
+            }
+        }
     },
     created: function () {
         this.getData();

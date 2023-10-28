@@ -280,37 +280,7 @@
         .lt(calc(50% - 134.5px), 168px);
         .size(269px, 60px);
         .r(10px);
-        background: #f1b65c;
-        display: flex;
-        text-align: center;
         .fz(14px);
-        .u-price {
-            margin: 9px 0px 9px 9px;
-            flex: 1;
-            .size(124px, 39px);
-            line-height: 39px;
-            .r(10px);
-            background: #fff;
-            color: #f1b65c;
-        }
-        .u-buy {
-            .size(124px, 39px);
-            flex: 1;
-            .flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            margin: 9px 9px 9px 0px;
-            line-height: 39px;
-            color: #fff;
-            img {
-                .size(20px, 20px);
-                vertical-align: middle;
-            }
-        }
-        &:hover {
-            cursor: pointer;
-        }
     }
     .u-face-buy-tip {
         .pa;
@@ -366,6 +336,42 @@
 .m-single-header {
     .pt(0);
 }
+.m-face-buy-btn {
+    .size(269px, 60px);
+    .r(10px);
+    background: #f1b65c;
+    display: flex;
+    text-align: center;
+    .u-price {
+        margin: 9px 0px 9px 9px;
+        flex: 1;
+        .size(124px, 39px);
+        line-height: 39px;
+        .r(10px);
+        background: #fff;
+        color: #f1b65c;
+    }
+    .u-buy {
+        .size(124px, 39px);
+        flex: 1;
+        margin: 9px 9px 9px 0px;
+        line-height: 39px;
+        color: #fff;
+        .fz(14px);
+        .bold(700);
+        .flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        img {
+            .size(20px, 20px);
+            vertical-align: middle;
+        }
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
 .m-face-pay {
     .pr;
     .fz(14px);
@@ -393,40 +399,10 @@
             z-index: 1;
         }
         .m-face-buy-btn {
-            .size(269px, 60px);
-            .r(10px);
             margin-top: 13px;
             margin-left: 20px;
-            background: #f1b65c;
-            display: flex;
-            text-align: center;
-            .u-price {
-                margin: 9px 0px 9px 9px;
-                flex: 1;
-                .size(124px, 39px);
-                line-height: 39px;
-                .r(10px);
-                background: #fff;
-                color: #f1b65c;
-            }
-            .u-buy {
-                .size(124px, 39px);
-                flex: 1;
-                margin: 9px 9px 9px 0px;
-                line-height: 39px;
-                color: #fff;
-                .flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-                img {
-                    .size(20px, 20px);
-                    vertical-align: middle;
-                }
-            }
-            &:hover {
-                cursor: pointer;
-            }
+            .fz(14px);
+            .bold(700);
         }
         .u-update-time {
             .fz(10px);
