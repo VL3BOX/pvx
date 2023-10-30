@@ -82,25 +82,32 @@
         </div>
 
         <div class="m-face-content">
-            <div class="m-single-pics m-single-content-box" v-if="previewSrcList && previewSrcList.length > 0">
+            <div class="m-single-pics m-single-content-box" v-if="previewSrcList">
                 <!-- 动态改为当前图片 -->
-                <div class="u-bg-wrap">
-                    <div class="u-bg" :style="{ backgroundImage: `url(${showPic(activePic)})` }"></div>
+                <div v-if="previewSrcList.length === 0" class="u-no-pic">
+                    <i class="el-icon-picture-outline"></i>
+                    <span>该脸型数据暂无图片</span>
                 </div>
-                <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
-                    <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
-                        <div class="m-face-pic">
-                            <el-image
-                                ref="previewImage"
-                                fit="contain"
-                                :src="showPic(item)"
-                                class="u-pic"
-                                :preview-src-list="resolveImageArr(previewSrcList)"
-                                @click.capture="handlePreviewImage(i)"
-                            ></el-image>
+                <template v-else>
+                    <div class="u-bg-wrap">
+                        <div class="u-bg" :style="{ backgroundImage: `url(${showPic(activePic)})` }">
                         </div>
-                    </el-carousel-item>
-                </el-carousel>
+                    </div>
+                    <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
+                        <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
+                            <div class="m-face-pic">
+                                <el-image
+                                    ref="previewImage"
+                                    fit="contain"
+                                    :src="showPic(item)"
+                                    class="u-pic"
+                                    :preview-src-list="resolveImageArr(previewSrcList)"
+                                    @click.capture="handlePreviewImage(i)"
+                                ></el-image>
+                            </div>
+                        </el-carousel-item>
+                    </el-carousel>
+                </template>
             </div>
 
             <!-- 右侧 -->
