@@ -30,8 +30,7 @@
                     </p>
                     <el-radio-group v-model="filter_empty_images">
                         <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
-                        <el-radio-button class="u-filter" :label="1">带图</el-radio-button>
-                        <el-radio-button class="u-filter" :label="0">无图</el-radio-button>
+                        <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
                     </el-radio-group>
                 </div>
                 <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
