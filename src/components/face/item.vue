@@ -9,7 +9,7 @@
             <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
             <div class="m-mark-left">
                 <template v-if="client === 'std'">
-                    <i class="u-mark u-mark--type" v-if="item.is_new_face">写实</i>
+                    <i class="u-mark u-mark--type u-new-face" v-if="item.is_new_face">写实</i>
                     <i class="u-mark u-mark--type" v-else>写意</i>
                 </template>
                 <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">可新建</i>

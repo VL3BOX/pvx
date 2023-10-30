@@ -4,35 +4,18 @@
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
             <!-- 操作tool -->
             <div class="u-right-btn">
-                <div v-if="isSinglePage && isEditor" class="u-op m-face-btn-box">
-                    <div class="m-face-btn-box">
-                        <el-button
-                            type="danger"
-                            class="u-btn"
-                            :class="isStar ? 'off' : 'on'"
-                            :icon="!isStar ? 'el-icon-star-off' : 'el-icon-star-on'"
-                            size="medium"
-                            @click="starSet"
-                        >
-                            {{ starText }}
+                <div class="m-face-btn-box">
+                    <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/bodydata" target="_blank">
+                        <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
+                            管理
                         </el-button>
-                        <el-button
-                            type="danger"
-                            class="u-btn"
-                            :class="status !== 1 ? 'top' : 'bottom'"
-                            :icon="status !== 1 ? 'el-icon-top' : 'el-icon-bottom'"
-                            size="medium"
-                            @click="statusSet"
+                    </a>
+                    <a :href="publish_link">
+                        <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
+                        >发布</el-button
                         >
-                            {{ statusText }}
-                        </el-button>
-                    </div>
+                    </a>
                 </div>
-                <a :href="publish_link" class="m-face-btn-box">
-                    <el-button type="primary" size="medium" class="u-publish u-btn" icon="el-icon-edit">
-                        发布
-                    </el-button>
-                </a>
             </div>
         </div>
         <!-- 基本信息 -->
