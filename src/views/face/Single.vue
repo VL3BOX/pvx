@@ -2,45 +2,18 @@
     <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
             <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
-            <div class="u-right-btn">
-                <div v-if="isSinglePage && isEditor" class="u-op m-face-btn-box">
-                    <el-popover
-                        placement="bottom"
-                        :append-to-body="false"
-                        trigger="click">
-                        <el-button icon="el-icon-arrow-down" slot="reference">更多</el-button>
-                         <div class="m-face-btn-box">
-                        <el-button
-                            type="danger"
-                            class="u-btn"
-                            :class="isStar ? 'off' : 'on'"
-                            :icon="!isStar ? 'el-icon-star-off' : 'el-icon-star-on'"
-                            size="medium"
-                            @click="starSet"
-                        >
-                            {{ starText }}
-                        </el-button>
-                             <br/>
-                        <el-button
-                            type="danger"
-                            class="u-btn"
-                            :class="status !== 1 ? 'top' : 'bottom'"
-                            :icon="status !== 1 ? 'el-icon-top' : 'el-icon-bottom'"
-                            size="medium"
-                            @click="statusSet"
-                        >
-                            {{ statusText }}
-                        </el-button>
-                    </div>
-                    </el-popover>
-                </div>
-                <div class="m-face-btn-box">
-                    <a :href="publish_link">
-                        <el-button type="primary" size="medium" class="u-publish u-btn" icon="el-icon-edit"
-                            >发布</el-button
-                        >
-                    </a>
-                </div>
+
+            <div class="m-face-btn-box">
+                <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/facedata" target="_blank">
+                    <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
+                        管理
+                    </el-button>
+                </a>
+                <a :href="publish_link">
+                    <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
+                        >发布</el-button
+                    >
+                </a>
             </div>
         </div>
         <!-- 海报banner -->
