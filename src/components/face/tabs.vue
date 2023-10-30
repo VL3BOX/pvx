@@ -29,7 +29,7 @@
                         <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
                     </p>
                     <el-radio-group v-model="filter_empty_images">
-                        <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
+                        <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
                         <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
                     </el-radio-group>
                 </div>
