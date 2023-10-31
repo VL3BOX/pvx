@@ -3,7 +3,7 @@
         <div class="m-face-parse" :class="{ on: done }">
             <h1 class="m-face-parse-title">捏脸数据解析器</h1>
             <Upload type="face" @success="handleSuccess" />
-            <Facedat class="m-face-parse-preview" :data="json" :lock="false" v-show="done" />
+            <Facedat class="m-face-parse-preview" :data="data" :lock="true" v-if="data" />
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     computed: {
         json: function () {
             return this.data && this.data.json;
-        },
+        }
     },
     methods: {
         handleSuccess: function (data) {
