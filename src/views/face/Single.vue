@@ -122,7 +122,7 @@
                                 <span class="u-label">版本 : <em>{{ item.created_at }}</em></span>
                                 <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
                             </div>
-                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid)">下载</a>
+                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">下载</a>
                         </li>
                     </ul>
                 </div>
@@ -448,10 +448,50 @@ export default {
                     this.loading = false;
                 });
         },
-        getDownUrl(uuid) {
+        getDownUrl(uuid, filename) {
             getDownUrl(this.id, uuid).then((res) => {
-                window.location.href = resolveImagePath(res.data.data?.url);
+                // window.location.href = resolveImagePath(res.data.data?.url);
+                this.downloadfile(res.data.data?.url, filename)
             });
+        },
+        downloadfile(url, filename) {
+            this.getBlob(url).then((blob) => {
+                this.saveAs(blob, filename);
+            });
+        },
+        getBlob(url) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open('GET', url, true);
+                xhr.responseType = 'blob';
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        resolve(xhr.response);
+                    }
+                };
+
+                xhr.send();
+            });
+        },
+        saveAs(blob, filename) {
+            if (window.navigator.msSaveOrOpenBlob) {
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                const link = document.createElement('a');
+                const body = document.querySelector('body');
+
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                // fix Firefox
+                link.style.display = 'none';
+                body.appendChild(link);
+
+                link.click();
+                body.removeChild(link);
+
+                window.URL.revokeObjectURL(link.href);
+            }
         },
         downloadAll() {
             const urlArr = []
@@ -463,7 +503,7 @@ export default {
             p.then(arr => {
                 downloadFiles = arr.map((item, index) => {
                     return {
-                        name: this.downFileList[index].name + '.jx3dat',
+                        name: this.downFileList[index].name,
                         url: item.data.data?.url
                     }
                 })
