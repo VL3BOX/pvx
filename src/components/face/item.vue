@@ -7,6 +7,7 @@
     >
         <div class="m-img">
             <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
+            <div class="u-mask"></div>
             <div class="m-mark-left">
                 <template v-if="client === 'std'">
                     <i class="u-mark u-mark--type u-new-face" v-if="item.is_new_face">写实</i>

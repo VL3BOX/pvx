@@ -46,6 +46,7 @@
                     <i class="u-fr" v-if="!!post.is_fr">首发</i>
                     <i class="u-original" v-if="!!post.original">原创</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
+                    <i class="u-is-new-face" v-if="post.client === 'std'" :class="post.is_new_face === 1 ? 'u-new' : 'u-old'">{{ newFaceMap[post.is_new_face] }}</i>
                     <i class="u-bodytype" :class="'u-bodytype-' + post.body_type" v-if="post.body_type">{{
                         showBodyTypeLabel(post.body_type)
                     }}</i>
@@ -109,17 +110,23 @@
                         {{ post.game_price }}通宝
                     </div>
                 </div>
-
+                <div class="u-face-desc-tab">
+                    <span
+                        @click="rightShow = 'desc'"
+                        :style="rightShow === 'data' ? 'color: #c2c5c7;' : ''"
+                    >说明</span>
+                    <span
+                        @click="rightShow = 'data'"
+                        v-if="downFileList && downFileList.length"
+                        :style="rightShow === 'desc' ? 'color: #c2c5c7;' : ''"
+                    >全部数据</span>
+                </div>
                 <div class="m-face-desc">
-                    <h3>说明</h3>
-                    <div class="u-desc">{{ post.remark || '暂无说明' }}</div>
-                    <br />
-                    <h3 v-if="downFileList && downFileList.length">全部数据</h3>
-                    <ul class="m-face-files-list" v-if="downFileList && downFileList.length">
+                    <div v-if="rightShow === 'desc'" class="u-desc">{{ post.remark || '暂无说明' }}</div>
+                    <ul class="m-face-files-list" v-if="rightShow === 'data' && downFileList && downFileList.length">
                         <li v-for="item in downFileList" :key="item.id">
                             <div>
                                 <span class="u-label">名称: <em>{{ item.name }}</em></span>
-                                <span class="u-label">版本 : <em>{{ item.created_at }}</em></span>
                                 <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
                             </div>
                             <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">下载</a>
@@ -213,13 +220,12 @@
 <!--        </div>-->
         <!--作者随机作品-->
 
-        <h3>关于作者</h3>
+        <div class="u-about-author">关于作者</div>
         <authorItem :uid="post.user_id" />
         <div class="m-random-list">
             <div class="u-list m-single-content-box" v-if="randomList.length">
                 <faceItem :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
-            <span class="u-list-null m-single-content-box" v-else>· 作者没有更多作品了 ·</span>
         </div>
         <!--搭配随机作品-->
         <!-- <div class="m-pvxbody-list">
@@ -307,10 +313,11 @@ export default {
             randomList: [],
             carouselActive: 0,
             isEditor: User.isEditor(),
-
+            rightShow: 'desc',
             topic_info: null,
             face: {},
             pvxbodyList: [],
+            newFaceMap: ['写意', '写实']
         };
     },
     computed: {
@@ -507,7 +514,7 @@ export default {
                         url: item.data.data?.url
                     }
                 })
-                downloadZip(downloadFiles, 'face.zip', 'url', 'name')
+                downloadZip(downloadFiles, `face_${this.id}.zip`, 'url', 'name')
             })
         },
         facePay() {
