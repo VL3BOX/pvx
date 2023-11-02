@@ -52,7 +52,7 @@
             <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image> -->
 
             <div class="m-header-info">
-                <h2>{{ post.title || "无标题" }} <el-tag class="u-status" v-if="post.status == 2" effect="dark" type="danger">已下架</el-tag></h2>
+                <h2>{{ post.title || "无标题" }} <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">已下架</el-tag></h2>
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
@@ -265,8 +265,8 @@
             postType="face"
             :postTitle="post.title || '无标题'"
             :userId="post.user_id"
-            :adminBoxcoinEnable="post.status != 2"
-            :userBoxcoinEnable="post.status != 2"
+            :adminBoxcoinEnable="post.status == 1"
+            :userBoxcoinEnable="post.status == 1"
             :client="post.client"
         />
         <!-- 评论 -->
