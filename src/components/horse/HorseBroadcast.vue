@@ -2,11 +2,11 @@
     <div class="m-horse-broadcast">
         <div class="m-horse-broadcast__header">
             <div class="u-title">抓马播报</div>
-            <el-select class="u-select" v-model="params.server" placeholder="请选择服务器" size="mini">
+            <el-select class="u-select" v-model="server" placeholder="请选择服务器" size="mini">
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
         </div>
-        <list-cross v-if="list.length" class="m-horse-broadcast__list" :list="list">
+        <list-cross v-if="listData.length" class="m-horse-broadcast__list" :list="listData">
             <template v-slot="data">
                 <div class="m-horse-broadcast__item">
                     <jx3box-map
@@ -28,21 +28,44 @@
                                         </el-image>
                                     </el-tooltip>
                                 </div>
+                                <div v-if="data.item.is_chitu" class="u-horse u-chitu">&lt;赤兔&gt;</div>
                             </div>
                         </div>
-                        <div class="u-times-info">
-                            <div class="u-map-name">{{ data.item.map_name }}</div>
-                            <div class="u-times" :class="data.item.subtype === 'foreshow' && 'u-times-lately'">
+                        <div class="u-times-info" :class="data.item.is_chitu && 'is-chitu'">
+                            <div class="u-map-name">
+                                <span class="u-op" v-if="data.item.is_chitu">
+                                    <i
+                                        :class="chituLoading ? 'el-icon-loading' : 'el-icon-refresh'"
+                                        @click="loadChituData"
+                                    ></i>
+                                    <el-tooltip effect="dark" placement="top" popper-class="u-chitu-tip">
+                                        <template #content>
+                                            <div v-html="chituTip"></div>
+                                        </template>
+                                        <i class="el-icon-question"></i>
+                                    </el-tooltip>
+                                </span>
+                                <span class="u-name">{{ data.item.map_name }}</span>
+                            </div>
+                            <div
+                                v-if="!data.item.is_chitu"
+                                class="u-times"
+                                :class="data.item.subtype === 'foreshow' && 'u-times-lately'"
+                            >
                                 <span>{{ data.item.fromTime }}</span>
                                 <span> ~ </span>
                                 <span>{{ data.item.toTime }}</span>
+                            </div>
+                            <div class="u-times" v-else>
+                                <span v-if="data.item.time">{{ data.item.time }}</span>
+                                <span v-else class="u-times-lately">本CD尚未刷新</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </template>
         </list-cross>
-        <div v-else class="w-no-data">{{ params.server }} 暂无播报</div>
+        <div v-else class="w-no-data">{{ server }} 暂无播报</div>
     </div>
 </template>
 
@@ -54,7 +77,7 @@ import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
-import { getGameReporter, getUserInfo } from "@/service/horse";
+import { getGameReporter, getUserInfo, getChituHorse } from "@/service/horse";
 import dayjs from "@/plugins/day";
 export default {
     name: "HorseBroadcast",
@@ -66,19 +89,37 @@ export default {
     data() {
         return {
             list: [],
-            params: {
-                pageIndex: 1,
-                pageSize: 50,
-                server: "",
-                type: "horse",
-                // subtype: "", // foreshow,npc_chat
-                // start: dayjs.tz(new Date().valueOf() - 15 * 60 * 1000).format("YYYYMMDDHHmm"),
-                // end: dayjs.tz(new Date()).format("YYYYMMDDHHmm"),
-            },
+            server: "",
             timer: null,
+
+            chituMap: {
+                方问: 411,
+                小赤: 216,
+                杨新: 411,
+            },
+            // 本cd是否刷新
+            hasExist: false,
+            existData: {},
+            chituTip: `
+             <p>CD: 周二7点 ~ 下周一7点。</p>
+             <p>地图: 黑戈壁、阴山大草原、鲲鹏岛。</p>
+             <p>必备: <卦文龟甲>交大战时有几率获得，赤兔刷新后再到信使处领取，有效期7天。</p>
+            `,
+            chituLoading: false,
         };
     },
     computed: {
+        params() {
+            return {
+                pageIndex: 1,
+                pageSize: 50,
+                type: "horse",
+                server: this.server,
+                // subtype: "", // foreshow,npc_chat
+                // start: dayjs.tz(new Date().valueOf() - 15 * 60 * 1000).format("YYYYMMDDHHmm"),
+                // end: dayjs.tz(new Date()).format("YYYYMMDDHHmm"),
+            };
+        },
         client() {
             return this.$store.state.client;
         },
@@ -89,14 +130,71 @@ export default {
                 return servers_origin;
             }
         },
+        listData() {
+            return this.existData.map_id ? [this.existData].concat(this.list) : this.list;
+        },
     },
     watch: {
-        "params.server"() {
+        server() {
             this.list = []; // 需要置空后重新计算cross的scrollWidth
+            this.existData = {};
             this.getGameReporter();
+            this.loadChituData();
         },
     },
     methods: {
+        loadChituData() {
+            const server = this.server;
+            // 周二7点到下周一7点为一个CD， 7天内随机刷一只，地图为黑戈壁、阴山大草原、鲲鹏岛
+            this.chituLoading = true;
+            getChituHorse(server)
+                .then((res) => {
+                    const list = res.data?.data?.list || [];
+                    const content = list?.[0]?.content || "";
+                    const npc = /\]\[(.*)\]大声喊/.exec(content)[1].trim() || "";
+                    const defaultMapId = 216;
+                    const map_id = this.chituMap?.[npc] || defaultMapId;
+                    const mapInfo = horseSites[map_id];
+                    let result = {};
+                    const coor = mapInfo.coordinates[0];
+                    const horses = ["赤兔·飞虹"];
+                    const map_name = mapInfo.mapName;
+                    result[map_id] = [
+                        {
+                            content: `${horses.join()}
+                    <br />坐标：(${coor.x},${coor.y},${coor.z})`,
+                            ...coor,
+                        },
+                    ];
+                    // 最近刷新时间
+                    const created_at = dayjs.tz(list?.[0].created_at);
+                    // 本周时间
+                    const weekTime = [dayjs.tz().startOf("isoWeek"), dayjs.tz().endOf("isoWeek")];
+                    // 本CD时间
+                    const cdTime = [
+                        dayjs.tz(weekTime[0]).add(1, "day").add(7, "hour"),
+                        dayjs.tz(weekTime[1]).add(1, "day").add(7, "hour"),
+                    ];
+                    // 本cd是否刷新
+                    const isBetween = dayjs.tz(created_at).isBetween(cdTime[0], cdTime[1]);
+                    this.hasExist = isBetween;
+                    const data = {
+                        horses: horses,
+                        map_name: map_name,
+                        map_id: map_id + "",
+                        mapDatas: result,
+                        is_chitu: true,
+                        time: "",
+                    };
+                    if (isBetween) {
+                        data.time = dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    this.existData = data;
+                })
+                .finally(() => {
+                    this.chituLoading = false;
+                });
+        },
         replaceByDefault(e) {
             e.target.src = require("../../assets/img/horse_item_bg_sm.jpg");
         },
@@ -196,12 +294,12 @@ export default {
                         let fromTime = "";
                         let toTime = "";
                         if (!!("minute" in item)) {
-                            fromTime = dayjs.tz(
-                                new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000
-                            ).format("HH:mm");
-                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
-                                "HH:mm"
-                            );
+                            fromTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
+                                .format("HH:mm");
+                            toTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
+                                .format("HH:mm");
                         } else {
                             fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
                             toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
@@ -222,10 +320,10 @@ export default {
     mounted() {
         if (User.isLogin()) {
             getUserInfo().then((res) => {
-                this.params.server = res.data?.data?.jx3_server || "梦江南";
+                this.server = res.data?.data?.jx3_server || "梦江南";
             });
         } else {
-            this.params.server = "梦江南";
+            this.server = "梦江南";
         }
         this.timer = setInterval(() => {
             this.getGameReporter();
@@ -240,4 +338,7 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/horse/broadcast.less";
+.u-chitu-tip {
+    max-width: 200px;
+}
 </style>

@@ -53,7 +53,7 @@
                 .u-horses {
                     .scrollbar;
                     .pb(6px);
-                    max-width: 300px;
+                    max-width: 200px;
                     overflow-x: auto;
 
                     .u-horses-content {
@@ -65,6 +65,13 @@
                         .size(45px);
                         flex-shrink: 0;
                         background-image: url("../../img/horse_item_bg_sm.jpg");
+                        &.u-chitu {
+                            .flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-image: none;
+                            font-size: 12px;
+                        }
                     }
                     img {
                         .pointer;
@@ -92,6 +99,19 @@
                     & > div {
                         .flex;
                         justify-content: flex-end;
+                    }
+                    &.is-chitu {
+                        .u-name,
+                        .u-times {
+                            opacity: 0.5;
+                        }
+                        .el-icon-refresh {
+                            cursor: pointer;
+                            color: #f94343;
+                        }
+                        i {
+                            margin-right: 5px;
+                        }
                     }
                 }
             }

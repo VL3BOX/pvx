@@ -1,6 +1,25 @@
 <template>
     <div class="m-simple-horse">
         <div class="u-horse">
+            <div class="u-item" key="chitu">
+                <div class="u-horse-name-wrap">
+                    <a class="u-horse-name" :href="getLink('赤兔·飞虹')" target="_blank">
+                        <el-image :src="getImgSrc('赤兔·飞虹')" class="u-image"></el-image>
+                    </a>
+                </div>
+                <div class="u-times-info">
+                    <div class="u-map-name">
+                        <i
+                            class="u-times-lately"
+                            :class="chituLoading ? 'el-icon-loading' : 'el-icon-refresh'"
+                            @click="loadChituData"
+                        ></i
+                        >{{ existData.map }}
+                    </div>
+                    <div v-if="hasExist" class="u-times is-exist">{{ existData.time }}</div>
+                    <span v-else class="u-times">本CD尚未刷新</span>
+                </div>
+            </div>
             <template v-if="list.length">
                 <div class="u-item" v-for="item in list" :key="item.id">
                     <div class="u-horse-name-wrap">
@@ -28,7 +47,7 @@
                     </div>
                 </div>
             </template>
-            <div v-else class="u-item">暂无播报</div>
+            <!-- <div v-else class="u-item">暂无播报</div> -->
         </div>
     </div>
 </template>
@@ -38,7 +57,7 @@ import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
-import { getGameReporter } from "@/service/gonggao";
+import { getGameReporter, getChituHorse } from "@/service/gonggao";
 import dayjs from "@/plugins/day";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
@@ -54,6 +73,18 @@ export default {
                 type: "horse",
             },
             timer: null,
+            chituMap: {
+                方问: "鲲鹏岛",
+                小赤: "阴山大草原",
+                杨新: "黑戈壁",
+            },
+            // 本cd是否刷新
+            hasExist: false,
+            existData: {
+                map: "",
+                time: "",
+            },
+            chituLoading: false,
         };
     },
     computed: {
@@ -78,11 +109,48 @@ export default {
                 if (server) {
                     this.params.server = server;
                     this.getGameReporter();
+                    this.loadChituData();
                 }
             },
         },
     },
     methods: {
+        loadChituData() {
+            const server = this.server;
+            console.log(server);
+            // 周二7点到下周一7点为一个CD， 7天内随机刷一只，地图为黑戈壁、阴山大草原、鲲鹏岛
+            this.chituLoading = true;
+            getChituHorse(server)
+                .then((res) => {
+                    const list = res.data?.data?.list || [];
+                    if (!list.length) {
+                        return;
+                    }
+                    // 最近刷新时间
+                    const created_at = dayjs.tz(list?.[0].created_at);
+                    // 本周时间
+                    const weekTime = [dayjs.tz().startOf("isoWeek"), dayjs.tz().endOf("isoWeek")];
+                    // 本CD时间
+                    const cdTime = [
+                        dayjs.tz(weekTime[0]).add(1, "day").add(7, "hour"),
+                        dayjs.tz(weekTime[1]).add(1, "day").add(7, "hour"),
+                    ];
+                    // 本cd是否刷新
+                    const isBetween = dayjs.tz(created_at).isBetween(cdTime[0], cdTime[1]);
+                    this.hasExist = isBetween;
+                    if (isBetween) {
+                        const content = list?.[0]?.content || "";
+                        const npc = /\]\[(.*)\]大声喊/.exec(content)[1].trim();
+                        this.existData = {
+                            map: this.chituMap[npc] || "",
+                            time: dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss"),
+                        };
+                    }
+                })
+                .finally(() => {
+                    this.chituLoading = false;
+                });
+        },
         replaceByDefault(e) {
             e.target.src = require("../../../assets/img/horse_item_bg_sm.jpg");
         },
