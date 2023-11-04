@@ -13,7 +13,7 @@ function getGoldPriceData() {
 
 // 获取系统关注的物品信息
 function getSystemGoodsData(params) {
-    return $cms().get("api/cms/helper/item/group", {
+    return $cms().get("api/cms/pvx/item/group", {
         params
     })
 }
