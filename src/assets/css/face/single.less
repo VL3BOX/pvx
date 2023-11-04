@@ -268,8 +268,27 @@
 }
 .m-single-content-box {
     box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    &.m-author-faces{
+        background: transparent;
+        border-radius: 0px;
+        padding: 0px;
+    }
+
     .m-face-item,.noName{
         background: #fff !important;
+        &:hover {
+            animation: dissolve 300ms ease-out!important;
+            background-color: #786cbb!important;
+            .m-op {
+                .u-title,
+                .m-author .u-name {
+                    color: #fff !important;
+                }
+            }
+        }
     }
 }
 
@@ -352,7 +371,8 @@
 .m-face-buy-btn {
     .size(269px, 60px);
     .r(10px);
-    background: #FFAA28;
+    background: linear-gradient(0deg, #FFAA28, #FFAA28),
+    linear-gradient(267.15deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
     display: flex;
     text-align: center;
     .u-price {

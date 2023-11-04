@@ -113,12 +113,12 @@
                 <div class="u-face-desc-tab">
                     <span
                         @click="rightShow = 'desc'"
-                        :style="rightShow === 'data' ? 'color: #c2c5c7;' : ''"
+                        :style="rightShow === 'data' ? 'color: #c2c5c7;cursor: pointer;' : ''"
                     >说明</span>
                     <span
                         @click="rightShow = 'data'"
                         v-if="downFileList && downFileList.length"
-                        :style="rightShow === 'desc' ? 'color: #c2c5c7;' : ''"
+                        :style="rightShow === 'desc' ? 'color: #c2c5c7;cursor: pointer;' : ''"
                     >全部数据</span>
                 </div>
                 <div class="m-face-desc">
@@ -223,7 +223,7 @@
         <div class="u-about-author">关于作者</div>
         <authorItem :uid="post.user_id" />
         <div class="m-random-list">
-            <div class="u-list m-single-content-box" v-if="randomList.length">
+            <div class="u-list m-single-content-box m-author-faces" v-if="randomList.length">
                 <faceItem :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
         </div>
@@ -501,6 +501,11 @@ export default {
             }
         },
         downloadAll() {
+            if (this.downFileList.length === 1) {
+                const item = this.downFileList[0];
+                this.getDownUrl(item.uuid, item.name)
+                return;
+            }
             const urlArr = []
             this.downFileList.forEach(item => {
                 urlArr.push(getDownUrl(this.id, item.uuid));
