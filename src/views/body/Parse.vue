@@ -28,12 +28,13 @@ export default {
     },
     computed: {
         json: function () {
-            return this.data && this.data.json;
+            return this.data || "";
         },
     },
     methods: {
         handleSuccess: function (data) {
             this.data = data;
+            console.log(data);
             if (data?.json) {
                 this.done = true;
             } else {
