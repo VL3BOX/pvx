@@ -275,12 +275,11 @@ export default {
         },
         bodydata: function () {
             const data = this.post?.data || "";
-
             const bodyData = {
                 object: {},
             };
             try {
-                if (data.indexOf("\\") > -1) {
+                if (data) {
                     bodyData.object = JSON.parse(JSON.parse(data));
                 } else {
                     bodyData.object = data;

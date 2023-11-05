@@ -9,7 +9,7 @@
                     </a>
                 </template>
             </Upload>
-            <Bodydat class="m-face-parse-preview" :data="json" :lock="false" v-show="done" />
+            <Bodydat class="m-face-parse-preview" :data="json" :lock="false" v-if="done" />
         </div>
     </div>
 </template>
@@ -34,7 +34,6 @@ export default {
     methods: {
         handleSuccess: function (data) {
             this.data = data;
-            console.log(data);
             if (data?.json) {
                 this.done = true;
             } else {
