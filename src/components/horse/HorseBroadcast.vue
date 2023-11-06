@@ -167,16 +167,19 @@ export default {
                         },
                     ];
                     // 最近刷新时间
-                    const created_at = dayjs.tz(list?.[0].created_at);
-                    // 本周时间
-                    const weekTime = [dayjs.tz().startOf("isoWeek"), dayjs.tz().endOf("isoWeek")];
-                    // 本CD时间
-                    const cdTime = [
-                        dayjs.tz(weekTime[0]).add(1, "day").add(7, "hour"),
-                        dayjs.tz(weekTime[1]).add(1, "day").add(7, "hour"),
-                    ];
-                    // 本cd是否刷新
-                    const isBetween = dayjs.tz(created_at).isBetween(cdTime[0], cdTime[1]);
+                    const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    const now = dayjs.tz();
+                    const now_day = now.day();
+                    const now_hour = now.hour();
+                    let cd_from_time = now.day(2).hour(7).minute(0).second(0).millisecond(0);
+                    let cd_to_time = cd_from_time.add(1, "week").add(-1, "millisecond");
+                    if (now_day === 1 || (now_day === 2 && now_hour < 7)) {
+                        // 周一到周二7点之前的CD为上一个CD
+                        cd_from_time = dayjs.tz(cd_from_time).add(-1, "week");
+                        cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
+                    }
+                    // 最近刷新时间是否在当前CD中
+                    const isBetween = dayjs.tz(created_at).isBetween(cd_from_time, cd_to_time);
                     this.hasExist = isBetween;
                     const data = {
                         horses: horses,
