@@ -2,8 +2,14 @@
     <div class="m-facedata">
         <div class="m-face-parse" :class="{ on: done }">
             <h1 class="m-face-parse-title">体型数据解析器</h1>
-            <Upload type="body" @success="handleSuccess" />
-            <Bodydat class="m-face-parse-preview" :data="json" :lock="false" v-show="done" />
+            <Upload type="body" @success="handleSuccess">
+                <template #guide>
+                    <a class="u-help" href="/tool/67546" target="_blank">
+                        <i class="el-icon-collection"></i> 游戏体型导入导出指南
+                    </a>
+                </template>
+            </Upload>
+            <Bodydat class="m-face-parse-preview" :data="json" :lock="false" v-if="done" />
         </div>
     </div>
 </template>
@@ -22,7 +28,7 @@ export default {
     },
     computed: {
         json: function () {
-            return this.data && this.data.json;
+            return this.data || "";
         },
     },
     methods: {

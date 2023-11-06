@@ -1,6 +1,6 @@
 import { $node, $next, $cms } from "@jx3box/jx3box-common/js/https";
 import axios from "axios";
-import { __spider2, __dataPath  } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __spider2, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
 const $spider = axios.create({
     baseURL: __spider2,
@@ -55,4 +55,17 @@ function getGameReporter(params) {
         params,
     });
 }
-export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture, getCelebrities, getGameReporter };
+function getChituHorse(server) {
+    const params = {
+        pageIndex: 1,
+        pageSize: 50,
+        server,
+        type: "chitu-horse",
+        subtype: "share_msg",
+    };
+    return $next().get("/api/game/reporter/horse", {
+        params,
+    });
+}
+
+export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture, getCelebrities, getGameReporter, getChituHorse };
