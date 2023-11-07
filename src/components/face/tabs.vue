@@ -52,7 +52,7 @@
             </el-button>
         </a>
         <a :href="publish_link(link.key)" target="_blank">
-            <el-button type="primary" size="medium" class="u-btn" icon="el-icon-edit">发布</el-button>
+            <div class="u-face-publish"><span>发布脸型</span></div>
         </a>
     </div>
 </template>

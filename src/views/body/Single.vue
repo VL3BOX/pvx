@@ -27,7 +27,10 @@
             </el-image> -->
 
             <div class="m-header-info">
-                <h2>{{ post.title || "无标题" }} <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">已下架</el-tag></h2>
+                <h2>
+                    {{ post.title || "无标题" }}
+                    <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">已下架</el-tag>
+                </h2>
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
@@ -255,7 +258,19 @@ export default {
         },
         bodydata: function () {
             const data = this.post?.data || "";
-            return data.indexOf("\\") > -1 ? JSON.parse(data) : data;
+            const bodyData = {
+                object: {},
+            };
+            try {
+                if (data) {
+                    bodyData.object = JSON.parse(JSON.parse(data));
+                } else {
+                    bodyData.object = data;
+                }
+            } catch {
+                bodyData.object = JSON.parse(data);
+            }
+            return bodyData;
         },
         previewSrcList: function () {
             return this.post?.images || [];

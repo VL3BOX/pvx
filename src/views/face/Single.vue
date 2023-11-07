@@ -10,9 +10,7 @@
                     </el-button>
                 </a>
                 <a :href="publish_link">
-                    <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
-                        >发布</el-button
-                    >
+                    <div class="u-face-publish"><span>发布脸型</span></div>
                 </a>
             </div>
         </div>
@@ -113,13 +111,13 @@
                 <div class="u-face-desc-tab">
                     <span
                         @click="rightShow = 'desc'"
-                        :style="rightShow === 'data' ? 'color: #c2c5c7;' : ''"
+                        :style="rightShow === 'data' ? 'color: #c2c5c7;cursor: pointer;' : ''"
                     >说明</span>
                     <span
                         @click="rightShow = 'data'"
                         v-if="downFileList && downFileList.length"
-                        :style="rightShow === 'desc' ? 'color: #c2c5c7;' : ''"
-                    >全部数据</span>
+                        :style="rightShow === 'desc' ? 'color: #c2c5c7;cursor: pointer;' : ''"
+                    >数据列表</span>
                 </div>
                 <div class="m-face-desc">
                     <div v-if="rightShow === 'desc'" class="u-desc">{{ post.remark || '暂无说明' }}</div>
@@ -167,8 +165,8 @@
 
         <!-- 数据区 -->
         <div class="m-single-data">
-            <h3>独家数据分析</h3>
-            <facedata class="m-single-content-box" v-if="has_buy && facedata" :data="faceAllData" :lock="true" type="face" />
+            <span class="m-single-data-title">独家数据分析</span>
+            <facedata v-if="has_buy && facedata" :data="faceAllData" :lock="true" type="face" />
             <div class="m-single-buy-box" v-else>
                 <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
                     <div class="u-price"  v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
@@ -223,7 +221,7 @@
         <div class="u-about-author">关于作者</div>
         <authorItem :uid="post.user_id" />
         <div class="m-random-list">
-            <div class="u-list m-single-content-box" v-if="randomList.length">
+            <div class="u-list m-single-content-box m-author-faces" v-if="randomList.length">
                 <faceItem :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
         </div>
@@ -501,6 +499,11 @@ export default {
             }
         },
         downloadAll() {
+            if (this.downFileList.length === 1) {
+                const item = this.downFileList[0];
+                this.getDownUrl(item.uuid, item.name)
+                return;
+            }
             const urlArr = []
             this.downFileList.forEach(item => {
                 urlArr.push(getDownUrl(this.id, item.uuid));
