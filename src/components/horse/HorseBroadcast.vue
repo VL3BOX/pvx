@@ -173,8 +173,8 @@ export default {
                     const now_hour = now.hour();
                     let cd_from_time = now.day(2).hour(7).minute(0).second(0).millisecond(0);
                     let cd_to_time = cd_from_time.add(1, "week").add(-1, "millisecond");
-                    if (now_day === 1 || (now_day === 2 && now_hour < 7)) {
-                        // 周一到周二7点之前的CD为上一个CD
+                    if (now_day <= 1 || (now_day === 2 && now_hour < 7)) {
+                        // 周日为0、周一到周二7点之前的CD为上一个CD
                         cd_from_time = dayjs.tz(cd_from_time).add(-1, "week");
                         cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
                     }
