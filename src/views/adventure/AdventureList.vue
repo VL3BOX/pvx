@@ -201,8 +201,7 @@ export default {
         getAdventures(params) {
             getAdventures(params)
                 .then((res) => {
-                    let list = [];
-                    console.log(res);
+                    let list = []; 
                     res.data.list.forEach((e) => {
                         // list.push(e);
                         list.push(this.toSpecial(e));
