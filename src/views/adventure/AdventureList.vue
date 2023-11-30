@@ -170,20 +170,7 @@ export default {
             }
             return this.list.length > 0 ? false : true;
         },
-        mouseenter(e) {
-            if (isPhone()) {
-                return;
-            }
-            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "visible";
-            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "visible";
-        },
-        mouseleave(e) {
-            if (isPhone()) {
-                return;
-            }
-            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "hidden";
-            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "hidden";
-        },
+
         body_types_name() {
             let type = this.params.type;
             if (!type) return;
@@ -238,7 +225,7 @@ export default {
                     }
                     if (this.params.type) {
                         this.total = res.data.total;
-                        this.pages = res.data.pages; 
+                        this.pages = res.data.pages;
                     }
                     this.$forceUpdate();
                 })
@@ -281,7 +268,7 @@ export default {
         },
         // 按宽度显示个数
         showCount() {
-            const listWidth = this.$refs.listRef?.clientWidth;
+            const listWidth = this.$refs.listRef?.clientWidth - 120;
             this.per = Math.floor(listWidth / this.itemData.width);
         },
         isDisabled(id, detail) {
