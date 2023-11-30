@@ -85,22 +85,22 @@ export default {
             body_types: [
                 {
                     value: "all",
-                    label: "全部奇遇",
+                    label: "全部",
                     client: ["std", "origin"],
                 },
                 {
                     value: "perfect",
-                    label: "绝世奇遇",
+                    label: "绝世",
                     client: ["std", "origin"],
                 },
                 {
                     value: "normal",
-                    label: "普通奇遇",
+                    label: "普通",
                     client: ["std", "origin"],
                 },
                 {
                     value: "pet",
-                    label: "宠物奇遇",
+                    label: "宠物",
                     client: ["std", "origin"],
                 },
             ],
