@@ -7,30 +7,17 @@
                 :key="'l' + index"
                 class="m-adventure-list"
                 :class="`m-adventure-list-${index}`"
-                @mouseenter="mouseenter($event)"
-                @mouseleave="mouseleave($event)"
             >
                 <div class="u-type" v-if="item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
-                <div
-                    class="u-shade-btn u-shade-btn-left"
-                    :class="isDisabled('nav' + index, 1, isUpdate)"
-                    @click="crosswiseScroll($event, 'nav' + index, 1, 600)"
-                >
-                    <i class="el-icon-arrow-left"></i>
-                </div>
-                <div
-                    class="u-shade-btn u-shade-btn-right"
-                    :class="isDisabled('nav' + index, -1, isUpdate)"
-                    @click="crosswiseScroll($event, 'nav' + index, -1, 600)"
-                >
-                    <i class="el-icon-arrow-right"></i>
-                </div>
-                <div class="m-face-list" :id="'nav' + index">
-                    <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
-                </div>
+
+                <CommonList :data="{ ...itemData, type: item.value }" @update:load="handleLoad">
+                    <div class="m-face-list" :id="'nav' + index">
+                        <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
+                    </div>
+                </CommonList>
             </div>
         </template>
         <template v-if="showAllList">
@@ -66,6 +53,7 @@
 </template>
 
 <script>
+import CommonList from "@/components/common/list.vue";
 import AdventureTabs from "@/components/adventure/tabs.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { getAdventures, getUserSchool } from "@/service/adventure";
@@ -77,7 +65,7 @@ import dayjs from "@/plugins/day";
 export default {
     name: "adventureList",
     props: [],
-    components: { AdventureTabs, AdventureItem },
+    components: { AdventureTabs, AdventureItem, CommonList },
     data: function () {
         return {
             loading: false,
@@ -85,22 +73,22 @@ export default {
             body_types: [
                 {
                     value: "all",
-                    label: "全部奇遇",
+                    label: "全部",
                     client: ["std", "origin"],
                 },
                 {
                     value: "perfect",
-                    label: "绝世奇遇",
+                    label: "绝世",
                     client: ["std", "origin"],
                 },
                 {
                     value: "normal",
-                    label: "普通奇遇",
+                    label: "普通",
                     client: ["std", "origin"],
                 },
                 {
                     value: "pet",
-                    label: "宠物奇遇",
+                    label: "宠物",
                     client: ["std", "origin"],
                 },
             ],
@@ -116,12 +104,17 @@ export default {
             page: 1, //当前页数
             total: 1, //总条目数
             pages: 1, //总页数
-            per: 15, //每页条目
+            per: 14, //每页条目
 
             appendMode: false,
             school: "2",
             search: {},
             hasSearch: "",
+            itemData: {
+                color: "#E86F00",
+                width: "210",
+                height: "224",
+            },
         };
     },
     computed: {
@@ -208,13 +201,13 @@ export default {
                 this.showAllList = false;
                 this.list_type.forEach((e) => {
                     let params = clone(this.params);
-                    params.per = 14;
+                    params.per = this.per;
                     params.type = e.value;
                     this.getAdventures(params);
                 });
             } else {
                 let params = clone(this.params);
-                params.per = this.per;
+                params.per = this.per * 3;
                 this.getAdventures(params);
             }
         },
@@ -222,6 +215,7 @@ export default {
             getAdventures(params)
                 .then((res) => {
                     let list = [];
+                    console.log(res);
                     res.data.list.forEach((e) => {
                         // list.push(e);
                         list.push(this.toSpecial(e));
@@ -244,7 +238,7 @@ export default {
                     }
                     if (this.params.type) {
                         this.total = res.data.total;
-                        this.pages = res.data.pages;
+                        this.pages = res.data.pages; 
                     }
                     this.$forceUpdate();
                 })
@@ -288,7 +282,7 @@ export default {
         // 按宽度显示个数
         showCount() {
             const listWidth = this.$refs.listRef?.clientWidth;
-            this.per = Math.floor(listWidth / 300) * 4;
+            this.per = Math.floor(listWidth / this.itemData.width);
         },
         isDisabled(id, detail) {
             // 获取要绑定事件的元素
@@ -335,6 +329,13 @@ export default {
                     _this.isUpdate = !_this.isUpdate;
                 }
             }
+        },
+        handleLoad(type) {
+            let params = clone(this.params);
+            params.per = this.per;
+            params.page += 1;
+            params.type = type;
+            this.getAdventures(params);
         },
     },
     mounted: function () {

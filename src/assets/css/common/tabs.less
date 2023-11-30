@@ -3,22 +3,23 @@
 .m-common-tabs {
     .flex;
     .z(12);
-    .scrollbar(2px);
-    position: sticky;
-    top: 64px;
-    background-color: #f3f5f6;
+    .r(10px);
+    height: 60px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    align-items: center;
     overflow-x: auto;
-    padding: 20px 0;
-    flex-wrap: nowrap;
     gap: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 
     .u-tab {
         .pr;
         .pointer;
         .size(100px,40px);
         .flex;
-        .fz(16px,20px);
+        .fz(16px,22px);
         .r(30px);
+        .bold;
         flex-shrink: 0;
         justify-content: center;
         align-items: center;
@@ -57,7 +58,7 @@
             .fz(16px,40px);
             .size(100%,40px);
             border: none;
-            background-color: #fff;
+            background-color: #f3f4f5;
             padding: 0 40px 0 20px;
             color: #000;
             &::placeholder {
@@ -65,28 +66,36 @@
                 color: #b0b0b0;
             }
         }
+        input[type="text"]::-webkit-input-placeholder {
+            .bold;
+            .fz(16px); 
+            color: #b0b0b0;
+        }
+        .el-input__suffix {
+            right: 15px;
+        }
+        .el-input__icon {
+            .bold;
+            color: #24292e;
+        }
     }
 }
-.u-face-publish{
+.u-face-publish {
     .size(120px, 39px);
     .r(5px);
-    background: url("../../img/face/publish_bg.svg") no-repeat,
-    linear-gradient(0deg, #6B52FF, #6B52FF),
-    linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%,
-    rgba(255, 255, 255, 0.3) 100%);
+    background: url("../../img/face/publish_bg.svg") no-repeat, linear-gradient(0deg, #6b52ff, #6b52ff),
+        linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%, rgba(255, 255, 255, 0.3) 100%);
     .fz(16px, 39px);
     .bold(700);
     color: #fff;
     cursor: pointer;
-    span{
+    span {
         float: right;
         padding-right: 7px;
     }
-    &:hover{
-        background: url("../../img/face/publish_hover.svg") no-repeat,
-        linear-gradient(0deg, #6B52FF, #6B52FF),
-        linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%,
-        rgba(255, 255, 255, 0.3) 100%);;
+    &:hover {
+        background: url("../../img/face/publish_hover.svg") no-repeat, linear-gradient(0deg, #6b52ff, #6b52ff),
+            linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%, rgba(255, 255, 255, 0.3) 100%);
     }
 }
 .m-common-filter {
