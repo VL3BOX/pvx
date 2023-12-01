@@ -11,6 +11,12 @@
     overflow-x: auto;
     gap: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    .m-common-button {
+        .flex;
+        flex-shrink: 0;
+        gap: 10px;
+        align-items: center;
+    }
 
     .u-tab {
         .pr;
@@ -68,7 +74,7 @@
         }
         input[type="text"]::-webkit-input-placeholder {
             .bold;
-            .fz(16px); 
+            .fz(16px);
             color: #b0b0b0;
         }
         .el-input__suffix {
@@ -121,6 +127,29 @@
         .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: #6b52ff;
             border-color: #6b52ff;
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-common-tabs {
+        padding: 0;
+        height: auto;
+        box-shadow: 0 0 0 0;
+        flex-direction: column;
+        overflow-x: visible;
+        gap:40px;
+        .m-common-button {
+            .r(10px);
+            flex-wrap: wrap;
+            padding: 10px 15px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+        .u-search {
+            .r(10px);
+            padding: 10px 15px;
+            box-sizing:border-box;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
         }
     }
 }

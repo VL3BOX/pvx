@@ -8,7 +8,7 @@
                 class="m-adventure-list"
                 :class="`m-adventure-list-${index}`"
             >
-                <template v-if="item.list && item.list.length">
+                <template v-if="item.list.length">
                     <div class="u-type">
                         <div class="u-title">{{ item.label + "奇遇" }}</div>
                         <div class="u-all" @click="setActive(item.value)">查看全部</div>
@@ -30,7 +30,7 @@
             <div class="u-type u-all-type">
                 <div class="u-title">{{ typeName + "奇遇" }}</div>
             </div>
-            <div class="m-face-list--all">
+            <div class="m-face-list--all" v-if="subList.length">
                 <AdventureItem v-for="item in subList" :key="item.id" :item="item" />
             </div>
             <el-button
@@ -65,6 +65,7 @@ import AdventureTabs from "@/components/adventure/tabs.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { getAdventures } from "@/service/adventure";
 import { clone, omit, concat } from "lodash";
+import { isPhone } from "@/utils/index";
 import dayjs from "@/plugins/day";
 export default {
     name: "adventureList",
@@ -79,6 +80,7 @@ export default {
                     value: "all",
                     label: "全部",
                     client: ["std", "origin"],
+                    list: [],
                 },
                 {
                     value: "perfect",
@@ -138,6 +140,7 @@ export default {
             return this.list.filter((e) => e.value == this.active)[0].label;
         },
         subList() {
+            if (this.active === "all") return null;
             return this.list.filter((e) => e.value == this.active)[0].list;
         },
         noList() {
@@ -237,6 +240,10 @@ export default {
         },
         // 按宽度显示个数
         showCount() {
+            if (isPhone()) {
+                this.per = 8;
+                return;
+            }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
             this.count = Math.floor(listWidth / this.itemData.width);
             this.per = this.active == "all" ? this.count : this.count * 3;

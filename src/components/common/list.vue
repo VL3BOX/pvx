@@ -65,4 +65,17 @@ export default {
         }
     }
 }
+@media screen and (max-width: @phone) {
+    .m-common-list--v2 {
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .m-face-list {
+            padding: 5px;
+        }
+        .m-replace {
+            .none;
+        }
+    }
+}
 </style>
