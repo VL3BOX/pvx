@@ -244,15 +244,7 @@ export default {
                         this.total = res.data.total;
                         this.pages = res.data.pages;
                     }
-                    this.$forceUpdate();
-                    // if (this.appendMode) {
-                    //     this.list = this.list.concat(newList);
-                    // } else {
-                    //     this.list = newList;
-                    // }
-                    // this.appendMode = false;
-                    // this.total = res.data.total;
-                    // this.pages = res.data.pages;
+                    this.$forceUpdate(); 
                 })
                 .finally(() => {
                     this.loading = false;
@@ -280,9 +272,9 @@ export default {
             this.tabsData = data;
         },
         // 按宽度显示个数
-        showCount(num = 2) {
+        showCount(num = 1) {
             const listWidth = this.$refs.listRef?.clientWidth;
-            this.per_page = Math.floor(listWidth / 118) * num;
+            this.per_page = Math.floor(listWidth / 206) * num;
         },
     },
 };
