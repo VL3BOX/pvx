@@ -1,20 +1,23 @@
-.p-adventure-single {
-    .pt(10px);
-}
 .m-adventure-navigation {
     .pr;
     display: flex;
     position: sticky;
     top: @header-height;
     .z(10);
-    background-color: #f3f5f6;
-    padding: 20px 0;
     .u-goback {
-        margin-right: 10px;
+        .pointer;
         .r(30px);
-        .fz(16px,21px);
-        // .bold(700);
+        .fz(16px,40px);
+        .size(100px,40px);
+        .x;
+        .mr(10px);
+        .color(#fff);
         border: none;
+        background: #24292e;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+        &:hover {
+            background: #d16400;
+        }
     }
     .u-input {
         .ml(20px);
@@ -36,12 +39,15 @@
 .p-adventure-single .m-adventure-title {
     height: auto;
 }
+.m-adventure-content {
+    .r(10px);
+    .clip;
+    .mb(20px);
+}
 .m-adventure-task {
     // background: url("../../../img/adventure_bg.png") repeat 0 0;
     background: #324148;
-    .h(350px);
-    .mb(20px);
-    // .pb(20px);
+    .h(350px); 
     .flex;
     .pr;
     .u-content {
@@ -61,11 +67,11 @@
             .flex;
             .h(250px);
             gap: 20px;
-            flex-shrink: 0; 
+            flex-shrink: 0;
             &.u-task-name {
                 .ml(20px);
-                align-items: center; 
-                .u-title{
+                align-items: center;
+                .u-title {
                     .x;
                 }
             }

@@ -58,6 +58,11 @@ export default {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-    } 
+    }
+    &.search {
+        .m-replace {
+            .none;
+        }
+    }
 }
 </style>
