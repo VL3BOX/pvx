@@ -1,27 +1,29 @@
 <template>
     <div class="m-pet-tabs m-common-tabs">
-        <template v-for="item in types">
-            <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
-                {{ item.name }}
-            </div>
-        </template>
-
-        <!-- 地图筛选 -->
-        <div class="u-maps">
-            <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
-                <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
+        <div class="m-common-card">
+            <template v-for="item in types">
+                <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
+                    {{ item.name }}
+                </div>
+            </template>
         </div>
 
-        <div class="u-filter">
-            <el-popover
-                placement="bottom-end"
-                trigger="click"
-                width="90"
-                v-model="filterOpen"
-                popper-class="u-filter-popover"
-            >
+        <!-- 地图筛选 -->
+        <div class="m-common-card">
+            <div class="u-maps">
+                <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
+                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+            <!-- <div class="u-maps">
+                <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
+                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                </el-select>
+            </div> -->
+            <!-- 
+            <div class="u-map">
                 <el-radio-group v-model="petSource" class="m-pet-filter m-common-filter">
                     <el-radio-button
                         class="u-filter"
@@ -32,12 +34,10 @@
                         >{{ item.name }}</el-radio-button
                     >
                 </el-radio-group>
-
-                <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
-            </el-popover>
+            </div> -->
         </div>
 
-        <div class="u-search">
+        <div class="u-search m-common-card">
             <el-input
                 placeholder="请输入搜索内容"
                 v-model="title"
@@ -81,7 +81,7 @@ export default {
     },
     methods: {
         //切换数据
-        clickTabs(item) {  
+        clickTabs(item) {
             this.$emit("setActive", item.class);
         },
     },
@@ -120,22 +120,22 @@ export default {
 }
 
 .m-pet-filter {
-    .u-filter {
-        .w(100px);
-        .el-radio-button__inner {
-            &:hover {
-                background-color: @petColor;
-                color: #fff;
-            }
-        }
-        &.is-active {
-            .el-radio-button__inner {
-                background-color: @petColor;
-                border-color: @petColor;
-                color: #fff;
-            }
-        }
-    }
+    // .u-filter {
+    //     .w(100px);
+    //     .el-radio-button__inner {
+    //         &:hover {
+    //             background-color: @petColor;
+    //             color: #fff;
+    //         }
+    //     }
+    //     &.is-active {
+    //         .el-radio-button__inner {
+    //             background-color: @petColor;
+    //             border-color: @petColor;
+    //             color: #fff;
+    //         }
+    //     }
+    // }
 }
 .u-filter-popover {
     width: 220px !important;

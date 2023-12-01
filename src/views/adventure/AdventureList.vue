@@ -1,5 +1,5 @@
 <template>
-    <div class="p-adventure-List" v-loading="loading" ref="listRef">
+    <div class="p-adventure-List p-common-list" v-loading="loading" ref="listRef">
         <AdventureTabs @change="onSearch" :body_types="list" :active="active" @setActive="setActive" />
         <template v-if="active === 'all'">
             <div

@@ -1,6 +1,6 @@
 <template>
     <div class="m-share-tabs m-common-tabs">
-        <div class="m-common-button">
+        <div class="m-common-card">
             <template v-for="item in body_types">
                 <div
                     :key="item.value"
@@ -16,7 +16,7 @@
             </template>
         </div>
 
-        <div class="u-search">
+        <div class="u-search m-common-card">
             <el-input placeholder="输入关键词搜索" v-model="name" suffix-icon="el-icon-search" class="u-search-input" />
         </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-pet-list" v-loading="loading" ref="listRef">
+    <div class="p-pet-list p-common-list" v-loading="loading" ref="listRef">
         <petTabs
             @change="handleTabChange"
             :types="Type"
