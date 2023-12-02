@@ -1,28 +1,36 @@
 <template>
     <div class="p-pet-single" v-if="pet" v-loading="loading">
         <div class="m-pet-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <div class="u-goback" @click="goBack">返回列表</div>
         </div>
-        <div class="m-pet-content flex">
-            <div class="m-pet-links">
-                <a class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
-                    ><i class="el-icon-collection-tag"></i>物品信息</a
-                >
-                <template v-if="achievement_id">
-                    <em> | </em>
-                    <a class="u-link u-achievement" :href="getLink('cj', achievement_id)" target="_blank"
-                        ><i class="el-icon-trophy"></i>成就信息</a
-                    >
-                </template>
-            </div>
 
+        <div class="m-pet-content flex">
+            <petCard :petObject="pet" :lucky="luckyList"></petCard>
             <div class="m-pet-info">
                 <h1 class="u-title">
                     <span class="u-name">{{ pet.Name }}</span>
                     <!-- <span class="u-type">{{ getPetType(pet.Class) }} · {{ getPetSource(pet.Source) }}</span> -->
+                    <div class="m-pet-links">
+                        <a class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
+                            ><i class="el-icon-collection-tag"></i>物品信息</a
+                        >
+                        <template v-if="achievement_id">
+                            <em> | </em>
+                            <a class="u-link u-achievement" :href="getLink('cj', achievement_id)" target="_blank"
+                                ><i class="el-icon-trophy"></i>成就信息</a
+                            >
+                        </template>
+                    </div>
                 </h1>
                 <i class="u-stars">
-                    <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
+                    <img
+                        v-for="count in pet.Star"
+                        :key="count"
+                        class="u-star"
+                        src="@/assets/img/star.svg"
+                        svg-inline
+                    />
+                    <!-- <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i> -->
                 </i>
                 <div class="u-metas">
                     <div class="u-meta u-number"><span class="u-meta-label">编号：</span>{{ pet.Index }}</div>
@@ -79,7 +87,6 @@
                     </div>
                 </div>
             </div>
-            <petCard :petObject="pet" :lucky="luckyList"></petCard>
         </div>
         <!-- 宠物羁绊 -->
         <div class="m-pet-fetters" v-if="medalList && medalList.length">

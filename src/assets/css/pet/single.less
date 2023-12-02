@@ -1,21 +1,30 @@
 .m-pet-navigation {
+    .pr;
+    .mt(20px);
+    padding: 20px 0;
     display: flex;
     position: sticky;
     top: @header-height;
+    background-color: #fff;
     .z(10);
-    background-color: #f3f5f6;
-    padding: 20px 0;
     .u-goback {
+        .pointer;
         .r(30px);
-        .fz(16px,21px);
+        .fz(16px,40px);
+        .size(100px,40px);
+        .x;
+        .mr(10px);
+        .color(#fff);
         border: none;
+        background: #24292e;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+        &:hover {
+            background: #d16400;
+        }
     }
 }
 
 .m-pet-links {
-    .pa;
-    .rt(280px,40px);
-
     .u-link {
         .fz(14px);
 
@@ -33,7 +42,7 @@
 }
 
 .m-pet-content {
-    .pr; 
+    .pr;
     .pt(20px);
     .mb(40px);
     gap: 20px;
@@ -50,16 +59,21 @@
     min-height: 380px;
     background: #ffffff;
     padding: 20px;
-    box-sizing: content-box;
-    box-sizing:border-box;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     .u-title {
+        .flex;
         .fz(28px,28px);
         .bold;
+        justify-content: space-between;
         margin: 0 0 10px 0;
     }
     .u-stars {
-        .fz(21px);
-        color: #fbc324;
+        .flex;
+        gap: 4px;
+        .u-star {
+            .size(21px);
+        }
     }
 
     .u-metas {
@@ -169,9 +183,7 @@
         flex-wrap: wrap;
         .m-pet-links {
             .w(100%);
-            .x(right);
             flex-shrink: 0;
-            position: static;
         }
         .m-pet-card {
             .mb(15px);
@@ -180,5 +192,9 @@
     }
     .m-pet-info {
         width: 100%;
+
+        .u-title {
+            flex-wrap: wrap;
+        }
     }
 }
