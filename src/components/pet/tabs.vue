@@ -9,19 +9,23 @@
         </div>
 
         <!-- 地图筛选 -->
-        <div class="m-common-card">
-            <div class="u-maps">
-                <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
-                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </div>
-            <!-- <div class="u-maps">
-                <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
-                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </div> -->
+        <div class="m-common-card m-maps-card">
+            <el-select v-model="mapId" filterable class="u-select" clearable>
+                <el-option label="全部地图" value=""></el-option>
+                <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+                <template #prefix> 地图 </template>
+            </el-select>
+            <el-select v-model="petSource" filterable class="u-select" clearable>
+                <el-option
+                    v-for="(item, index) in Source"
+                    :key="'laiyuan' + index"
+                    :label="item.name"
+                    :value="item.source"
+                >
+                </el-option>
+                <template #prefix> 来源 </template>
+            </el-select>
             <!-- 
             <div class="u-map">
                 <el-radio-group v-model="petSource" class="m-pet-filter m-common-filter">
@@ -106,38 +110,46 @@ export default {
             background-color: @petColor;
         }
     }
-    .u-filter {
-        &:hover {
-            background-color: @petColor;
+    .m-common-card .u-select {
+        .el-input__suffix {
+            .none;
         }
-    }
-    .u-maps {
-        flex-shrink: 0;
         input {
             .r(30px);
         }
     }
+    .el-input__prefix {
+        .lh(40px);
+        padding: 0 10px;
+    }
+    .el-input__prefix,
+    .el-input__suffix {
+        color: #b0b0b0;
+        &::placeholder {
+            color: #b0b0b0;
+        }
+    }
+    .is-focus .el-input__prefix {
+        color: #d16400;
+    }
+    .el-input__inner {
+        .pl(60px);
+    }
+    .m-maps-card {
+        flex-wrap: nowrap;
+    }
 }
-
-.m-pet-filter {
-    // .u-filter {
-    //     .w(100px);
-    //     .el-radio-button__inner {
-    //         &:hover {
-    //             background-color: @petColor;
-    //             color: #fff;
-    //         }
-    //     }
-    //     &.is-active {
-    //         .el-radio-button__inner {
-    //             background-color: @petColor;
-    //             border-color: @petColor;
-    //             color: #fff;
-    //         }
-    //     }
-    // }
-}
-.u-filter-popover {
-    width: 220px !important;
+@media screen and (max-width: @phone) {
+    .m-pet-tabs {
+        .m-common-card .u-select {
+            .el-input__prefix,
+            .el-input__suffix {
+                .none;
+            }
+            .el-input__inner {
+                padding: 0 20px;
+            }
+        }
+    }
 }
 </style>
