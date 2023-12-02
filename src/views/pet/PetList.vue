@@ -244,7 +244,7 @@ export default {
                         this.total = res.data.total;
                         this.pages = res.data.pages;
                     }
-                    this.$forceUpdate(); 
+                    this.$forceUpdate();
                 })
                 .finally(() => {
                     this.loading = false;
@@ -273,6 +273,7 @@ export default {
         },
         // 按宽度显示个数
         showCount(num = 1) {
+            if (isPhone()) num += 8;
             const listWidth = this.$refs.listRef?.clientWidth;
             this.per_page = Math.floor(listWidth / 206) * num;
         },
