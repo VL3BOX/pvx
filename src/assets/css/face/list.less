@@ -1,19 +1,16 @@
 @import "~@/assets/css/face/animation.less";
 
 .p-face-list {
-    padding-bottom: 40px;
+    .pt(40px);
     .u-type {
         .flex;
-        margin: 40px 0 20px 0;
+        .mb(20px);
         justify-content: space-between;
         align-items: flex-end;
         .u-all {
             cursor: pointer;
             color: #a5a5a5;
             .fz(16px,21px);
-        }
-        &.u-first-row{
-            .mt(20px);
         }
     }
     .u-title {
@@ -46,7 +43,7 @@
 
 .m-recommend-box,
 .m-face-box {
-    .pr;
+    .mt(40px);
     .u-shade-btn {
         .pointer;
         .pa;
@@ -98,14 +95,7 @@
     .u-shade {
         .h(224px);
     }
-}
-
-.m-face-list {
-    .flex;
-    gap: 20px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
+} 
 
 //单个体型全部list
 .m-face-list--all {
@@ -175,7 +165,7 @@
             }
         }
     }
-    .m-face-list {
+    .m-common-list {
         .scrollbar(2px);
         overflow-x: auto;
 

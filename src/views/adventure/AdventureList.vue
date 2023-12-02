@@ -19,8 +19,8 @@
                         :data="{ ...itemData, type: item.value }"
                         @update:load="handleLoad"
                     >
-                        <div class="m-face-list">
-                            <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
+                        <div class="m-common-list">
+                            <AdventureItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
                         </div>
                     </CommonList>
                 </template>
@@ -31,7 +31,7 @@
                 <div class="u-title">{{ typeName + "奇遇" }}</div>
             </div>
             <div class="m-face-list--all" v-if="subList.length">
-                <AdventureItem v-for="item in subList" :key="item.id" :item="item" />
+                <AdventureItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
             </div>
             <el-button
                 class="m-archive-more"
@@ -64,7 +64,7 @@ import CommonList from "@/components/common/list.vue";
 import AdventureTabs from "@/components/adventure/tabs.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { getAdventures } from "@/service/adventure";
-import { clone, omit, concat } from "lodash";
+import { cloneDeep, omit, concat } from "lodash";
 import { isPhone } from "@/utils/index";
 import dayjs from "@/plugins/day";
 export default {
@@ -111,7 +111,7 @@ export default {
 
             page: 1, //当前页数
             total: 0, //总条目数
-            per: 0, //每页条目
+            per: 8, //每页条目
             count: 0, // 自动判断最多显示几个
 
             appendMode: false,
@@ -251,11 +251,14 @@ export default {
         // 单独加载
         handleLoad(type) {
             const page = this.list.filter((e) => e.value == type)[0].page;
-            let params = clone(this.params);
+            let params = cloneDeep(this.params);
             params.per = this.per;
             params.page = page + 1;
             params.type = type;
             this.loadList(params, type);
+        },
+        listId(list) {
+            return list.map((e) => e.id);
         },
     },
     mounted: function () {

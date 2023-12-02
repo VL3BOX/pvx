@@ -59,6 +59,10 @@ export default {
         align-items: center;
         flex-shrink: 0;
     }
+    .m-common-list{
+        .flex;
+        gap:20px;
+    }
     &.search {
         .m-replace {
             .none;
@@ -70,7 +74,7 @@ export default {
         ::-webkit-scrollbar {
             display: none;
         }
-        .m-face-list {
+        .m-common-list {
             padding: 5px;
         }
         .m-replace {
