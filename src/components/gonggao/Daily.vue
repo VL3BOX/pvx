@@ -126,6 +126,18 @@ export default {
                 return { ...acc, [cur["key"]]: cur.name };
             }, {});
         },
+        date() {
+            // 当7点以前，请求前面一天的日常 当7~24点，请求当天的日常
+            const hour = dayjs.tz().get("hours");
+            return 0 <= hour && hour < 7
+                ? dayjs.tz().subtract(1, "day").format("YYYY-MM-DD")
+                : dayjs.tz().format("YYYY-MM-DD");
+        },
+        isCurrentWeek() {
+            let week = dayjs.tz(this.date).isoWeek();
+            let currentWeek = dayjs.tz().isoWeek();
+            return week === currentWeek;
+        },
     },
     methods: {
         loadDailyNew() {
@@ -147,13 +159,20 @@ export default {
         },
         getFurniture() {
             if (!this.isOrigin) {
+                const start = this.isCurrentWeek
+                    ? dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD")
+                    : dayjs.tz().add(-1, "week").startOf("isoWeek").format("YYYY-MM-DD");
+                const end = this.isCurrentWeek
+                    ? dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD")
+                    : dayjs.tz().add(-1, "week").endOf("isoWeek").format("YYYY-MM-DD");
                 const params = {
                     subtypes: "category,property,next_match",
-                    start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
-                    end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
+                    start,
+                    end,
                 };
                 getFurniture(params).then((res) => {
-                    const list = res.data?.data;
+                    const list = res.data?.data || [];
+                    if (list.some((item) => !item)) return;
                     this.currentFurniture = {
                         property: list.find((item) => item.subtype === "property")?.content || "",
                         category: list.find((item) => item.subtype === "category")?.content || "",

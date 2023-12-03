@@ -1,7 +1,7 @@
 <template>
     <div class="m-simple-daily">
         <div class="m-daily-wrap">
-            <div class="m-simple-daily-item" :class="item.isDone && 'is-done'" v-for="item in daily" :key="item.type">
+            <div class="m-simple-daily-item" :class="item.isDone && 'is-done'" v-for="item in daily" :key="item.name">
                 <div class="u-name">
                     <span>{{ item.name }}</span>
                 </div>
