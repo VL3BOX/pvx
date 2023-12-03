@@ -23,13 +23,7 @@
                     </div>
                 </h1>
                 <i class="u-stars">
-                    <img
-                        v-for="count in pet.Star"
-                        :key="count"
-                        class="u-star"
-                        src="@/assets/img/star.svg"
-                        svg-inline
-                    />
+                    <img v-for="count in pet.Star" :key="count" class="u-star" src="@/assets/img/star.svg" svg-inline />
                     <!-- <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i> -->
                 </i>
                 <div class="u-metas">
@@ -87,6 +81,11 @@
                     </div>
                 </div>
             </div>
+            <div class="m-pet-map" v-show="mapDisplay">
+                <span class="u-header"> 捕获地图 </span>
+                <!-- 地图组件 -->
+                <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />
+            </div>
         </div>
         <!-- 宠物羁绊 -->
         <div class="m-pet-fetters" v-if="medalList && medalList.length">
@@ -99,14 +98,6 @@
         </div>
         <!-- 宠物地图 -->
         <!-- <div class="u-map-title">捕获地图/获取攻略</div> -->
-        <div class="m-pet-map" v-show="mapDisplay">
-            <div class="u-header">
-                <img class="u-icon" svg-inline src="@/assets/img/achievement.svg" />
-                <span class="u-txt">捕获地图</span>
-            </div>
-            <!-- 地图组件 -->
-            <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />
-        </div>
 
         <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
         <pvx-user :id="item_id" name="宠物" type="item"></pvx-user>
