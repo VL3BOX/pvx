@@ -87,21 +87,25 @@
     }
 }
 .u-face-publish {
+    .pr;
     .size(120px, 39px);
     .r(5px);
-    background: url("../../img/face/publish_bg.svg") no-repeat, linear-gradient(0deg, #6b52ff, #6b52ff),
-        linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%, rgba(255, 255, 255, 0.3) 100%);
+    background: #6b52ff;
     .fz(16px, 39px);
     .bold(700);
     color: #fff;
-    cursor: pointer;
+    .pointer;
+    .pr(10px);
     span {
         float: right;
-        padding-right: 7px;
+    }
+    .u-img {
+        .pa;
+        .lb(0);
+        .w(65px);
     }
     &:hover {
-        background: url("../../img/face/publish_hover.svg") no-repeat, linear-gradient(0deg, #6b52ff, #6b52ff),
-            linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%, rgba(255, 255, 255, 0.3) 100%);
+        filter: brightness(1.1);
     }
 }
 .m-common-filter {

@@ -1,31 +1,26 @@
 <template>
     <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <div class="u-goback" @click="goBack">返回列表</div>
             <!-- 操作tool -->
             <div class="u-right-btn">
                 <div class="m-face-btn-box">
-                    <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/bodydata" target="_blank">
+                    <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/bodydata" target="_blank">
                         <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
                             管理
                         </el-button>
                     </a>
                     <a :href="publish_link">
-                        <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
-                        >发布</el-button
-                        >
+                        <div class="u-face-publish">
+                            <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                            <span>发布体型</span>
+                        </div>
                     </a>
                 </div>
             </div>
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover">
-                <div slot="error" class="image-slot">
-                    <img class="u-pic" src="../../assets/img/body_null.png" />
-                </div>
-            </el-image> -->
-
             <div class="m-header-info">
                 <h2>
                     {{ post.title || "无标题" }}
@@ -112,43 +107,31 @@
 
         <!-- 数据区 -->
         <div class="m-single-data" v-if="has_buy && bodydata">
-            <h3>独家数据分析</h3>
-            <Bodydat class="m-single-content-box" v-if="bodydata" :data="bodydata" />
+            <span class="m-single-data-title">独家数据分析</span>
+            <Bodydat v-if="bodydata" :data="bodydata" />
         </div>
+
         <!--下载区-->
-        <div class="m-face-files" v-if="has_buy && downFileList && downFileList.length > 0">
-            <h3>原始文件列表</h3>
-            <div class="m-single-content-box">
-                <ul class="m-face-files-list">
-                    <li v-for="item in downFileList" :key="item.id">
-                        <div>
-                            <span class="u-label"
-                                >名称: <em>{{ item.name }}</em></span
-                            >
-                            <span class="u-label"
-                                >版本 : <em>{{ item.created_at }}</em></span
-                            >
-                            <span class="u-label" v-if="item.describe"
-                                >备注 ： <em>{{ item.describe }}</em></span
-                            >
+        <div class="m-single-data" v-if="has_buy && downFileList && downFileList.length > 0">
+            <span class="m-single-data-title">原始文件列表</span>
+            <div class="m-files-list">
+                <div class="m-face-files-list">
+                    <div class="u-file" v-for="item in downFileList" :key="item.id">
+                        <div class="u-info">
+                            <span class="u-label"> {{ item.name }} </span>
+                            <span class="u-label">
+                                备注 ： <em>{{ item.describe || "无" }}</em>
+                            </span>
                         </div>
-                        <el-button
-                            class="u-action"
-                            icon="el-icon-download"
-                            size="mini"
-                            type="primary"
-                            round
-                            @click="getDownUrl(item.uuid)"
-                            >下载</el-button
-                        >
-                    </li>
-                </ul>
+                        <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">下载</a>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!--作者随机作品-->
-        <div class="m-random-list">
-            <h3>作者其他作品</h3>
+        <div class="m-random-list"> 
+            <span class="m-single-data-title">作者其他作品</span>
             <div class="u-list m-single-content-box" v-if="randomList.length">
                 <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
             </div>

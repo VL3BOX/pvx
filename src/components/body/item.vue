@@ -14,7 +14,7 @@
         <div class="m-img">
             <el-image class="u-pic" :src="showThumb(imgLink)" fit="cover">
                 <div slot="error" class="image-slot">
-                    <img class="u-pic" src="../../assets/img/body_null.png" />
+                    <img src="../../assets/img/body_null.png" />
                 </div>
             </el-image>
             <div class="m-mark-left">

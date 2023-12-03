@@ -52,7 +52,9 @@
             </el-button>
         </a>
         <a :href="publish_link(link.key)" target="_blank">
-            <div class="u-face-publish"><span>发布脸型</span></div>
+            <div class="u-face-publish">
+                <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                <span>发布脸型</span></div>
         </a>
     </div>
 </template>
@@ -120,6 +122,7 @@ export default {
 @import "~@/assets/css/common/tabs.less";
 
 .m-face-tabs {
+    overflow: visible;
     .u-tab {
         &.active,
         &:hover {
