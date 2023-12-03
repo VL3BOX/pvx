@@ -13,7 +13,7 @@
         </Breadcrumb> -->
         <Nav @statusChange="statusChange"></Nav>
         <Main :class="navStatusClass" :withoutRight="true">
-            <div class="m-main">
+            <div class="m-main m-pvg-main">
                 <router-view></router-view>
             </div>
             <!-- <Footer></Footer> -->

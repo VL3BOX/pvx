@@ -133,8 +133,11 @@ export default {
         }
     }
 }
-.p-gonggao .m-content {
-    .pt(20px);
+.p-gonggao {
+    background-color: #f5f5f5;
+    .m-content {
+        .pt(20px);
+    }
 }
 @media screen and (max-width: @phone) {
     .p-gonggao .m-content {

@@ -1,17 +1,21 @@
 <template>
     <div class="m-daily">
         <div class="m-daily-item">
+            <div class="u-title">公告</div>
+            <SimpleNotice class="m-daily-content"></SimpleNotice>
+        </div>
+        <div class="m-daily-item">
             <div class="u-title">服务器状态</div>
-            <SimpleServer></SimpleServer>
+            <SimpleServer class="m-daily-content"></SimpleServer>
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">日常</div>
-                <SimpleDaily></SimpleDaily>
+                <div class="u-title">日常&福缘</div>
+                <SimpleDaily class="m-daily-content" :activities="activities"></SimpleDaily>
             </div>
             <div class="m-daily-item">
                 <div class="u-title">楚天社</div>
-                <SimpleCelebrity></SimpleCelebrity>
+                <SimpleCelebrity class="m-daily-content"></SimpleCelebrity>
             </div>
         </template>
 
@@ -28,12 +32,6 @@
             <div class="u-title">门派事件</div>
             <SimpleMp></SimpleMp>
         </div> -->
-        <div class="m-daily-item">
-            <div class="m-daily-item">
-                <div class="u-title">今日福缘</div>
-                <SimplePet></SimplePet>
-            </div>
-        </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
                 <div class="u-title">园宅会赛</div>
@@ -46,7 +44,7 @@
             </div>
             <div class="m-daily-item">
                 <div class="u-title">抓马播报</div>
-                <SimpleHorse></SimpleHorse>
+                <SimpleHorse class="m-daily-content"></SimpleHorse>
             </div>
         </template>
     </div>
@@ -54,23 +52,24 @@
 
 <script>
 import dayjs from "@/plugins/day";
-import { getFurniture } from "@/service/gonggao";
+import { getFurniture, getDailyFromOs } from "@/service/gonggao";
+import SimpleNotice from "./daily/SimpleNotice.vue";
 import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
-import SimplePet from "./daily/SimplePet.vue";
 // import SimpleFb from "./daily/SimpleFb.vue";
 // import SimpleMp from "./daily/SimpleMp.vue";
 import SimpleFurniture from "./daily/SimpleFurniture.vue";
 // import SimpleMrt from "./daily/SimpleMrt.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
+import dailyKeys from "@/assets/data/daily_keys.json";
 export default {
     name: "Daily",
     components: {
+        SimpleNotice,
         SimpleServer,
         SimpleDaily,
         SimpleCelebrity,
-        SimplePet,
         // SimpleFb,
         // SimpleMp,
         SimpleFurniture,
@@ -109,17 +108,43 @@ export default {
             ],
             currentFurniture: {},
             nextFurniture: {},
+            activities: [], // 日常配置列表
         };
     },
     computed: {
+        client() {
+            return this.$store.state.client;
+        },
         server() {
             return this.$store.state.server;
         },
-        isOrigin() { 
+        isOrigin() {
             return location.href.includes("origin");
+        },
+        dailyKeyMap() {
+            return dailyKeys.reduce((acc, cur) => {
+                return { ...acc, [cur["key"]]: cur.name };
+            }, {});
         },
     },
     methods: {
+        loadDailyNew() {
+            const params = {
+                client: this.client,
+            };
+            getDailyFromOs(params).then((res) => {
+                let list = res.data.data || [];
+                const activities = list.filter((item) => {
+                    return item.client === this.client;
+                });
+                this.activities = activities.map((item) => {
+                    return {
+                        ...item,
+                        name: this.dailyKeyMap[item.key],
+                    };
+                });
+            });
+        },
         getFurniture() {
             if (!this.isOrigin) {
                 const params = {
@@ -143,6 +168,9 @@ export default {
                 });
             }
         },
+    },
+    created() {
+        this.loadDailyNew();
     },
     mounted() {
         this.getFurniture();

@@ -6,6 +6,14 @@ const $spider = axios.create({
     baseURL: __spider2,
 });
 
+// 日常 - os
+function getDailyFromOs(params = {}) {
+    params.status = 1;
+    return $cms().get(`/api/cms/pvx/activity`, {
+        params,
+    });
+}
+
 // 日常
 function getDaily(params) {
     return $cms({ mute: true }).get(`/api/cms/game/daily`, {
@@ -68,4 +76,47 @@ function getChituHorse(server) {
     });
 }
 
-export { getMeirentu, getDaily, getPetLucky, getPets, getFurniture, getCelebrities, getGameReporter, getChituHorse };
+// 新闻公告相关
+
+// 游戏公告
+function getGameNews(client) {
+    return $spider.get("/api/spider/jx3news", {
+        params: {
+            client: client,
+        },
+    });
+}
+function getPosts(client = "std", type, per = 7, subtype) {
+    let params = {
+        client: client,
+        per,
+    };
+    if (!!type) {
+        params.type = type;
+    }
+    if (subtype) params.subtype = subtype;
+    return $cms({ mute: true }).get("/api/cms/posts/latest", {
+        params: params,
+    });
+}
+// 获取技改
+function getChangelog(params) {
+    return $cms().get(`/api/cms/pve/skill/changelog`, {
+        params,
+    });
+}
+
+export {
+    getMeirentu,
+    getDaily,
+    getPetLucky,
+    getPets,
+    getFurniture,
+    getCelebrities,
+    getGameReporter,
+    getChituHorse,
+    getGameNews,
+    getPosts,
+    getChangelog,
+    getDailyFromOs,
+};
