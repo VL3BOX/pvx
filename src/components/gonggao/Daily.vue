@@ -25,13 +25,9 @@
                 <SimpleWeek class="m-daily-content" :activities="activities"></SimpleWeek>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">园宅会赛</div>
-                <div class="m-child-item">
-                    <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
-                </div>
-                <div class="m-child-item">
-                    <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
-                </div>
+                <div class="u-title">家园</div>
+                <SimpleReputation :activities="activities"></SimpleReputation>
+                <SimpleFurniture :furniture="currentFurniture" :nextFurniture="nextFurniture"></SimpleFurniture>
             </div>
             <div class="m-daily-item">
                 <div class="u-title">抓马播报</div>
@@ -49,6 +45,7 @@ import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
 import SimpleWeek from "./daily/SimpleWeek.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
+import SimpleReputation from "./daily/SimpleReputation.vue";
 import SimpleFurniture from "./daily/SimpleFurniture.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
 import dailyKeys from "@/assets/data/daily_keys.json";
@@ -58,6 +55,7 @@ export default {
         SimpleNotice,
         SimpleServer,
         SimpleDaily,
+        SimpleReputation,
         SimpleCelebrity,
         SimpleWeek,
         SimpleFurniture,
