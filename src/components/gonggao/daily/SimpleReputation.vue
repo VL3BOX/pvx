@@ -15,7 +15,7 @@ export default {
     name: "SimpleReputation",
     props: {
         activities: {
-            type: Object,
+            type: Array,
             required: true,
         },
     },

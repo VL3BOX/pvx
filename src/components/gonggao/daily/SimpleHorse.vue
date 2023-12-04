@@ -1,54 +1,134 @@
 <template>
     <div class="m-simple-horse">
-        <div class="u-horse">
-            <div class="u-item" key="chitu">
-                <div class="u-horse-name-wrap">
-                    <a class="u-horse-name" :href="getLink('赤兔·飞虹')" target="_blank">
-                        <el-image :src="getImgSrc('赤兔·飞虹')" class="u-image"></el-image>
-                    </a>
+        <div class="u-switch" v-if="list.length > remainNum" @click="switchList">切换</div>
+        <template v-if="list.length <= 2 || listIndex === 0">
+            <template v-if="defaultList.length">
+                <div class="u-item" v-for="(item, d) in defaultList" :key="item.id + d">
+                    <div class="u-name">马场</div>
+                    <div class="u-info">
+                        <div class="u-map-name">{{ item.map_name }}</div>
+                        <div
+                            v-if="item.horses?.length"
+                            class="u-times"
+                            :class="item.subtype === 'foreshow' && 'u-times-lately'"
+                        >
+                            <span>{{ item.fromTime }}</span>
+                            <span> ~ </span>
+                            <span>{{ item.toTime }}</span>
+                        </div>
+                        <div v-else class="u-no">暂无信息</div>
+                        <div class="u-img-list">
+                            <a
+                                v-for="horse in item.horses"
+                                :key="horse"
+                                class="u-horse-name"
+                                :href="getLink(horse)"
+                                target="_blank"
+                            >
+                                <el-tooltip class="item" effect="dark" :content="horse" placement="top">
+                                    <el-image :src="getImgSrc(horse)" class="u-image">
+                                        <div slot="error" class="image-slot">
+                                            <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
+                                        </div>
+                                    </el-image>
+                                </el-tooltip>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="u-times-info">
-                    <div class="u-map-name">
+            </template>
+            <div class="u-item" key="chitu">
+                <div class="u-name">赤兔</div>
+                <div class="u-info u-chitu-info">
+                    <template v-if="hasExist">
+                        <div class="u-map-name">
+                            {{ existData.map }}
+                            <i
+                                class="u-times-lately"
+                                :class="chituLoading ? 'el-icon-loading' : 'el-icon-refresh'"
+                                @click="loadChituData"
+                            ></i>
+                        </div>
+                        <div class="u-times-chitu">
+                            {{ existData.time }}
+                        </div>
+                    </template>
+                    <span v-else class="u-times-chitu"
+                        >本CD尚未刷新
                         <i
                             class="u-times-lately"
                             :class="chituLoading ? 'el-icon-loading' : 'el-icon-refresh'"
                             @click="loadChituData"
                         ></i
-                        >{{ existData.map }}
+                    ></span>
+                    <div class="u-horse-name-wrap">
+                        <a class="u-horse-name" :href="getLink('赤兔·飞虹')" target="_blank">
+                            <el-image :src="getImgSrc('赤兔·飞虹')" class="u-image" fit="cover"></el-image>
+                        </a>
                     </div>
-                    <div v-if="hasExist" class="u-times is-exist">{{ existData.time }}</div>
-                    <span v-else class="u-times">本CD尚未刷新</span>
                 </div>
             </div>
             <template v-if="list.length">
-                <div class="u-item" v-for="item in list" :key="item.id">
-                    <div class="u-horse-name-wrap">
-                        <el-carousel class="u-img-list" :autoplay="true" arrow="never" indicator-position="none">
-                            <el-carousel-item v-for="horse in item.horses" :key="horse">
-                                <a class="u-horse-name" :href="getLink(horse)" target="_blank">
-                                    <el-tooltip class="item" effect="dark" :content="horse" placement="top">
-                                        <el-image :src="getImgSrc(horse)" class="u-image">
-                                            <div slot="error" class="image-slot">
-                                                <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
-                                            </div>
-                                        </el-image>
-                                    </el-tooltip>
-                                </a>
-                            </el-carousel-item>
-                        </el-carousel>
-                    </div>
-                    <div class="u-times-info">
+                <div class="u-item" v-for="(item, l) in list.slice(0, remainNum)" :key="item.id + l">
+                    <div class="u-name">播报</div>
+                    <div class="u-info">
                         <div class="u-map-name">{{ item.map_name }}</div>
                         <div class="u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
                             <span>{{ item.fromTime }}</span>
                             <span> ~ </span>
                             <span>{{ item.toTime }}</span>
                         </div>
+                        <div class="u-img-list">
+                            <a
+                                v-for="horse in item.horses"
+                                :key="horse"
+                                class="u-horse-name"
+                                :href="getLink(horse)"
+                                target="_blank"
+                            >
+                                <el-tooltip class="item" effect="dark" :content="horse" placement="top">
+                                    <el-image :src="getImgSrc(horse)" class="u-image">
+                                        <div slot="error" class="image-slot">
+                                            <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
+                                        </div>
+                                    </el-image>
+                                </el-tooltip>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </template>
-            <!-- <div v-else class="u-item">暂无播报</div> -->
-        </div>
+        </template>
+        <template v-else>
+            <div class="u-item" v-for="(item, index) in list.slice(remainNum, list.length)" :key="item.id + index">
+                <div class="u-name">播报</div>
+                <div class="u-info">
+                    <div class="u-map-name">{{ item.map_name }}</div>
+                    <div class="u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
+                        <span>{{ item.fromTime }}</span>
+                        <span> ~ </span>
+                        <span>{{ item.toTime }}</span>
+                    </div>
+                    <div class="u-img-list">
+                        <a
+                            v-for="horse in item.horses"
+                            :key="horse"
+                            class="u-horse-name"
+                            :href="getLink(horse)"
+                            target="_blank"
+                        >
+                            <el-tooltip class="item" effect="dark" :content="horse" placement="top">
+                                <el-image :src="getImgSrc(horse)" class="u-image">
+                                    <div slot="error" class="image-slot">
+                                        <img :src="getImgSrc(horse, true)" @error="replaceByDefault" />
+                                    </div>
+                                </el-image>
+                            </el-tooltip>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -66,6 +146,8 @@ export default {
         return {
             noList: [],
             list: [],
+            // 固定三大马场
+            defaultList: [],
             params: {
                 pageIndex: 1,
                 pageSize: 50,
@@ -85,6 +167,8 @@ export default {
                 time: "",
             },
             chituLoading: false,
+            listIndex: 0,
+            remainNum: 2, // 第一页还能展示几个播报
         };
     },
     computed: {
@@ -101,6 +185,9 @@ export default {
         server() {
             return this.$store.state.server;
         },
+        defaultKeys() {
+            return Object.values(this.chituMap);
+        },
     },
     watch: {
         server: {
@@ -115,9 +202,11 @@ export default {
         },
     },
     methods: {
+        switchList() {
+            this.listIndex = ~~!this.listIndex;
+        },
         loadChituData() {
             const server = this.server;
-            console.log(server);
             // 周二7点到下周一7点为一个CD， 7天内随机刷一只，地图为黑戈壁、阴山大草原、鲲鹏岛
             this.chituLoading = true;
             getChituHorse(server)
@@ -126,17 +215,6 @@ export default {
                     if (!list.length) {
                         return;
                     }
-                    // // 最近刷新时间
-                    // const created_at = dayjs.tz(list?.[0].created_at);
-                    // // 本周时间
-                    // const weekTime = [dayjs.tz().startOf("isoWeek"), dayjs.tz().endOf("isoWeek")];
-                    // // 本CD时间
-                    // const cdTime = [
-                    //     dayjs.tz(weekTime[0]).add(1, "day").add(7, "hour"),
-                    //     dayjs.tz(weekTime[1]).add(1, "day").add(7, "hour"),
-                    // ];
-                    // // 本cd是否刷新
-                    // const isBetween = dayjs.tz(created_at).isBetween(cdTime[0], cdTime[1]);
 
                     // 最近刷新时间
                     const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
@@ -191,8 +269,8 @@ export default {
                 // 预测
                 mapId = String(item.map_id);
                 mapName = item.map_name;
-                coordinates = horseSites[mapId].coordinates;
-                horses = horseSites[mapId].horses[item.horseIndex];
+                coordinates = item.horseIndex !== -1 ? horseSites[mapId].coordinates : [];
+                horses = item.horseIndex !== -1 ? horseSites[mapId].horses[item.horseIndex] : [];
             } else {
                 // 播报
                 mapName = item.content.match(/在(\S*)出没/) ? item.content.match(/在(\S*)出没/)[1] : "";
@@ -204,14 +282,16 @@ export default {
                     }
                 }
             }
-            const coor = coordinates[0];
-            result[mapId] = [
-                {
-                    content: `${horses.join()}
+            const coor = coordinates?.[0];
+            result[mapId] = coor
+                ? [
+                      {
+                          content: `${horses.join()}
                     <br />坐标：(${coor.x},${coor.y},${coor.z})`,
-                    ...coor,
-                },
-            ];
+                          ...coor,
+                      },
+                  ]
+                : [];
             const obj = {
                 mapDatas: result,
                 map_id: mapId,
@@ -255,12 +335,20 @@ export default {
                                     minute: minute,
                                     horseIndex: index,
                                 });
+                            } else {
+                                newThreeList.push({
+                                    map_name: item.map_name,
+                                    id: index ? Number(index + item.id.toString()) : item.id,
+                                    subtype: item.subtype,
+                                    map_id: item.map_id,
+                                    horseIndex: -1, // 没有马驹
+                                });
                             }
                         }
                     });
                 });
                 const newList = newThreeList.concat(bList);
-                this.list = newList
+                const allList = newList
                     .map((item) => {
                         let fromTime = "";
                         let toTime = "";
@@ -285,6 +373,17 @@ export default {
                     .sort(function (a, b) {
                         return dayjs.tz(b.created_at).valueOf() - dayjs.tz(a.created_at).valueOf();
                     });
+                this.list = allList.filter(
+                    (item) => item.subtype !== "npc_chat" && !this.defaultKeys.includes(item.map_name)
+                );
+                this.defaultList = this.defaultKeys.map((name) => {
+                    const item = allList.find((item) => item.map_name === name) || {
+                        map_name: name,
+                        id: name,
+                        horses: [],
+                    };
+                    return item;
+                });
             });
         },
     },
