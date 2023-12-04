@@ -43,7 +43,7 @@ export default {
         },
         getPlanList() {
             this.loading = true;
-            getMyPlans({ no_page: true }).then((res) => {
+            getMyPlans({ no_page: 1 }).then((res) => {
                 this.loading = false;
                 this.myPlanList = res.reverse() || [];
                 this.myPlanList.forEach((item) => {
