@@ -1,9 +1,3 @@
-.p-face-single {
-    .flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
 .m-navigation {
     .pr;
     .mt(20px);
@@ -37,9 +31,9 @@
     }
 
     .m-face-btn-box {
-        //float: left;
         .flex;
         .r(10px);
+        gap: 10px;
         padding: 10px;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         .u-btn {
@@ -58,7 +52,7 @@
             .r(5px);
             background: #6b52ff;
             .fz(16px, 39px);
-            .bold(700);
+            .bold;
             color: #fff;
             .pointer;
             .pr(10px);
@@ -89,25 +83,9 @@
     }
 }
 
-.m-banner {
-    .mt(20px);
-    background-color: @color;
-    border-radius: 6px;
-    //height: 206px;
-    //.h(100%);
-    overflow: hidden;
-    img {
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        .db;
-        .auto(x);
-    }
-}
-
 .m-header {
     .flex;
+    .mt(20px);
     align-items: center;
     gap: 20px;
     .m-avatar {
@@ -300,15 +278,15 @@
         border-radius: 2px;
         font-style: normal;
     }
-
-    // 头条
 }
 
 .m-face-content {
     .flex;
+    .mt(40px);
     gap: 20px;
 }
 .m-single-data {
+    .mt(40px);
     .c-facedat-tab {
         .r(10px);
         margin: 20px 0 0 0;
@@ -319,9 +297,9 @@
 }
 .m-single-data-title {
     .fz(28px);
-    .bold(700);
+    .bold;
 }
-.m-files-list{
+.m-files-list {
     padding: 20px;
     .r(10px);
     .mt(20px);
@@ -330,31 +308,26 @@
 }
 
 .m-single-buy-box {
-    .pr;
-    .mt(30px);
-    height: 437px;
-    background: #ffffff;
-    border-radius: 10px;
+    .flex;
+    .mt(20px);
+    .r(10px);
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 220px;
     padding: 20px;
     box-sizing: border-box;
+    background: url("../../img/face/face_bg.svg") #786cbb;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     .m-face-buy-btn {
-        .pa;
-        .lt(calc(50% - 134.5px), 168px);
         .size(269px, 60px);
         .r(10px);
         .fz(14px);
     }
     .u-face-buy-tip {
-        .pa;
-        .auto(x);
-        left: 0;
-        right: 0;
-        top: 248px;
-        text-align: center;
-        font-size: 16px;
-        line-height: 21px;
-        letter-spacing: 0em;
-        color: #f1b65c;
+        .fz(16px,24px);
+        color: #fff;
     }
 }
 
@@ -363,18 +336,19 @@
     box-sizing: border-box;
     flex-shrink: 0;
 }
-.m-single-box {
-    padding: 0;
-}
 .m-single-pics {
     .pr;
+    .flex;
+    align-items: center;
+    justify-content: center;
     .size(100%, 500px);
+    .r(10px);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     .u-no-pic {
         .pa;
         .lt(50%);
         .fz(14px);
-        .bold(700);
+        .bold;
         transform: translate(-50%, -50%);
         color: dimgray;
     }
@@ -395,6 +369,7 @@
     .m-carousel {
         .pr;
         .z(1);
+        .w(100%);
     }
     .u-desc {
         padding-bottom: 20px;
@@ -402,41 +377,39 @@
         word-wrap: break-word;
     }
 }
-.m-single-header {
-    .pt(0);
-}
 .m-face-buy-btn {
     .size(269px, 60px);
     .r(10px);
     background: linear-gradient(0deg, #ffaa28, #ffaa28),
         linear-gradient(267.15deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
     display: flex;
-    text-align: center;
+    align-items: center;
+    justify-content: center;
     .u-price {
-        margin: 9px 0px 9px 9px;
-        flex: 1;
-        .size(124px, 39px);
-        line-height: 39px;
+        .flex;
+        align-items: center;
+        flex-shrink: 0;
+        .h(39px);
         .r(10px);
+        padding: 0 10px;
         background: #fff;
         color: #f1b65c;
     }
     .u-buy {
-        .size(124px, 39px);
-        flex: 1;
-        margin: 9px 9px 9px 0px;
-        line-height: 39px;
-        color: #fff;
-        .fz(14px);
-        .bold(700);
         .flex;
+        min-width: 80px;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        .fz(16px);
+        gap: 4px;
+        color: #fff;
         img {
             .size(20px, 20px);
             vertical-align: middle;
         }
+    }
+    .u-price + .u-buy {
+        .mr(20px);
     }
     &:hover {
         cursor: pointer;
@@ -455,7 +428,7 @@
         .size(100%, 110px);
         .r(10px);
         .fz(14px);
-        .bold(700);
+        .bold;
         background: url("../../img/face/face_bg.svg") #d2738f;
         &.m-dowload {
             background: url("../../img/face/face_bg.svg") #786cbb;
@@ -469,7 +442,7 @@
             margin-top: 13px;
             margin-left: 20px;
             .fz(14px);
-            .bold(700);
+            .bold;
         }
         .u-update-time {
             .fz(10px);
@@ -498,12 +471,13 @@
         }
         .u-tips-right {
             color: #f1b65c;
-            .bold(700);
+            .bold;
         }
     }
     .u-face-desc-tab {
+        .pointer;
         .fz(20px);
-        .bold(700);
+        .bold;
         .mt(20px);
         span {
             .mr(10px);
@@ -526,8 +500,7 @@
         }
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         &.no-desc {
-            background: url("../../img/face/no-desc.svg") no-repeat;
-            background-position: 0 52px;
+            background: url("../../img/face/no-desc.svg") bottom no-repeat;
         }
     }
     .m-face-head {
@@ -544,55 +517,6 @@
         img {
             .size(20px, 20px);
         }
-    }
-}
-.m-face-download {
-    .pr;
-    .size(100%, 110px);
-    .r(10px);
-    .fz(14px);
-    .bold(700);
-    background: url("../../img/face/face_bg.svg") #786cbb;
-
-    .m-face-download-btn {
-        .pa;
-        .lt(calc(50% - 134.5px), 25px);
-        .size(269px, 60px);
-        .r(10px);
-        background: linear-gradient(0deg, #ffaa28, #ffaa28),
-            linear-gradient(267.15deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
-        display: flex;
-        text-align: center;
-        .u-price {
-            margin: 9px 0px 9px 9px;
-            flex: 1;
-            .size(124px, 39px);
-            line-height: 39px;
-            .r(10px);
-            background: #fff;
-            color: #f1b65c;
-        }
-        .u-buy {
-            .size(124px, 39px);
-            flex: 1;
-            margin: 9px 9px 9px 0px;
-            line-height: 39px;
-            color: #fff;
-            img {
-                .size(20px, 20px);
-                vertical-align: middle;
-            }
-        }
-        &:hover {
-            cursor: pointer;
-        }
-    }
-    .u-update-time {
-        .fz(10px);
-        .bold(400);
-        color: rgba(255, 255, 255, 0.8);
-        margin-left: 20px;
-        margin-top: 10px;
     }
 }
 
@@ -647,10 +571,11 @@
 }
 .u-about-author {
     .fz(28px);
-    .bold(700);
-    .mt(10px);
+    .bold;
+    .mt(40px);
 }
 .m-author-header {
+    .mt(20px);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 .m-random-list,
@@ -673,7 +598,7 @@
     }
 }
 .m-random-list {
-    .u-list{
+    .u-list {
         .mt(20px);
     }
 }
@@ -697,11 +622,10 @@
     .z(100);
 }
 .m-carousel .el-carousel__container {
-    height: 450px;
+    height: 430px;
 }
 
 .el-carousel__mask {
-    // .pointer;
     .none !important;
 }
 
@@ -747,7 +671,7 @@
     }
 }
 .p-face-single h3 {
-    .fz(28px,1); 
+    .fz(28px,1);
     margin: 0;
     font-weight: 700;
     line-height: 40.54px;
@@ -758,5 +682,18 @@
     &:hover {
         background-color: #786cbb;
     }
+}
+.m-face-download {
+    .flex;
+    .mt(40px);
+    .size(100%, 120px);
+    .r(10px);
+    .bold;
+    align-items: center;
+    justify-content: center;
+    background: url("../../img/face/face_bg.svg") #786cbb;
+}
+.w-thx {
+    .mt(40px);
 }
 @import "./single_phone.less";

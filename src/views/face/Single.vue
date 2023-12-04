@@ -15,14 +15,9 @@
                 </a>
             </div>
         </div>
-        <!-- 海报banner -->
-        <!-- <div class="m-banner" v-if="post.banner">
-            <img :src="showThumbnail(post.banner)" />
-        </div> -->
+ 
         <!-- 基本信息 -->
-        <div class="m-header">
-            <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image> -->
-
+        <div class="m-header"> 
             <div class="m-header-info">
                 <h2>
                     {{ post.title || "无标题" }}
@@ -174,7 +169,7 @@
             </div>
         </div>
         <div class="m-face-download" v-if="has_buy && facedata">
-            <div class="m-face-download-btn" @click="downloadAll">
+            <div class="m-face-buy-btn" @click="downloadAll">
                 <div class="u-buy"><img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据</div>
             </div> 
         </div>  
@@ -185,16 +180,6 @@
                 <faceItem class="u-item" :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
             </div>
         </div>
-        <!--搭配随机作品-->
-        <!-- <div class="m-pvxbody-list">
-            <h3>搭配指南</h3>
-            <div class="u-list m-single-content-box" v-if="pvxbodyList.length">
-                <faceItem :item="face" />
-                <bodyItem :item="item" :onlyPic="true" :noName="true" v-for="item in pvxbodyList" :key="item.id" />
-            </div>
-            <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
-        </div> -->
-        <!-- 上传作者区域 -->
         <!-- 点赞 -->
         <Thx
             class="m-thx m-single-content-box"
