@@ -52,8 +52,9 @@ export default {
     },
     methods: {
         getItem(val) {
-            if (val.indexOf("英雄") > -1) {
-                return val.split("英雄")[1];
+            const str = "英雄";
+            if (val.indexOf(str) > -1) {
+                return val.split(str)[1];
             }
             return val;
         },
