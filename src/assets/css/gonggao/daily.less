@@ -16,6 +16,15 @@
             .u-server {
                 font-size: 16px;
             }
+            .flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            span {
+                font-size: 14px;
+                color: #989898;
+                cursor: pointer;
+                margin-right: 10px;
+            }
         }
         .m-daily-content {
             .size(420px, 248px);
@@ -222,51 +231,53 @@
     }
 
     .m-simple-celebrity {
-        .mt(20px);
         .flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
         .m-celebrity-item {
             flex: none;
             .flex;
             flex-direction: column;
             padding: 10px;
-            gap: 13px;
+            gap: 20px;
             width: 100%;
-            height: 80px;
+            height: 76px;
             box-sizing: border-box;
 
             background: #ffffff;
             color: #000000;
             border-radius: 10px;
+            font-size: 14px;
+            line-height: 18px;
             .u-celebrity-title {
                 .flex;
                 justify-content: space-between;
                 align-items: center;
-                // font-weight: 700;
-                font-size: 16px;
-                line-height: 26px;
-                color: #888;
+                .bold;
+            }
+            .u-celebrity-staged {
+                .flex;
+                justify-content: space-between;
+                align-items: center;
+                .bold;
+                img {
+                    .size(18px);
+                    margin-right: 2px;
+                }
             }
             .u-celebrity-desc {
                 .flex;
                 justify-content: space-between;
                 align-items: center;
-                font-weight: 400;
-                font-size: 15px;
-                line-height: 21px;
-                & > div {
+                .u-map {
                     .flex;
                     align-items: center;
+                    gap: 5px;
                 }
-                img {
-                    .size(21px, 21px);
-                    .mr(2px);
+                .u-desc {
+                    font-size: 12px;
+                    color: rgba(0, 0, 0, 0.5);
                 }
-            }
-            &.current-item {
-                // background-color: #ffad31;
-                // color: #fff;
             }
         }
     }

@@ -1,42 +1,51 @@
 <template>
-    <div class="m-simple-celebrity">
-        <el-tooltip v-for="(item, i) in list" :key="i" placement="top" popper-class="m-celebrity-notice-tooltip">
-            <div slot="content">
-                <div>{{ item.desc }}</div>
-            </div>
-            <div class="m-celebrity-item" :class="!i && 'current-item'">
-                <div class="u-celebrity-title">
-                    <div>{{ i ? item.timeFormat : "▶ 当前" }}</div>
-                    <div>{{ item.map }}</div>
-                </div>
-                <div class="u-celebrity-desc">
-                    <div>
-                        <span>位置：</span>
-                        <b>{{ item.site }}</b>
-                    </div>
-                    <div>
-                        <span>阶段：</span>
-                        <img :src="require(`@/assets/img/gonggao/minimap_${item.icon || 6}.png`)" />
-                        <span>{{ item.stage }}</span>
-                    </div>
+    <div class="m-simple-celebrity" v-loading="loading">
+        <div class="m-celebrity-item" v-for="(item, i) in list" :key="i" :class="!i && 'current-item'">
+            <div class="u-celebrity-title">
+                <div>{{ i ? item.timeFormat : "当前" }}</div>
+                <div class="u-celebrity-staged">
+                    <img :src="`${iconPath}/minimap_${item.icon}.png`" />
+                    <span>{{ item.stage }}</span>
                 </div>
             </div>
-        </el-tooltip>
+            <div class="u-celebrity-desc">
+                <div class="u-map">
+                    <b>{{ item.map + " · " }}</b>
+                    <span>
+                        <template v-if="type === 1 && item.oldKey === 'y8'"> 特殊事件 · </template>{{ item.site }}
+                    </span>
+                </div>
+                <div class="u-desc">
+                    {{ getDesc(item.desc) }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 import { getCelebrities } from "@/service/gonggao";
+import dayjs from "@/plugins/day";
+import { sortBy } from "@/utils/index";
+const JX3BOX = require("@jx3box/jx3box-common/data/jx3box.json");
 export default {
     name: "SimpleCelebrity",
+    props: {
+        type: {
+            type: Number,
+            default: 1,
+        },
+    },
     data: function () {
         return {
             loading: false,
             list: [],
+            showNum: 3,
             celebrityList: [],
             currentDate: {
-                h: new Date().getHours(),
-                m: new Date().getMinutes(),
+                h: dayjs.tz().hour(),
+                m: dayjs.tz().minute(),
             },
+            iconPath: JX3BOX.__imgPath + "pve/minimap",
         };
     },
     computed: {
@@ -45,11 +54,19 @@ export default {
         },
     },
     methods: {
+        getDesc(desc) {
+            if (!desc) return "";
+            if (desc.indexOf("公共任务：") > -1) {
+                return desc.split("公共任务：")[1];
+            }
+            return desc;
+        },
         loadData: function () {
             this.loading = true;
-            return getCelebrities()
+            return getCelebrities({ type: this.type })
                 .then((res) => {
-                    this.celebrityList = res.data.map((item) => {
+                    const data = res.data?.data || [];
+                    this.celebrityList = data.map((item) => {
                         item.icon = Number(item.icon);
                         item.time = Number(item.time);
                         return item;
@@ -64,11 +81,15 @@ export default {
                 });
         },
         toFormatTime(h, m) {
-            const hF = h < 0 ? "23" : h < 10 ? "0" + h : h > 23 ? "00" : h;
-            const hM = m < 10 ? "0" + m : m;
-            return hF + ":" + hM;
+            if (h >= 24) {
+                const day = Math.floor(h / 24);
+                h = h - 24 * day;
+            }
+            const formatM = m.toString().padStart(2, "00");
+            return `${h}:${formatM}`.padStart(5, "00:00");
         },
-        getList(date) {
+        // 处理楚天社
+        getChu(date) {
             const currentKey = "c" + (date.h % 2 === 0 ? "0" : "1") + (date.m < 30 ? "0" : "1");
             const isEqualMinute = this.celebrityList.findIndex((item) => {
                 return item.key === currentKey && item.time === date.m;
@@ -83,17 +104,19 @@ export default {
                     return item.key === currentKey && item.time > date.m;
                 });
                 if (nIndex === -1) {
-                    // 最后一个
-                    index = this.celebrityList.length - 1;
+                    // 当前key中最后一个
+                    index = this.celebrityList.findLastIndex((item) => {
+                        return item.key === currentKey;
+                    });
                 } else {
                     index = nIndex - 1;
                 }
             }
             // 13: 57
-            let list = this.celebrityList.slice(index, index + 3);
+            let list = this.celebrityList.slice(index, index + this.showNum);
             let newList = [];
-            if (list.length < 3) {
-                newList = list.concat(this.celebrityList.slice(0, 3 - list.length));
+            if (list.length < this.showNum) {
+                newList = list.concat(this.celebrityList.slice(0, this.showNum - list.length));
             } else {
                 newList = [].concat(list);
             }
@@ -116,6 +139,98 @@ export default {
                 return item;
             });
         },
+        // 处理云从社
+        getYun(date) {
+            // console.log(date.h + ":" + date.m);
+            // 循环事件
+            const circleList = this.celebrityList.filter((item) => item.key !== "y8");
+            const currentKey = "y" + (date.h % 2 === 0 ? "0" : "1");
+            const isEqualMinute = circleList.findIndex((item) => {
+                return item.key === currentKey && item.time === date.m;
+            });
+            let index = 0;
+            if (isEqualMinute !== -1) {
+                // 包含当前时间
+                index = isEqualMinute;
+            } else {
+                // 不包含
+                const nIndex = circleList.findIndex((item) => {
+                    return item.key === currentKey && item.time > date.m;
+                });
+                if (nIndex === -1) {
+                    // 当前key中最后一个
+                    index = circleList.findLastIndex((item) => {
+                        return item.key === currentKey;
+                    });
+                } else {
+                    index = nIndex - 1;
+                }
+            }
+
+            let list = circleList.slice(index, index + this.showNum);
+            let newList = [];
+            if (list.length < this.showNum) {
+                newList = list.concat(circleList.slice(0, this.showNum - list.length));
+            } else {
+                newList = [].concat(list);
+            }
+            const circleNumList = newList.map((item) => {
+                // 当前时间
+                let h = this.currentDate.h;
+                if (currentKey !== item.key) {
+                    h = h + 1;
+                }
+                item.h = h;
+                item.m = item.time;
+                item.timeFormat = this.toFormatTime(h, item.time);
+                return item;
+            });
+
+            // 8小时cd事件
+            const y8List = this.celebrityList.filter((item) => item.key === "y8");
+            const y8FormatList = [];
+            for (let i = 0; i < 24; i += 8) {
+                y8List.forEach((item) => {
+                    const h = item.hour + i < 24 ? item.hour + i : item.hour + i - 24;
+                    const timeFormat = `${h.toString().padStart(2, "00")}:${item.time}`;
+                    y8FormatList.push({
+                        ...item,
+                        id: item.id + "" + item.hour + i,
+                        timeFormat: timeFormat,
+                        hour: h,
+                        h: h,
+                        m: item.time,
+                        oldKey: item.key,
+                        key: "y" + (h % 2 === 0 ? "0" : "1"),
+                    });
+                });
+            }
+            const y8FilterList = y8FormatList.filter((item) => {
+                const num = item.h * 60 + item.m;
+                const firstNum = circleNumList[0].h * 60 + circleNumList[0].m;
+                const lastNum =
+                    circleNumList[circleNumList.length - 1].h * 60 + circleNumList[circleNumList.length - 1].m;
+                return num >= firstNum && num <= lastNum;
+            });
+            let combineList = [];
+            if (y8FilterList.length) {
+                combineList = circleNumList.concat(y8FilterList).sort(sortBy("h", "time"));
+                if (combineList[0].h * 60 + combineList[0].m < date.h * 60 + date.m) {
+                    combineList.splice(0, 1);
+                }
+            } else {
+                combineList = circleNumList;
+            }
+
+            this.list = combineList.slice(0, this.showNum);
+        },
+        getList(date) {
+            if (this.type === 0) {
+                this.getChu(date);
+            } else {
+                this.getYun(date);
+            }
+        },
     },
     watch: {
         currentDate: {
@@ -127,16 +242,19 @@ export default {
                 }
             },
         },
+        type() {
+            this.loadData();
+        },
     },
     created() {
         this.loadData();
     },
     mounted() {
         setInterval(() => {
-            if (this.currentDate.h !== new Date().getHours() || this.currentDate.m !== new Date().getMinutes()) {
+            if (this.currentDate.h !== dayjs.tz().hour() || this.currentDate.m !== dayjs.tz().minute()) {
                 this.currentDate = {
-                    h: new Date().getHours(),
-                    m: new Date().getMinutes(),
+                    h: dayjs.tz().hour(),
+                    m: dayjs.tz().minute(),
                 };
             }
         }, 1000);
