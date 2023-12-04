@@ -51,13 +51,21 @@ function getFurniture(params) {
     });
 }
 
-function getCelebrities({ client = "std" } = {}) {
-    return $node().get(`/celebrities`, {
-        params: {
-            client,
-        },
+// function getCelebrities({ client = "std" } = {}) {
+//     return $node().get(`/celebrities`, {
+//         params: {
+//             client,
+//         },
+//     });
+// }
+
+// 名望
+function getCelebrities(params) {
+    return $cms().get(`/api/cms/game/celebrity`, {
+        params,
     });
 }
+
 function getGameReporter(params) {
     return $next().get("/api/game/reporter/horse", {
         params,

@@ -14,25 +14,16 @@
                 <SimpleDaily class="m-daily-content" :activities="activities"></SimpleDaily>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">楚天社</div>
-                <SimpleCelebrity class="m-daily-content"></SimpleCelebrity>
+                <div class="u-title">
+                    <div>{{ !currentCelebrity ? "楚天社" : "云从社" }}</div>
+                    <span @click="switchCelebrity">切换</span>
+                </div>
+                <SimpleCelebrity :type="currentCelebrity" class="m-daily-content"></SimpleCelebrity>
             </div>
-        </template>
-
-        <!-- <div class="m-daily-item is-disabled"></div> -->
-        <!-- <div class="m-daily-item is-disabled">
-            <div class="u-title">武林通鉴·秘境</div>
-            <SimpleFb :list="fbList"></SimpleFb>
-        </div>
-        <div class="m-daily-item is-disabled">
-            <div class="u-title">武林通鉴·团队秘境</div>
-            <SimpleFb :list="teamFbList"></SimpleFb>
-        </div>
-        <div class="m-daily-item is-disabled">
-            <div class="u-title">门派事件</div>
-            <SimpleMp></SimpleMp>
-        </div> -->
-        <template v-if="!isOrigin">
+            <div class="m-daily-item">
+                <div class="u-title">武林通鉴</div>
+                <SimpleWeek class="m-daily-content" :activities="activities"></SimpleWeek>
+            </div>
             <div class="m-daily-item">
                 <div class="u-title">园宅会赛</div>
                 <div class="m-child-item">
@@ -56,11 +47,9 @@ import { getFurniture, getDailyFromOs } from "@/service/gonggao";
 import SimpleNotice from "./daily/SimpleNotice.vue";
 import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
+import SimpleWeek from "./daily/SimpleWeek.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
-// import SimpleFb from "./daily/SimpleFb.vue";
-// import SimpleMp from "./daily/SimpleMp.vue";
 import SimpleFurniture from "./daily/SimpleFurniture.vue";
-// import SimpleMrt from "./daily/SimpleMrt.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
 import dailyKeys from "@/assets/data/daily_keys.json";
 export default {
@@ -70,42 +59,13 @@ export default {
         SimpleServer,
         SimpleDaily,
         SimpleCelebrity,
-        // SimpleFb,
-        // SimpleMp,
+        SimpleWeek,
         SimpleFurniture,
-        // SimpleMrt,
         SimpleHorse,
     },
     data() {
         return {
-            fbList: [
-                {
-                    name: "英雄刀轮海厅(完善中...)",
-                    isDone: true,
-                },
-                {
-                    name: "英雄空雾峰(完善中...)",
-                    isDone: false,
-                },
-                {
-                    name: "英雄毒神殿(完善中...)",
-                    isDone: false,
-                },
-            ],
-            teamFbList: [
-                {
-                    name: "西津渡(完善中...)",
-                    isDone: false,
-                },
-                {
-                    name: "持国天王回忆录(完善中...)",
-                    isDone: true,
-                },
-                {
-                    name: "血战天策(完善中...)",
-                    isDone: false,
-                },
-            ],
+            currentCelebrity: 1, // 楚天社0 云从社1
             currentFurniture: {},
             nextFurniture: {},
             activities: [], // 日常配置列表
@@ -140,6 +100,9 @@ export default {
         },
     },
     methods: {
+        switchCelebrity() {
+            this.currentCelebrity = ~~!this.currentCelebrity;
+        },
         loadDailyNew() {
             const params = {
                 client: this.client,
