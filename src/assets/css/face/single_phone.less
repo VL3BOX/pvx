@@ -50,7 +50,7 @@
     .m-random-list {
         .u-list {
             overflow: auto;
-            flex-wrap: nowrap; 
+            flex-wrap: nowrap;
         }
     }
 
@@ -64,10 +64,29 @@
     .m-author-header {
         height: auto;
         min-height: 220px;
+        .pt(30px);
+        .pb(20px);
         .m-info {
             .flex;
             flex-direction: column;
             .w(100%);
         }
+    }
+    .m-face-pay .m-face-tips {
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        .u-tips-right {
+            .w(100%);
+            .x;
+            .r(2px);
+            padding: 3px 0;
+            border: 1px solid #f9f9f9;
+        }
+    }
+    .m-single-pics .m-carousel{
+        width: calc(100% - 40px);
     }
 }
