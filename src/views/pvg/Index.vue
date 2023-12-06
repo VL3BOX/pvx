@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav_v3.vue";
+import Nav from "@/components/Nav_v4.vue";
 export default {
     name: "Index",
     components: {

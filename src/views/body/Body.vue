@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav_v3.vue";
+import Nav from "@/components/Nav_v4.vue";
 import { __OriginRoot } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "Body",
