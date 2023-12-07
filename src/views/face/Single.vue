@@ -15,9 +15,9 @@
                 </a>
             </div>
         </div>
- 
+
         <!-- 基本信息 -->
-        <div class="m-header"> 
+        <div class="m-header">
             <div class="m-header-info">
                 <h2>
                     {{ post.title || "无标题" }}
@@ -128,7 +128,7 @@
                         >数据列表</span
                     >
                 </div>
-                <div class="m-face-desc" :class="{ 'no-desc': !post.remark && rightShow === 'desc' }">
+                <div class="m-face-desc" :class="{ 'no-desc': !post.remark && rightShow === 'desc', 'is-desc': rightShow === 'desc' }">
                     <div v-if="rightShow === 'desc'" class="u-desc">
                         {{ post.remark }}
                     </div>
@@ -148,9 +148,9 @@
                 <div class="m-face-head" v-if="topic_info">
                     <img :src="require('@/assets/img/face/cup.svg')" alt="" />
                     该脸型于{{ topic_info.created_at }}荣登头条
-                </div> 
+                </div>
             </div>
-        </div> 
+        </div>
         <!-- 数据区 -->
         <div class="m-single-data">
             <span class="m-single-data-title">独家数据分析</span>
@@ -171,8 +171,8 @@
         <div class="m-face-download" v-if="has_buy && facedata">
             <div class="m-face-buy-btn" @click="downloadAll">
                 <div class="u-buy"><img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据</div>
-            </div> 
-        </div>  
+            </div>
+        </div>
         <div class="u-about-author">关于作者</div>
         <authorItem :uid="post.user_id" />
         <div class="m-random-list">
@@ -364,6 +364,7 @@ export default {
                     .then((res) => {
                         this.post = this.$store.state.faceSingle = res.data.data;
                         document.title = this.post.title;
+
                         this.getAccessoryList();
                         //获取作者作品 和 系统推荐作品
                         this.getRandomFaceList();
@@ -392,6 +393,9 @@ export default {
                     if (data.has_buy) {
                         this.downFileList = data.list;
                         this.downloadParams.total = data.page.total;
+                    }
+                    if (!this.post.remark && this.downFileList && this.downFileList.length) {
+                        this.rightShow = 'data'
                     }
                 })
                 .finally(() => {

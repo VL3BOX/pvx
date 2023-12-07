@@ -1,5 +1,15 @@
 @import "~@/assets/css/face/animation.less";
 
+.m-face-tabs {
+    .pa;
+    width: calc(100% - 100px);
+}
+.m-face-box {
+    &:nth-child(2) {
+
+    }
+}
+
 .p-face-list {
     .pt(40px);
     .u-type {
@@ -82,10 +92,22 @@
             background-color: rgba(163, 152, 152, 0.7);
         }
     }
+    &:nth-child(2){
+        .mt(100px);
+    }
 }
 @media screen and (max-width: @phone) {
     .m-recommend-box {
         padding-top: 64px;
+    }
+    .m-face-tabs {
+        .pr;
+        width: unset;
+    }
+    .m-face-box {
+        &:nth-child(2) {
+            .mt(40px);
+        }
     }
 }
 .m-face-box {
@@ -95,7 +117,7 @@
     .u-shade {
         .h(224px);
     }
-} 
+}
 
 //单个体型全部list
 .m-face-list--all {
@@ -171,7 +193,7 @@
 
         .m-face-item {
             .u-img {
-                .size(20vw);
+                //.size(20vw);
                 .u-star-mark {
                     .fz(12px);
                     .lt(6px);

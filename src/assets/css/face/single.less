@@ -1,9 +1,9 @@
 .m-navigation {
-    .flex; 
+    .flex;
     .mt(20px);
     padding: 20px 0;
     display: flex;
-    background-color: #fff; 
+    background-color: #fff;
     justify-content: space-between;
     align-items: center;
 
@@ -488,6 +488,11 @@
         .r(10px);
         .mt(10px);
         overflow-y: auto;
+        background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
+        linear-gradient(0deg, rgba(91, 64, 255, 0.05), rgba(91, 64, 255, 0.05)),
+        linear-gradient(0deg, rgba(107, 82, 255, 0.5), rgba(107, 82, 255, 0.5));
+        border: 1px solid #6B52FF80;
+        box-shadow: 0px 0px 10px 0px #6B52FF66;
         .u-label {
             display: block;
         }
@@ -496,7 +501,12 @@
         }
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         &.no-desc {
-            background: url("../../img/face/no-desc.svg") bottom no-repeat;
+            background: url("../../img/face/no-desc.svg") bottom no-repeat !important;
+        }
+        &.is-desc {
+            background: unset;
+            box-shadow: 0px 0px 10px 0px #0000001A;
+            border: 1px solid transparent;
         }
     }
     .m-face-head {

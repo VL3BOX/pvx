@@ -1,5 +1,19 @@
 <template>
     <div class="m-face-tabs m-common-tabs">
+        <template v-if="isPhone">
+            <div class="m-box">
+                <a :href="link.data" target="_blank">
+                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                        数据解析
+                    </el-button>
+                </a>
+                <a :href="publish_link(link.key)" target="_blank">
+                    <div class="u-face-publish">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                        <span>发布脸型</span>
+                    </div>
+                </a>
+            </div>
         <div class="m-box">
             <template v-for="item in body_types">
                 <div
@@ -58,26 +72,81 @@
                 />
             </div>
         </div>
+        </template>
+        <template v-else>
+                <template v-for="item in body_types">
+                    <div
+                        :key="item.value"
+                        class="u-tab"
+                        @click="clickTabs(item)"
+                        :class="{
+                        active: item.value == active,
+                    }"
+                        v-if="item.client && item.client.indexOf(client) != -1"
+                    >
+                        {{ item.label }}
+                    </div>
+                </template>
 
-        <div class="m-box">
-            <a :href="link.data" target="_blank">
-                <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
-                    数据解析
-                </el-button>
-            </a>
-            <a :href="publish_link(link.key)" target="_blank">
-                <div class="u-face-publish">
-                    <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
-                    <span>发布脸型</span>
+                <div class="u-filter">
+                    <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
+                        <div class="m-face-filter m-common-filter">
+                            <el-radio-group v-model="is_new_face" v-if="client === 'std'">
+                                <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
+                                <el-radio-button class="u-filter" :label="1">写实</el-radio-button>
+                                <el-radio-button class="u-filter" :label="0">写意</el-radio-button>
+                            </el-radio-group>
+                            <p>
+                                <el-checkbox-button
+                                    @click.native="
+                                    star = false;
+                                    price_type = false;
+                                    is_unlimited = false;
+                                "
+                                    :value="star === false && price_type === false && is_unlimited === false"
+                                    class="u-filter"
+                                >全部</el-checkbox-button
+                                >
+                                <el-checkbox-button v-model="star" class="u-filter">精选</el-checkbox-button>
+                                <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
+                                <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
+                            </p>
+                            <el-radio-group v-model="filter_empty_images">
+                                <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
+                                <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
+                            </el-radio-group>
+                        </div>
+                        <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
+                    </el-popover>
                 </div>
-            </a>
-        </div>
+
+                <div class="u-search">
+                    <el-input
+                        placeholder="请输入搜索内容"
+                        v-model="title"
+                        suffix-icon="el-icon-search"
+                        class="u-search-input"
+                    />
+                </div>
+                <a :href="link.data" target="_blank">
+                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                        数据解析
+                    </el-button>
+                </a>
+                <a :href="publish_link(link.key)" target="_blank">
+                    <div class="u-face-publish">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                        <span>发布脸型</span>
+                    </div>
+                </a>
+        </template>
     </div>
 </template>
 
 <script>
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
+import { isPhone } from "@/utils";
 export default {
     name: "tabs",
     props: ["body_types", "active", "link"],
@@ -91,6 +160,7 @@ export default {
             is_new_face: -1,
             title: "",
             filterOpen: false,
+            isPhone: isPhone()
         };
     },
     computed: {
@@ -130,7 +200,7 @@ export default {
                 this.$emit("change", obj);
             },
         },
-    },
+    }
 };
 </script>
 
