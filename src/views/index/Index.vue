@@ -83,7 +83,7 @@ export default {
     },
     methods: {
         getNavIcon(key) {
-            return require(`@/assets/img/nav/${key}.png`);
+            return require(`@/assets/img/nav/${key}2.svg`);
         },
         onQQClick() {
             navigator.clipboard.writeText(this.qq).then(() => {

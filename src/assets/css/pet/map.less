@@ -4,34 +4,28 @@
     .mb(20px);
 }
 .m-pet-map {
+    .size(430px,380px);
     .r(10px);
-    .pb(20px);
-    .mb(15px);
     .fz(14px);
-    background-color: #fafbfc;
-    border: 1px solid #eeeeee;
-
+    padding: 20px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     .u-header {
-        .flex;
-        .lh(28px);
-        padding: 10px 15px;
-        background-color: #f5f7fa;
-        border-bottom: 1px solid #eeeeee;
-
-        .u-icon {
-            .size(28px);
-            .fz(22px);
-            .mr(7px);
-            color: #0366d6;
-            fill: #0366d6;
+        .fz(20px);
+        .bold;
+    }
+    .m-pet-map-box {
+        .mt(20px);
+        .size(390px,294px);
+        .clip;
+        .r(10px);
+        .c-map .u-map__inner {
+            border: 0;
         }
-
-        span {
-            .fz(17px);
-            color: #6c645c;
-            font-weight: 300;
+        .el-carousel__container {
+            .h(294px) !important;
         }
-
-        .mb(10px);
     }
 }

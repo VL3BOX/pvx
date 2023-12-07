@@ -237,7 +237,7 @@ export default {
         },
         // 编辑清单跳转
         editLink({ id }) {
-            return __Root + "item/plan_view/" + id;
+            return __Root + "item/plan_edit/" + id;
         },
         close() {
             Bus.$emit("update");

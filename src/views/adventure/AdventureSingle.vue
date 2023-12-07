@@ -1,7 +1,7 @@
 <template>
     <div class="p-adventure-single" v-if="id" v-loading="loading">
         <div class="m-adventure-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <div class="u-goback" @click="goBack">返回列表</div>
             <!-- <el-input
                 placeholder="请输入奇遇或宠物名字搜索"
                 v-model="search"

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-pet-list" v-loading="loading" ref="listRef">
+    <div class="p-pet-list p-common-list" v-loading="loading" ref="listRef">
         <petTabs
             @change="handleTabChange"
             :types="Type"
@@ -245,14 +245,6 @@ export default {
                         this.pages = res.data.pages;
                     }
                     this.$forceUpdate();
-                    // if (this.appendMode) {
-                    //     this.list = this.list.concat(newList);
-                    // } else {
-                    //     this.list = newList;
-                    // }
-                    // this.appendMode = false;
-                    // this.total = res.data.total;
-                    // this.pages = res.data.pages;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -280,9 +272,10 @@ export default {
             this.tabsData = data;
         },
         // 按宽度显示个数
-        showCount(num = 2) {
+        showCount(num = 1) {
+            if (isPhone()) num += 8;
             const listWidth = this.$refs.listRef?.clientWidth;
-            this.per_page = Math.floor(listWidth / 118) * num;
+            this.per_page = Math.floor(listWidth / 206) * num;
         },
     },
 };

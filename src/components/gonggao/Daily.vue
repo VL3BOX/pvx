@@ -1,52 +1,37 @@
 <template>
     <div class="m-daily">
         <div class="m-daily-item">
-            <div class="u-title">服务器状态</div>
-            <SimpleServer></SimpleServer>
+            <div class="u-title">公告</div>
+            <SimpleNotice class="m-daily-content"></SimpleNotice>
         </div>
-        <template v-if="!isOrigin">
-            <div class="m-daily-item">
-                <div class="u-title">日常</div>
-                <SimpleDaily></SimpleDaily>
-            </div>
-            <div class="m-daily-item">
-                <div class="u-title">楚天社</div>
-                <SimpleCelebrity></SimpleCelebrity>
-            </div>
-        </template>
-
-        <!-- <div class="m-daily-item is-disabled"></div> -->
-        <!-- <div class="m-daily-item is-disabled">
-            <div class="u-title">武林通鉴·秘境</div>
-            <SimpleFb :list="fbList"></SimpleFb>
-        </div>
-        <div class="m-daily-item is-disabled">
-            <div class="u-title">武林通鉴·团队秘境</div>
-            <SimpleFb :list="teamFbList"></SimpleFb>
-        </div>
-        <div class="m-daily-item is-disabled">
-            <div class="u-title">门派事件</div>
-            <SimpleMp></SimpleMp>
-        </div> -->
         <div class="m-daily-item">
-            <div class="m-daily-item">
-                <div class="u-title">今日福缘</div>
-                <SimplePet></SimplePet>
-            </div>
+            <div class="u-title">服务器状态</div>
+            <SimpleServer class="m-daily-content"></SimpleServer>
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">园宅会赛</div>
-                <div class="m-child-item">
-                    <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
+                <div class="u-title">日常&福缘</div>
+                <SimpleDaily class="m-daily-content" :activities="activities"></SimpleDaily>
+            </div>
+            <div class="m-daily-item">
+                <div class="u-title">
+                    <div>{{ !currentCelebrity ? "楚天社" : "云从社" }}</div>
+                    <span @click="switchCelebrity">切换</span>
                 </div>
-                <div class="m-child-item">
-                    <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
-                </div>
+                <SimpleCelebrity :type="currentCelebrity" class="m-daily-content"></SimpleCelebrity>
+            </div>
+            <div class="m-daily-item">
+                <div class="u-title">武林通鉴</div>
+                <SimpleWeek class="m-daily-content" :activities="activities"></SimpleWeek>
+            </div>
+            <div class="m-daily-item">
+                <div class="u-title">家园</div>
+                <SimpleReputation :activities="activities"></SimpleReputation>
+                <SimpleFurniture :furniture="currentFurniture" :nextFurniture="nextFurniture"></SimpleFurniture>
             </div>
             <div class="m-daily-item">
                 <div class="u-title">抓马播报</div>
-                <SimpleHorse></SimpleHorse>
+                <SimpleHorse class="m-daily-content"></SimpleHorse>
             </div>
         </template>
     </div>
@@ -54,81 +39,101 @@
 
 <script>
 import dayjs from "@/plugins/day";
-import { getFurniture } from "@/service/gonggao";
+import { getFurniture, getDailyFromOs } from "@/service/gonggao";
+import SimpleNotice from "./daily/SimpleNotice.vue";
 import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
+import SimpleWeek from "./daily/SimpleWeek.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
-import SimplePet from "./daily/SimplePet.vue";
-// import SimpleFb from "./daily/SimpleFb.vue";
-// import SimpleMp from "./daily/SimpleMp.vue";
+import SimpleReputation from "./daily/SimpleReputation.vue";
 import SimpleFurniture from "./daily/SimpleFurniture.vue";
-// import SimpleMrt from "./daily/SimpleMrt.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
+import dailyKeys from "@/assets/data/daily_keys.json";
 export default {
     name: "Daily",
     components: {
+        SimpleNotice,
         SimpleServer,
         SimpleDaily,
+        SimpleReputation,
         SimpleCelebrity,
-        SimplePet,
-        // SimpleFb,
-        // SimpleMp,
+        SimpleWeek,
         SimpleFurniture,
-        // SimpleMrt,
         SimpleHorse,
     },
     data() {
         return {
-            fbList: [
-                {
-                    name: "英雄刀轮海厅(完善中...)",
-                    isDone: true,
-                },
-                {
-                    name: "英雄空雾峰(完善中...)",
-                    isDone: false,
-                },
-                {
-                    name: "英雄毒神殿(完善中...)",
-                    isDone: false,
-                },
-            ],
-            teamFbList: [
-                {
-                    name: "西津渡(完善中...)",
-                    isDone: false,
-                },
-                {
-                    name: "持国天王回忆录(完善中...)",
-                    isDone: true,
-                },
-                {
-                    name: "血战天策(完善中...)",
-                    isDone: false,
-                },
-            ],
+            currentCelebrity: 1, // 楚天社0 云从社1
             currentFurniture: {},
             nextFurniture: {},
+            activities: [], // 日常配置列表
         };
     },
     computed: {
+        client() {
+            return this.$store.state.client;
+        },
         server() {
             return this.$store.state.server;
         },
-        isOrigin() { 
+        isOrigin() {
             return location.href.includes("origin");
+        },
+        dailyKeyMap() {
+            return dailyKeys.reduce((acc, cur) => {
+                return { ...acc, [cur["key"]]: cur.name };
+            }, {});
+        },
+        date() {
+            // 当7点以前，请求前面一天的日常 当7~24点，请求当天的日常
+            const hour = dayjs.tz().get("hours");
+            return 0 <= hour && hour < 7
+                ? dayjs.tz().subtract(1, "day").format("YYYY-MM-DD")
+                : dayjs.tz().format("YYYY-MM-DD");
+        },
+        isCurrentWeek() {
+            let week = dayjs.tz(this.date).isoWeek();
+            let currentWeek = dayjs.tz().isoWeek();
+            return week === currentWeek;
         },
     },
     methods: {
+        switchCelebrity() {
+            this.currentCelebrity = ~~!this.currentCelebrity;
+        },
+        loadDailyNew() {
+            const params = {
+                client: this.client,
+            };
+            getDailyFromOs(params).then((res) => {
+                let list = res.data.data || [];
+                const activities = list.filter((item) => {
+                    return item.client === this.client;
+                });
+                this.activities = activities.map((item) => {
+                    return {
+                        ...item,
+                        name: this.dailyKeyMap[item.key],
+                    };
+                });
+            });
+        },
         getFurniture() {
             if (!this.isOrigin) {
+                const start = this.isCurrentWeek
+                    ? dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD")
+                    : dayjs.tz().add(-1, "week").startOf("isoWeek").format("YYYY-MM-DD");
+                const end = this.isCurrentWeek
+                    ? dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD")
+                    : dayjs.tz().add(-1, "week").endOf("isoWeek").format("YYYY-MM-DD");
                 const params = {
                     subtypes: "category,property,next_match",
-                    start: dayjs.tz().startOf("isoWeek").format("YYYY-MM-DD"),
-                    end: dayjs.tz().endOf("isoWeek").format("YYYY-MM-DD"),
+                    start,
+                    end,
                 };
                 getFurniture(params).then((res) => {
-                    const list = res.data?.data;
+                    const list = res.data?.data || [];
+                    if (list.some((item) => !item)) return;
                     this.currentFurniture = {
                         property: list.find((item) => item.subtype === "property")?.content || "",
                         category: list.find((item) => item.subtype === "category")?.content || "",
@@ -143,6 +148,9 @@ export default {
                 });
             }
         },
+    },
+    created() {
+        this.loadDailyNew();
     },
     mounted() {
         this.getFurniture();

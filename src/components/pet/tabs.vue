@@ -1,43 +1,34 @@
 <template>
     <div class="m-pet-tabs m-common-tabs">
-        <template v-for="item in types">
-            <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
-                {{ item.name }}
-            </div>
-        </template>
+        <div class="m-common-card">
+            <template v-for="item in types">
+                <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
+                    {{ item.name }}
+                </div>
+            </template>
+        </div>
 
         <!-- 地图筛选 -->
-        <div class="u-maps">
-            <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
+        <div class="m-common-card m-maps-card">
+            <el-select v-model="mapId" filterable class="u-select" clearable>
+                <el-option label="全部地图" value=""></el-option>
                 <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
+                <template #prefix> 地图 </template>
+            </el-select>
+            <el-select v-model="petSource" filterable class="u-select" clearable>
+                <el-option
+                    v-for="(item, index) in Source"
+                    :key="'laiyuan' + index"
+                    :label="item.name"
+                    :value="item.source"
+                >
+                </el-option>
+                <template #prefix> 来源 </template>
             </el-select>
         </div>
 
-        <div class="u-filter">
-            <el-popover
-                placement="bottom-end"
-                trigger="click"
-                width="90"
-                v-model="filterOpen"
-                popper-class="u-filter-popover"
-            >
-                <el-radio-group v-model="petSource" class="m-pet-filter m-common-filter">
-                    <el-radio-button
-                        class="u-filter"
-                        v-for="(item, index) in Source"
-                        :key="'laiyuan' + index"
-                        :label="item.source"
-                        size="mini"
-                        >{{ item.name }}</el-radio-button
-                    >
-                </el-radio-group>
-
-                <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
-            </el-popover>
-        </div>
-
-        <div class="u-search">
+        <div class="u-search m-common-card">
             <el-input
                 placeholder="请输入搜索内容"
                 v-model="title"
@@ -81,7 +72,7 @@ export default {
     },
     methods: {
         //切换数据
-        clickTabs(item) {  
+        clickTabs(item) {
             this.$emit("setActive", item.class);
         },
     },
@@ -106,38 +97,46 @@ export default {
             background-color: @petColor;
         }
     }
-    .u-filter {
-        &:hover {
-            background-color: @petColor;
+    .m-common-card .u-select {
+        .el-input__suffix {
+            .none;
         }
-    }
-    .u-maps {
-        flex-shrink: 0;
         input {
             .r(30px);
         }
     }
-}
-
-.m-pet-filter {
-    .u-filter {
-        .w(100px);
-        .el-radio-button__inner {
-            &:hover {
-                background-color: @petColor;
-                color: #fff;
-            }
+    .el-input__prefix {
+        .lh(40px);
+        padding: 0 10px;
+    }
+    .el-input__prefix,
+    .el-input__suffix {
+        color: #b0b0b0;
+        &::placeholder {
+            color: #b0b0b0;
         }
-        &.is-active {
-            .el-radio-button__inner {
-                background-color: @petColor;
-                border-color: @petColor;
-                color: #fff;
+    }
+    .is-focus .el-input__prefix {
+        color: #d16400;
+    }
+    .el-input__inner {
+        .pl(60px);
+    }
+    .m-maps-card {
+        flex-wrap: nowrap;
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-pet-tabs {
+        .m-common-card .u-select {
+            .el-input__prefix,
+            .el-input__suffix {
+                .none;
+            }
+            .el-input__inner {
+                padding: 0 20px;
             }
         }
     }
-}
-.u-filter-popover {
-    width: 220px !important;
 }
 </style>

@@ -1,0 +1,172 @@
+@nav_width: 70px;
+@home_height: 40px;
+.m-pvx-aside {
+    .size(@nav_width, calc(100% - @header-height));
+    background-color: #24292e;
+    overflow: visible;
+    z-index: 600;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transition: width 0.3s;
+    left: 0;
+    top: @header-height;
+    box-sizing: border-box;
+    position: fixed;
+    .u-home-wrap {
+        .size(100%, @home_height);
+        margin: 15px 0;
+        .flex;
+        align-items: center;
+        justify-content: center;
+        span,
+        a {
+            .size(40px, 40px);
+            .flex;
+            align-items: center;
+            justify-content: center;
+            .r(5px);
+            cursor: pointer;
+            &:not(.is-disabled):hover {
+                background-color: rgba(#fff, 0.3);
+            }
+            &.is-disabled {
+                cursor: not-allowed;
+            }
+        }
+        svg {
+            .db;
+            .size(20px, 20px);
+        }
+    }
+    .u-btn {
+        .pa;
+        top: 63.5px;
+        right: -26px;
+        .flex;
+        justify-content: center;
+        align-items: center;
+        .size(25px, 46px);
+        transition: all 0.3s;
+        background-color: #000;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+    }
+    &.is-closed {
+        .w(0);
+        .m-nav-item {
+            span {
+                .none;
+            }
+        }
+    }
+    &.is-opened {
+        .w(@openedWidth);
+    }
+    &.is-regular {
+        .m-nav-item {
+            span {
+                .w(0) !important;
+                opacity: 0;
+                transition-delay: 0s !important;
+            }
+            &.face:not(.is-active) {
+                .u-nav-icon {
+                    opacity: 0.58;
+                }
+            }
+        }
+    }
+}
+.m-pvx-nav {
+    .w(100%);
+    .h(calc(100% - @home_height));
+    box-sizing: border-box;
+    overflow: visible;
+    .scrollbar(1px);
+    @media screen and (max-width: @ipad) {
+        overflow-y: auto;
+    }
+    .m-nav-group {
+        &:not(:last-of-type) {
+            .mb(30px);
+        }
+        .m-nav-item {
+            .pr;
+            .u-nav-label {
+                .none;
+                .pa;
+                right: -90px;
+                top: 0;
+                justify-content: center;
+                align-items: center;
+                .size(100px, 40px);
+                .r(5px);
+                .fz(14px);
+                .bold;
+                color: #fff;
+                background-color: #24292f;
+            }
+            a {
+                .flex;
+                justify-content: center;
+                align-items: center;
+                .size(100%, 40px);
+                box-sizing: border-box;
+                span {
+                    .fz(14px);
+                    color: #ffffff94;
+                    .w(0);
+                }
+            }
+            &:hover {
+                .u-nav-label {
+                    .flex;
+                    color: #fff;
+                }
+            }
+            &:not(:last-of-type) {
+                .mb(15px);
+            }
+            .u-nav-icon {
+                .size(40px);
+            }
+            &.is-active {
+                a {
+                    span {
+                        color: #fff;
+                        .bold;
+                    }
+                }
+            }
+        }
+    }
+    &:hover {
+        & + .u-btn {
+            opacity: 0;
+        }
+    }
+}
+.is-opened {
+    .m-nav-item {
+        a {
+            .pl(12px);
+            justify-content: flex-start !important;
+            span {
+                .w(auto) !important;
+                opacity: 1 !important;
+                transition-delay: 0.15s !important;
+                .ml(10px);
+            }
+            &:hover {
+                span {
+                    color: #fff;
+                }
+            }
+        }
+        &.face {
+            .u-nav-icon {
+                opacity: 1;
+            }
+        }
+    }
+}

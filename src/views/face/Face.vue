@@ -10,7 +10,7 @@
 
 <script>
 const single_pages = ["single"];
-import Nav from "@/components/Nav_v3.vue";
+import Nav from "@/components/Nav_v4.vue";
 import User from "@jx3box/jx3box-common/js/user";
 import { setStar, cancelStar, onlineFace, offlineFace, deleteFace } from "@/service/face.js";
 export default {

@@ -1,5 +1,5 @@
 <template>
-    <div class="m-simple-pet is-disabled">
+    <div class="m-simple-pet">
         <a
             v-for="item in luckyList"
             :key="item.Index"
@@ -8,31 +8,14 @@
             :href="getPetLink(item.Index)"
             target="_blank"
         >
-            <div class="u-pet-title">
-                <div class="u-pet-name">
-                    <itemIcon
-                        :item_id="String(item.ItemTabType + '_' + item.ItemTabIndex)"
-                        :size="38"
-                        :onlyIcon="true"
-                        :isLink="false"
-                    ></itemIcon
-                    >{{ item.Name }}
-                </div>
-                <div class="u-pet-desc">{{ item.szTip }}</div>
-            </div>
-            <!-- <div class="u-pet-detail">
-                <div class="u-times">
-                    <div class="u-time" :class="index <= ~~item.name && 'is-active'" v-for="index in 3" :key="index">
-                        {{ index }}
-                    </div>
-                </div>
-                <img
-                    class="u-done-icon"
-                    svg-inline
-                    src="@/assets/img/gonggao/check.svg"
-                    :fill="item.isDone ? '#fff' : '#949494'"
-                />
-            </div> -->
+            <itemIcon
+                :item_id="String(item.ItemTabType + '_' + item.ItemTabIndex)"
+                :size="38"
+                :onlyIcon="true"
+                :isLink="false"
+            ></itemIcon>
+            <div class="u-pet-name">{{ item.Name }}</div>
+            <div class="u-pet-desc">{{ item.szTip }}</div>
         </a>
     </div>
 </template>

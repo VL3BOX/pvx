@@ -1,19 +1,26 @@
 @import "~@/assets/css/face/animation.less";
 
+.m-face-tabs {
+    .pa;
+    width: calc(100% - 100px);
+}
+.m-face-box {
+    &:nth-child(2) {
+
+    }
+}
+
 .p-face-list {
-    padding-bottom: 40px;
+    .pt(40px);
     .u-type {
         .flex;
-        margin: 40px 0 20px 0;
+        .mb(20px);
         justify-content: space-between;
         align-items: flex-end;
         .u-all {
             cursor: pointer;
             color: #a5a5a5;
             .fz(16px,21px);
-        }
-        &.u-first-row{
-            .mt(20px);
         }
     }
     .u-title {
@@ -46,7 +53,7 @@
 
 .m-recommend-box,
 .m-face-box {
-    .pr;
+    .mt(40px);
     .u-shade-btn {
         .pointer;
         .pa;
@@ -85,10 +92,22 @@
             background-color: rgba(163, 152, 152, 0.7);
         }
     }
+    &:nth-child(2){
+        .mt(100px);
+    }
 }
 @media screen and (max-width: @phone) {
     .m-recommend-box {
         padding-top: 64px;
+    }
+    .m-face-tabs {
+        .pr;
+        width: unset;
+    }
+    .m-face-box {
+        &:nth-child(2) {
+            .mt(40px);
+        }
     }
 }
 .m-face-box {
@@ -98,13 +117,6 @@
     .u-shade {
         .h(224px);
     }
-}
-
-.m-face-list {
-    .flex;
-    gap: 20px;
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 //单个体型全部list
@@ -123,7 +135,7 @@
     .mt(20px);
 }
 .m-archive-more {
-    .mb(20px);
+    .mt(40px);
     .w(100%);
     background-color: #6b52ff;
     &:hover {
@@ -132,7 +144,7 @@
     }
 }
 .m-archive-pages {
-    overflow-x: auto;
+    overflow: auto;
     .active {
         background-color: #6b52ff !important;
     }
@@ -159,10 +171,9 @@
         justify-content: space-between;
         .m-face-item {
             .pr;
-            .w(40%);
             .mb(30px);
             overflow: hidden;
-            .size(35%,auto);
+            .w(100%);
             .mr(10px);
             .u-img {
                 .size(auto);
@@ -175,13 +186,12 @@
             }
         }
     }
-    .m-face-list {
+    .m-common-list {
         .scrollbar(2px);
         overflow-x: auto;
 
         .m-face-item {
             .u-img {
-                .size(20vw);
                 .u-star-mark {
                     .fz(12px);
                     .lt(6px);

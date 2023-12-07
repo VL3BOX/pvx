@@ -3,22 +3,29 @@
 .m-common-tabs {
     .flex;
     .z(12);
-    .scrollbar(2px);
-    position: sticky;
-    top: 64px;
-    background-color: #f3f5f6;
+    .r(10px);
+    height: 60px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    align-items: center;
     overflow-x: auto;
-    padding: 20px 0;
-    flex-wrap: nowrap;
     gap: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    .m-common-card {
+        .flex;
+        flex-shrink: 0;
+        gap: 10px;
+        align-items: center;
+    }
 
     .u-tab {
         .pr;
         .pointer;
         .size(100px,40px);
         .flex;
-        .fz(16px,20px);
+        .fz(16px,22px);
         .r(30px);
+        .bold;
         flex-shrink: 0;
         justify-content: center;
         align-items: center;
@@ -57,7 +64,7 @@
             .fz(16px,40px);
             .size(100%,40px);
             border: none;
-            background-color: #fff;
+            background-color: #f3f4f5;
             padding: 0 40px 0 20px;
             color: #000;
             &::placeholder {
@@ -65,28 +72,40 @@
                 color: #b0b0b0;
             }
         }
+        input[type="text"]::-webkit-input-placeholder {
+            .bold;
+            .fz(16px);
+            color: #b0b0b0;
+        }
+        .el-input__suffix {
+            right: 15px;
+        }
+        .el-input__icon {
+            .bold;
+            color: #24292e;
+        }
     }
 }
-.u-face-publish{
+.u-face-publish {
+    .pr;
     .size(120px, 39px);
     .r(5px);
-    background: url("../../img/face/publish_bg.svg") no-repeat,
-    linear-gradient(0deg, #6B52FF, #6B52FF),
-    linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%,
-    rgba(255, 255, 255, 0.3) 100%);
+    background: #6b52ff;
     .fz(16px, 39px);
     .bold(700);
     color: #fff;
-    cursor: pointer;
-    span{
+    .pointer;
+    .pr(10px);
+    span {
         float: right;
-        padding-right: 7px;
     }
-    &:hover{
-        background: url("../../img/face/publish_hover.svg") no-repeat,
-        linear-gradient(0deg, #6B52FF, #6B52FF),
-        linear-gradient(263.86deg, rgba(255, 255, 255, 0) 47.92%,
-        rgba(255, 255, 255, 0.3) 100%);;
+    .u-img {
+        .pa;
+        .lb(0);
+        .w(65px);
+    }
+    &:hover {
+        filter: brightness(1.1);
     }
 }
 .m-common-filter {
@@ -112,6 +131,26 @@
         .el-radio-button__orig-radio:checked + .el-radio-button__inner {
             background-color: #6b52ff;
             border-color: #6b52ff;
+        }
+    }
+}
+
+@media screen and (max-width: @phone) {
+    .m-common-tabs {
+        padding: 0;
+        height: auto;
+        box-shadow: 0 0 0 0;
+        flex-direction: column;
+        overflow-x: visible;
+        gap: 40px;
+        .m-common-card {
+            .r(10px);
+            .w(100%);
+            .flex;
+            box-sizing: border-box;
+            flex-wrap: wrap;
+            padding: 10px 15px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
         }
     }
 }
