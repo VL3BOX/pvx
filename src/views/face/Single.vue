@@ -10,9 +10,9 @@
                         <span>发布作品</span>
                     </div>
                 </a>
-<!--                <a href="/os/#/omp/pvx/facedata" target="_blank">-->
-                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">
-                    <el-button size="medium" class="u-manage"></el-button>
+                <a href="/os/#/omp/pvx/facedata" target="_blank">
+<!--                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">-->
+                    <div size="medium" class="u-manage"></div>
                 </a>
 <!--                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">-->
 <!--                    <el-button size="medium" class="u-tips-off"></el-button>-->

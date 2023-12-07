@@ -39,7 +39,7 @@
             background-color: @faceColor;
             border-color: @faceColor;
             &:hover {
-                filter: brightness(110%);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
         .u-face-publish {
@@ -61,7 +61,7 @@
                 .w(65px);
             }
             &:hover {
-                filter: brightness(1.1);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
         .u-publish {
@@ -70,10 +70,12 @@
         .u-manage {
             .r(5px);
             .fz(16px);
+            background: url("../../img/face/manage.svg") no-repeat center;
+            .size(39px);
             background-color: #e54059;
             border-color: #e54059;
             &:hover {
-                filter: brightness(110%);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
     }
@@ -702,14 +704,6 @@
 .w-thx {
     .mt(40px);
 }
-.u-manage{
-    background: url("../../img/face/manage.svg") no-repeat center;
-    .size(39px);
-    &:hover {
-        background: url("../../img/face/manage.svg") no-repeat center;
-        filter: brightness(1.1);
-    }
-}
 .u-tips-off{
     background: url("../../img/face/report.svg") no-repeat center,
     linear-gradient(0deg, rgba(251, 47, 47, 0.5), rgba(251, 47, 47, 0.5));
@@ -723,3 +717,11 @@
     }
 }
 @import "./single_phone.less";
+@keyframes btnHover {
+    0% {
+        filter: brightness(1);
+    }
+    100% {
+        filter: brightness(1.1);
+    }
+}

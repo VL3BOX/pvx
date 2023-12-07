@@ -222,14 +222,12 @@ export default {
     .u-tab {
         &.active,
         &:hover {
-            background-color: @faceColor;
-            animation: dissolve 300ms ease-out;
+            animation: faceDissolve 300ms ease-out forwards;
         }
     }
     .u-filter {
         &:hover {
-            background-color: @faceColor;
-            animation: dissolve 300ms ease-out;
+            animation: faceDissolve 300ms ease-out forwards;
         }
     }
     .u-analysis {
@@ -238,7 +236,7 @@ export default {
         background-color: #e54059;
         border-color: #e54059;
         &:hover {
-            filter: brightness(110%);
+            animation: btnHover 300ms ease-out forwards;
         }
     }
 
@@ -249,7 +247,7 @@ export default {
         background-color: @faceColor;
         border-color: @faceColor;
         &:hover {
-            filter: brightness(110%);
+            animation: btnHover 300ms ease-out forwards;
         }
     }
 }
@@ -259,20 +257,18 @@ export default {
     .u-filter {
         .el-checkbox-button__inner {
             &:hover {
-                background-color: @faceColor;
-                animation: dissolve 300ms ease-out;
+                animation: faceDissolve 300ms ease-out forwards;
             }
         }
         &.is-checked {
             .el-checkbox-button__inner {
-                background-color: @faceColor;
                 border-color: @faceColor;
-                animation: dissolve 300ms ease-out;
+                animation: faceDissolve 300ms ease-out forwards;
             }
         }
     }
 }
-@keyframes dissolve {
+@keyframes faceDissolve {
     0% {
         background-color: #e1dfdf;
         color: #606266;
@@ -280,6 +276,14 @@ export default {
     100% {
         background-color: @faceColor;
         color: #fff;
+    }
+}
+@keyframes btnHover {
+    0% {
+        filter: brightness(1);
+    }
+    100% {
+        filter: brightness(1.1);
     }
 }
 </style>

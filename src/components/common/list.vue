@@ -8,7 +8,7 @@
             @mouseout="changeColor('#E1E1E1')"
             @click="update"
         >
-            <img svg-inline src="@/assets/img/replace.svg" :fill="fill" />
+            <img svg-inline src="@/assets/img/replace.svg" :fill="fill"/>
         </div>
     </div>
 </template>
@@ -58,6 +58,9 @@ export default {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
+        &:hover {
+            animation: op 300ms ease-out;
+        }
     }
     .m-common-list{
         .flex;
@@ -80,6 +83,14 @@ export default {
         .m-replace {
             .none;
         }
+    }
+}
+@keyframes op{
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }
 </style>
