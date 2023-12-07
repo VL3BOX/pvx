@@ -4,14 +4,18 @@
             <div class="u-goback" @click="goBack">返回列表</div>
 
             <div class="m-face-btn-box">
-                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">
-                    <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage"> 管理 </el-button>
-                </a>
                 <a :href="publish_link" target="_blank">
                     <div class="u-face-publish">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
                         <span>发布作品</span>
                     </div>
+                </a>
+<!--                <a href="/os/#/omp/pvx/facedata" target="_blank">-->
+                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">
+                    <el-button size="medium" class="u-manage"></el-button>
+                </a>
+                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">
+                    <el-button size="medium" class="u-tips-off"></el-button>
                 </a>
             </div>
         </div>
@@ -272,6 +276,9 @@ export default {
         },
         id: function () {
             return ~~this.$route.params.id;
+        },
+        isAdmin: function() {
+            return User.isAdmin();
         },
         isAuthor: function () {
             return this.post?.user_id == User.getInfo().uid || false;
