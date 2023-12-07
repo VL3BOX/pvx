@@ -10,7 +10,7 @@
             <a v-if="navStatus === 2" class="u-home" href="/pvx">
                 <img :src="require(`@/assets/img/nav/home${active === 'pvx' ? '' : '1'}.svg`)" svg-inline />
             </a>
-            <span class="u-setting" v-if="navStatus === 2">
+            <span class="u-setting is-disabled" v-if="navStatus === 2">
                 <img src="@/assets/img/nav/setting.svg" svg-inline />
             </span>
         </div>

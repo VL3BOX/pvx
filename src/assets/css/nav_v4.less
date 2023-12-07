@@ -25,8 +25,11 @@
             justify-content: center;
             .r(5px);
             cursor: pointer;
-            &:hover {
+            &:not(.is-disabled):hover {
                 background-color: rgba(#fff, 0.3);
+            }
+            &.is-disabled {
+                cursor: not-allowed;
             }
         }
         svg {
