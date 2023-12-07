@@ -19,7 +19,7 @@
                 </a>
             </div>
         </div>
-
+        <public-notice bckey="face_ac"></public-notice>
         <!-- 基本信息 -->
         <div class="m-header">
             <div class="m-header-info">
@@ -204,6 +204,7 @@
 </template>
 
 <script>
+import PublicNotice from "@/components/PublicNotice";
 const single_pages = ["single"];
 import { downloadZip } from "@/utils/exportFileZip";
 import {
@@ -236,6 +237,7 @@ import authorItem from "@/components/face/author";
 export default {
     name: "single",
     components: {
+        PublicNotice,
         facedata,
         Comment,
         faceItem,
