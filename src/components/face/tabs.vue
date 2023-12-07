@@ -10,7 +10,7 @@
                 <a :href="publish_link(link.key)" target="_blank">
                     <div class="u-face-publish">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
-                        <span>发布脸型</span>
+                        <span>发布作品</span>
                     </div>
                 </a>
             </div>
@@ -136,7 +136,7 @@
                 <a :href="publish_link(link.key)" target="_blank">
                     <div class="u-face-publish">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
-                        <span>发布脸型</span>
+                        <span>发布作品</span>
                     </div>
                 </a>
         </template>

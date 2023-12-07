@@ -38,7 +38,7 @@ export default {
     components: { Plan },
     methods: {
         load() {
-            getMyPlans({ no_page: true }).then((res) => {
+            getMyPlans().then((res) => {
                 this.list = res.reverse() || [];
             });
         },

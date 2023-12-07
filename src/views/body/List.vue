@@ -12,7 +12,7 @@
                 <div class="m-list" v-for="(_list, index) in groupList" :key="index">
                     <h2 class="u-list-title">
                         <span>{{ nameMap[_list.key] }}</span>
-                        <span class="u-more" @click="setActive(_list.key)">查看全部</span>
+                        <span class="u-more" @click="setActive(_list.key)" v-if="!tabsData.body_type">查看全部</span>
                     </h2>
                     <!-- 显示一行 -->
                     <div class="m-list-box" v-if="!tabsData.body_type">
