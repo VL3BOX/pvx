@@ -14,9 +14,9 @@
                 <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">
                     <el-button size="medium" class="u-manage"></el-button>
                 </a>
-                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">
-                    <el-button size="medium" class="u-tips-off"></el-button>
-                </a>
+<!--                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">-->
+<!--                    <el-button size="medium" class="u-tips-off"></el-button>-->
+<!--                </a>-->
             </div>
         </div>
         <public-notice bckey="face_ac"></public-notice>
