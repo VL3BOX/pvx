@@ -3,7 +3,7 @@
         <div class="m-pet-navigation">
             <div class="u-goback" @click="goBack">返回列表</div>
         </div>
-
+        <PublicNotice bckey="pet_ac" />
         <div class="m-pet-content flex">
             <petCard :petObject="pet" :lucky="luckyList"></petCard>
             <div class="m-pet-info">
@@ -63,7 +63,6 @@
                     </div>
                 </div>
                 <!-- 宠物技能 -->
-                <div class="u-pet-skill-title">宠物招式</div>
                 <div class="m-pet-skills">
                     <div class="u-skill" v-for="(skill, index) in petSkills" :key="index">
                         <el-popover trigger="hover" popper-class="m-pet-skill" :visible-arrow="false" placement="top">
@@ -117,6 +116,7 @@
 </template>
 
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import { getPet, getPets, getShopInfo, getPetSkill, getSkill, getPetLucky } from "@/service/pet";
 import PvxUser from "@/components/PvxUser.vue";
 import petCard from "@/components/pet/PetCard.vue";
@@ -140,6 +140,7 @@ export default {
         PetMap,
         // WikiComments,
         PvxUser,
+        PublicNotice,
     },
     data: function () {
         return {

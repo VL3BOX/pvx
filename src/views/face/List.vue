@@ -7,29 +7,33 @@
             :active="active"
             @setActive="setActive"
         />
+        <PublicNotice bckey="face_ac" />
         <template v-if="active === 0">
-            <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box">
-                <template v-if="item.list.length">
-                    <div class="u-type">
-                        <div class="u-title">{{ item.label + "脸型" }}</div>
-                        <div class="u-all" @click="setActive(item.value)">查看全部</div>
-                    </div>
+            <div
+                v-for="(item, index) in list"
+                :key="'l' + index"
+                class="m-face-box"
+                :class="{ none: !item.list.length }"
+            >
+                <div class="u-type">
+                    <div class="u-title">{{ item.label + "脸型" }}</div>
+                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                </div>
 
-                    <CommonList
-                        :class="{ search: tabsData.name }"
-                        :data="{ ...itemData, type: item.value }"
-                        @update:load="handleLoad"
-                    >
-                        <div class="m-common-list">
-                            <faceItem
-                                v-for="item in item.list"
-                                :key="item.id"
-                                :item="item"
-                                :reporter="{ aggregate: listId(list) }"
-                            />
-                        </div>
-                    </CommonList>
-                </template>
+                <CommonList
+                    :class="{ search: tabsData.name }"
+                    :data="{ ...itemData, type: item.value }"
+                    @update:load="handleLoad"
+                >
+                    <div class="m-common-list">
+                        <faceItem
+                            v-for="item in item.list"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(list) }"
+                        />
+                    </div>
+                </CommonList>
             </div>
         </template>
         <div class="m-face-box" v-else>
@@ -53,15 +57,15 @@
                 icon="el-icon-arrow-down"
                 >加载更多</el-button
             >
-<!--            <el-pagination-->
-<!--                class="m-archive-pages"-->
-<!--                background-->
-<!--                layout="total, prev, pager, next, jumper"-->
-<!--                :hide-on-single-page="true"-->
-<!--                :page-size="per"-->
-<!--                :total="total"-->
-<!--                :current-page.sync="page"-->
-<!--            ></el-pagination>-->
+            <!--            <el-pagination-->
+            <!--                class="m-archive-pages"-->
+            <!--                background-->
+            <!--                layout="total, prev, pager, next, jumper"-->
+            <!--                :hide-on-single-page="true"-->
+            <!--                :page-size="per"-->
+            <!--                :total="total"-->
+            <!--                :current-page.sync="page"-->
+            <!--            ></el-pagination>-->
         </div>
         <el-alert
             v-if="noList || (subList && !subList.length)"
@@ -74,6 +78,7 @@
     </div>
 </template>
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import CommonList from "@/components/common/list.vue";
 import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
@@ -84,7 +89,7 @@ import { getFaceList, getSliders } from "@/service/face";
 
 export default {
     name: "face",
-    components: { CommonList, faceTabs, faceItem },
+    components: { CommonList, faceTabs, faceItem, PublicNotice },
     data() {
         return {
             loading: false,

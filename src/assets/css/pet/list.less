@@ -2,7 +2,7 @@
     .flex;
     .mt(40px);
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: baseline;
     .u-all {
         cursor: pointer;
         color: #a5a5a5;
@@ -21,7 +21,8 @@
     .flex;
     .w(100%);
     .scrollbar(2px);
-    .mt(20px);
+    padding: 10px;
+    .ml(-10px);
     gap: 20px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -33,7 +34,7 @@
         .mr(0);
     }
 }
-.p-pet-list { 
+.p-pet-list {
     .el-select .el-input .el-input__inner {
         border: 2px solid #f3f4f5;
         background: #f3f4f5;
@@ -45,6 +46,9 @@
         &::placeholder {
             color: #000;
         }
+    }
+    .c-public-notice{
+        .mt(40px);
     }
 }
 .m-pet-list {

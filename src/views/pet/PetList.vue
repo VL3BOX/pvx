@@ -8,7 +8,7 @@
             @setActive="setActive"
             :mapList="mapList"
         />
-
+        <PublicNotice bckey="pet_ac" />
         <template v-if="luckyList.length > 0">
             <div class="m-pet-title u-type u-lucky-title">
                 <div class="u-title">今日福缘</div>
@@ -65,6 +65,7 @@
     </div>
 </template>
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import petTabs from "@/components/pet/tabs";
 import petItem from "@/components/pet/item";
 import luckyItem from "@/components/pet/lucky";
@@ -83,6 +84,7 @@ export default {
         petTabs,
         petItem,
         luckyItem,
+        PublicNotice,
     },
     data() {
         return {
@@ -196,7 +198,7 @@ export default {
         },
         getPetListInit() {
             if (!this.params.Class) {
-                this.showCount(2);
+                this.showCount(1);
                 this.showAllList = false;
                 this.list_type.forEach((e) => {
                     let params = clone(this.params);
