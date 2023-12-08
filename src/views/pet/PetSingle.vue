@@ -21,6 +21,17 @@
                             >
                         </template>
                     </div>
+                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
+                        <!-- <span class="u-meta-label">商城价格：</span> --> 
+                        <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
+                            积分<b>{{ shopInfo.RewardsPrice }}</b>
+                            <i class="u-icon-rewards"></i>
+                        </el-tag>
+                        <el-tag class="u-price-item u-coin">
+                            通宝<b>{{ shopInfo.CoinPrice }}</b>
+                            <i class="u-icon-coin"></i>
+                        </el-tag>
+                    </div>
                 </h1>
                 <i class="u-stars">
                     <img v-for="count in pet.Star" :key="count" class="u-star" src="@/assets/img/star.svg" svg-inline />
@@ -45,20 +56,6 @@
                             <template v-for="(item, index) in getPetDesc(pet.Desc)">
                                 <span :key="index" v-html="item.text"></span>
                             </template>
-                        </span>
-                    </div>
-
-                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
-                        <span class="u-meta-label">商城价格：</span>
-                        <span class="u-price">
-                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
-                                积分<b>{{ shopInfo.RewardsPrice }}</b>
-                                <i class="u-icon-rewards"></i>
-                            </el-tag>
-                            <el-tag class="u-price-item u-coin">
-                                通宝<b>{{ shopInfo.CoinPrice }}</b>
-                                <i class="u-icon-coin"></i>
-                            </el-tag>
                         </span>
                     </div>
                 </div>
