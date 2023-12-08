@@ -40,14 +40,20 @@
         background: #f3f4f5;
         color: #b0b0b0;
     }
+    .active .el-input .el-input__inner,
     .el-select .el-input.is-focus .el-input__inner {
+        .bold;
         border: 2px solid #d16400;
         background: rgba(209, 100, 0, 0.1);
+        color: #000;
         &::placeholder {
             color: #000;
         }
     }
-    .c-public-notice{
+    .active .el-input__prefix{
+        color: #d16400;
+    }
+    .c-public-notice {
         .mt(40px);
     }
 }
