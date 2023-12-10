@@ -57,15 +57,15 @@
                 icon="el-icon-arrow-down"
                 >加载更多</el-button
             >
-            <!--            <el-pagination-->
-            <!--                class="m-archive-pages"-->
-            <!--                background-->
-            <!--                layout="total, prev, pager, next, jumper"-->
-            <!--                :hide-on-single-page="true"-->
-            <!--                :page-size="per"-->
-            <!--                :total="total"-->
-            <!--                :current-page.sync="page"-->
-            <!--            ></el-pagination>-->
+                        <el-pagination
+                            class="m-archive-pages"
+                            background
+                            layout="total, prev, pager, next, jumper"
+                            :hide-on-single-page="true"
+                            :page-size="per"
+                            :total="total"
+                            :current-page.sync="page"
+                        ></el-pagination>
         </div>
         <el-alert
             v-if="noList || (subList && !subList.length)"

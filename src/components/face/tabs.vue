@@ -3,12 +3,12 @@
         <template v-if="isPhone">
             <div class="m-box">
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                    <el-button type="primary" size="medium" class="u-analysis">
                         数据解析
                     </el-button>
                 </a>
                 <a :href="publish_link(link.key)" target="_blank">
-                    <div class="u-face-publish">
+                    <div class="u-face-publish" style="float: right">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
                         <span>发布作品</span>
                     </div>
@@ -129,7 +129,7 @@
                     />
                 </div>
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                    <el-button type="primary" size="medium" class="u-analysis">
                         数据解析
                     </el-button>
                 </a>
@@ -220,14 +220,19 @@ export default {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
     .u-tab {
+        transition: 0.3s ease-out;
+
         &.active,
         &:hover {
-            animation: faceDissolve 300ms ease-out forwards;
+            background-color: @faceColor;
+            color: #fff;
         }
     }
     .u-filter {
+        transition: 0.3s ease-out;
         &:hover {
-            animation: faceDissolve 300ms ease-out forwards;
+            background-color: @faceColor;
+            color: #fff;
         }
     }
     .u-analysis {
@@ -235,8 +240,9 @@ export default {
         .fz(16px);
         background-color: #e54059;
         border-color: #e54059;
+        transition: 0.3s ease-out;
         &:hover {
-            animation: btnHover 300ms ease-out forwards;
+            filter: brightness(1.1);
         }
     }
 
@@ -246,8 +252,9 @@ export default {
         .fz(16px);
         background-color: @faceColor;
         border-color: @faceColor;
+        transition: 0.3s ease-out;
         &:hover {
-            animation: btnHover 300ms ease-out forwards;
+            filter: brightness(1.1);
         }
     }
 }
@@ -256,34 +263,19 @@ export default {
     flex-direction: column;
     .u-filter {
         .el-checkbox-button__inner {
+            transition: 0.3s ease-out;
             &:hover {
-                animation: faceDissolve 300ms ease-out forwards;
+                background-color: @faceColor;
+                color: #fff;
             }
         }
         &.is-checked {
             .el-checkbox-button__inner {
                 border-color: @faceColor;
-                animation: faceDissolve 300ms ease-out forwards;
+                background-color: @faceColor;
+                color: #fff;
             }
         }
-    }
-}
-@keyframes faceDissolve {
-    0% {
-        background-color: #e1dfdf;
-        color: #606266;
-    }
-    100% {
-        background-color: @faceColor;
-        color: #fff;
-    }
-}
-@keyframes btnHover {
-    0% {
-        filter: brightness(1);
-    }
-    100% {
-        filter: brightness(1.1);
     }
 }
 </style>
