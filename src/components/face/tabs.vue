@@ -1,15 +1,15 @@
 <template>
     <div class="m-face-tabs m-common-tabs">
         <template v-if="isPhone">
-            <div class="m-box">
+            <div class="m-box" style="display: flex;justify-content: space-between">
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" class="u-analysis">
+                    <el-button type="primary" size="medium" class="u-analysis" style="flex:1;">
                         数据解析
                     </el-button>
                 </a>
                 <a :href="publish_link(link.key)" target="_blank">
-                    <div class="u-face-publish" style="float: right">
-                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                    <div class="u-face-publish" style="flex:1;">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img"/>
                         <span>发布作品</span>
                     </div>
                 </a>
