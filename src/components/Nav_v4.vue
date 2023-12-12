@@ -36,12 +36,14 @@
                 </div>
             </div>
         </div>
-        <div class="u-btn" v-if="!navStatus" @click="toRight">
-            <img src="../assets/img/nav/op.svg" svg-inline />
-        </div>
-        <div class="u-btn" v-if="navStatus" @click="toLeft">
-            <img src="../assets/img/nav/left.svg" svg-inline />
-        </div>
+        <template v-if="navStatus !== 2">
+            <div class="u-btn" v-if="!navStatus" @click="toRight">
+                <img src="../assets/img/nav/op.svg" svg-inline />
+            </div>
+            <div class="u-btn" v-if="navStatus" @click="toLeft">
+                <img src="../assets/img/nav/left.svg" svg-inline />
+            </div>
+        </template>
         <!-- <div class="u-btn" :class="navStatus === 2 && 'is-disabled'" @click="toRight">
                 <i class="el-icon-arrow-right"></i>
             </div> -->
@@ -121,11 +123,12 @@ export default {
     },
     methods: {
         getNavIcon(key, isActive) {
-            let name = key + (this.navStatus ? this.navStatus : "");
+            let name = key + (this.navStatus ? this.navStatus : "1");
             if (this.navStatus === 1 && isActive) {
                 // regular
-                name = key;
+                name = key + "2";
             }
+            console.log(name);
             return require(`../assets/img/nav/${name}.svg`);
         },
         toLeft() {
