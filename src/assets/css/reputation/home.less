@@ -1,12 +1,5 @@
 .reputation-container {
-    background-color: #f3f5f6;
-    .reputation-search {
-        margin-left: -70px;
-        padding-left: 70px;
-        .search-group {
-            gap: 20px;
-        }
-    }
+    .pt(40px);
     .select-item {
         width: 100px;
         height: 40px;
@@ -19,20 +12,20 @@
         color: #949494;
         background-color: #fff;
         flex: none;
+        transition: 0.3s ease-out;
         &.active,
         &:hover {
             background-color: @active-color;
             color: #fff;
         }
     }
-    .reputaion-content-wrapper {
-        .pt(20px);
+    .reputaion-content-wrapper { 
         .reputation-list-wrapper {
+            .pt(40px);
             &:first-child .reputation-title {
                 .mt(0);
             }
             .reputation-title {
-                margin-top: 40px;
                 font-size: 28px;
                 font-weight: 700;
                 color: #24292e;
@@ -43,6 +36,8 @@
             justify-content: flex-start;
             align-items: center;
             flex-wrap: wrap;
+            margin-top: 20px;
+            gap:20px;
         }
     }
 }
@@ -53,7 +48,7 @@
             margin-left: -60px;
             padding-left: 60px;
         }
-        .reputaion-content-wrapper { 
+        .reputaion-content-wrapper {
             .reputation-list {
                 justify-content: space-between;
             }
@@ -92,7 +87,7 @@
         .reputation-item {
             margin-right: 0;
         }
-        .reputaion-content-wrapper { 
+        .reputaion-content-wrapper {
             .pt(64px);
             .reputation-list {
                 justify-content: center;
