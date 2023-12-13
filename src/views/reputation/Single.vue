@@ -3,13 +3,40 @@
         <div class="back-wrap">
             <el-button @click="goBack">返回列表</el-button>
         </div>
-        <div class="m-reputation-content">
+        <div class="m-reputation-content" v-if="reputation">
             <div class="info-wrapper">
                 <div class="title">
                     {{ reputation.szName }}
                     <span>ID:{{ reputation.dwForceID }}</span>
                 </div>
-                <div class="info-content">
+                <div class="info-content content-detail">
+                    <div class="detail-wrap">
+                        <div class="sub-title">{{ reputation.szName }}</div>
+                        <div class="u-desc" v-html="reputation.szDesc"></div>
+                        <template v-if="reputation.szMapNames && reputation.szMapNames.length">
+                            <div class="sub-title2">
+                                <img src="@/assets/img/reputation/reputation_map.svg" width="15" svg-inline />
+                                声望地图
+                            </div>
+                            <div class="u-desc">{{ reputation.szMapNames[0] }}</div>
+                        </template>
+                        <template v-if="reputation.GroupName">
+                            <div class="sub-title2">
+                                <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
+                                势力类型
+                            </div>
+                            <div class="u-desc">{{ reputation.GroupName }}</div>
+                        </template>
+                        <template>
+                            <div class="sub-title2">
+                                <img src="@/assets/img/reputation/reputation_path.svg" width="15" svg-inline />
+                                遗失的尊敬
+                            </div>
+                            <div class="u-desc">
+                                {{ getPath(reputation.szName) || "无法使用遗失的尊敬来提高该声望等级进度" }}
+                            </div>
+                        </template>
+                    </div>
                     <div class="img-wrap">
                         <img
                             v-if="reputation.servant && reputation.servant.szImagePath"
@@ -18,75 +45,35 @@
                         <!-- 默认图片 -->
                         <img v-else class="default-img" src="@/assets/img/reputation/sw-null.jpg" />
                     </div>
-                    <div class="switch-wrap">
-                        <div class="switch-btns">
-                            <div class="item" :class="activeTab === 0 && 'active'" @click="activeTab = 0">声望</div>
-                            <div class="item" :class="activeTab === 1 && 'active'" @click="activeTab = 1">知交</div>
+                    <div class="detail-wrap" v-if="reputation.servant">
+                        <div class="sub-title">
+                            {{ reputation.servant.szNpcName }}
                         </div>
-                        <div class="content-detail">
-                            <div v-show="activeTab === 0" class="detail-wrap">
-                                <div class="sub-title">{{ reputation.szName }}</div>
-                                <div class="u-desc" v-html="reputation.szDesc"></div>
-                                <template v-if="reputation.szMapNames && reputation.szMapNames.length">
-                                    <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_map.svg" width="15" svg-inline />
-                                        声望地图
-                                    </div>
-                                    <div class="u-desc">{{ reputation.szMapNames[0] }}</div>
-                                </template>
-                                <template v-if="reputation.GroupName">
-                                    <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
-                                        势力类型
-                                    </div>
-                                    <div class="u-desc">{{ reputation.GroupName }}</div>
-                                </template>
-                                <template>
-                                    <div class="sub-title2">
-                                        <img src="@/assets/img/reputation/reputation_path.svg" width="15" svg-inline />
-                                        遗失的尊敬
-                                    </div>
-                                    <div class="u-desc">
-                                        {{ getPath(reputation.szName) || "无法使用遗失的尊敬来提高该声望等级进度" }}
-                                    </div>
-                                </template>
+                        <div class="u-desc" v-html="reputation.servant.szDescBrief"></div>
+                        <div class="u-desc" v-html="reputation.servant.szDescPersonality.replace(/\\n/g, '<br>')"></div>
+                        <template>
+                            <div class="sub-title2">
+                                <img src="@/assets/img/reputation/reputation_title2.svg" width="15" svg-inline />
+                                知交祝福
                             </div>
-                            <div v-if="reputation.servant" v-show="activeTab === 1" class="detail-wrap">
-                                <div class="sub-title">{{ reputation.servant.szNpcName }}</div>
-                                <div class="u-desc" v-html="reputation.servant.szDescBrief"></div>
-                                <div
-                                    class="u-desc"
-                                    v-html="reputation.servant.szDescPersonality.replace(/\\n/g, '<br>')"
-                                ></div>
-                                <template>
-                                    <div class="sub-title2">
-                                        <img
-                                            src="@/assets/img/reputation/reputation_title2.svg"
-                                            width="15"
-                                            svg-inline
-                                        />
-                                        知交祝福
-                                    </div>
-                                    <div class="u-desc">
-                                        <span>{{ reputation.servant.szBuffName }}</span>
-                                        {{ reputation.servant.szBuffDesc }}
-                                    </div>
-                                </template>
+                            <div class="u-desc">
+                                <span>{{ reputation.servant.szBuffName }}</span>
+                                {{ reputation.servant.szBuffDesc }}
                             </div>
-                            <div class="detail-wrap" v-if="activeTab === 1 && !reputation.servant">
-                                <div class="u-desc">无</div>
-                            </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
-                <div class="current-progress">
+                <!-- <div class="current-progress">
                     <div class="progress-num"><span>当前进度：中立</span><span>0</span></div>
                     <div class="progress-wrap">
                         <div class="progress-value"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="map-wrapper" v-if="reputation.szMapNames && reputation.szMapNames.length && !reputation.hiddenMap">
+            <div
+                class="map-wrapper"
+                v-if="reputation.szMapNames && reputation.szMapNames.length && !reputation.hiddenMap"
+            >
                 <div class="title">
                     声望商人
                     <span>{{ reputation.Guides[0].npcName }}</span>
