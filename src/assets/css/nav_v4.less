@@ -1,4 +1,4 @@
-@nav_width: 70px;
+@nav_width: 71px;
 @home_height: 40px;
 .m-pvx-aside {
     .size(@nav_width, calc(100% - @header-height));
@@ -36,6 +36,27 @@
             .db;
             .size(20px, 20px);
         }
+        .u-home {
+            .u-icon {
+                fill: #a3a5a7;
+            }
+            &.pvx,
+            &:hover {
+                .u-icon {
+                    fill: #fff;
+                }
+            }
+        }
+        .u-close {
+            .u-icon {
+                stroke: #a3a5a7;
+            }
+            &:hover {
+                .u-icon {
+                    stroke: #fff;
+                }
+            }
+        }
     }
     .u-btn {
         .pa;
@@ -50,6 +71,30 @@
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         cursor: pointer;
+    }
+    .m-nav-item {
+        .u-nav-icon {
+            .pr;
+            .u-icon,
+            .u-icon-hover {
+                .pa;
+                .full;
+                opacity: 0;
+                transition: opacity 0.3s ease-out;
+            }
+            .u-icon {
+                opacity: 1;
+            }
+        }
+        &:hover,
+        &.is-active {
+            .u-icon-hover {
+                opacity: 1;
+            }
+            .u-icon {
+                opacity: 0;
+            }
+        }
     }
     &.is-closed {
         .w(0);

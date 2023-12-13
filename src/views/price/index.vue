@@ -1,10 +1,10 @@
 <template>
-  <div class="p-price">
-    <PriceTabs :params="params" @changeTab="changeTab"></PriceTabs>
-    <overview v-if="params.currentTab==''" />
-    <gold v-if="params.currentTab=='gold'" />
-    <goods v-if="params.currentTab=='goods'" :keywords="params.keywords"/>
-  </div>
+    <div class="p-price">
+        <PriceTabs :params="params" @changeTab="changeTab"></PriceTabs>
+        <overview v-if="params.currentTab == ''" />
+        <gold v-if="params.currentTab == 'gold'" />
+        <goods v-if="params.currentTab == 'goods'" :keywords="params.keywords" />
+    </div>
 </template>
 <script>
 import PriceTabs from "./PriceTabs.vue";
@@ -21,7 +21,7 @@ export default {
             },
         };
     },
-    
+
     methods: {
         changeTab(value) {
             const query = {};
@@ -39,6 +39,6 @@ export default {
 <style lang="less">
 @import "~@/assets/css/app.less";
 .p-price {
-    padding-bottom: 40px;
+    padding-top: 40px;
 }
 </style>

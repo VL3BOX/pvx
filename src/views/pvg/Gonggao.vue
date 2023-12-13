@@ -134,6 +134,7 @@ export default {
     }
 }
 .p-gonggao {
+    .pt(40px);
     background-color: #f5f5f5;
     .m-content {
         .pt(20px);
