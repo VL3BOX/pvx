@@ -257,5 +257,10 @@ export default {
         .break(1);
         cursor: pointer;
     }
+    @media screen and (max-width: @ipad) {
+        .m-mark {
+            display: none;
+        }
+    }
 }
 </style>
