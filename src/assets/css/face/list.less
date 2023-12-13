@@ -1,10 +1,5 @@
 @import "~@/assets/css/face/animation.less";
 
-.m-face-box {
-    &:nth-child(2) {
-    }
-}
-
 .p-face-list {
     .pr;
     .pt(40px);
@@ -108,13 +103,23 @@
             .mt(40px);
         }
     }
-}
-.m-face-box {
-    .u-shade-btn {
-        .h(264px);
-    }
-    .u-shade {
-        .h(224px);
+    .m-face-box {
+        .u-shade-btn {
+            .h(264px);
+        }
+        .u-shade {
+            .h(224px);
+        }
+        .m-common-list {
+            flex-direction: column;
+            .w(100%);
+            .m-face-item {
+                .w(100%);
+                .u-img {
+                    .w(100%);
+                }
+            }
+        }
     }
 }
 
