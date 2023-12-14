@@ -5,8 +5,7 @@
     height: 60px;
     box-sizing: border-box;
     padding: 10px 15px;
-    align-items: center;
-    overflow-x: auto;
+    align-items: center; 
     gap: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     .search-group {
@@ -251,7 +250,9 @@
 }
 @media screen and (max-width: @phone) {
     .pvx-search-wrapper {
+        height: auto;
         .search-group {
+            flex-direction: column;
             .search-item {
                 position: relative;
                 margin: 0;
