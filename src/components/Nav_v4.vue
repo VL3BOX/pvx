@@ -35,14 +35,12 @@
                 </div>
             </div>
         </div>
-        <template v-if="navStatus !== 2">
-            <div class="u-btn" v-if="!navStatus" @click="toRight">
-                <img src="../assets/img/nav/op.svg" svg-inline />
-            </div>
-            <div class="u-btn" v-if="navStatus" @click="toLeft">
-                <img src="../assets/img/nav/left.svg" svg-inline />
-            </div>
-        </template>
+        <div class="u-btn" v-if="!navStatus" @click="toRight">
+            <img src="../assets/img/nav/op.svg" svg-inline />
+        </div>
+        <div class="u-btn" v-if="navStatus" @click="toLeft">
+            <img src="../assets/img/nav/left.svg" svg-inline />
+        </div>
         <!-- <div class="u-btn" :class="navStatus === 2 && 'is-disabled'" @click="toRight">
                 <i class="el-icon-arrow-right"></i>
             </div> -->
@@ -136,7 +134,9 @@ export default {
     },
     methods: {
         toLeft() {
-            if (this.navStatus > 0) {
+            if (this.navStatus === 2) {
+                this.navStatus = 0;
+            } else if (this.navStatus > 0) {
                 this.navStatus--;
             }
         },
