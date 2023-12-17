@@ -89,7 +89,6 @@ export default {
             }
             if (this.keyword) {
                 const keyword = this.keyword.trim();
-                const reg = new RegExp(keyword, "i");
                 list = list
                     .map((item) => {
                         item.list = item.list.filter((e) => e.szName.includes(keyword));
@@ -135,7 +134,7 @@ export default {
                 });
                 this.versions = versions.reverse();
                 // 加载所有声望
-                const promiseAll = this.versions.map((item) => getList({ dlc: item.value }));
+                const promiseAll = this.versions.map((item) => getList({ dlc: item.value, ...this.params }));
                 Promise.all(promiseAll).then((res) => {
                     const allList = res.map((item) => item.data.list);
                     this.newsList = allList.flat().filter((item) => this.news.includes(item.dwForceID));
