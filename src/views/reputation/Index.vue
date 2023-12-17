@@ -78,7 +78,7 @@ export default {
         params() {
             return {
                 page: 1,
-                pageSize: 50,
+                per: 50,
                 client: this.client,
             };
         },
