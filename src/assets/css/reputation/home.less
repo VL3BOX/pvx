@@ -3,8 +3,7 @@
     .m-common-tabs {
         .u-select {
             .flex;
-            .w(100%);
-            min-width: 260px;
+            width: 260px;
             input {
                 .r(30px);
             }
@@ -13,6 +12,7 @@
         .m-group {
             .flex;
             gap: 10px;
+            align-items: center;
             &.m-group-search {
                 .w(100%);
             }
@@ -62,73 +62,42 @@
         }
     }
 
-    .reputaion-content-wrapper {
-        .reputation-list-wrapper {
-            .pt(40px);
-            &:first-child .reputation-title {
-                .mt(0);
-            }
-            .reputation-title {
-                font-size: 28px;
-                font-weight: 700;
-                color: #24292e;
-            }
-        }
-        .reputation-list {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            gap: 20px;
+    .reputation-list-wrapper {
+        .pt(40px);
+        .reputation-title {
+            .fz(28px);
+            .bold;
+            color: #24292e;
         }
     }
-}
-@media screen and (max-width: @ipad) {
-    .reputation-container {
-        padding: 20px;
-        .reputation-search {
-            margin-left: -60px;
-            padding-left: 60px;
-        }
-        .reputaion-content-wrapper {
-            .reputation-list {
-                justify-content: space-between;
-            }
-        }
-        .reputation-item {
-            margin-right: 0;
-        }
+    .reputation-list {
+        .flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 20px;
+        gap: 20px;
     }
 }
 
 @media screen and (max-width: @phone) {
     .reputation-container {
-        .reputation-search {
-            .search-item,
-            .select-item {
-                &:nth-child(2) {
-                    margin-right: 0;
-                }
-                margin-bottom: 15px;
-                &.select-wrap {
-                    width: 210px;
-                    input {
-                        width: 150px;
-                    }
-                }
+        .m-common-tabs {
+            flex-direction: column;
+            .m-group {
+                .w(100%);
+                .r(10px);
+                padding: 10px 15px;
+                box-sizing: border-box;
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
             }
         }
-        .reputation-title {
-            text-align: center;
-        }
-        .reputation-item {
-            margin-right: 0;
-        }
-        .reputaion-content-wrapper {
-            .pt(64px);
-            .reputation-list {
-                justify-content: center;
+        .reputation-list .reputation-item {
+            .w(100%);
+            .reputation-icon {
+                flex-shrink: 0;
+            }
+            .progress-wrap {
+                width: 100%;
             }
         }
     }

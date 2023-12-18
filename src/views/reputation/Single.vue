@@ -201,7 +201,7 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push({ path: "/" });
+            this.$router.push({ name: "reputation" });
         },
         getPath(name) {
             return paths.find((item) => item.reputations.includes(name))
