@@ -276,43 +276,8 @@
     .w-boxcoin-records-list {
         background-color: #fff;
     }
-}
-// @media screen and (max-width: @ipad) {
-//     .m-reputation-content {
-//         flex-direction: column;
-//         height: auto !important;
-//         .info-wrapper {
-//             margin-right: 0 !important;
-//             margin-bottom: 20px;
-//             overflow-y: auto !important;
-//             .info-content {
-//                 flex-wrap: wrap-reverse;
-//                 justify-content: center;
-//                 height: auto !important;
-//             }
-//         }
-//         .map-wrapper {
-//             width: 100% !important;
-//             .map-content {
-//                 width: 100% !important;
-//             }
-//         }
-//     }
-//     .m-reputation-wrapper .reputation-reward-wrapper .reward-content {
-//         flex-direction: column;
-//         height: auto;
-//         .reward-desc-list {
-//             height: 400px;
-//         }
-//         .reward-desc-list {
-//             margin-right: 0;
-//         }
-//     }
-//     .m-reputation-wrapper .reputation-reward-wrapper .reward-content .reward-desc-list .item .from-to {
-//         margin-right: 0;
-//     }
-// }
-@media screen and (max-width: @phone) {
+} 
+@media screen and (max-width: @ipad) {
     .m-reputation-content {
         flex-direction: column;
         .title {
@@ -352,10 +317,15 @@
                 flex-direction: column;
                 height: auto;
                 align-items: flex-start;
+                .from-to{
+                    font-weight: normal;
+                }
                 .desc {
                     align-items: flex-start;
+                    font-weight: normal;
                     .desc-title {
                         flex-shrink: 0;
+                        font-weight: normal;
                     }
                 }
             }
