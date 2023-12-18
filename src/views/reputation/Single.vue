@@ -5,30 +5,33 @@
         </div>
         <div class="m-reputation-content" v-if="reputation">
             <div class="info-wrapper">
-                <div class="title">
-                    {{ reputation.szName }}
-                    <span>ID:{{ reputation.dwForceID }}</span>
-                </div>
-                <div class="info-content content-detail">
+                <div class="m-content m-content-info">
+                    <div class="title">
+                        {{ reputation.szName }}
+                        <span>ID:{{ reputation.dwForceID }}</span>
+                    </div>
                     <div class="detail-wrap">
-                        <div class="sub-title">{{ reputation.szName }}</div>
+                        <div class="sub-title">
+                            <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
+                            介绍
+                        </div>
                         <div class="u-desc" v-html="reputation.szDesc"></div>
                         <template v-if="reputation.szMapNames && reputation.szMapNames.length">
-                            <div class="sub-title2">
+                            <div class="sub-title">
                                 <img src="@/assets/img/reputation/reputation_map.svg" width="15" svg-inline />
                                 声望地图
                             </div>
                             <div class="u-desc">{{ reputation.szMapNames[0] }}</div>
                         </template>
                         <template v-if="reputation.GroupName">
-                            <div class="sub-title2">
+                            <div class="sub-title">
                                 <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
                                 势力类型
                             </div>
                             <div class="u-desc">{{ reputation.GroupName }}</div>
                         </template>
                         <template>
-                            <div class="sub-title2">
+                            <div class="sub-title">
                                 <img src="@/assets/img/reputation/reputation_path.svg" width="15" svg-inline />
                                 遗失的尊敬
                             </div>
@@ -37,30 +40,30 @@
                             </div>
                         </template>
                     </div>
+                </div>
+                <div class="m-content">
                     <div class="img-wrap">
                         <img
                             v-if="reputation.servant && reputation.servant.szImagePath"
                             :src="getIcon(reputation.servant.szImagePath, 'partner')"
                         />
                         <!-- 默认图片 -->
-                        <img v-else class="default-img" src="@/assets/img/reputation/sw-null.jpg" />
+                        <img v-else src="@/assets/img/reputation/sw-null.jpg" />
                     </div>
                     <div class="detail-wrap" v-if="reputation.servant">
-                        <div class="sub-title">
+                        <div class="sub-title sub-name">
                             {{ reputation.servant.szNpcName }}
                         </div>
                         <div class="u-desc" v-html="reputation.servant.szDescBrief"></div>
                         <div class="u-desc" v-html="reputation.servant.szDescPersonality.replace(/\\n/g, '<br>')"></div>
-                        <template>
-                            <div class="sub-title2">
-                                <img src="@/assets/img/reputation/reputation_title2.svg" width="15" svg-inline />
-                                知交祝福
-                            </div>
-                            <div class="u-desc">
-                                <span>{{ reputation.servant.szBuffName }}</span>
-                                {{ reputation.servant.szBuffDesc }}
-                            </div>
-                        </template>
+                        <div class="sub-title">
+                            <img src="@/assets/img/reputation/reputation_title2.svg" width="15" svg-inline />
+                            知交祝福
+                        </div>
+                        <div class="u-desc">
+                            <span>{{ reputation.servant.szBuffName }}</span>
+                            {{ reputation.servant.szBuffDesc }}
+                        </div>
                     </div>
                 </div>
                 <!-- <div class="current-progress">
