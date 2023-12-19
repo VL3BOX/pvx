@@ -172,7 +172,7 @@ export default {
 
             page: 1, //当前页数
             total: 0, //总条目数
-            per: 8, //每页条目
+            per: 0, //每页条目
             count: 0, // 自动判断最多显示几个
 
             showTypes: [
@@ -223,7 +223,6 @@ export default {
     watch: {
         params: {
             deep: true,
-            immediate: true,
             handler() {
                 this.loadData();
             },
