@@ -24,7 +24,12 @@
                     <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item :style="`width: calc(100% / ${per_page} - 20px)`" v-for="pet in item.list" :key="pet.id" :petObject="pet" />
+                    <pet-item
+                        :style="!isPhone ? `width: calc(100% / ${per_page} - 20px)` : ''"
+                        v-for="pet in item.list"
+                        :key="pet.id"
+                        :petObject="pet"
+                    />
                 </div>
             </div>
         </template>
@@ -144,6 +149,9 @@ export default {
         },
         hasNextPage() {
             return this.page < this.pages;
+        },
+        isPhone() {
+            return isPhone();
         },
     },
     watch: {
@@ -275,7 +283,7 @@ export default {
         },
         // 按宽度显示个数
         showCount(num = 1) {
-            if (isPhone()) num += 8;
+            if (this.isPhone) num += 8;
             const listWidth = this.$refs.listRef?.clientWidth;
             this.per_page = Math.floor(listWidth / 206) * num;
         },

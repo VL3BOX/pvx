@@ -1,5 +1,5 @@
 <template>
-    <div ref="listRef" class="p-book" v-loading="loading">
+    <div class="p-book">
         <div class="m-share-tabs m-common-tabs">
             <div class="m-common-card">
                 <div
@@ -23,7 +23,7 @@
                 />
             </div>
         </div>
-        <div class="m-content">
+        <div class="m-content" ref="listRef" v-loading="loading">
             <template v-if="active === 0">
                 <div v-for="(item, i) in list" :key="i" class="m-book-list">
                     <template v-if="item.list.length">
@@ -40,7 +40,7 @@
                         <CommonList :data="{ ...itemData, type: item.id }" @update:load="handleLoad">
                             <div class="m-common-list">
                                 <BookCard
-                                    :style="`width: calc(100% / ${count} - 20px)`"
+                                    :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
                                     v-for="item in item.list"
                                     :key="item.id"
                                     :item="item"
@@ -67,24 +67,22 @@
                     </div>
                 </div>
                 <template v-if="subList.length">
-                    <div class="m-book-list--all">
-                        <template v-if="showType === 'card'">
-                            <BookCard
-                                v-for="item in subList"
-                                :key="item.id"
-                                :item="item"
-                                :reporter="{ aggregate: listId(subList) }"
-                            />
-                        </template>
-
-                        <template v-if="showType === 'list'">
-                            <BookItem
-                                v-for="item in subList"
-                                :key="item.id"
-                                :item="item"
-                                :reporter="{ aggregate: listId(subList) }"
-                            />
-                        </template>
+                    <div class="m-book-list--card" v-if="showType === 'card'">
+                        <BookCard
+                            v-for="item in subList"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(subList) }"
+                        />
+                    </div>
+                    <div class="m-book-list--list" v-if="showType === 'list'">
+                        <ListHead></ListHead>
+                        <BookItem
+                            v-for="item in subList"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(subList) }"
+                        />
                     </div>
                 </template>
                 <el-button
@@ -116,16 +114,16 @@
 import CommonList from "@/components/common/list.vue";
 import professions from "@/assets/data/book_profession.json";
 import { isPhone } from "@/utils/index";
-import { omit, cloneDeep } from "lodash";
+import { omit, cloneDeep, concat } from "lodash";
 import BookItem from "@/components/book/result/book_item.vue";
 import BookCard from "@/components/book/BookCard.vue";
-
+import ListHead from "@/components/book/result/list_head.vue";
 import { mapState } from "vuex";
 import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { CommonList, BookCard, BookItem },
+    components: { CommonList, BookCard, BookItem, ListHead },
     data() {
         return {
             loading: false,
@@ -189,7 +187,7 @@ export default {
             ],
             showType: "card",
 
-            appendPage: false,
+            appendMode: false,
         };
     },
     computed: {
@@ -217,6 +215,9 @@ export default {
         subList() {
             if (this.active === 0) return null;
             return this.list.filter((e) => e.id == this.active)[0].list;
+        },
+        isPhone() {
+            return isPhone();
         },
     },
     watch: {
@@ -247,13 +248,17 @@ export default {
         },
         // 按宽度显示个数
         showCount() {
-            if (isPhone()) {
+            if (this.isPhone) {
                 this.per = 8;
                 return;
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
             this.count = Math.floor(listWidth / this.itemData.width);
             this.per = this.count;
+        },
+        appendPage() {
+            this.appendMode = true;
+            this.handleLoad(this.active);
         },
         handleLoad(type) {
             const page = this.list.filter((e) => e.id == type)[0].page;
