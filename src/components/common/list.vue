@@ -65,6 +65,7 @@ export default {
     }
     .m-common-list {
         .flex;
+        .w(100%);
         gap: 20px;
     }
     &.search {

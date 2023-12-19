@@ -28,13 +28,19 @@
                 <div v-for="(item, i) in list" :key="i" class="m-book-list">
                     <template v-if="item.list.length">
                         <div class="u-type">
-                            <div class="u-title">{{ item.label }}</div>
-                            <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                            <div class="u-title">
+                                【{{ item.label }}】
+                                <span
+                                    >共<b>{{ item.total }} </b>本{{ item.label }}</span
+                                >
+                            </div>
+                            <div class="u-all" @click="clickTabs(item.id)" v-if="item.id !== 8">查看全部</div>
                         </div>
 
                         <CommonList :data="{ ...itemData, type: item.id }" @update:load="handleLoad">
                             <div class="m-common-list">
                                 <BookCard
+                                    :style="`width: calc(100% / ${count} - 20px)`"
                                     v-for="item in item.list"
                                     :key="item.id"
                                     :item="item"
@@ -48,23 +54,44 @@
             <div class="m-book-list" v-else>
                 <div class="u-type u-all-type">
                     <div class="u-title">{{ typeName }}</div>
-                    <!-- 切换按钮 -->
+                    <div v-if="active !== 0" class="m-operate">
+                        <div
+                            class="m-item"
+                            :class="showType === item.value && 'active'"
+                            :key="item.value"
+                            v-for="item in showTypes"
+                            @click="showType = item.value"
+                        >
+                            {{ item.label }}
+                        </div>
+                    </div>
                 </div>
                 <template v-if="subList.length">
-                    <!-- 切换形态 -->
-                    <div class="m-face-list--all">
-                        <AdventureItem
-                            v-for="item in subList"
-                            :key="item.id"
-                            :item="item"
-                            :reporter="{ aggregate: listId(subList) }"
-                        />
+                    <div class="m-book-list--all">
+                        <template v-if="showType === 'card'">
+                            <BookCard
+                                v-for="item in subList"
+                                :key="item.id"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </template>
+
+                        <template v-if="showType === 'list'">
+                            <BookItem
+                                v-for="item in subList"
+                                :key="item.id"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </template>
                     </div>
                 </template>
                 <el-button
                     class="m-archive-more"
                     v-show="hasNextPage"
                     type="primary"
+                    plain
                     @click="appendPage"
                     :loading="loading"
                     icon="el-icon-arrow-down"
@@ -90,7 +117,7 @@ import CommonList from "@/components/common/list.vue";
 import professions from "@/assets/data/book_profession.json";
 import { isPhone } from "@/utils/index";
 import { omit, cloneDeep } from "lodash";
-// import BookItem from "@/components/book/result/book_item.vue";
+import BookItem from "@/components/book/result/book_item.vue";
 import BookCard from "@/components/book/BookCard.vue";
 
 import { mapState } from "vuex";
@@ -98,7 +125,7 @@ import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { CommonList, BookCard },
+    components: { CommonList, BookCard, BookItem },
     data() {
         return {
             loading: false,
@@ -116,6 +143,7 @@ export default {
                     label: "最近阅读",
                     page: 1,
                     pages: 1,
+                    total: 0,
                     list: [],
                 },
                 {
@@ -123,6 +151,7 @@ export default {
                     label: "杂集",
                     page: 1,
                     pages: 1,
+                    total: 0,
                     list: [],
                 },
                 {
@@ -130,6 +159,7 @@ export default {
                     label: "道学",
                     page: 1,
                     pages: 1,
+                    total: 0,
                     list: [],
                 },
                 {
@@ -137,6 +167,7 @@ export default {
                     label: "佛学",
                     page: 1,
                     pages: 1,
+                    total: 0,
                     list: [],
                 },
             ],
@@ -145,6 +176,20 @@ export default {
             total: 0, //总条目数
             per: 8, //每页条目
             count: 0, // 自动判断最多显示几个
+
+            showTypes: [
+                {
+                    value: "list",
+                    label: "列表",
+                },
+                {
+                    value: "card",
+                    label: "卡片",
+                },
+            ],
+            showType: "card",
+
+            appendPage: false,
         };
     },
     computed: {
@@ -162,6 +207,17 @@ export default {
             if (this.active) _params.profession = this.active;
             return _params;
         },
+        typeName() {
+            return this.list.filter((e) => e.id == this.active)[0].label;
+        },
+        hasNextPage: function () {
+            const pages = this.list.filter((e) => e.id == this.active)[0].pages;
+            return pages > 1 && this.page < pages;
+        },
+        subList() {
+            if (this.active === 0) return null;
+            return this.list.filter((e) => e.id == this.active)[0].list;
+        },
     },
     watch: {
         params: {
@@ -173,8 +229,7 @@ export default {
         },
         active: {
             immediate: true,
-            handler: function (val) {
-                this.per = val === 0 ? this.count : this.count * 3;
+            handler: function () {
                 this.page = 1;
             },
         },
@@ -186,6 +241,10 @@ export default {
         listId(list) {
             return list.map((e) => e.id);
         },
+        changePage(i) {
+            this.page = i;
+            this.loadData();
+        },
         // 按宽度显示个数
         showCount() {
             if (isPhone()) {
@@ -194,12 +253,12 @@ export default {
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
             this.count = Math.floor(listWidth / this.itemData.width);
-            this.per = this.active == 0 ? this.count : this.count * 3;
+            this.per = this.count;
         },
         handleLoad(type) {
             const page = this.list.filter((e) => e.id == type)[0].page;
             let params = cloneDeep(this.params);
-            params.per = this.per;
+            params.per = this.per * 3;
             params.page = page + 1;
             params.profession = type;
             this.loadList(params, type);
@@ -212,10 +271,12 @@ export default {
                 list.forEach((e) => {
                     params.page = e.page;
                     params.profession = e.id;
+                    params.per = this.per;
                     this.loadList(params, e.id);
                 });
             } else {
                 params.page = this.page;
+                params.per = this.per * 3;
                 this.loadList({ ...params, profession: this.active }, this.active);
             }
         },
@@ -230,6 +291,7 @@ export default {
                     this.list[index].list = _list || [];
                     this.list[index].page = page || 1;
                     this.list[index].pages = pages || 1;
+                    this.list[index].total = total || 0;
                     if (this.active !== "all") this.page = page || 1;
                     this.total = total;
                 })
