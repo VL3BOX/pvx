@@ -1,398 +1,251 @@
 <template>
-    <div ref="listRef" class="book-home-wrapper" v-loading="loading">
-        <PvxSearch ref="search" :items="searchProps" class="book-search" @search="searchEvent($event)">
-            <el-tooltip
-                effect="dark"
-                v-for="profession in professionList"
-                :key="profession.id"
-                :content="`共 ${profession.total || 0} 本 ${profession.name === '全部' ? '书籍' : profession.name}`"
-                placement="bottom"
-            >
+    <div ref="listRef" class="p-book" v-loading="loading">
+        <div class="m-share-tabs m-common-tabs">
+            <div class="m-common-card">
                 <div
-                    class="select-item"
-                    :class="[profession.id === selected && 'is-active', 'select-item-' + profession.id]"
-                    @click="selected = profession.id"
+                    v-for="item in professions"
+                    :key="item.id"
+                    class="u-tab"
+                    @click="clickTabs(item.id)"
+                    :class="{ active: item.id == active }"
                 >
-                    {{ profession.name }}
+                    {{ item.name }}
                 </div>
-            </el-tooltip>
-        </PvxSearch>
-        <div class="list-wrapper" ref="crossWrap">
-            <!-- 全部模式 -->
-            <template v-if="isAll">
-                <!-- 最近阅读 -->
-                <div v-if="recentReadList.length" class="list-item-wrapper">
-                    <div class="title-header">
-                        <div class="title">最近阅读</div>
-                        <a href="javascript:;" @click="clearRecent">清除记录</a>
-                    </div>
-                    <list-cross
-                        v-if="isPhone() || showRecentCross"
-                        key="recentRead"
-                        ref="recentRead"
-                        :list="recentReadList"
-                        :radius="0"
-                        :gap="40"
-                    >
-                        <template v-slot="data">
-                            <BookCard :item="data.item"></BookCard>
-                        </template>
-                    </list-cross>
-                    <div v-else class="no-cross-wrap">
-                        <div class="list" style="gap: 40px">
-                            <BookCard :item="item" v-for="(item, i) in recentReadList" :key="item.idKey + i"></BookCard>
+            </div>
+
+            <div class="u-search m-common-card">
+                <el-input
+                    placeholder="输入关键词搜索"
+                    v-model="keyword"
+                    clearable
+                    suffix-icon="el-icon-search"
+                    class="u-search-input"
+                />
+            </div>
+        </div>
+        <div class="m-content">
+            <template v-if="active === 0">
+                <div v-for="(item, i) in list" :key="i" class="m-book-list">
+                    <template v-if="item.list.length">
+                        <div class="u-type">
+                            <div class="u-title">{{ item.label }}</div>
+                            <div class="u-all" @click="setActive(item.value)">查看全部</div>
                         </div>
-                    </div>
-                </div>
-                <!-- 杂集、道学、佛学 -->
-                <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
-                    <div v-if="list.length" class="title-header">
-                        <div class="title">
-                            {{ professionList[index + 1].name }}
-                        </div>
-                        <a href="javascript:;" @click="selected = professionList[index + 1].id">查看全部</a>
-                    </div>
-                    <list-cross
-                        v-if="showCross[index]"
-                        :ref="professionList[index + 1].name"
-                        :key="professionList[index + 1].name"
-                        :list="list"
-                        :radius="0"
-                        :gap="40"
-                    >
-                        <template v-slot="data">
-                            <BookCard :item="data.item"></BookCard>
-                        </template>
-                    </list-cross>
-                    <div v-else class="no-cross-wrap">
-                        <div class="list" style="gap: 40px">
-                            <BookCard :item="item" v-for="(item, i) in list" :key="item.idKey + i"></BookCard>
-                        </div>
-                    </div>
+
+                        <CommonList :data="{ ...itemData, type: item.id }" @update:load="handleLoad">
+                            <div class="m-common-list">
+                                <BookCard
+                                    v-for="item in item.list"
+                                    :key="item.id"
+                                    :item="item"
+                                    :reporter="{ aggregate: listId(data) }"
+                                />
+                            </div>
+                        </CommonList>
+                    </template>
                 </div>
             </template>
-            <!-- 列表模式 -->
-            <div v-else class="list-item-wrapper">
-                <div v-if="list.length" class="title-header">
-                    <div class="title">
-                        {{ professionList.find((item) => item.id === this.selected).name }}
+            <div class="m-book-list" v-else>
+                <div class="u-type u-all-type">
+                    <div class="u-title">{{ typeName }}</div>
+                    <!-- 切换按钮 -->
+                </div>
+                <template v-if="subList.length">
+                    <!-- 切换形态 -->
+                    <div class="m-face-list--all">
+                        <AdventureItem
+                            v-for="item in subList"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(subList) }"
+                        />
                     </div>
-                    <div v-if="showSwitch" class="operate-wrap">
-                        <div class="list-type-wrapper">
-                            <div
-                                class="list-type-item"
-                                :class="listType === item.value && 'active'"
-                                :key="item.value"
-                                v-for="item in listTypes"
-                                @click="listType = item.value"
-                            >
-                                {{ item.label }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 列表 -->
-                <div v-if="listType === 'list'" class="list-content">
-                    <ListHead></ListHead>
-                    <BookItem :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookItem>
-                    <pagination
-                        v-if="list.length"
-                        v-show="totalPages > 0"
-                        :total="total"
-                        :page.sync="query.page"
-                        :limit.sync="query.pageSize"
-                        @pagination="loadList"
-                    />
-                </div>
-                <!-- 卡片 -->
-                <div v-if="listType === 'card'" class="list-card-content">
-                    <BookCard :item="item" v-for="(item, index) in list" :key="item.idKey + index"></BookCard>
-                    <el-button
-                        v-if="list.length"
-                        class="more-btn"
-                        :disabled="!hasNextPage"
-                        @click="loadCardList"
-                        :loading="loading"
-                        :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
-                        icon="el-icon-arrow-down"
-                        >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
-                    >
-                </div>
+                </template>
+                <el-button
+                    class="m-archive-more"
+                    v-show="hasNextPage"
+                    type="primary"
+                    @click="appendPage"
+                    :loading="loading"
+                    icon="el-icon-arrow-down"
+                    >加载更多</el-button
+                >
+                <el-pagination
+                    class="m-archive-pages"
+                    background
+                    layout="total, prev, pager, next, jumper"
+                    :hide-on-single-page="true"
+                    :page-size="per"
+                    :total="total"
+                    :current-page="page"
+                    @current-change="changePage"
+                ></el-pagination>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import PvxSearch from "@/components/PvxSearch.vue";
-import ListCross from "@/components/ListCross.vue";
-import BookCard from "@/components/book/BookCard";
-import ListHead from "@/components/book/result/list_head.vue";
-import BookItem from "@/components/book/result/book_item.vue";
-import Pagination from "@/components/Pagination";
-
-import { getList } from "@/service/book";
-
+import CommonList from "@/components/common/list.vue";
 import professions from "@/assets/data/book_profession.json";
-import { deleteNull, isPhone } from "@/utils/index";
-import { iconLink } from "@jx3box/jx3box-common/js/utils";
+import { isPhone } from "@/utils/index";
+import { omit, cloneDeep } from "lodash";
+// import BookItem from "@/components/book/result/book_item.vue";
+import BookCard from "@/components/book/BookCard.vue";
+
+import { mapState } from "vuex";
+import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { PvxSearch, ListCross, BookCard, ListHead, BookItem, Pagination },
+    components: { CommonList, BookCard },
     data() {
         return {
             loading: false,
-            listType: "card",
-            listTypes: [
-                {
-                    value: "list",
-                    label: "列表",
-                },
-                {
-                    value: "card",
-                    label: "卡片",
-                },
-            ],
-            query: {
-                page: 1,
-                pageSize: 20,
+            keyword: "",
+            active: 0,
+            data: [],
+            itemData: {
+                color: "#324148",
+                width: "250",
+                height: "380",
             },
-            total: 0,
-            totalPages: 0,
-            search: {},
-            listAll: [],
-            list: [],
-            // 是否是全部
-            isAll: true,
-            // 默认全部 id 8
-            selected: 8,
-            searchProps: [
+            list: [
                 {
-                    key: "keyword",
-                    name: "书籍名称/描述",
+                    id: 8,
+                    label: "最近阅读",
+                    page: 1,
+                    pages: 1,
+                    list: [],
+                },
+                {
+                    id: 11,
+                    label: "杂集",
+                    page: 1,
+                    pages: 1,
+                    list: [],
+                },
+                {
+                    id: 10,
+                    label: "道学",
+                    page: 1,
+                    pages: 1,
+                    list: [],
+                },
+                {
+                    id: 9,
+                    label: "佛学",
+                    page: 1,
+                    pages: 1,
+                    list: [],
                 },
             ],
-            buttonWidth: 0,
-            showCross: [],
-            showRecentCross: false,
-            gap: 20,
-            base: 190,
-            professions,
+
+            page: 1, //当前页数
+            total: 0, //总条目数
+            per: 8, //每页条目
+            count: 0, // 自动判断最多显示几个
         };
     },
     computed: {
+        professions() {
+            const _list = professions.filter((item) => item.id !== 8);
+            return [{ id: 0, name: "全部" }, ..._list];
+        },
         ...mapState(["recentReadList"]),
         client() {
             return this.$store.state.client;
         },
         params() {
-            return { ...this.query, ...this.search, client: this.client };
-        },
-        professionList() {
-            const list = this.professions.filter((item) => item.id !== 8).map((item) => item.total);
-            const allTotal = list.reduce((prev, cur) => {
-                return prev + cur;
-            }, 0);
-            return this.professions.map((item) => {
-                if (item.id === 8) {
-                    item.name = "全部";
-                    item.total = allTotal;
-                }
-                return item;
-            });
-        },
-        showSwitch() {
-            const isAll = this.isAll;
-            return !isAll && !this.isPhone();
-        },
-        hasNextPage: function () {
-            return this.totalPages > 1 && this.query.page < this.totalPages;
+            const _params = { client: this.client, per: this.per };
+            if (this.keyword) _params.keyword = this.keyword;
+            if (this.active) _params.profession = this.active;
+            return _params;
         },
     },
     watch: {
-        recentReadList: {
+        params: {
             deep: true,
             immediate: true,
-            handler(list) {
-                this.$nextTick(() => {
-                    const wrapW = this.$refs.crossWrap?.clientWidth;
-                    const gap = this.gap;
-                    const baseW = this.base + gap;
-                    // 判断是否显示左右滚动
-                    const sw = list.length * baseW - gap;
-                    if (sw > wrapW) {
-                        this.showRecentCross = true;
-                    }
-                });
+            handler() {
+                this.loadData();
             },
         },
-        selected(profession) {
-            this.$store.dispatch("setCurrentBookType", profession);
-            this.toList(profession);
-        },
-        listType: {
-            handler(type) {
-                this.query.page = 1;
-                this.list = [];
-                if (type === "list") {
-                    this.query.pageSize = 20;
-                    this.loadList();
-                } else {
-                    this.showCount();
-                }
+        active: {
+            immediate: true,
+            handler: function (val) {
+                this.per = val === 0 ? this.count : this.count * 3;
+                this.page = 1;
             },
         },
     },
     methods: {
-        clearRecent() {
-            this.$confirm("此操作将永久清除最近阅读, 是否继续?", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning",
-            })
-                .then(() => {
-                    this.$store.dispatch("clearRecentReadList").then(() => {
-                        this.$message({
-                            type: "success",
-                            message: "清除成功!",
-                        });
-                    });
-                })
-                .catch(() => {});
+        clickTabs(id) {
+            this.active = id;
         },
-        iconLink,
-        isPhone,
-        searchEvent(data) {
-            this.search = data;
-            this.toList(this.selected);
+        listId(list) {
+            return list.map((e) => e.id);
         },
-        toList(profession) {
-            this.query.page = 1;
-            if (!profession || profession === 8) {
-                this.isAll = true;
-                this.getAllList();
-            } else {
-                this.isAll = false;
-                this.list = [];
-                if (this.listType === "card") {
-                    this.showCount();
-                } else {
-                    this.loadList();
-                }
-            }
-        },
-        loadList() {
-            this.getList(this.selected, false).then((data) => {
-                this.list = data.list;
-                this.total = data.total;
-                this.totalPages = data.pages;
-            });
-        },
-        loadCardList() {
-            this.getList(this.selected, false).then((data) => {
-                this.query.page++;
-                this.list = this.list.concat(data.list);
-                this.total = data.total;
-                this.totalPages = data.pages;
-            });
-        },
-        getList(profession, returnList = true) {
-            const params = Object.assign({}, deleteNull(this.params));
-            if (profession !== 8) {
-                params.profession = profession;
-            }
-            return new Promise((resolve, reject) => {
-                getList(params)
-                    .then((res) => {
-                        const newList = res.data?.list || [];
-                        const total = res.data?.total || 0;
-                        this.professions = this.professions.map((item) => {
-                            if (item.id === ~~profession) {
-                                item.total = total;
-                            }
-                            return item;
-                        });
-                        if (returnList) {
-                            // 是否只返回List
-                            resolve(newList);
-                        } else {
-                            resolve(res.data);
-                        }
-                    })
-                    .catch((err) => {
-                        reject(err);
-                    });
-            });
-        },
-        jdugeType() {
-            const self = this;
-            setTimeout(() => {
-                if (self.isPhone()) {
-                    self.selected = 8;
-                    self.listType = "card";
-                }
-            }, 10);
-        },
-        // 列表card模式下按宽度显示个数
+        // 按宽度显示个数
         showCount() {
-            this.$nextTick(() => {
-                const listWidth = this.$refs.listRef?.clientWidth;
-                this.query.pageSize = Math.floor(listWidth / 210) * 4;
-                // 加载更多按钮的实际宽度
-                if (!this.isPhone()) {
-                    this.buttonWidth = (this.query.pageSize / 4) * 210 - 20;
-                }
-                this.loadCardList();
-            });
+            if (isPhone()) {
+                this.per = 8;
+                return;
+            }
+            const listWidth = this.$refs.listRef?.clientWidth - 120;
+            this.count = Math.floor(listWidth / this.itemData.width);
+            this.per = this.active == 0 ? this.count : this.count * 3;
         },
-        getAllList() {
-            // 重置
-            this.query.pageSize = 20;
-            this.listAll = [];
-            this.showCross = [];
-
-            const professionPros = [];
-            professions
-                .filter((profession) => profession.id !== 8)
-                .forEach((profession) => {
-                    professionPros.push(this.getList(profession.id));
-                });
+        handleLoad(type) {
+            const page = this.list.filter((e) => e.id == type)[0].page;
+            let params = cloneDeep(this.params);
+            params.per = this.per;
+            params.page = page + 1;
+            params.profession = type;
+            this.loadList(params, type);
+        },
+        loadData() {
             this.loading = true;
-            Promise.all(professionPros)
-                .then((data) => {
-                    this.loading = false;
-                    const wrapW = this.$refs.crossWrap?.clientWidth;
-                    const gap = this.gap;
-                    const baseW = this.base + gap;
-                    for (let i = 0; i < data.length; i++) {
-                        // 判断是否显示左右滚动
-                        const sw = data[i].length * baseW - gap;
-                        if (sw > wrapW) {
-                            this.showCross[i] = true;
-                        } else {
-                            this.showCross[i] = false;
-                        }
-                    }
-                    this.listAll = data;
+            let params = omit(this.params, ["profession"]);
+            if (this.active === 0) {
+                const list = this.list.filter((e) => e.id !== 8);
+                list.forEach((e) => {
+                    params.page = e.page;
+                    params.profession = e.id;
+                    this.loadList(params, e.id);
+                });
+            } else {
+                params.page = this.page;
+                this.loadList({ ...params, profession: this.active }, this.active);
+            }
+        },
+        // 加载type对应的数据
+        loadList(params, key) {
+            const index = this.list.findIndex((e) => e.id == key);
+            if (this.list[index].pages < params.page && this.active === 0) params.page = 1;
+            getList(params)
+                .then((res) => {
+                    const { list, total, pages, page } = res.data;
+                    const _list = this.appendMode ? concat(this.list[index].list, list) : list;
+                    this.list[index].list = _list || [];
+                    this.list[index].page = page || 1;
+                    this.list[index].pages = pages || 1;
+                    if (this.active !== "all") this.page = page || 1;
+                    this.total = total;
                 })
-                .catch(() => {
+                .finally(() => {
                     this.loading = false;
+                    this.appendMode = false;
                 });
         },
     },
-    mounted() {
-        this.$store.dispatch("setCurrentBookType", 8);
-        this.jdugeType();
-        const self = this;
-        window.onresize = function () {
-            self.jdugeType();
-        };
+    mounted: function () {
+        this.showCount();
     },
 };
 </script>
 
 <style lang="less">
+@import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/book/home.less";
 </style>
