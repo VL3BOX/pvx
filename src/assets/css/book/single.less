@@ -303,10 +303,11 @@
                 }
             }
             .book-list-content {
-                display: flex;
-                margin-top: 20px;
+                .ml(-10px);
+                .flex;
+                padding: 20px 0 20px 10px;
                 gap: 20px;
-                overflow: auto;
+                overflow: auto; 
                 .m-book-card {
                     flex-shrink: 0;
                 }
@@ -350,7 +351,7 @@
 @media screen and (max-width: @phone) {
     .book-single-wrapper .book-single-content {
         .book-detail-wrapper {
-            flex-direction: column; 
+            flex-direction: column;
             .book-info {
                 .w(100%);
             }
