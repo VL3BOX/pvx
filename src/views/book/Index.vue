@@ -37,7 +37,11 @@
                             <div class="u-all" @click="clickTabs(item.id)" v-if="item.id !== 8">查看全部</div>
                         </div>
 
-                        <CommonList :data="{ ...itemData, type: item.id }" @update:load="handleLoad">
+                        <CommonList
+                            :data="{ ...itemData, type: item.id }"
+                            @update:load="handleLoad"
+                            v-if="item.id !== 8"
+                        >
                             <div class="m-common-list">
                                 <BookCard
                                     :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
@@ -45,9 +49,15 @@
                                     :key="item.id"
                                     :item="item"
                                     :reporter="{ aggregate: listId(data) }"
+                                    @click="setItem(item)"
                                 />
                             </div>
                         </CommonList>
+                        <list-cross v-else key="recentRead" ref="recentRead" :list="item.list" :radius="10" :gap="20">
+                            <template v-slot="data">
+                                <BookCard :item="data.item"></BookCard>
+                            </template>
+                        </list-cross>
                     </template>
                 </div>
             </template>
@@ -111,6 +121,7 @@
 </template>
 
 <script>
+import ListCross from "@/components/ListCross.vue";
 import CommonList from "@/components/common/list.vue";
 import professions from "@/assets/data/book_profession.json";
 import { isPhone } from "@/utils/index";
@@ -123,7 +134,7 @@ import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { CommonList, BookCard, BookItem, ListHead },
+    components: { CommonList, BookCard, BookItem, ListHead, ListCross },
     data() {
         return {
             loading: false,
@@ -219,6 +230,9 @@ export default {
         isPhone() {
             return isPhone();
         },
+        readingBook() {
+            return localStorage.getItem("book_readings") || "[]";
+        },
     },
     watch: {
         params: {
@@ -245,6 +259,12 @@ export default {
             this.page = i;
             this.loadData();
         },
+        setItem(item) {
+            const list = localStorage.getItem("book_readings") || "[]";
+            const _list = [item, ...JSON.parse(list)];
+            this.list[0].list.unshift(item);
+            localStorage.setItem("book_readings", JSON.stringify(_list));
+        },
         // 按宽度显示个数
         showCount() {
             if (this.isPhone) {
@@ -257,13 +277,13 @@ export default {
         },
         appendPage() {
             this.appendMode = true;
-            this.handleLoad(this.active);
+            this.handleLoad(this.active, true);
         },
-        handleLoad(type) {
+        handleLoad(type, append) {
             const page = this.list.filter((e) => e.id == type)[0].page;
             let params = cloneDeep(this.params);
-            params.per = this.per * 3;
             params.page = page + 1;
+            params.per = append ? this.per * 3 : this.per;
             params.profession = type;
             this.loadList(params, type);
         },
@@ -307,6 +327,10 @@ export default {
     },
     mounted: function () {
         this.showCount();
+        if (this.recentReadList.length) {
+            this.list[0].list = this.recentReadList;
+            this.list[0].total = this.recentReadList.length;
+        }
     },
 };
 </script>
