@@ -7,6 +7,7 @@
     box-sizing: border-box;
     padding: 20px;
     color: #24292e;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
     .u-image {
         .size(160px);
@@ -21,10 +22,9 @@
         font-weight: 700;
     }
     .u-desc {
-        .fz(14px,1.2);
+        .fz(12px,1.2);
         width: 100%;
         font-weight: 400;
-        color: #999;
     }
     .u-img {
         .flex;
@@ -36,14 +36,9 @@
         overflow-x: auto;
     }
 
-    &:hover {
-        .u-image {
-            transform: scale(1.05);
-        }
-    }
     .u-attr-icon {
         .size(30px);
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
     .u-attr-wrap {
         display: flex;
@@ -56,6 +51,17 @@
                 max-width: 36px;
             }
         }
+    }
+    .u-more {
+        .flex;
+        .r(3px);
+        .w(100%);
+        font-weight: 400;
+        cursor: default;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        background-color: #f3f4f5;
     }
 }
 

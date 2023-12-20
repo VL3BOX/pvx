@@ -2,7 +2,16 @@
     .pt(40px);
     position: relative;
     .list-wrapper {
-        .pt(20px);
+        .m-horse-broadcast__header {
+            .mb(10px);
+        }
+        .m-horse-broadcast .m-horse-broadcast__header .el-select input {
+            background-color: #f1f1f1;
+        }
+        .m-horse-broadcast .list {
+            padding: 10px;
+            .ml(-10px);
+        }
     }
     .operate-wrap {
         display: flex;
@@ -47,12 +56,11 @@
     .list-wrapper {
         min-height: 300px;
         .list-item-wrapper {
-            margin-bottom: 40px;
             .title-header {
+                margin: 40px 0 20px 0;
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-end;
-                margin-bottom: 20px;
                 .title {
                     font-weight: 700;
                     font-size: 28px;
