@@ -18,6 +18,9 @@
             .mb(20px);
             justify-content: space-between;
             align-items: flex-end;
+            &.reading {
+                .mb(0);
+            }
             .u-all {
                 cursor: pointer;
                 color: #a5a5a5;
@@ -37,6 +40,10 @@
             .fz(28px,42px);
             .bold(700);
             color: #24292e;
+        }
+        .list {
+            margin: 10px 0 0 -10px;
+            padding: 10px;
         }
     }
     .m-operate {
@@ -73,7 +80,7 @@
         .flex;
         align-items: center;
         overflow: auto;
-        gap:20px;
+        gap: 20px;
         .m-book-card {
             flex-shrink: 0;
         }

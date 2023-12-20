@@ -27,7 +27,7 @@
             <template v-if="active === 0">
                 <div v-for="(item, i) in list" :key="i" class="m-book-list">
                     <template v-if="item.list.length">
-                        <div class="u-type">
+                        <div class="u-type" :class="{ reading: item.id === 8 }">
                             <div class="u-title">
                                 【{{ item.label }}】
                                 <span
