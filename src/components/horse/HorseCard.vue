@@ -48,7 +48,7 @@ export default {
             return this.item.MagicAttributes.slice(0, 3) || [];
         },
         count() {
-            return this.item.MagicAttributes.slice(2, -1).length;
+            return this.item.MagicAttributes.slice(3).length;
         },
     },
     methods: {

@@ -5,10 +5,19 @@
     .r(10px);
     background-color: #fff;
     box-sizing: border-box;
+    border: 1px solid #fff;
     padding: 20px;
     color: #24292e;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
+    transition: 0.3s ease-out;
+    &:hover {
+        border: 1px solid #e86f00;
+        box-shadow: 0 0 10px 0 rgba(232, 111, 0, 0.4);
+        background-color: rgba(232, 111, 0, 0.1);
+        .u-more {
+            background-color: #fff;
+        }
+    }
     .u-image {
         .size(160px);
         .r(10px);
@@ -54,10 +63,9 @@
     }
     .u-more {
         .flex;
-        .r(3px);
+        .r(5px);
         .w(100%);
         font-weight: 400;
-        cursor: default;
         align-items: center;
         justify-content: center;
         color: #999;

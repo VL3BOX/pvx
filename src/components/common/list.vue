@@ -32,7 +32,7 @@ export default {
             return this.data?.height || 0;
         },
         type() {
-            return this.data?.type || "all";
+            return this.data?.type;
         },
     },
     methods: {

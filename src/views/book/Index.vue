@@ -46,9 +46,9 @@
                                 <BookCard
                                     :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
                                     v-for="item in item.list"
-                                    :key="item.id"
+                                    :key="item.ID"
                                     :item="item"
-                                    :reporter="{ aggregate: listId(data) }"
+                                    :reporter="{ aggregate: listId(item.list) }"
                                     @click="setItem(item)"
                                 />
                             </div>
@@ -80,7 +80,7 @@
                     <div class="m-book-list--card" v-if="showType === 'card'">
                         <BookCard
                             v-for="item in subList"
-                            :key="item.id"
+                            :key="item.ID"
                             :item="item"
                             :reporter="{ aggregate: listId(subList) }"
                         />
@@ -89,7 +89,7 @@
                         <ListHead></ListHead>
                         <BookItem
                             v-for="item in subList"
-                            :key="item.id"
+                            :key="item.ID"
                             :item="item"
                             :reporter="{ aggregate: listId(subList) }"
                         />
@@ -253,7 +253,8 @@ export default {
             this.active = id;
         },
         listId(list) {
-            return list.map((e) => e.id);
+            if (!list?.length) return [];
+            return list.map((e) => e.ID);
         },
         changePage(i) {
             this.page = i;
@@ -316,7 +317,7 @@ export default {
                     this.list[index].page = page || 1;
                     this.list[index].pages = pages || 1;
                     this.list[index].total = total || 0;
-                    if (this.active !== "all") this.page = page || 1;
+                    if (this.active !== 0) this.page = page || 1;
                     this.total = total;
                 })
                 .finally(() => {
