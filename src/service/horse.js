@@ -8,8 +8,7 @@ function getHorses(params) {
     });
 }
 
-function getHorse(params) {
-    console.log(params)
+function getHorse(params) {    
     return $.get(`/horse`, {
         params,
     });

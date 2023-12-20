@@ -1,6 +1,56 @@
 <template>
     <div class="horse-home-wrapper">
-        <!-- <PvxSearch :items="searchProps" :initValue="initValue" @search="searchEvent($event)"></PvxSearch> -->
+        <div class="m-share-tabs m-common-tabs">
+            <div class="m-common-card">
+                <div
+                    v-for="item in list"
+                    :key="item.type"
+                    class="u-tab"
+                    @click="clickTabs(item.type)"
+                    :class="{ active: item.type === active }"
+                >
+                    {{ item.name }}
+                </div>
+            </div>
+            <el-popover
+                ref="popover"
+                :placement="isPhone ? 'right' : 'bottom'"
+                :width="!isPhone && 420"
+                trigger="click"
+            >
+                <div class="filter-content">
+                    <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
+                        <div class="check-box-wrapper">
+                            <div class="name">{{ sItem.name }}</div>
+                            <el-checkbox-group v-model="searchType[i].checked">
+                                <el-checkbox-button
+                                    v-for="option in sItem.list"
+                                    :label="option.label"
+                                    :key="option.value"
+                                ></el-checkbox-button>
+                            </el-checkbox-group>
+                        </div>
+                    </div>
+                    <el-row>
+                        <el-col :offset="20" :span="4">
+                            <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="filter-img" slot="reference">
+                    <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
+                </div>
+            </el-popover>
+            <div class="u-search m-common-card">
+                <el-input
+                    placeholder="输入关键词搜索"
+                    v-model="keyword"
+                    clearable
+                    suffix-icon="el-icon-search"
+                    class="u-search-input"
+                />
+            </div>
+        </div>
         <div class="m-horse-content" ref="listRef" v-loading="loading">
             <!-- 全部模式 -->
             <template v-if="active === ''">
@@ -8,7 +58,7 @@
                 <HorseBroadcast v-if="client === 'std'"></HorseBroadcast>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div v-for="(item, i) in list" :key="i" class="m-list-wrapper">
-                    <template v-if="item.list.length">
+                    <template v-if="item.list && item.list.length">
                         <div class="u-type">
                             <div class="u-title">
                                 {{ item.name }}
@@ -169,59 +219,22 @@ export default {
             appendMode: false,
             feeds: [],
             attrs: [],
-
-            searchProps: [
+            searchType: [
                 {
-                    key: "type",
-                    name: "类型",
-                    type: "radio",
-                    options: [
-                        {
-                            type: "",
-                            name: "全部",
-                        },
-                        {
-                            type: 0,
-                            name: "普通坐骑",
-                        },
-                        {
-                            type: 1,
-                            name: "奇趣坐骑",
-                        },
-                        {
-                            type: 2,
-                            name: "马具",
-                        },
-                    ],
+                    key: "feed",
+                    type: "checkbox",
+                    name: "喂食饲料",
+                    list: [],
+                    checked: [],
                 },
                 {
-                    type: "filter",
-                    key: "filter",
-                    name: "过滤",
-                    options: [
-                        {
-                            key: "feed",
-                            type: "checkbox",
-                            name: "喂食饲料",
-                            options: [],
-                        },
-                        {
-                            key: "attr",
-                            type: "checkbox",
-                            name: "属性",
-                            options: [],
-                        },
-                    ],
-                },
-                {
-                    key: "keyword",
-                    name: "名称/ID",
+                    key: "attr",
+                    type: "checkbox",
+                    name: "属性",
+                    list: [],
+                    checked: [],
                 },
             ],
-
-            buttonWidth: 0,
-            showCross: [],
-            showRecentCross: false,
         };
     },
     computed: {
@@ -258,9 +271,21 @@ export default {
                 this.page = 1;
             },
         },
+        searchType: {
+            deep: true,
+            handler() {
+                const feed = this.searchType[0].checked.join(",");
+                const attr = this.searchType[1].checked.join(",");
+                this.page = 1;
+                this.loadData({ ...this.params, feed, attr });
+            },
+        },
     },
     methods: {
         iconLink,
+        clickTabs(type) {
+            this.active = type;
+        },
         loadInfoData() {
             getFeeds({ client: this.client }).then((res) => {
                 const arr = res.data.map((item) => {
@@ -284,6 +309,7 @@ export default {
                         value: item.id,
                     };
                 });
+                this.searchType[0].list = this.feeds;
             });
             getAttrs({ client: this.client }).then((res) => {
                 const data = res.data;
@@ -294,6 +320,7 @@ export default {
                     };
                 });
                 this.attrs = options;
+                this.searchType[1].list = this.attrs;
             });
         },
         getFeed(item) {
@@ -373,9 +400,9 @@ export default {
             params.type = type;
             this.loadList(params, type);
         },
-        loadData() {
+        loadData(params = this.params) {
             this.loading = true;
-            let params = omit(this.params, ["type"]);
+            params = omit(params, ["type"]);
             if (this.active === "") {
                 const list = this.list.filter((e) => e.type !== "");
                 list.forEach((e) => {
@@ -423,24 +450,23 @@ export default {
                     this.appendMode = false;
                 });
         },
+        checkboxChange(key) {
+            const value = this.checkboxData[key];
+            this[key] = value.join(",");
+        },
+        reset() {
+            this.feed = [];
+            this.attr = [];
+        },
     },
     mounted() {
         this.showCount();
         this.loadInfoData();
-
-        // const attrPro = this.getAttrList();
-        // const feedPro = this.getFeedList();
-        // const self = this;
-        // Promise.all([attrPro, feedPro]).then(() => {
-        //     self.jdugeType();
-        // });
-        // window.onresize = function () {
-        //     self.jdugeType();
-        // };
     },
 };
 </script>
 
 <style lang="less">
+@import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/horse/index.less";
 </style>
