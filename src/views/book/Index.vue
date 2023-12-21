@@ -251,6 +251,11 @@ export default {
     methods: {
         clickTabs(id) {
             this.active = id;
+            this.list = this.list.map((e) => {
+                e.page = 1;
+                return e;
+            });
+            this.page = 1;
         },
         listId(list) {
             if (!list?.length) return [];

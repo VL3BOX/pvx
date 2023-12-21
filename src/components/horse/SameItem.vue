@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { isPhone } from "@/utils/index";
 import ItemIcon from "../common/item_icon.vue";
 export default {
     name: "SameItem",
@@ -47,11 +48,14 @@ export default {
     },
     components: { ItemIcon },
     computed: {
+        isPhone() {
+            return isPhone();
+        },
         MagicAttributes() {
-            return this.item.MagicAttributes.slice(0, 3) || [];
+            return this.isPhone ? this.item.MagicAttributes : this.item.MagicAttributes.slice(0, 3) || [];
         },
         count() {
-            return this.item.MagicAttributes.slice(3).length;
+            return this.isPhone ? 0 : this.item.MagicAttributes.slice(3).length;
         },
     },
     methods: {

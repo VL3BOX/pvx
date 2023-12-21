@@ -37,8 +37,7 @@ export default {
     methods: {
         iconLink,
         // 去重item
-        filterSameItem(list) {
-            console.log("%c 🍈 list: ", "font-size:20px;background-color: #FFDD4D;color:#fff;", list);
+        filterSameItem(list) { 
             let arr = [];
             let obj = {};
             list.forEach((item) => {

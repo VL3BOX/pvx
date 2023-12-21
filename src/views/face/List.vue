@@ -218,8 +218,7 @@ export default {
                     this.appendMode = false;
                 });
         },
-        changePage(i) {
-            console.log(1);
+        changePage(i) { 
             this.page = i;
             this.loadData();
         },

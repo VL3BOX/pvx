@@ -11,36 +11,37 @@
                 >
                     {{ item.name }}
                 </div>
-            </div>
-            <el-popover
-                ref="popover"
-                :placement="isPhone ? 'right' : 'bottom'"
-                :width="!isPhone && 420"
-                trigger="click"
-            >
-                <div class="filter-content">
-                    <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
-                        <div class="check-box-wrapper">
-                            <div class="name">{{ sItem.name }}</div>
-                            <el-checkbox-group v-model="searchType[i].checked">
-                                <el-checkbox-button
-                                    v-for="option in sItem.list"
-                                    :label="option.label"
-                                    :key="option.value"
-                                ></el-checkbox-button>
-                            </el-checkbox-group>
+                <el-popover
+                    ref="popover"
+                    :placement="isPhone ? 'right' : 'bottom'"
+                    :width="!isPhone && 420"
+                    trigger="click"
+                >
+                    <div class="filter-content">
+                        <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
+                            <div class="check-box-wrapper">
+                                <div class="name">{{ sItem.name }}</div>
+                                <el-checkbox-group v-model="searchType[i].checked">
+                                    <el-checkbox-button
+                                        v-for="option in sItem.list"
+                                        :label="option.label"
+                                        :key="option.value"
+                                    ></el-checkbox-button>
+                                </el-checkbox-group>
+                            </div>
                         </div>
+                        <el-row>
+                            <el-col :offset="20" :span="4">
+                                <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                            </el-col>
+                        </el-row>
                     </div>
-                    <el-row>
-                        <el-col :offset="20" :span="4">
-                            <el-button size="mini" type="info" plain @click="reset">重置</el-button>
-                        </el-col>
-                    </el-row>
-                </div>
-                <div class="filter-img" slot="reference">
-                    <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
-                </div>
-            </el-popover>
+                    <div class="filter-img" slot="reference">
+                        <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
+                    </div>
+                </el-popover>
+            </div>
+
             <div class="u-search m-common-card">
                 <el-input
                     placeholder="输入关键词搜索"
@@ -92,57 +93,73 @@
                 </div>
             </template>
             <!-- 列表模式 -->
-            <!-- <div v-else class="list-item-wrapper">
-                <div v-if="list.length" class="title-header">
-                    <div class="title">
-                        {{
-                            types.find((item) => item.type === this.selected)
-                                ? types.find((item) => item.type === this.selected).name
-                                : "全部"
-                        }}
-                    </div>
-                    <div v-if="showSwitch" class="operate-wrap">
-                        <div class="list-type-wrapper">
-                            <div
-                                class="list-type-item"
-                                :class="listType === item.value && 'active'"
-                                :key="item.value"
-                                v-for="item in listTypes"
-                                @click="listType = item.value"
-                            >
-                                {{ item.label }}
-                            </div>
+            <div class="m-horse-list" v-else>
+                <div class="u-type u-all-type">
+                    <div class="u-title">{{ typeName }}</div>
+                    <div v-if="active !== ''" class="m-operate">
+                        <div
+                            class="m-item"
+                            :class="showType === item.value && 'active'"
+                            :key="item.value"
+                            v-for="item in showTypes"
+                            @click="showType = item.value"
+                        >
+                            {{ item.label }}
                         </div>
                     </div>
                 </div>
-       
-                <div v-if="listType === 'list'" class="list-content">
-                    <ListHead></ListHead>
-                    <HorseItem :item="item" v-for="item in list" :key="item.ID"></HorseItem>
-                    <pagination
-                        v-if="list.length"
-                        v-show="totalPages > 0"
-                        :total="total"
-                        :page.sync="query.page"
-                        :limit.sync="query.per"
-                        @pagination="loadList"
-                    />
-                </div>
-            
-                <div v-if="listType === 'card'" class="list-card-content">
-                    <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
-                    <el-button
-                        v-if="list.length"
-                        class="more-btn"
-                        :disabled="!hasNextPage"
-                        @click="loadCardList"
-                        :loading="loading"
-                        :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
-                        icon="el-icon-arrow-down"
-                        >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
-                    >
-                </div>
-            </div> -->
+                <template v-if="subList.length">
+                    <div class="m-horse-list--card" v-if="showType === 'card'">
+                        <template v-if="active !== 2">
+                            <HorseCard
+                                :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                v-for="item in subList"
+                                :key="item.ID"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </template>
+                        <template v-else>
+                            <SameItem
+                                :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                v-for="item in subList"
+                                :key="item.ID"
+                                :item="item"
+                                :reporter="{ aggregate: listId(item.list) }"
+                            />
+                        </template>
+                    </div>
+                    <div class="m-horse-list--list" v-if="showType === 'list'">
+                        <ListHead></ListHead>
+                        <HorseItem
+                            v-for="item in subList"
+                            :key="item.ID"
+                            :item="item"
+                            :reporter="{ aggregate: listId(subList) }"
+                        />
+                    </div>
+                </template>
+                <el-button
+                    class="m-archive-more"
+                    v-show="hasNextPage"
+                    type="primary"
+                    plain
+                    @click="appendPage"
+                    :loading="loading"
+                    icon="el-icon-arrow-down"
+                    >加载更多</el-button
+                >
+                <el-pagination
+                    class="m-archive-pages"
+                    background
+                    layout="total, prev, pager, next, jumper"
+                    :hide-on-single-page="true"
+                    :page-size="per"
+                    :total="total"
+                    :current-page="page"
+                    @current-change="changePage"
+                ></el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -150,7 +167,6 @@
 <script>
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
 import CommonList from "@/components/common/list.vue";
-import PvxSearch from "@/components/PvxSearch.vue";
 import HorseBroadcast from "@/components/horse/HorseBroadcast";
 import HorseCard from "@/components/horse/HorseCard";
 import SameItem from "@/components/horse/SameItem.vue";
@@ -161,12 +177,12 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
 export default {
     name: "HorseHome",
-    components: { SameItem, HorseCard, HorseBroadcast, CommonList },
+    components: { SameItem, HorseCard, HorseBroadcast, CommonList, ListHead, HorseItem },
     data() {
         return {
             loading: false,
-            listType: "card",
-            listTypes: [
+            showType: "card",
+            showTypes: [
                 {
                     value: "list",
                     label: "列表",
@@ -244,15 +260,19 @@ export default {
         params() {
             const _params = { client: this.client, per: this.per };
             if (this.keyword) _params.keyword = this.keyword;
+            if (this.active !== "") _params.type = this.active;
             return _params;
         },
         hasNextPage: function () {
             const pages = this.list.filter((e) => e.type === this.active)[0].pages;
             return pages > 1 && this.page < pages;
         },
+        typeName() {
+            return this.list.filter((e) => e.type == this.active)[0].name;
+        },
         subList() {
-            if (this.active === 0) return null;
-            return this.list.filter((e) => e.type == this.active)[0].list;
+            if (this.active === "") return null;
+            return this.list.filter((e) => e.type === this.active)[0].list;
         },
         isPhone() {
             return isPhone();
@@ -265,12 +285,7 @@ export default {
                 this.loadData();
             },
         },
-        active: {
-            immediate: true,
-            handler: function () {
-                this.page = 1;
-            },
-        },
+
         searchType: {
             deep: true,
             handler() {
@@ -285,6 +300,11 @@ export default {
         iconLink,
         clickTabs(type) {
             this.active = type;
+            this.list = this.list.map((e) => {
+                e.page = 1;
+                return e;
+            });
+            this.page = 1;
         },
         loadInfoData() {
             getFeeds({ client: this.client }).then((res) => {
