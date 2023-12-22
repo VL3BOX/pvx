@@ -137,7 +137,7 @@ export default {
     .pt(40px);
     background-color: #f5f5f5;
     .m-content {
-        .pt(20px);
+        .pt(40px);
     }
 }
 @media screen and (max-width: @phone) {
