@@ -11,6 +11,9 @@
                 >
                     {{ item.name }}
                 </div>
+            </div>
+
+            <div class="u-search m-common-card">
                 <el-popover
                     ref="popover"
                     :placement="isPhone ? 'right' : 'bottom'"
@@ -40,9 +43,6 @@
                         <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
                     </div>
                 </el-popover>
-            </div>
-
-            <div class="u-search m-common-card">
                 <el-input
                     placeholder="输入关键词搜索"
                     v-model="keyword"
