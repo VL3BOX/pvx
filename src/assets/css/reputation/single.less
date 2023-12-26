@@ -38,7 +38,7 @@
                         .fz(16px);
                         margin-right: 20px;
                         font-weight: 700;
-                        width: 135px;
+                        flex-shrink: 0;
                     }
                     .desc {
                         display: flex;
@@ -53,7 +53,7 @@
                         }
                         .desc-content {
                             width: inherit;
-                            font-size: 14px;
+                            .fz(14px,24px);
                             font-weight: 300;
                         }
                     }
@@ -95,16 +95,19 @@
                         .page-item {
                             width: 20px;
                             height: 20px;
-                            line-height: 20px;
+                            line-height: 18px;
                             font-size: 12px;
                             font-weight: 700;
                             text-align: center;
                             color: #fff;
-                            background-color: #a4680d3d;
-                            cursor: pointer;
+                            background-color: #d16400;
+                            border: 2px solid #d16400;
+                            box-sizing: border-box;
+                            .pointer;
                             &.active,
                             &:hover {
-                                background-color: #a4680d;
+                                background-color: #fff;
+                                color: #d16400;
                             }
                         }
                     }
@@ -115,7 +118,7 @@
                     justify-content: flex-start;
                     align-items: center;
                     flex-wrap: wrap;
-                    gap: 12px;
+                    gap: 10px;
                 }
                 .no-data {
                     margin-top: 20px;
@@ -123,14 +126,15 @@
                     height: 36px;
                     line-height: 36px;
                     text-align: center;
-                    background-color: #c5c5c5;
-                    color: #000;
+                    background-color: #d16400;
+                    color: #fff;
                     font-weight: 700;
                     border-radius: 5px;
                 }
                 &.active {
-                    border: 1px solid #d16400;
                     background: #e86f0019;
+                    color: #d16400;
+                    border: 1px #e86f00 solid;
                     box-shadow: 0px 0px 10px rgba(232, 111, 0, 0.4);
                     .stage-title {
                         span {

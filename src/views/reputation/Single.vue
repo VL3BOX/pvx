@@ -92,19 +92,19 @@
                 <div class="reward-desc-list">
                     <div
                         class="item"
-                        :class="stage === index && 'active'"
+                        :class="{ active: stage === index }"
                         v-for="(item, index) in reputation.gainList"
                         :key="index"
                         @click="stage = index"
                     >
                         <div class="from-to">{{ item.from }}<i class="el-icon-caret-right"></i>{{ item.to }}</div>
                         <div class="desc">
-                            <div class="desc-title">提升方式</div>
+                            <div class="desc-title">提升方式：</div>
                             <div class="desc-content">{{ item.desc }}</div>
                         </div>
                     </div>
                 </div>
-                <div v-if="reputation.gainList" class="stage-reward-list">
+                <div v-if="reputation.gainList" class="stage-reward-list" :class="{ active: stage !== -1 }">
                     <div class="stage-title">
                         <span
                             >阶段奖励（{{
