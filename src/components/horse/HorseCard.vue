@@ -49,10 +49,14 @@ export default {
             return this.$store.state.client;
         },
         MagicAttributes() {
-            return this.isPhone ? this.item.MagicAttributes : this.item.MagicAttributes.slice(0, 3) || [];
+            if (this.isPhone) this.item.MagicAttributes;
+            return this.item.MagicAttributes.length <= 4
+                ? this.item.MagicAttributes
+                : this.item.MagicAttributes.slice(0, 3) || [];
         },
         count() {
-            return this.isPhone ? 0 : this.item.MagicAttributes.slice(3).length;
+            if (this.isPhone) return 0;
+            return this.item.MagicAttributes.length <= 4 ? 0 : this.item.MagicAttributes.slice(3).length;
         },
     },
     methods: {
