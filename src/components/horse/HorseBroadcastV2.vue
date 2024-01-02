@@ -29,12 +29,7 @@
                         </div>
                         <span class="u-col u-name">{{ item.map_name }}</span>
                         <div class="u-col" v-if="item.horses && item.horses.length">
-                            <div
-                                class="u-horse"
-                                v-for="horse in item.horses.slice(0, 3)"
-                                :key="horse"
-                                @click="go(horse)"
-                            >
+                            <div class="u-horse" v-for="horse in horseList(item)" :key="horse" @click="go(horse)">
                                 <el-tooltip class="item" effect="dark" :content="horse" placement="top">
                                     <el-image :src="getImgSrc(horse)" class="u-image">
                                         <div slot="error" class="image-slot">
@@ -116,6 +111,9 @@ export default {
             let list = this.list || [];
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
             return list.concat(this.existData) || [];
+        },
+        isPhone() {
+            return document.documentElement.clientWidth <= 768;
         },
     },
     watch: {
@@ -305,6 +303,9 @@ export default {
         convertTime(time) {
             const [hour, minute] = time.split(":").map(Number);
             return hour * 60 + minute;
+        },
+        horseList(item) {
+            return this.isPhone ? item.horses : item.horses.slice(0, 3);
         },
     },
     mounted() {
