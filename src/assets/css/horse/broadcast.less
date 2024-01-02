@@ -2,9 +2,9 @@
     .mt(40px);
     .m-horse-broadcast__header {
         .flex;
+        .mb(0) !important;
         align-items: flex-end;
         gap: 20px;
-        margin-bottom: 20px;
         .u-title {
             font-weight: 700;
             font-size: 28px;
@@ -34,94 +34,84 @@
         }
     }
     .m-horse-broadcast__list {
-        .m-horse-broadcast__item {
-            .size(346px,297px);
+        .flex;
+        .mt(20px);
+        gap: 40px;
+        height: 192px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        .r(10px);
+        .u-horse-map {
+            .size(306px,192px);
             .r(10px);
-            padding: 20px;
-            background-color: #fff;
-            box-sizing: border-box;
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-            .u-horse-map {
-                .size(306px,192px);
-                .r(10px);
-                overflow: hidden;
+            overflow: hidden;
+        }
+        .m-list {
+            .flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 3px;
+            .m-item {
+                .pr;
+                &:nth-child(4n-3)::after {
+                    content: "";
+                    .pa;
+                    left: -20px;
+                    top: 150%;
+                    width: 2px;
+                    height: 56px;
+                    background-color: #d6d6d6;
+                }
             }
-            .u-horse-mapinfo {
+            .m-horse {
                 .flex;
-                .mt(20px);
-                justify-content: space-between;
-                gap: 10px;
-                .u-horses {
-                    .scrollbar;
-                    .pb(6px);
-                    max-width: 200px;
-                    overflow-x: auto;
+                .pointer;
+                .r(10px);
+                .size(306px,45px);
+                background-color: #f5f5f5;
+                align-items: center;
+                padding: 0 10px;
+                gap: 5px;
+                color: #000;
+                .mr(40px);
+                .bold;
+                .fz(14px);
+                &.no-horse {
+                    justify-content: center;
+                }
 
-                    .u-horses-content {
-                        .flex;
-                        gap: 10px;
-                    }
-                    .u-horse {
-                        .r(10px);
-                        .size(45px);
-                        flex-shrink: 0;
-                        background-image: url("../../img/horse_item_bg_sm.jpg");
-                        &.u-chitu {
-                            .flex;
-                            align-items: center;
-                            justify-content: center;
-                            background-image: none;
-                            font-size: 12px;
-                        }
-                    }
-                    img {
-                        .pointer;
-                        .r(10px);
-                        .size(45px);
-                        transition: all 0.5s;
-                        &:hover {
-                            transform: scale(1.1);
-                        }
+                .u-col {
+                    .flex;
+                    gap: 2px;
+                    width: 32%;
+                    flex-shrink: 0;
+                    justify-content: flex-end;
+                    &.u-times {
+                        justify-content: flex-start;
                     }
                 }
-                .u-times-info {
-                    .flex;
-                    flex-direction: column;
-                    font-weight: 700;
-                    .u-map-name {
-                        .fz(18px,1.5);
-                    }
-                    .u-times {
-                        .fz(14px);
-                    }
-                    .u-times-lately {
-                        color: #f94343;
-                    }
-                    & > div {
-                        .flex;
-                        justify-content: flex-end;
-                    }
-                    &.is-chitu {
-                        .u-name,
-                        .u-times {
-                            opacity: 0.5;
-                        }
-                        .el-icon-refresh {
-                            cursor: pointer;
-                            color: #f94343;
-                        }
-                        i {
-                            margin-right: 5px;
-                        }
+                .u-name {
+                    .x;
+                }
+                .u-horse {
+                    .item {
+                        background-color: #000;
+                        .size(25px);
+                        .r(5px);
+                        .pointer;
                     }
                 }
             }
         }
     }
     .w-no-data {
-        display: flex;
+        .r(10px);
+        .flex;
+        .bold;
+        .mt(20px);
         justify-content: center;
         align-items: center;
-        min-height: 317px;
+        min-height: 232px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
 }

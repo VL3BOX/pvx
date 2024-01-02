@@ -40,7 +40,7 @@
                         </el-row>
                     </div>
                     <div class="filter-img" slot="reference">
-                        <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
+                        <img svg-inline src="@/assets/img/filter.svg" fill="#949494" @click="filter = true" />
                     </div>
                 </el-popover>
                 <el-input
@@ -56,7 +56,7 @@
             <!-- 全部模式 -->
             <template v-if="active === ''">
                 <!-- 抓马播报 -->
-                <HorseBroadcast v-if="client === 'std'"></HorseBroadcast>
+                <HorseBroadcastV2 v-if="client === 'std'"></HorseBroadcastV2>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div v-for="(item, i) in list" :key="i" class="m-list-wrapper">
                     <template v-if="item.list && item.list.length">
@@ -167,7 +167,7 @@
 <script>
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
 import CommonList from "@/components/common/list.vue";
-import HorseBroadcast from "@/components/horse/HorseBroadcast";
+import HorseBroadcastV2 from "@/components/horse/HorseBroadcastV2";
 import HorseCard from "@/components/horse/HorseCard";
 import SameItem from "@/components/horse/SameItem.vue";
 import ListHead from "@/components/horse/ListHead";
@@ -177,7 +177,7 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
 export default {
     name: "HorseHome",
-    components: { SameItem, HorseCard, HorseBroadcast, CommonList, ListHead, HorseItem },
+    components: { SameItem, HorseCard, HorseBroadcastV2, CommonList, ListHead, HorseItem },
     data() {
         return {
             loading: false,
@@ -235,6 +235,7 @@ export default {
             appendMode: false,
             feeds: [],
             attrs: [],
+            filter: false,
             searchType: [
                 {
                     key: "feed",
@@ -285,14 +286,15 @@ export default {
                 this.loadData();
             },
         },
-
         searchType: {
             deep: true,
             handler() {
                 const feed = this.searchType[0].checked.join(",");
                 const attr = this.searchType[1].checked.join(",");
                 this.page = 1;
-                this.loadData({ ...this.params, feed, attr });
+                if (this.filter) {
+                    this.loadData({ ...this.params, feed, attr });
+                }
             },
         },
     },
@@ -475,6 +477,10 @@ export default {
             this[key] = value.join(",");
         },
         reset() {
+            this.searchType = this.searchType.map((item) => {
+                item.checked = [];
+                return item;
+            });
             this.feed = [];
             this.attr = [];
         },
@@ -487,6 +493,7 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/assets/css/search.less";
 @import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/horse/index.less";
 </style>
