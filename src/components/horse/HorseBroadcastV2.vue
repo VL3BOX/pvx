@@ -16,7 +16,12 @@
             ></jx3box-map>
             <div class="m-list">
                 <div class="m-item" v-for="(item, index) in listData" :key="index">
-                    <div class="m-horse" @click="active = index" v-if="item.fromTime">
+                    <div
+                        class="m-horse"
+                        @click="active = index"
+                        v-if="item.fromTime"
+                        :class="{ active: active === index }"
+                    >
                         <div class="u-col u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
                             <span>{{ item.fromTime }}</span>
                             <span> ~ </span>
