@@ -1,5 +1,5 @@
 <template>
-    <div class="p-face-single" v-loading="loading">
+    <div class="p-face-single" v-loading="loading" ref="singleRef">
         <div class="m-navigation">
             <div class="u-goback" @click="goBack">返回列表</div>
 
@@ -11,12 +11,12 @@
                     </div>
                 </a>
                 <a href="/os/#/omp/pvx/facedata" target="_blank">
-<!--                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">-->
+                    <!--                <a v-if="isSinglePage && isEditor" href="/os/#/omp/pvx/facedata" target="_blank">-->
                     <div size="medium" class="u-manage"></div>
                 </a>
-<!--                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">-->
-<!--                    <el-button size="medium" class="u-tips-off"></el-button>-->
-<!--                </a>-->
+                <!--                <a v-else href="/os/#/omp/pvx/facedata" target="_blank">-->
+                <!--                    <el-button size="medium" class="u-tips-off"></el-button>-->
+                <!--                </a>-->
             </div>
         </div>
         <public-notice bckey="face_ac"></public-notice>
@@ -132,7 +132,10 @@
                         >数据列表</span
                     >
                 </div>
-                <div class="m-face-desc" :class="{ 'no-desc': !post.remark && rightShow === 'desc', 'is-desc': rightShow === 'desc' }">
+                <div
+                    class="m-face-desc"
+                    :class="{ 'no-desc': !post.remark && rightShow === 'desc', 'is-desc': rightShow === 'desc' }"
+                >
                     <div v-if="rightShow === 'desc'" class="u-desc">
                         {{ post.remark }}
                     </div>
@@ -279,7 +282,7 @@ export default {
         id: function () {
             return ~~this.$route.params.id;
         },
-        isAdmin: function() {
+        isAdmin: function () {
             return User.isAdmin();
         },
         isAuthor: function () {
@@ -377,7 +380,7 @@ export default {
                         this.getAccessoryList();
                         //获取作者作品 和 系统推荐作品
                         this.getRandomFaceList();
-                        this.getRandomList();
+                        // this.getRandomList();
                         this.getSliders();
                     })
                     .catch((err) => {
@@ -404,7 +407,7 @@ export default {
                         this.downloadParams.total = data.page.total;
                     }
                     if (!this.post.remark && this.downFileList && this.downFileList.length) {
-                        this.rightShow = 'data'
+                        this.rightShow = "data";
                     }
                 })
                 .finally(() => {
@@ -551,7 +554,9 @@ export default {
         },
         getRandomFaceList() {
             const { user_id } = this.post;
-            getRandomFace({ user_id, limit: 8 }).then((res) => {
+            const listWidth = this.$refs.singleRef?.clientWidth - 120;
+            const limit = Math.floor(listWidth / 190);
+            getRandomFace({ user_id, limit }).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;
                 }
