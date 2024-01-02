@@ -18,11 +18,15 @@
                 <div class="m-item" v-for="(item, index) in listData" :key="index">
                     <div
                         class="m-horse"
-                        @click="active = index"
-                        v-if="item.fromTime"
+                        @click="changeHorse(item, index)"
+                        v-if="!item.is_chitu"
                         :class="{ active: active === index }"
                     >
-                        <div class="u-col u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
+                        <div
+                            class="u-col u-times"
+                            :class="item.subtype === 'foreshow' && 'u-times-lately'"
+                            v-if="item.fromTime"
+                        >
                             <span>{{ item.fromTime }}</span>
                             <span> ~ </span>
                             <span>{{ item.toTime }}</span>
@@ -109,8 +113,9 @@ export default {
         },
         listData() {
             let list = this.list || [];
+            const arr = this.isPhone ? [] : new Array(15 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
-            return list.concat(this.existData) || [];
+            return list.concat(this.existData, arr) || [];
         },
         isPhone() {
             return document.documentElement.clientWidth <= 768;
@@ -295,9 +300,6 @@ export default {
                         toTime: toTime,
                     };
                 });
-                // .sort(function (a, b) {
-                //     return dayjs.tz(new Date(b.fromTime)).valueOf() - dayjs.tz(new Date(a.fromTime)).valueOf();
-                // });
             });
         },
         convertTime(time) {
@@ -306,6 +308,10 @@ export default {
         },
         horseList(item) {
             return this.isPhone ? item.horses : item.horses.slice(0, 3);
+        },
+        changeHorse(item, index) {
+            if (!item.map_id) return;
+            this.active = index;
         },
     },
     mounted() {
