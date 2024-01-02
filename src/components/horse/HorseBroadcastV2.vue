@@ -338,7 +338,4 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/horse/broadcast.less";
-.u-chitu-tip {
-    max-width: 200px;
-}
 </style>
