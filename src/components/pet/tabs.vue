@@ -10,13 +10,13 @@
 
         <!-- 地图筛选 -->
         <div class="m-common-card m-maps-card">
-            <el-select v-model="mapId" filterable class="u-select" clearable>
+            <el-select v-model="mapId" :class="{ active: mapId }" filterable class="u-select" clearable>
                 <el-option label="全部地图" value=""></el-option>
                 <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
                 <template #prefix> 地图 </template>
             </el-select>
-            <el-select v-model="petSource" filterable class="u-select" clearable>
+            <el-select v-model="petSource" :class="{ active: petSource }" filterable class="u-select" clearable>
                 <el-option
                     v-for="(item, index) in Source"
                     :key="'laiyuan' + index"

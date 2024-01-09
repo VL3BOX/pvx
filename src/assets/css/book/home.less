@@ -1,163 +1,136 @@
-.book-home-wrapper {
-    position: relative;
-    .operate-wrap {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .list-type-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            border-radius: 30px;
-            padding: 3px;
-            background-color: #fff;
-            .list-type-item {
-                font-size: 13px;
-                background-color: #fff;
-                color: #bbb;
-                padding: 5px 15px;
-                text-align: center;
-                cursor: pointer;
-                &:hover {
-                    font-weight: bold;
-                    color: @active-color;
-                }
-                &:first-of-type {
-                    border-top-left-radius: 30px;
-                    border-bottom-left-radius: 30px;
-                }
-                &:last-of-type {
-                    border-top-right-radius: 30px;
-                    border-bottom-right-radius: 30px;
-                }
-                &.active {
-                    font-weight: bold;
-                    color: #fff;
-                    border-radius: 30px;
-                    background: @active-color;
-                }
-            }
-        }
-    }
-    .book-search {
-        .search-group {
-            gap: 20px;
-        }
-        .select-item {
-            width: 100px;
-            height: 40px;
-            line-height: 40px;
-            border-radius: 30px;
-            color: #949494;
-            background-color: #fff;
-            // font-weight: bold;
-            text-align: center;
-            flex: none;
-            cursor: pointer;
-            &:hover,
-            &.is-active {
+.p-book {
+    .pt(40px);
+    .m-common-tabs {
+        .u-tab {
+            transition: 0.3s ease-out;
+            &.active,
+            &:hover {
+                background: #d16400;
                 color: #fff;
-                &.select-item-8,
-                &.select-item-11 {
-                    // 全部、杂集
-                    background-color: #324148;
+            }
+        }
+        .u-search .u-search-input{
+            .w(100%);
+        }
+    }
+
+    .m-book-list {
+        .mt(40px);
+        .u-type {
+            .flex;
+            .mb(20px);
+            justify-content: space-between;
+            align-items: flex-end;
+            &.reading {
+                .mb(0);
+            }
+            .u-all {
+                cursor: pointer;
+                color: #a5a5a5;
+                .fz(16px,21px);
+            }
+            span {
+                .fz(14px);
+                color: #777;
+                letter-spacing: 2px;
+                b {
+                    .bold;
+                    letter-spacing: 0;
                 }
-                &.select-item-9 {
-                    // 佛学
-                    background-color: #947d2e;
-                }
-                &.select-item-10 {
-                    // 道学
-                    background-color: #194372;
-                }
+            }
+        }
+        .u-title {
+            .fz(28px,42px);
+            .bold(700);
+            color: #24292e;
+        }
+        .list {
+            margin: 10px 0 0 -10px;
+            padding: 10px;
+        }
+    }
+    .m-operate {
+        .flex;
+        .r(30px);
+        align-items: center;
+        justify-content: flex-end;
+        padding: 3px;
+        background-color: #f3f5f6;
+        .m-item {
+            .fz(13px);
+            .x;
+            .pointer;
+            .r(30px);
+            color: #bbb;
+            padding: 5px 15px;
+            &:hover {
+                color: #24292e;
+            }
+            &.active {
+                color: #fff;
+                background: #24292e;
             }
         }
     }
-    .list-wrapper {
-        .pt(20px);
-        min-height: 300px;
-        .list-item-wrapper {
-            margin-bottom: 40px;
-            .title-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
-                margin-bottom: 20px;
-                .title {
-                    font-weight: 700;
-                    font-size: 28px;
-                    height: 42px;
-                    line-height: 42px;
-                    color: #24292e;
-                }
-                a {
-                    font-weight: 400;
-                    font-size: 16px;
-                    line-height: 21px;
-                    color: #a5a5a5;
-                }
-            }
-            .no-cross-wrap {
-                .list {
-                    display: flex;
-                    gap: 20px;
-                }
-            }
-        }
-        .list-card-content {
-            position: relative;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            // margin-top: 48px;
-            .more-btn {
-                width: 100%;
-            }
-        }
-        .list-content {
-            gap: 20px;
-            // margin-top: 48px;
+    .m-book-list--card,
+    .m-book-list--list {
+        .w(100%);
+        .flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .m-reading-list {
+        .flex;
+        align-items: center;
+        overflow: auto;
+        gap: 20px;
+        .m-book-card {
+            flex-shrink: 0;
         }
     }
-}
-@media screen and (max-width: @ipad) {
-    .book-home-wrapper {
-        .list-wrapper {
-            .list-card-content {
-                justify-content: space-evenly;
-            }
+    .m-book-list--list {
+        .m-book-card {
+            box-sizing: border-box;
+            .w(100%);
+        }
+    }
+    .m-archive-more {
+        .mt(40px);
+        .w(100%);
+        background-color: #fff;
+        &:hover {
+            color: #0366d6;
+            border-color: #b3d1f3;
+            background-color: #e6f0fb;
         }
     }
 }
 
 @media screen and (max-width: @phone) {
-    .book-home-wrapper {
-        .m-book-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+    .p-book {
+        .m-book-list .u-type {
             align-items: center;
         }
-        .list-wrapper {
-            .pt(64px);
+        .m-common-tabs .u-tab {
+            width: calc(33% - 10px);
+            &:first-child {
+                .w(100%);
+            }
         }
-    }
-}
-
-// 阴影hack
-.book-home-wrapper {
-    // 生成阴影填充区
-    .m-book-card {
-        padding-top: 10px;
-    }
-
-    .cross-wrapper {
-        .cross {
-            top: 10px;
-            bottom: 0;
-            height: auto;
+        .m-book-list--card,
+        .m-book-list--list {
+            .m-book-card {
+                width: calc(100% - 40px);
+            }
+        }
+        .m-common-list {
+            overflow: auto;
+            .m-book-card {
+                flex-shrink: 0;
+            }
+        }
+        .m-operate {
+            .none;
         }
     }
 }

@@ -3,8 +3,7 @@
 .horse-single-wrapper {
     .main-info-wrapper {
         .pr;
-        .pt(20px);
-        .mb(40px);
+        .mt(40px);
         width: 100%;
         & > .title {
             margin-bottom: 20px;
@@ -23,9 +22,13 @@
                 background-color: #fff;
                 padding: 20px;
                 box-sizing: border-box;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
                 .u-image {
+                    .flex;
                     .size(350px);
                     .r(10px);
+                    align-items: center;
+                    justify-content: center;
                     background-image: url("../../img/horse_item_bg.jpg");
                 }
             }
@@ -40,6 +43,7 @@
                 background-color: #fff;
                 font-weight: 700;
                 color: #24292e;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
                 .info-item {
                     .flex;
                     .fz(14px,1.2);
@@ -94,7 +98,7 @@
         }
     }
     .same-list-container {
-        margin-bottom: 40px;
+        margin-top: 40px;
         .title {
             .fz(24px,42px);
             .mb(20px);
@@ -108,9 +112,8 @@
         }
     }
     .catch-container {
-        margin-bottom: 40px;
+        margin-top: 40px;
         .title {
-            margin-bottom: 20px;
             font-size: 28px;
             font-weight: 700;
             height: 42px;
@@ -118,7 +121,7 @@
         }
         .m-horse-map {
             background-color: #fff;
-            padding: 20px;
+            padding: 20px 0;
             border-radius: 10px;
         }
     }
@@ -128,15 +131,19 @@
     }
 
     // 同类坐骑
-    .m-horse-list .list {
+    .m-horse-list {
+        .flex;
+        .ml(-10px);
+        gap: 20px;
+        overflow: auto;
+        padding: 10px;
+
         .same-item {
+            flex-shrink: 0;
             height: 110px;
             padding: 10px;
             .img-wrap {
-                .size(90px);
-                .u-image {
-                    .full;
-                }
+                flex-shrink: 0;
             }
             .info-wrap {
                 height: auto;
@@ -162,11 +169,13 @@
 
 @media screen and (max-width: @phone) {
     .horse-single-wrapper {
-        overflow-x: hidden;
+        .horse-single-content .main-info-wrap .img-wrap .u-image {
+            .w(100%);
+        }
         .main-info-wrapper {
             .mt(0);
         }
-        .horse-single-content{
+        .horse-single-content {
             .pt(64px);
         }
         .main-info-wrap {

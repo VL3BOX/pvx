@@ -5,16 +5,16 @@
                 <img src="@/assets/img/nav/open.svg" svg-inline />
             </span>
             <span class="u-close" v-if="navStatus === 2" @click="toLeft">
-                <img src="@/assets/img/nav/fold.svg" svg-inline />
+                <img src="@/assets/img/nav/fold.svg" svg-inline class="u-icon" />
             </span>
-            <a v-if="navStatus === 2" class="u-home" href="/pvx">
-                <img :src="require(`@/assets/img/nav/home${active === 'pvx' ? '' : '1'}.svg`)" svg-inline />
+            <a v-if="navStatus === 2" class="u-home" :class="active" href="/pvx">
+                <img src="@/assets/img/nav/home.svg" svg-inline class="u-icon" />
             </a>
             <span class="u-setting is-disabled" v-if="navStatus === 2">
                 <img src="@/assets/img/nav/setting.svg" svg-inline />
             </span>
         </div>
-        <div class="m-pvx-nav">
+        <div class="m-pvx-nav" v-if="clientMenus.length">
             <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
                 <div
                     class="m-nav-item"
@@ -24,12 +24,11 @@
                     v-show="item.status"
                 >
                     <a :href="item.path" :target="item.target || '_self'">
-                        <img
-                            class="u-nav-icon"
-                            :src="getNavIcon(item.key, active == item.key)"
-                            svg-inline
-                            :alt="item.label"
-                        />
+                        <div class="u-nav-icon">
+                            <img svg-inline :src="require(`../assets/img/nav/${item.key}.svg`)" class="u-icon" />
+                            <img svg-inline :src="require(`../assets/img/nav/${item.key}2.svg`)" class="u-icon-hover" />
+                        </div>
+
                         <span>{{ item.label }}</span>
                     </a>
                     <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
@@ -110,6 +109,9 @@ export default {
             }
             return menus;
         },
+        storeNavStatus() {
+            return ~~sessionStorage.getItem("navStatus") || 1;
+        },
     },
     watch: {
         navStatusClass: {
@@ -118,18 +120,23 @@ export default {
                 this.$emit("statusChange", navStatusClass);
             },
         },
+        navStatus: {
+            handler(navStatus) {
+                sessionStorage.setItem("navStatus", navStatus);
+            },
+        },
+        storeNavStatus: {
+            immediate: true,
+            handler(val) {
+                this.navStatus = val;
+            },
+        },
     },
     methods: {
-        getNavIcon(key, isActive) {
-            let name = key + (this.navStatus ? this.navStatus : "");
-            if (this.navStatus === 1 && isActive) {
-                // regular
-                name = key;
-            }
-            return require(`../assets/img/nav/${name}.svg`);
-        },
         toLeft() {
-            if (this.navStatus > 0) {
+            if (this.navStatus === 2) {
+                this.navStatus = 0;
+            } else if (this.navStatus > 0) {
                 this.navStatus--;
             }
         },

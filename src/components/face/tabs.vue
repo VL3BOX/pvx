@@ -1,15 +1,15 @@
 <template>
     <div class="m-face-tabs m-common-tabs">
         <template v-if="isPhone">
-            <div class="m-box">
+            <div class="m-box" style="display: flex;justify-content: space-between">
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                    <el-button type="primary" size="medium" class="u-analysis" style="flex:1;">
                         数据解析
                     </el-button>
                 </a>
                 <a :href="publish_link(link.key)" target="_blank">
-                    <div class="u-face-publish">
-                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                    <div class="u-face-publish" style="flex:1;">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img"/>
                         <span>发布作品</span>
                     </div>
                 </a>
@@ -129,7 +129,7 @@
                     />
                 </div>
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
+                    <el-button type="primary" size="medium" class="u-analysis">
                         数据解析
                     </el-button>
                 </a>
@@ -220,16 +220,19 @@ export default {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
     .u-tab {
+        transition: 0.3s ease-out;
+
         &.active,
         &:hover {
             background-color: @faceColor;
-            animation: dissolve 300ms ease-out;
+            color: #fff;
         }
     }
     .u-filter {
+        transition: 0.3s ease-out;
         &:hover {
             background-color: @faceColor;
-            animation: dissolve 300ms ease-out;
+            color: #fff;
         }
     }
     .u-analysis {
@@ -237,8 +240,9 @@ export default {
         .fz(16px);
         background-color: #e54059;
         border-color: #e54059;
+        transition: 0.3s ease-out;
         &:hover {
-            filter: brightness(110%);
+            filter: brightness(1.1);
         }
     }
 
@@ -248,8 +252,9 @@ export default {
         .fz(16px);
         background-color: @faceColor;
         border-color: @faceColor;
+        transition: 0.3s ease-out;
         &:hover {
-            filter: brightness(110%);
+            filter: brightness(1.1);
         }
     }
 }
@@ -258,28 +263,19 @@ export default {
     flex-direction: column;
     .u-filter {
         .el-checkbox-button__inner {
+            transition: 0.3s ease-out;
             &:hover {
                 background-color: @faceColor;
-                animation: dissolve 300ms ease-out;
+                color: #fff;
             }
         }
         &.is-checked {
             .el-checkbox-button__inner {
-                background-color: @faceColor;
                 border-color: @faceColor;
-                animation: dissolve 300ms ease-out;
+                background-color: @faceColor;
+                color: #fff;
             }
         }
-    }
-}
-@keyframes dissolve {
-    0% {
-        background-color: #e1dfdf;
-        color: #606266;
-    }
-    100% {
-        background-color: @faceColor;
-        color: #fff;
     }
 }
 </style>

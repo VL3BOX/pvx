@@ -1,16 +1,7 @@
 @import "~@/assets/css/face/animation.less";
 
-.m-face-tabs {
-    .pa;
-    width: calc(100% - 100px);
-}
-.m-face-box {
-    &:nth-child(2) {
-
-    }
-}
-
 .p-face-list {
+    .pr;
     .pt(40px);
     .u-type {
         .flex;
@@ -30,6 +21,9 @@
     }
     .u-recommend-title {
         margin: 20px 0 20px 0;
+    }
+    .c-public-notice {
+        .mt(40px);
     }
 }
 .m-recommend-list {
@@ -92,9 +86,6 @@
             background-color: rgba(163, 152, 152, 0.7);
         }
     }
-    &:nth-child(2){
-        .mt(100px);
-    }
 }
 @media screen and (max-width: @phone) {
     .m-recommend-box {
@@ -109,13 +100,13 @@
             .mt(40px);
         }
     }
-}
-.m-face-box {
-    .u-shade-btn {
-        .h(264px);
-    }
-    .u-shade {
-        .h(224px);
+    .m-face-box {
+        .u-shade-btn {
+            .h(264px);
+        }
+        .u-shade {
+            .h(224px);
+        }
     }
 }
 
@@ -173,6 +164,7 @@
             .pr;
             .mb(30px);
             overflow: hidden;
+            .h(auto);
             .w(100%);
             .mr(10px);
             .u-img {

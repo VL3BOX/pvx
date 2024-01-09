@@ -52,6 +52,9 @@ export default {
 
 <style lang="less" scoped>
 .m-furniture-set {
+    .r(10px);
+    padding: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     .u-item {
         .flex;
         flex-direction: column;

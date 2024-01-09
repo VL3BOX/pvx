@@ -2,7 +2,7 @@
 
 .book-single-wrapper {
     .book-single-content {
-        .pt(20px);
+        .pt(40px);
         .book-header {
             margin-bottom: 20px;
             h2,
@@ -27,41 +27,14 @@
                 .pr;
                 .pr(34px);
                 .h(316px);
+                .w(100%);
                 overflow: auto;
-                background-color: #324148;
-                padding: 14px;
+                padding: 14px 36px 14px 14px;
                 box-sizing: border-box;
                 color: #000000;
-                .right-div {
-                    position: absolute;
-                    right: 0;
-                    top: 121px;
-                    width: 20px;
-                    height: 72px;
-                    border-top: 1px solid #ece9d6;
-                    border-bottom: 1px solid #ece9d6;
-                }
-                &::before {
-                    position: absolute;
-                    right: 0;
-                    top: 50px;
-                    bottom: 50px;
-                    display: block;
-                    width: 20px;
-                    border-top: 1px solid #ece9d6;
-                    border-bottom: 1px solid #ece9d6;
-                    content: "";
-                }
-                &::after {
-                    position: absolute;
-                    top: 0;
-                    right: 14px;
-                    display: block;
-                    width: 1px;
-                    height: 100%;
-                    background-color: #ece9d6;
-                    content: "";
-                }
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+                background: url("../../img/book/line.png") no-repeat top right #324148;
+                background-size: contain;
                 .book-content {
                     .pr;
                     .size(100%,288px);
@@ -242,6 +215,7 @@
             }
             .book-info {
                 .pr;
+                .r(10px);
                 .w(380px);
                 flex-shrink: 0;
                 padding: 20px;
@@ -250,7 +224,7 @@
                 font-weight: 400;
                 color: #000000;
                 box-sizing: border-box;
-
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
                 p {
                     margin: 0;
                 }
@@ -328,10 +302,14 @@
                 }
             }
             .book-list-content {
-                display: flex;
-                flex-wrap: wrap;
-                margin-top: 20px;
+                .ml(-10px);
+                .flex;
+                padding: 20px 10px;
                 gap: 20px;
+                overflow: auto;
+                .m-book-card {
+                    flex-shrink: 0;
+                }
             }
         }
         .m-book-map {
@@ -369,37 +347,19 @@
     color: #fba524;
 }
 
-@media screen and (max-width: @ipad) {
-    .back-wrap {
-        margin-left: -40px;
-        padding-left: 40px !important;
-        width: 100% !important;
-    }
-    .book-single-wrapper .book-single-content .book-detail-wrapper {
-        flex-direction: column;
-        .book-info {
-            .w(100%);
-        }
-    }
-    .book-single-wrapper .book-single-content .m-book-list .book-list-content {
-        flex-wrap: nowrap;
-    }
-    .book-list-wrapper {
-        .scrollbar(2px);
-        overflow-x: auto;
-
-        .book-list-content {
-            .m-book-card {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-        }
-    }
-}
 @media screen and (max-width: @phone) {
     .book-single-wrapper .book-single-content {
-        .pt(64px);
+        .book-detail-wrapper {
+            flex-direction: column-reverse;
+            .book-info {
+                .w(100%);
+            }
+        }
+        .m-book-list .u-title {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+        }
     }
 }

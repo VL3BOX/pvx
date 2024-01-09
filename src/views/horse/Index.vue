@@ -1,88 +1,164 @@
 <template>
-    <div ref="listRef" class="horse-home-wrapper" v-loading="loading">
-        <PvxSearch :items="searchProps" :initValue="initValue" @search="searchEvent($event)"></PvxSearch>
-        <div class="list-wrapper" ref="crossWrap">
+    <div class="horse-home-wrapper">
+        <div class="m-share-tabs m-common-tabs">
+            <div class="m-common-card">
+                <div
+                    v-for="item in list"
+                    :key="item.type"
+                    class="u-tab"
+                    @click="clickTabs(item.type)"
+                    :class="{ active: item.type === active }"
+                >
+                    {{ item.name }}
+                </div>
+            </div>
+
+            <div class="u-search m-common-card">
+                <el-popover
+                    ref="popover"
+                    :placement="isPhone ? 'right' : 'bottom'"
+                    :width="!isPhone && 420"
+                    trigger="click"
+                >
+                    <div class="filter-content">
+                        <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
+                            <div class="check-box-wrapper">
+                                <div class="name">{{ sItem.name }}</div>
+                                <el-checkbox-group v-model="searchType[i].checked">
+                                    <el-checkbox-button
+                                        v-for="option in sItem.list"
+                                        :label="option.label"
+                                        :key="option.value"
+                                    ></el-checkbox-button>
+                                </el-checkbox-group>
+                            </div>
+                        </div>
+                        <el-row>
+                            <el-col :offset="20" :span="4">
+                                <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div class="filter-img" slot="reference">
+                        <img svg-inline src="@/assets/img/filter.svg" fill="#949494" @click="filter = true" />
+                    </div>
+                </el-popover>
+                <el-input
+                    placeholder="输入关键词搜索"
+                    v-model="keyword"
+                    clearable
+                    suffix-icon="el-icon-search"
+                    class="u-search-input"
+                />
+            </div>
+        </div>
+        <div class="m-horse-content" ref="listRef" v-loading="loading">
             <!-- 全部模式 -->
-            <template v-if="isAll">
+            <template v-if="active === ''">
                 <!-- 抓马播报 -->
-                <HorseBroadcast v-if="client === 'std'"></HorseBroadcast>
+                <HorseBroadcastV2 v-if="client === 'std'"></HorseBroadcastV2>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
-                <div class="list-item-wrapper" v-for="(list, index) in listAll" :key="index">
-                    <div v-if="list.length" class="title-header">
-                        <div class="title">
-                            {{ types[index + 1].name }}
+                <div v-for="(item, i) in list" :key="i" class="m-list-wrapper">
+                    <template v-if="item.list && item.list.length">
+                        <div class="u-type">
+                            <div class="u-title">
+                                {{ item.name }}
+                            </div>
+                            <div class="u-all" @click="clickTabs(item.type)">查看全部</div>
                         </div>
-                        <a href="javascript:;" @click="toLookAll(types[index + 1].type)">查看全部</a>
-                    </div>
-                    <list-cross
-                        v-if="showCross[index]"
-                        :ref="types[index + 1].name"
-                        :key="types[index + 1].name"
-                        :list="list"
-                        :radius="0"
-                    >
-                        <template v-slot="data">
-                            <HorseCard :item="data.item"></HorseCard>
-                        </template>
-                    </list-cross>
-                    <div v-else class="no-cross-wrap">
-                        <div class="list">
-                            <HorseCard :item="item" v-for="item in list" :key="item.id"></HorseCard>
-                        </div>
-                    </div>
+
+                        <CommonList :data="{ ...itemData, type: item.type }" @update:load="handleLoad">
+                            <div class="m-common-list">
+                                <template v-if="item.type !== 2">
+                                    <HorseCard
+                                        :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                        v-for="item in item.list"
+                                        :key="item.ID"
+                                        :item="item"
+                                        :reporter="{ aggregate: listId(item.list) }"
+                                    />
+                                </template>
+                                <template v-else>
+                                    <SameItem
+                                        :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                        v-for="item in item.list"
+                                        :key="item.ID"
+                                        :item="item"
+                                        :reporter="{ aggregate: listId(item.list) }"
+                                    />
+                                </template>
+                            </div>
+                        </CommonList>
+                    </template>
                 </div>
             </template>
             <!-- 列表模式 -->
-            <div v-else class="list-item-wrapper">
-                <div v-if="list.length" class="title-header">
-                    <div class="title">
-                        {{
-                            types.find((item) => item.type === this.selected)
-                                ? types.find((item) => item.type === this.selected).name
-                                : "全部"
-                        }}
-                    </div>
-                    <div v-if="showSwitch" class="operate-wrap">
-                        <div class="list-type-wrapper">
-                            <div
-                                class="list-type-item"
-                                :class="listType === item.value && 'active'"
-                                :key="item.value"
-                                v-for="item in listTypes"
-                                @click="listType = item.value"
-                            >
-                                {{ item.label }}
-                            </div>
+            <div class="m-horse-list" v-else>
+                <div class="u-type u-all-type">
+                    <div class="u-title">{{ typeName }}</div>
+                    <div v-if="active !== ''" class="m-operate">
+                        <div
+                            class="m-item"
+                            :class="showType === item.value && 'active'"
+                            :key="item.value"
+                            v-for="item in showTypes"
+                            @click="showType = item.value"
+                        >
+                            {{ item.label }}
                         </div>
                     </div>
                 </div>
-                <!-- 列表 -->
-                <div v-if="listType === 'list'" class="list-content">
-                    <ListHead></ListHead>
-                    <HorseItem :item="item" v-for="item in list" :key="item.ID"></HorseItem>
-                    <pagination
-                        v-if="list.length"
-                        v-show="totalPages > 0"
-                        :total="total"
-                        :page.sync="query.page"
-                        :limit.sync="query.per"
-                        @pagination="loadList"
-                    />
-                </div>
-                <!-- 卡片 -->
-                <div v-if="listType === 'card'" class="list-card-content">
-                    <HorseCard :item="item" v-for="item in list" :key="item.ID"></HorseCard>
-                    <el-button
-                        v-if="list.length"
-                        class="more-btn"
-                        :disabled="!hasNextPage"
-                        @click="loadCardList"
-                        :loading="loading"
-                        :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
-                        icon="el-icon-arrow-down"
-                        >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
-                    >
-                </div>
+                <template v-if="subList.length">
+                    <div class="m-horse-list--card" v-if="showType === 'card'">
+                        <template v-if="active !== 2">
+                            <HorseCard
+                                :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                v-for="item in subList"
+                                :key="item.ID"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </template>
+                        <template v-else>
+                            <SameItem
+                                :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
+                                v-for="item in subList"
+                                :key="item.ID"
+                                :item="item"
+                                :reporter="{ aggregate: listId(item.list) }"
+                            />
+                        </template>
+                    </div>
+                    <div class="m-horse-list--list" v-if="showType === 'list'">
+                        <ListHead></ListHead>
+                        <HorseItem
+                            v-for="item in subList"
+                            :key="item.ID"
+                            :item="item"
+                            :reporter="{ aggregate: listId(subList) }"
+                        />
+                    </div>
+                </template>
+                <el-button
+                    class="m-archive-more"
+                    v-show="hasNextPage"
+                    type="primary"
+                    plain
+                    @click="appendPage"
+                    :loading="loading"
+                    icon="el-icon-arrow-down"
+                    >加载更多</el-button
+                >
+                <el-pagination
+                    class="m-archive-pages"
+                    background
+                    layout="total, prev, pager, next, jumper"
+                    :hide-on-single-page="true"
+                    :page-size="per"
+                    :total="total"
+                    :current-page="page"
+                    @current-change="changePage"
+                ></el-pagination>
             </div>
         </div>
     </div>
@@ -90,23 +166,23 @@
 
 <script>
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
-import PvxSearch from "@/components/PvxSearch.vue";
-import ListCross from "@/components/ListCross.vue";
-import HorseBroadcast from "@/components/horse/HorseBroadcast";
+import CommonList from "@/components/common/list.vue";
+import HorseBroadcastV2 from "@/components/horse/HorseBroadcastV2";
 import HorseCard from "@/components/horse/HorseCard";
+import SameItem from "@/components/horse/SameItem.vue";
 import ListHead from "@/components/horse/ListHead";
 import HorseItem from "@/components/horse/HorseItem";
-import Pagination from "@/components/Pagination";
+import { omit, cloneDeep, concat } from "lodash";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
-import { deleteNull, isPhone } from "@/utils/index";
+import { isPhone } from "@/utils/index";
 export default {
     name: "HorseHome",
-    components: { PvxSearch, ListCross, HorseCard, ListHead, HorseItem, Pagination, HorseBroadcast },
+    components: { SameItem, HorseCard, HorseBroadcastV2, CommonList, ListHead, HorseItem },
     data() {
         return {
             loading: false,
-            listType: "card",
-            listTypes: [
+            showType: "card",
+            showTypes: [
                 {
                     value: "list",
                     label: "列表",
@@ -116,111 +192,159 @@ export default {
                     label: "卡片",
                 },
             ],
-            query: {
-                page: 1,
-                per: 20,
-            },
-            total: 0,
-            totalPages: 0,
-            search: {},
-            listAll: [],
-            list: [],
-            feeds: [],
-            // 是否是全部
-            isAll: true,
-            // 默认全部
-            selected: "",
-            initValue: {},
-            searchProps: [
+            keyword: "",
+            active: "",
+            page: 1, //当前页数
+            total: 0, //总条目数
+            per: 0, //每页条目
+            count: 0, // 自动判断最多显示几个
+            list: [
                 {
-                    key: "type",
-                    name: "类型",
-                    type: "radio",
-                    options: [
-                        {
-                            type: "",
-                            name: "全部",
-                        },
-                        {
-                            type: 0,
-                            name: "普通坐骑",
-                        },
-                        {
-                            type: 1,
-                            name: "奇趣坐骑",
-                        },
-                        {
-                            type: 2,
-                            name: "马具",
-                        },
-                    ],
+                    type: "",
+                    name: "全部",
+                    page: 1,
+                    pages: 1,
+                    list: [],
                 },
                 {
-                    type: "filter",
-                    key: "filter",
-                    name: "过滤",
-                    options: [
-                        {
-                            key: "feed",
-                            type: "checkbox",
-                            name: "喂食饲料",
-                            options: [],
-                        },
-                        {
-                            key: "attr",
-                            type: "checkbox",
-                            name: "属性",
-                            options: [],
-                        },
-                    ],
+                    type: 0,
+                    name: "普通坐骑",
+                    page: 1,
+                    pages: 1,
+                    list: [],
                 },
                 {
-                    key: "keyword",
-                    name: "名称/ID",
+                    type: 1,
+                    name: "奇趣坐骑",
+                    page: 1,
+                    pages: 1,
+                    list: [],
+                },
+                {
+                    type: 2,
+                    name: "马具",
+                    page: 1,
+                    pages: 1,
+                    list: [],
                 },
             ],
-            buttonWidth: 0,
-            showCross: [],
-            showRecentCross: false,
-            gap: 20,
-            base: 200,
+            itemData: {
+                color: "#E86F00",
+                width: "220",
+            },
+            appendMode: false,
+            feeds: [],
+            attrs: [],
+            filter: false,
+            searchType: [
+                {
+                    key: "feed",
+                    type: "checkbox",
+                    name: "喂食饲料",
+                    list: [],
+                    checked: [],
+                },
+                {
+                    key: "attr",
+                    type: "checkbox",
+                    name: "属性",
+                    list: [],
+                    checked: [],
+                },
+            ],
         };
     },
     computed: {
         client() {
             return this.$store.state.client;
         },
-        types() {
-            return this.searchProps[0].options;
-        },
         params() {
-            return { ...this.query, ...this.search, client: this.client };
-        },
-        showSwitch() {
-            const isAll = this.isAll;
-            return !isAll && !this.isPhone();
+            const _params = { client: this.client, per: this.per };
+            if (this.keyword) _params.keyword = this.keyword;
+            if (this.active !== "") _params.type = this.active;
+            return _params;
         },
         hasNextPage: function () {
-            return this.totalPages > 1 && this.query.page < this.totalPages;
+            const pages = this.list.filter((e) => e.type === this.active)[0].pages;
+            return pages > 1 && this.page < pages;
+        },
+        typeName() {
+            return this.list.filter((e) => e.type == this.active)[0].name;
+        },
+        subList() {
+            if (this.active === "") return null;
+            return this.list.filter((e) => e.type === this.active)[0].list;
+        },
+        isPhone() {
+            return isPhone();
         },
     },
     watch: {
-        listType: {
-            handler(listType) {
-                this.query.page = 1;
-                this.list = [];
-                if (listType === "list") {
-                    this.query.per = 20;
-                    this.loadList();
-                } else {
-                    this.showCount();
+        params: {
+            deep: true,
+            handler() {
+                this.loadData();
+            },
+        },
+        searchType: {
+            deep: true,
+            handler() {
+                const feed = this.searchType[0].checked.join(",");
+                const attr = this.searchType[1].checked.join(",");
+                this.page = 1;
+                if (this.filter) {
+                    this.loadData({ ...this.params, feed, attr });
                 }
             },
         },
     },
     methods: {
-        isPhone,
         iconLink,
+        clickTabs(type) {
+            this.active = type;
+            this.list = this.list.map((e) => {
+                e.page = 1;
+                return e;
+            });
+            this.page = 1;
+        },
+        loadInfoData() {
+            getFeeds({ client: this.client }).then((res) => {
+                const arr = res.data.map((item) => {
+                    const start = item.tip.indexOf("【");
+                    const end = item.tip.indexOf("】");
+                    item.feed = item.tip.slice(start + 1, end);
+                    return item;
+                });
+                let newArr = [];
+                arr.forEach((item) => {
+                    const index = newArr.findIndex((nItem) => nItem.feed === item.feed);
+                    if (index > -1) {
+                        newArr[index].id += "," + item.id;
+                    } else {
+                        newArr.push(item);
+                    }
+                });
+                this.feeds = newArr.map((item) => {
+                    return {
+                        label: item.feed,
+                        value: item.id,
+                    };
+                });
+                this.searchType[0].list = this.feeds;
+            });
+            getAttrs({ client: this.client }).then((res) => {
+                const data = res.data;
+                const options = data.map((item) => {
+                    return {
+                        label: item.name,
+                        value: item.name,
+                    };
+                });
+                this.attrs = options;
+                this.searchType[1].list = this.attrs;
+            });
+        },
         getFeed(item) {
             let feed = "";
             if (item.SubType === 15) {
@@ -268,193 +392,108 @@ export default {
             }
             return type;
         },
-        getList(type, returnList = true) {
-            const params = deleteNull({ ...this.params, type });
+        listId(list) {
+            if (!list?.length) return [];
+            return list.map((e) => e.ID);
+        },
+        changePage(i) {
+            this.page = i;
+            this.loadData();
+        },
+        // 按宽度显示个数
+        showCount() {
+            if (this.isPhone) {
+                this.per = 8;
+                return;
+            }
+            const listWidth = this.$refs.listRef?.clientWidth - 120;
+            this.count = Math.floor(listWidth / this.itemData.width);
+            this.per = this.count;
+        },
+        appendPage() {
+            this.appendMode = true;
+            this.handleLoad(this.active, true);
+        },
+        handleLoad(type, append) {
+            const page = this.list.filter((e) => e.type === type)[0].page;
+            let params = cloneDeep(this.params);
+            params.page = page + 1;
+            params.per = append ? this.per * 3 : this.per;
+            params.type = type;
+            this.loadList(params, type);
+        },
+        loadData(params = this.params) {
             this.loading = true;
-            return new Promise((resolve, reject) => {
-                getHorses(params)
-                    .then((res) => {
-                        const newList = res.data.list.map((item) => {
-                            item.typeName = this.getType(item);
-                            item.modeName = this.canDouble(item);
-                            item.feedName = this.getFeed(item);
-                            if (item.MoveSpeed) {
-                                item.speed = item.MoveSpeedDesc.split("移动速度提高")[1];
-                            }
-                            if (item.MagicAttributes && item.MagicAttributes.length) {
-                                item.MagicAttributes.map((mItem) => {
-                                    mItem.iconUrl = this.iconLink(mItem.icon);
-                                    return mItem;
-                                });
-                            }
-                            return item;
-                        });
-                        this.loading = false;
-                        if (returnList) {
-                            // 是否只返回List
-                            resolve(newList);
-                        } else {
-                            resolve(res.data);
-                        }
-                    })
-                    .catch((err) => {
-                        this.loading = false;
-                        reject(err);
-                    });
-            });
-        },
-        toLookAll(type) {
-            this.$set(this.initValue, "type", type);
-        },
-        toList(type) {
-            this.query.page = 1;
-            if (type === "" || type === undefined) {
-                this.isAll = true;
-                this.getAllList();
+            params = omit(params, ["type"]);
+            if (this.active === "") {
+                const list = this.list.filter((e) => e.type !== "");
+                list.forEach((e) => {
+                    params.page = e.page;
+                    params.type = e.type;
+                    params.per = this.per;
+                    this.loadList(params, e.type);
+                });
             } else {
-                this.isAll = false;
-                this.list = [];
-                if (this.listType === "card") {
-                    this.showCount();
-                } else {
-                    this.loadList();
-                }
+                params.page = this.page;
+                params.per = this.per * 3;
+                this.loadList({ ...params, type: this.active }, this.active);
             }
         },
-        loadList() {
-            this.getList(this.selected, false).then((data) => {
-                this.list = data.list;
-                this.total = data.total;
-                this.totalPages = data.pages;
-            });
-        },
-        loadCardList() {
-            this.getList(this.selected, false).then((data) => {
-                this.query.page++;
-                this.list = this.list.concat(data.list);
-                this.total = data.total;
-                this.totalPages = data.pages;
-            });
-        },
-        async getFeedList() {
-            await getFeeds({ client: this.client }).then((res) => {
-                const arr = res.data.map((item) => {
-                    const start = item.tip.indexOf("【");
-                    const end = item.tip.indexOf("】");
-                    item.feed = item.tip.slice(start + 1, end);
-                    return item;
-                });
-                this.feeds = JSON.parse(JSON.stringify(arr));
-                const newArr = [];
-                arr.forEach((item) => {
-                    const index = newArr.findIndex((nItem) => nItem.feed === item.feed);
-                    if (index > -1) {
-                        newArr[index].id += "," + item.id;
-                    } else {
-                        newArr.push(item);
-                    }
-                });
-
-                const options = newArr.map((item) => {
-                    return {
-                        label: item.feed,
-                        value: item.id,
-                    };
-                });
-                this.searchProps[1].options[0].options = options;
-            });
-        },
-        async getAttrList() {
-            await getAttrs({ client: this.client }).then((res) => {
-                const data = res.data;
-                const options = data.map((item) => {
-                    return {
-                        label: item.name,
-                        value: item.name,
-                    };
-                });
-                this.searchProps[1].options[1].options = options;
-            });
-        },
-        searchEvent(data) {
-            this.search = data;
-            this.selected = data.type;
-            this.toList(data.type);
-        },
-        jdugeType() {
-            const self = this;
-            setTimeout(() => {
-                if (self.isPhone()) {
-                    self.selected = "";
-                    self.listType = "card";
-                }
-            }, 10);
-        },
-        // 列表card模式下按宽度显示个数
-        showCount() {
-            this.$nextTick(() => {
-                const listWidth = this.$refs.listRef?.clientWidth;
-                this.query.per = Math.floor(listWidth / this.base) * 4;
-                // 加载更多按钮的实际宽度
-                if (!this.isPhone()) {
-                    this.buttonWidth = (this.query.per / 4) * (this.base + this.gap) - 20;
-                }
-                this.loadCardList();
-            });
-        },
-        getAllList() {
-            // 重置
-            this.query.per = 20;
-            this.listAll = [];
-            this.showCross = [];
-
-            const type0 = this.getList(0),
-                type1 = this.getList(1),
-                type2 = this.getList(2);
-            this.loading = true;
-            Promise.allSettled([type0, type1, type2])
-                .then((data) => {
-                    const newData = data.map((item) => {
-                        if (item.status === "fulfilled") {
-                            return item.value;
-                        } else {
-                            return [];
+        loadList(params, key) {
+            const index = this.list.findIndex((e) => e.type === key);
+            if (this.list[index].pages < params.page && this.active === "") params.page = 1;
+            getHorses(params)
+                .then((res) => {
+                    const { list, total, pages, page } = res.data;
+                    const _list = this.appendMode ? concat(this.list[index].list, list) : list;
+                    const newList = _list.map((item) => {
+                        item.typeName = this.getType(item);
+                        item.modeName = this.canDouble(item);
+                        item.feedName = this.getFeed(item);
+                        if (item.MoveSpeed) {
+                            item.speed = item.MoveSpeedDesc.split("移动速度提高")[1];
                         }
+                        if (item.MagicAttributes && item.MagicAttributes.length) {
+                            item.MagicAttributes.map((mItem) => {
+                                mItem.iconUrl = this.iconLink(mItem.icon);
+                                return mItem;
+                            });
+                        }
+                        return item;
                     });
-                    const wrapW = this.$refs.crossWrap?.clientWidth;
-                    const gap = this.gap;
-                    const baseW = this.base + gap;
-                    const len = newData.length;
-                    for (let i = 0; i < len; i++) {
-                        // 判断是否显示左右滚动
-                        const sw = newData[i].length * baseW - gap;
-                        if (sw > wrapW) {
-                            this.showCross[i] = true;
-                        } else {
-                            this.showCross[i] = false;
-                        }
-                    }
-                    this.listAll = newData;
+                    this.list[index].list = newList || [];
+                    this.list[index].page = page || 1;
+                    this.list[index].pages = pages || 1;
+                    if (this.active !== "") this.page = page || 1;
+                    this.total = total;
                 })
                 .finally(() => {
                     this.loading = false;
+                    this.appendMode = false;
                 });
+        },
+        checkboxChange(key) {
+            const value = this.checkboxData[key];
+            this[key] = value.join(",");
+        },
+        reset() {
+            this.searchType = this.searchType.map((item) => {
+                item.checked = [];
+                return item;
+            });
+            this.feed = [];
+            this.attr = [];
         },
     },
     mounted() {
-        const attrPro = this.getAttrList();
-        const feedPro = this.getFeedList();
-        const self = this;
-        Promise.all([attrPro, feedPro]).then(() => {
-            self.jdugeType();
-        });
-        window.onresize = function () {
-            self.jdugeType();
-        };
+        this.showCount();
+        this.loadInfoData();
     },
 };
 </script>
 
 <style lang="less">
+@import "~@/assets/css/search.less";
+@import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/horse/index.less";
 </style>

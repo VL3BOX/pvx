@@ -94,8 +94,7 @@ export default {
             let decoration_local = sessionStorage.getItem(DECORATION_KEY + this.uid);
             if (decoration_local) {
                 const decoration = JSON.parse(decoration_local);
-                this.userDefinedStyle = decoration ? decoration : {};
-                console.log(this.userDefinedStyle);
+                this.userDefinedStyle = decoration ? decoration : {}; 
                 return;
             }
             await getDecoration({ using: 1, user_id: this.uid, type: "homebg" }).then((res) => {
@@ -256,6 +255,11 @@ export default {
         .w(420px);
         .break(1);
         cursor: pointer;
+    }
+    @media screen and (max-width: @ipad) {
+        .m-mark {
+            display: none;
+        }
     }
 }
 </style>

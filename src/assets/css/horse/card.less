@@ -5,14 +5,28 @@
     .r(10px);
     background-color: #fff;
     box-sizing: border-box;
+    border: 1px solid #fff;
     padding: 20px;
     color: #24292e;
-
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-out;
+    &:hover {
+        border: 1px solid #e86f00;
+        box-shadow: 0 0 10px 0 rgba(232, 111, 0, 0.4);
+        background-color: rgba(232, 111, 0, 0.1);
+        .u-more {
+            background-color: #fff;
+        }
+    }
+    .image-slot img {
+        .w(100%);
+    }
     .u-image {
-        .size(160px);
+        .size(100%,160px);
         .r(10px);
         box-sizing: border-box;
-        background-image: url("../../img/horse_item_bg_sm.jpg");
+        background: url("../../img/horse_item_bg_sm.jpg") no-repeat center center;
+        background-size: cover;
         transition: all 0.5s;
     }
     .u-name {
@@ -21,10 +35,9 @@
         font-weight: 700;
     }
     .u-desc {
-        .fz(14px,1.2);
+        .fz(12px,1.2);
         width: 100%;
         font-weight: 400;
-        color: #999;
     }
     .u-img {
         .flex;
@@ -36,14 +49,9 @@
         overflow-x: auto;
     }
 
-    &:hover {
-        .u-image {
-            transform: scale(1.05);
-        }
-    }
     .u-attr-icon {
         .size(30px);
-        box-sizing: border-box; 
+        box-sizing: border-box;
     }
     .u-attr-wrap {
         display: flex;
@@ -57,17 +65,20 @@
             }
         }
     }
+    .u-more {
+        .flex;
+        .r(5px);
+        .w(100%);
+        font-weight: 400;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        background-color: #f3f4f5;
+    }
 }
 
 @media screen and (max-width: @phone) {
-    .m-horse-card {
-        width: 100%;
-        text-align: center;
-        .u-image {
-            margin: 0 auto;
-        }
-        .u-attr-wrap {
-            justify-content: center;
-        }
+    .m-horse-card {   
+        flex-shrink: 0;
     }
 }

@@ -26,7 +26,7 @@
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
             <div class="m-author" @click.stop="onAuthorClick">
-                <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
+                <el-image class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
                 <span class="u-name"> {{ item.author_name || "匿名" }} </span>
             </div>
         </div>

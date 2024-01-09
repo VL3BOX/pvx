@@ -74,8 +74,7 @@ export default {
             this.$router.push({ name: "single", params: { id } });
         },
         getImgSrc(link) {
-            if (!link) return;
-            // console.log(link);
+            if (!link) return; 
             let img = link.toLowerCase().match(/.*[\/,\\]homeland(.*?).tga/);
             let name = img?.[1].replace(/\\/g, "/");
             if (img?.[1] == "default") return this.__imgRoot + `homeland/${this.client}` + "/default/default.png";

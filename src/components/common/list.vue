@@ -32,7 +32,7 @@ export default {
             return this.data?.height || 0;
         },
         type() {
-            return this.data?.type || "all";
+            return this.data?.type;
         },
     },
     methods: {
@@ -51,6 +51,7 @@ export default {
     .flex;
     gap: 10px;
     align-items: center;
+    justify-content: space-between;
     .m-replace {
         .pointer;
         .flex;
@@ -58,10 +59,14 @@ export default {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
+        svg {
+            transition: 0.3s ease-out;
+        }
     }
-    .m-common-list{
+    .m-common-list {
         .flex;
-        gap:20px;
+        .w(100%);
+        gap: 20px;
     }
     &.search {
         .m-replace {

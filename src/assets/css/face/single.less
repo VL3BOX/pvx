@@ -6,7 +6,6 @@
     background-color: #fff;
     justify-content: space-between;
     align-items: center;
-
     .u-goback {
         .pointer;
         .r(30px);
@@ -29,7 +28,6 @@
     .m-face-btn-box {
         .flex;
         .r(10px);
-        gap: 10px;
         padding: 10px;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         .u-btn {
@@ -39,7 +37,7 @@
             background-color: @faceColor;
             border-color: @faceColor;
             &:hover {
-                filter: brightness(110%);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
         .u-face-publish {
@@ -61,7 +59,7 @@
                 .w(65px);
             }
             &:hover {
-                filter: brightness(1.1);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
         .u-publish {
@@ -70,10 +68,12 @@
         .u-manage {
             .r(5px);
             .fz(16px);
+            background: url("../../img/face/manage.svg") no-repeat center;
+            .size(39px);
             background-color: #e54059;
             border-color: #e54059;
             &:hover {
-                filter: brightness(110%);
+                animation: btnHover 300ms ease-out forwards;
             }
         }
     }
@@ -207,10 +207,12 @@
 
     .u-meta {
         .flex;
+        flex-wrap: wrap;
         gap: 6px;
         i {
             .fz(12px);
             .r(2px);
+            flex-shrink: 0;
             user-select: none;
             padding: 2px 6px;
             font-style: normal;
@@ -286,7 +288,7 @@
     .c-facedat-tab {
         .r(10px);
         margin: 20px 0 0 0;
-        padding: 10px 20px;
+        padding: 10px;
         background: #fff;
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     }
@@ -425,6 +427,7 @@
         .r(10px);
         .fz(14px);
         .bold;
+        box-shadow: 0px 0px 10px 0px #6b52ff66;
         background: url("../../img/face/face_bg.svg") #d2738f;
         &.m-dowload {
             background: url("../../img/face/face_bg.svg") #786cbb;
@@ -484,28 +487,24 @@
         box-sizing: border-box;
         padding: 15px;
         .w(100%);
-        background-color: #ffffff;
         .r(10px);
         .mt(10px);
         overflow-y: auto;
-        background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
-        linear-gradient(0deg, rgba(91, 64, 255, 0.05), rgba(91, 64, 255, 0.05)),
-        linear-gradient(0deg, rgba(107, 82, 255, 0.5), rgba(107, 82, 255, 0.5));
-        border: 1px solid #6B52FF80;
-        box-shadow: 0px 0px 10px 0px #6B52FF66;
+        background: rgba(91, 64, 255, 0.05);
+        border: 1px solid rgba(107, 82, 255, 0.5);
+        box-shadow: 0px 0px 10px rgba(107, 82, 255, 0.4);
         .u-label {
             display: block;
         }
         .u-action {
             .fz(12px,28px);
         }
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
         &.no-desc {
             background: url("../../img/face/no-desc.svg") bottom no-repeat !important;
         }
         &.is-desc {
             background: unset;
-            box-shadow: 0px 0px 10px 0px #0000001A;
+            box-shadow: 0px 0px 10px 0px #0000001a;
             border: 1px solid transparent;
         }
     }
@@ -641,7 +640,7 @@
 
 .c-facedat-preivew {
     .mt(20px);
-    padding: 20px;
+    padding: 20px 10px;
     background-color: #fff;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     .el-tabs__content {
@@ -697,29 +696,30 @@
     .bold;
     align-items: center;
     justify-content: center;
+    box-shadow: 0px 0px 10px 0px #6B52FF66;
     background: url("../../img/face/face_bg.svg") #786cbb;
 }
 .w-thx {
     .mt(40px);
 }
-.u-manage{
-    background: url("../../img/face/manage.svg") no-repeat center;
-    .size(39px);
-    &:hover {
-        background: url("../../img/face/manage.svg") no-repeat center;
-        filter: brightness(1.1);
-    }
-}
-.u-tips-off{
+.u-tips-off {
     background: url("../../img/face/report.svg") no-repeat center,
-    linear-gradient(0deg, rgba(251, 47, 47, 0.5), rgba(251, 47, 47, 0.5));
-    border: 1px solid #FB2F2F;
+        linear-gradient(0deg, rgba(251, 47, 47, 0.5), rgba(251, 47, 47, 0.5));
+    border: 1px solid #fb2f2f;
     .size(39px);
     &:hover {
         background: url("../../img/face/report.svg") no-repeat center,
-        linear-gradient(0deg, rgba(251, 47, 47, 0.5), rgba(251, 47, 47, 0.5));
-        border: 1px solid #FB2F2F;
+            linear-gradient(0deg, rgba(251, 47, 47, 0.5), rgba(251, 47, 47, 0.5));
+        border: 1px solid #fb2f2f;
         filter: brightness(1.1);
     }
 }
 @import "./single_phone.less";
+@keyframes btnHover {
+    0% {
+        filter: brightness(1);
+    }
+    100% {
+        filter: brightness(1.1);
+    }
+}

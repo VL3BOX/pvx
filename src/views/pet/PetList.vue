@@ -8,7 +8,7 @@
             @setActive="setActive"
             :mapList="mapList"
         />
-
+        <PublicNotice bckey="pet_ac" />
         <template v-if="luckyList.length > 0">
             <div class="m-pet-title u-type u-lucky-title">
                 <div class="u-title">今日福缘</div>
@@ -24,7 +24,12 @@
                     <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item v-for="pet in item.list" :key="pet.id" :petObject="pet" />
+                    <pet-item
+                        :style="!isPhone ? `width: calc(100% / ${per_page} - 20px)` : ''"
+                        v-for="pet in item.list"
+                        :key="pet.id"
+                        :petObject="pet"
+                    />
                 </div>
             </div>
         </template>
@@ -65,6 +70,7 @@
     </div>
 </template>
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import petTabs from "@/components/pet/tabs";
 import petItem from "@/components/pet/item";
 import luckyItem from "@/components/pet/lucky";
@@ -83,6 +89,7 @@ export default {
         petTabs,
         petItem,
         luckyItem,
+        PublicNotice,
     },
     data() {
         return {
@@ -143,6 +150,9 @@ export default {
         hasNextPage() {
             return this.page < this.pages;
         },
+        isPhone() {
+            return isPhone();
+        },
     },
     watch: {
         params: {
@@ -196,7 +206,7 @@ export default {
         },
         getPetListInit() {
             if (!this.params.Class) {
-                this.showCount(2);
+                this.showCount(1);
                 this.showAllList = false;
                 this.list_type.forEach((e) => {
                     let params = clone(this.params);
@@ -273,7 +283,7 @@ export default {
         },
         // 按宽度显示个数
         showCount(num = 1) {
-            if (isPhone()) num += 8;
+            if (this.isPhone) num += 8;
             const listWidth = this.$refs.listRef?.clientWidth;
             this.per_page = Math.floor(listWidth / 206) * num;
         },

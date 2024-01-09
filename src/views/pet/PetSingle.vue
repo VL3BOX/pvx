@@ -3,7 +3,7 @@
         <div class="m-pet-navigation">
             <div class="u-goback" @click="goBack">返回列表</div>
         </div>
-
+        <PublicNotice bckey="pet_ac" />
         <div class="m-pet-content flex">
             <petCard :petObject="pet" :lucky="luckyList"></petCard>
             <div class="m-pet-info">
@@ -20,6 +20,17 @@
                                 ><i class="el-icon-trophy"></i>成就信息</a
                             >
                         </template>
+                    </div>
+                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
+                        <!-- <span class="u-meta-label">商城价格：</span> --> 
+                        <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
+                            积分<b>{{ shopInfo.RewardsPrice }}</b>
+                            <i class="u-icon-rewards"></i>
+                        </el-tag>
+                        <el-tag class="u-price-item u-coin">
+                            通宝<b>{{ shopInfo.CoinPrice }}</b>
+                            <i class="u-icon-coin"></i>
+                        </el-tag>
                     </div>
                 </h1>
                 <i class="u-stars">
@@ -47,23 +58,8 @@
                             </template>
                         </span>
                     </div>
-
-                    <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
-                        <span class="u-meta-label">商城价格：</span>
-                        <span class="u-price">
-                            <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
-                                积分<b>{{ shopInfo.RewardsPrice }}</b>
-                                <i class="u-icon-rewards"></i>
-                            </el-tag>
-                            <el-tag class="u-price-item u-coin">
-                                通宝<b>{{ shopInfo.CoinPrice }}</b>
-                                <i class="u-icon-coin"></i>
-                            </el-tag>
-                        </span>
-                    </div>
                 </div>
                 <!-- 宠物技能 -->
-                <div class="u-pet-skill-title">宠物招式</div>
                 <div class="m-pet-skills">
                     <div class="u-skill" v-for="(skill, index) in petSkills" :key="index">
                         <el-popover trigger="hover" popper-class="m-pet-skill" :visible-arrow="false" placement="top">
@@ -117,6 +113,7 @@
 </template>
 
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import { getPet, getPets, getShopInfo, getPetSkill, getSkill, getPetLucky } from "@/service/pet";
 import PvxUser from "@/components/PvxUser.vue";
 import petCard from "@/components/pet/PetCard.vue";
@@ -140,6 +137,7 @@ export default {
         PetMap,
         // WikiComments,
         PvxUser,
+        PublicNotice,
     },
     data: function () {
         return {
