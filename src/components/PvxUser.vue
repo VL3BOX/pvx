@@ -61,7 +61,7 @@
 
 <script>
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import { wiki } from "@jx3box/jx3box-common/js/wiki.js";
+import { wiki } from "@jx3box/jx3box-common/js/wiki_v2.js";
 
 import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
@@ -168,7 +168,7 @@ export default {
         loadData: function () {
             // 获取最新攻略
             if (this.id) {
-                wiki.mix({ type: this.type, id: this.id, client: this.client }, { supply: 1 }).then((res) => {
+                wiki.mix({ type: this.type, id: this.id, client: this.client }).then((res) => {
                     const { post, source, compatible, isEmpty, users } = res;
                     this.wiki_post = {
                         post: post,
@@ -183,7 +183,7 @@ export default {
         },
         loadRevision: function () {
             // 获取指定攻略
-            wiki.getById(this.post_id, { type: this.type }).then((res) => {
+            wiki.getById(this.post_id).then((res) => {
                 this.wiki_post = res?.data?.data;
             });
             this.triggerStat();
