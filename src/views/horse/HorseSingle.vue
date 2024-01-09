@@ -15,7 +15,7 @@
                         <div class="info-item u-desc">
                             <span>
                                 分类:
-                                {{ typeName + (type !== "2" ? ` · ${modeName} · ${item.GetType}` : "") }}
+                                {{ displayType }}
                             </span>
                             <span>品质: {{ item.Level }}</span>
                             <span v-if="type !== '2'">跑速: {{ speedName }}</span>
@@ -232,6 +232,16 @@ export default {
                 speed = item.MoveSpeedDesc.split("移动速度提高")[1];
             }
             return speed;
+        },
+        displayType() {
+            let type = this.typeName;
+            if (this.type !== "2") {
+                type += ` · ${this.modeName}`;
+                if (this.item.GetType) {
+                    type += ` · ${this.item.GetType}`;
+                }
+            }
+            return type;
         },
     },
     watch: {

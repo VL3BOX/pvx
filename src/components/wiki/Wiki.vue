@@ -53,7 +53,7 @@ import Article from "@jx3box/jx3box-editor/src/Article.vue";
 import WikiPanel from "@jx3box/jx3box-common-ui/src/wiki/WikiPanel";
 import WikiRevisions from "@jx3box/jx3box-common-ui/src/wiki/WikiRevisions";
 import { publishLink, ts2str } from "@jx3box/jx3box-common/js/utils";
-import { wiki } from "@jx3box/jx3box-common/js/wiki";
+import { wiki } from "@jx3box/jx3box-common/js/wiki_v2";
 export default {
     name: "Wiki",
     components: {
@@ -87,7 +87,6 @@ export default {
             return {
                 type: this.source_type,
                 source_id: this.id,
-                supply: 1,
                 client: this.client,
             };
         },
@@ -103,7 +102,7 @@ export default {
     },
     methods: {
         loadData: function () {
-            wiki.mix({ type: this.source_type, id: this.source_id, client: this.client }, { supply: 1 }).then((res) => {
+            wiki.mix({ type: this.source_type, id: this.source_id, client: this.client }).then((res) => {
                 const { post, source, compatible, users } = res;
                 this.wiki_post = {
                     post: post,

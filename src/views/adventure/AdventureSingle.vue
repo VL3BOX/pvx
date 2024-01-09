@@ -50,13 +50,11 @@
 
 <script>
 import { getLink } from "@jx3box/jx3box-common/js/utils";
-// import Wiki from "@/components/wiki/Wiki.vue";
 import { getAdventure, getSerendipityAchievementId } from "@/service/adventure";
 import PvxUser from "@/components/PvxUser.vue";
 import task from "@/components/adventure/task.vue";
 import Serendipity from "@/components/common/serendipity.vue";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-// import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "adventureSingle",
     props: [],
