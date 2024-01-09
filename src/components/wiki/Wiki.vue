@@ -87,7 +87,6 @@ export default {
             return {
                 type: this.source_type,
                 source_id: this.id,
-                supply: 1,
                 client: this.client,
             };
         },
