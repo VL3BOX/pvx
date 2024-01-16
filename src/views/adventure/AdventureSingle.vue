@@ -31,20 +31,6 @@
                 </div>
             </template>
         </pvx-user>
-        <!-- <div class="m-adventure-wiki" v-if="achieve_id">
-            <Wiki
-                source_type="achievement"
-                :source_id="achieve_id"
-                :type="type"
-                :id="id"
-                title="奇遇攻略"
-                :source_title="title"
-            ></Wiki>
-        </div>
-        <div class="m-adventure-serendipity">
-            <Serendipity :title="title" />
-        </div>
-        <WikiComments :type="type" :source-id="id" /> -->
     </div>
 </template>
 
@@ -59,11 +45,9 @@ export default {
     name: "adventureSingle",
     props: [],
     components: {
-        // Wiki,
         task,
         Serendipity,
         PvxUser,
-        // WikiComments,
     },
     data: function () {
         return {

@@ -103,18 +103,6 @@
 
         <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
         <pvx-user :id="item_id" name="宠物" type="item"></pvx-user>
-
-        <!-- <div class="m-pet-wiki">
-            <Wiki
-                source_type="item"
-                :source_id="item_id"
-                :type="type"
-                :id="id"
-                title="获取攻略"
-                :source_title="title"
-            ></Wiki>
-        </div>
-        <WikiComments :type="type" :source-id="id" /> -->
     </div>
 </template>
 
@@ -123,7 +111,6 @@ import { getPet, getPets, getShopInfo, getPetSkill, getSkill, getPetLucky } from
 import PvxUser from "@/components/PvxUser.vue";
 import petCard from "@/components/pet/PetCard.vue";
 import petFetters from "@/components/pet/PetFetters.vue";
-// import Wiki from "@/components/wiki/Wiki.vue";
 import petType from "@/assets/data/pet_type.json";
 import petSource from "@/assets/data/pet_source.json";
 import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
@@ -131,16 +118,13 @@ import { postStat } from "@jx3box/jx3box-common/js/stat.js";
 
 import dayjs from "@/plugins/day";
 import PetMap from "@/components/pet/PetMap.vue";
-// import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 export default {
     name: "PetSingle",
     props: [],
     components: {
         petCard,
         petFetters,
-        // Wiki,
         PetMap,
-        // WikiComments,
         PvxUser,
     },
     data: function () {
