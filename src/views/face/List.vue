@@ -218,7 +218,7 @@ export default {
                     this.appendMode = false;
                 });
         },
-        changePage(i) { 
+        changePage(i) {
             this.page = i;
             this.loadData();
         },
@@ -236,7 +236,7 @@ export default {
                 return;
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
-            this.count = Math.floor(listWidth / this.itemData.width);
+            this.count = Math.floor(listWidth / (Number(this.itemData.width) + 10));
             this.per = this.active === 0 ? this.count : this.count * 3;
         },
         handleLoad(type) {
