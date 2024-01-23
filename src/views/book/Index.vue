@@ -45,8 +45,8 @@
                             <div class="m-common-list">
                                 <BookCard
                                     :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
-                                    v-for="item in item.list"
-                                    :key="item.ID"
+                                    v-for="(item, index) in item.list"
+                                    :key="index"
                                     :item="item"
                                     :reporter="{ aggregate: listId(item.list) }"
                                     @click="setItem(item)"
