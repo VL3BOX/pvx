@@ -1,177 +1,259 @@
 <template>
-    <div class="m-body-list">
+    <div class="p-face-list" v-loading="loading" ref="listRef">
         <faceTabs
-            @change="handleTabChange"
-            :body_types="body_types"
+            @change="handleBodyTabChange"
+            :body_types="list"
             :link="link"
             :active="active"
             @setActive="setActive"
         />
-        <div class="m-content" v-loading="loading">
-            <template v-if="list.length">
-                <div class="m-list" v-for="(_list, index) in groupList" :key="index">
-                    <h2 class="u-list-title">
-                        <span>{{ nameMap[_list.key] }}</span>
-                        <span class="u-more" @click="setActive(_list.key)" v-if="!tabsData.body_type">查看全部</span>
-                    </h2>
-                    <!-- 显示一行 -->
-                    <div class="m-list-box" v-if="!tabsData.body_type">
-                        <list-cross :list="_list.list" :gap="0" :radius="0" :id="'nav' + index">
-                            <template v-slot="data">
-                                <bodyItem :item="data.item"></bodyItem>
-                            </template>
-                        </list-cross>
-                    </div>
-
-                    <!-- 显示多行 -->
-                    <template v-else>
-                        <div class="m-all">
-                            <bodyItem
-                                v-for="item in _list.list"
-                                :key="item.id"
-                                :item="item"
-                                :reporter="{ aggregate: listId(groupList) }"
-                            />
-                        </div>
-                        <el-button
-                            class="m-archive-more"
-                            v-show="hasNextPage"
-                            type="primary"
-                            @click="appendPage"
-                            :loading="loading"
-                            icon="el-icon-arrow-down"
-                            >加载更多</el-button
-                        >
-                        <el-pagination
-                            class="m-archive-pages"
-                            background
-                            layout="total, prev, pager, next, jumper"
-                            :hide-on-single-page="true"
-                            :page-size="pageSize"
-                            :total="total"
-                            :current-page.sync="page"
-                        ></el-pagination>
-                    </template>
+        <template v-if="active === 0">
+            <div
+                v-for="(item, index) in list"
+                :key="'l' + index"
+                class="m-face-box"
+                :class="{ none: !item.list.length }"
+            >
+                <div class="u-type">
+                    <div class="u-title">{{ item.label + "脸型" }}</div>
+                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
-            </template>
-            <el-alert v-else class="m-archive-null" title="没有找到相关的体型" type="info" show-icon center></el-alert>
+
+                <CommonList
+                    :class="{ search: tabsData.name }"
+                    :data="{ ...itemData, type: item.value }"
+                    @update:load="handleLoad"
+                >
+                    <div class="m-common-list">
+                        <bodyItem
+                            v-for="item in item.list"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(list) }"
+                        />
+                    </div>
+                </CommonList>
+            </div>
+        </template>
+        <div class="m-face-box" v-else>
+            <div class="m-face-title u-type">
+                <div class="u-title">{{ typeName + "脸型" }}</div>
+            </div>
+            <div class="m-face-list--all">
+                <bodyItem
+                    v-for="item in subList"
+                    :key="item.id"
+                    :item="item"
+                    :reporter="{ aggregate: listId(subList) }"
+                />
+            </div>
+            <el-button
+                class="m-archive-more"
+                v-show="hasNextPage"
+                type="primary"
+                @click="appendPage"
+                :loading="loading"
+                icon="el-icon-arrow-down"
+            >加载更多</el-button
+            >
+            <el-pagination
+                class="m-archive-pages"
+                background
+                layout="total, prev, pager, next, jumper"
+                :hide-on-single-page="true"
+                @current-change="changePage"
+                @prev-click="changePage"
+                @next-click="changePage"
+                :page-size="per"
+                :total="total"
+                :current-page.sync="page"
+            ></el-pagination>
         </div>
+        <el-alert
+            v-if="noList || (subList && !subList.length)"
+            class="m-archive-null"
+            :title="alertTitle"
+            type="info"
+            center
+            show-icon
+        ></el-alert>
     </div>
 </template>
 <script>
-import { getBodyList } from "@/service/body";
+import CommonList from "@/components/common/list.vue";
 import faceTabs from "@/components/face/tabs";
 import bodyItem from "@/components/body/item";
-import body_types from "@/assets/data/body_types.json";
-import ListCross from "@/components/ListCross.vue";
-import { clone } from "lodash";
+import { isPhone } from "@/utils/index";
+import { cloneDeep, omit, concat } from "lodash";
+import { publishLink } from "@jx3box/jx3box-common/js/utils";
+import { getBodyList, getSliders } from "@/service/body";
+
 export default {
-    name: "BodyList",
-    data: function () {
+    name: "face",
+    components: { CommonList, faceTabs, bodyItem },
+    data() {
         return {
-            active: "",
-            body_types,
-            bodyId: "",
+            loading: false,
             tabsData: {},
+            active: 0,
+            list: [
+                { label: "全部", list: [], value: 0, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "成男", list: [], value: 1, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "成女", list: [], value: 2, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "正太", list: [], value: 5, client: ["std"], page: 1, pages: 1 },
+                { label: "萝莉", list: [], value: 6, client: ["std", "origin"], page: 1, pages: 1 },
+            ],
+            page: 1,
+            per: 14,
+            total: 0,
+            count: 0,
+
+            appendMode: false,
+
             link: {
                 data: "/body/bodydata",
                 key: "body",
             },
-
-            loading: false,
-            list: [],
-            page: 1,
-            pageTotal: 1,
-            total: 0,
-            appendMode: false,
-            all: true,
-
-            nameMap: {
-                1: "成男体型",
-                2: "成女体型",
-                5: "正太体型",
-                6: "萝莉体型",
+            itemData: {
+                color: "#786CBB",
+                width: "200",
+                height: "368",
             },
         };
     },
-    components: { faceTabs, ListCross, bodyItem },
     computed: {
-        pageSize() {
-            return this.all ? 14 : 21;
+        client() {
+            return this.$store.state.client;
         },
         params({ tabsData }) {
             return {
                 ...tabsData,
-                pageIndex: this.page,
-                pageSize: this.pageSize,
-                client: "std",
+                pageSize: this.per,
+                client: this.client,
             };
         },
-        groupList() {
-            return Object.keys(this.nameMap)
-                .map((item) => {
-                    let list = [];
-                    this.list.forEach((el) => {
-                        if (el.body_type == item) list.push(el);
-                    });
-                    return { key: item, list };
-                })
-                .filter((item) => item.list.length);
-        },
         hasNextPage() {
-            return this.page < this.pageTotal;
+            const pages = this.list.filter((e) => e.value == this.active)[0].pages;
+            return pages > 1 && this.page < pages;
+        },
+        alertTitle: function () {
+            if (this.title) return "没找到对应的捏脸，请重新选择条件或关键词搜索";
+            return "没有找到相关的捏脸";
+        },
+        subList() {
+            if (!this.active) return null;
+            return this.list.filter((e) => e.value === this.active)[0].list;
+        },
+        typeName() {
+            return this.list.filter((e) => e.value == this.active)[0].label;
+        },
+        noList() {
+            return this.list.filter((e) => e.value).every((e) => !e.list.length);
         },
     },
     watch: {
         params: {
             deep: true,
-            handler: function () {
-                if (!this.all) {
-                    this.getData();
-                } else {
-                    Object.keys(this.nameMap).forEach((item) => {
-                        this.getData({ body_type: item });
-                    });
-                }
+            handler() {
+                this.loadData();
+            },
+        },
+        active: {
+            immediate: true,
+            handler: function (val) {
+                this.per = val === 0 ? this.count : this.count * 3;
+                this.page = 1;
             },
         },
     },
+
     methods: {
-        getData(params) {
+        setActive(val) {
+            this.active = val;
+            document.documentElement.scrollTop = 0;
+        },
+        // 捏脸海报
+        getSliders() {
+            getSliders("slider", this.client, 9).then((res) => {
+                this.slidersList = res.data.data.list || [];
+            });
+        },
+        // 加载数据
+        loadData() {
             this.loading = true;
-            const _params = clone(this.params);
-            getBodyList({ ...params, ..._params })
+            let params = omit(this.params, ["type"]);
+            if (this.active === 0) {
+                const list = this.list.filter((e) => e.value);
+                list.forEach((e) => {
+                    params.pageIndex = e.page;
+                    params.body_type = e.value;
+                    this.loadList(params, e.value);
+                });
+            } else {
+                params.pageIndex = this.page;
+                this.loadList({ ...params, body_type: this.active }, this.active);
+            }
+        },
+
+        loadList(params, key) {
+            const index = this.list.findIndex((e) => e.value === key);
+            if (this.list[index].pages < params.page && this.active === 0) params.page = 1;
+            getBodyList(params)
                 .then((res) => {
-                    const list = res.data.data.list || [];
-                    this.total = res.data.data.page.total;
-                    this.list = this.list.concat(list);
-                    this.pageTotal = res.data.data.page.pageTotal;
+                    const { list, page } = res.data.data;
+                    const _list = this.appendMode ? concat(this.list[index].list, list) : list;
+                    this.list[index].list = _list || [];
+                    this.list[index].page = page.index || 1;
+                    this.list[index].pages = page.pageTotal || 1;
+                    if (this.active !== 0) this.page = page.index || 1;
+                    this.total = page.total;
                 })
                 .finally(() => {
                     this.loading = false;
                     this.appendMode = false;
                 });
         },
-        setActive(val) {
-            this.active = val;
-            document.documentElement.scrollTop = 0;
-        },
-        handleTabChange(data) {
-            this.page = 1;
-            this.list = [];
-            this.all = data.body_type ? false : true;
-            this.tabsData = data;
+        changePage(i) {
+            this.page = i;
+            this.loadData();
         },
         appendPage() {
             this.appendMode = true;
-            this.page = this.page + 1;
+            this.handleLoad(this.active);
+        },
+        handleBodyTabChange: function(data) {
+            this.page = 1;
+            this.tabsData = data;
+        },
+        showCount() {
+            if (isPhone()) {
+                this.per = 8;
+                return;
+            }
+            const listWidth = this.$refs.listRef?.clientWidth - 120;
+            this.count = Math.floor(listWidth / (Number(this.itemData.width) + 10));
+            console.log(this.itemData.width);
+            console.log(this.count);
+            this.per = this.active === 0 ? this.count : this.count * 3;
+        },
+        handleLoad(type) {
+            const page = this.list.filter((e) => e.value === type)[0].page;
+            let params = cloneDeep(this.params);
+            params.pageSize = this.per;
+            params.pageIndex = page + 1;
+            params.body_type = type;
+            this.loadList(params, type);
         },
         listId(list) {
             return list.map((e) => e.id);
         },
     },
+    mounted() {
+        this.showCount();
+    },
 };
 </script>
+
 <style lang="less">
-@import "~@/assets/css/body/list.less";
+@import "~@/assets/css/face/list.less";
 </style>
