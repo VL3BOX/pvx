@@ -42,6 +42,7 @@ export default {
 		// 获取宠物图片路径
 		getImgSrc: function (path) {
 			let img_name = path.match(/.*[\/,\\](.*?).tga/);
+            console.log(img_name)
 			return this.__imgRoot + `pets/${this.client}/` + img_name[1] + ".png";
 		},
 		// 获取宠物边框图片路径
