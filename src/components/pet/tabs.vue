@@ -123,15 +123,17 @@ export default {
     .u-filter {
         .w(100px);
         .el-radio-button__inner {
+            padding: 12px 0;
             &:hover {
-                background-color: @petColor;
+                background-color: @petColor !important;
                 color: #fff;
+                border: 1px solid  @petColor;
             }
         }
         &.is-active {
             .el-radio-button__inner {
-                background-color: @petColor;
-                border-color: @petColor;
+                background-color: @petColor !important;
+                border-color: @petColor !important;
                 color: #fff;
             }
         }
