@@ -39,7 +39,7 @@
                 </div>
             </div>
         </template>
-        <jx3-item :item="source" />
+        <!-- <jx3-item :item="source" /> -->
     </el-popover>
 </template>
 
@@ -59,7 +59,7 @@ export default {
         };
     },
     components: {
-        "jx3-item": Item,
+        // "jx3-item": Item,
     },
     props: {
         size: {
