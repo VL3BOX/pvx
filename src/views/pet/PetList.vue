@@ -69,7 +69,6 @@ import petTabs from "@/components/pet/tabs";
 import petItem from "@/components/pet/item";
 import luckyItem from "@/components/pet/lucky";
 import { clone } from "lodash";
-import { isPhone } from "@/utils/index";
 import Type from "@/assets/data/pet_type.json";
 import Source from "@/assets/data/pet_source.json";
 
