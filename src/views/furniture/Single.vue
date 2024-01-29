@@ -96,11 +96,11 @@
                     <div v-else class="u-txt">暂无介绍</div>
                 </div>
 
-                <list-cross v-if="setData.furnitures.length" :width="30" :list="setData.furnitures">
-                    <template v-slot="data">
-                        <furnitureSet :data="data.item" :category="category" />
-                    </template>
-                </list-cross>
+<!--                <list-cross v-if="setData.furnitures.length" :width="30" :list="setData.furnitures">-->
+                <div v-if="setData.furnitures.length" class="u-furniture-list">
+                    <furnitureSet v-for="(item, index) in setData.furnitures" :data="item" :category="category" :key="index" />
+                </div>
+<!--                </list-cross>-->
             </div>
             <div class="m-extend-content m-extend-materials" v-if="data.szSource == '生活技能' && data.__manufactureID">
                 <div class="u-title">合成材料</div>
@@ -138,7 +138,7 @@ import { getLink } from "@jx3box/jx3box-common/js/utils";
 
 import { getFurnitureDetail, getSetList, getFurnitureColor } from "@/service/furniture.js";
 import { postStat } from "@jx3box/jx3box-common/js/stat.js";
-import ListCross from "@/components/ListCross.vue";
+// import ListCross from "@/components/ListCross.vue";
 import { getFurnitureCategory } from "@/service/homeland.js";
 import WikiComments from "@jx3box/jx3box-common-ui/src/wiki/WikiComments";
 
@@ -151,7 +151,7 @@ export default {
         // Comment,
         furnitureSet,
         furnitureMaterials,
-        ListCross,
+        // ListCross,
         WikiComments,
     },
     data: function () {

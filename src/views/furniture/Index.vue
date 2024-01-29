@@ -21,23 +21,28 @@
                     </el-select>
                 </div>
             </template>
-            <template slot="extra">
-                <div v-if="childCategory.length" class="m-child-category">
-                    <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
-                    <div
-                        class="u-item"
-                        :class="item.nCatag2Index === childActive ? 'is-active' : ''"
-                        v-for="item in childCategory"
-                        :key="item.dwTableID"
-                        @click.stop="setIndex(item.nCatag2Index)"
-                    >
-                        {{ item.szName }}
-                    </div>
-                </div>
-            </template>
         </PvxSearch>
+        <div v-if="childCategory.length" class="m-child-category">
+            <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
+            <div
+                class="u-item"
+                :class="item.nCatag2Index === childActive ? 'is-active' : ''"
+                v-for="item in childCategory"
+                :key="item.dwTableID"
+                @click.stop="setIndex(item.nCatag2Index)"
+            >
+                {{ item.szName }}
+            </div>
+        </div>
         <div v-if="list.length" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
-            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
+<!--            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>-->
+            <furnitureSet
+                :data="item"
+                v-for="item in list"
+                :key="item.ID"
+                :category="categoryObj"
+                :copy="hasCopy"
+            />
             <div class="m-furniture-null" v-if="!list.length">
                 <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
             </div>
@@ -82,7 +87,7 @@
 
 <script>
 import PvxSearch from "@/components/PvxSearch.vue";
-import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
+// import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
 import furnitureSet from "@/components/furniture/furniture_set.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 
@@ -96,7 +101,7 @@ import dayjs from "@/plugins/day";
 
 export default {
     name: "Index",
-    components: { PvxSearch, FurnitureItem, furnitureSet, PvxBacktop },
+    components: { PvxSearch, furnitureSet, PvxBacktop },
     provide: {
         __imgRoot: __imgPath + "homeland/",
         __dataRoot: __dataPath + "pvx/",
