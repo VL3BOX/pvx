@@ -5,6 +5,7 @@
             :items="searchProps"
             :initValue="initValue"
             :active="isActive"
+            :select-type="selectType"
             class="m-furniture-search"
             @search="searchEvent($event)"
         >
@@ -117,6 +118,7 @@ export default {
             categoryObj: {},
             category: [],
             childCategory: [],
+            selectType:window.innerWidth > 1680 ? 'radio' : 'select',
             // initValue: { nCatag1Index: "1" },
             initValue: {},
             append: false,

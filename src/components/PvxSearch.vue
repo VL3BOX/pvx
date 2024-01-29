@@ -15,7 +15,7 @@
                 :key="item.key"
             >
                 <template v-if="item.type === 'radio'">
-                    <el-radio-group v-model="formData[item.key]">
+                    <el-radio-group v-if="selectType === 'radio'" v-model="formData[item.key]">
                         <el-radio-button
                             class="type-item"
                             :class="{ active: typeItem.type === formData[item.type] }"
@@ -25,6 +25,16 @@
                             >{{ typeItem.name }}</el-radio-button
                         >
                     </el-radio-group>
+                    <div v-else class="u-furniture-type-select" :class="formData[item.key] &&  'is-selected'">
+                        <el-select v-model="formData[item.key]" placeholder="分类" class="select-wrapper">
+                            <el-option
+                                v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
+                                :key="typeItem.type"
+                                :value="typeItem.type"
+                                :label="typeItem.name"
+                            ></el-option>
+                        </el-select>
+                    </div>
                     <template v-if="item.options.filter((rItem) => rItem.link).length">
                         <a
                             :href="typeItem.link"
@@ -183,6 +193,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        selectType: {
+            type: String,
+            default: 'radio',
+        }
     },
     data() {
         return {
@@ -276,4 +290,49 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/search.less";
+.u-furniture-type-select{
+    label {
+        padding-left: 20px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #949494;
+        flex: none;
+    }
+    .el-select {
+        .el-input {
+            width: 90%;
+
+        }
+        .el-input__inner {
+            border: none;
+            .r(20px);
+            background-color: #f3f4f5;
+            font-size: 16px;
+            font-weight: 700;
+            color: #8D8D8D;
+            &::placeholder{
+                font-size: 16px;
+                background-color: #f3f4f5;
+                font-weight: 700;
+                color: #8D8D8D;
+            }
+        }
+    }
+    &.is-selected {
+        label {
+            color: @furnitureColor;
+        }
+        .el-select {
+            .el-input__inner {
+                background-color: @furnitureColor;
+                color: #fff;
+                font-weight: bold;
+                .r(20px);
+            }
+            i {
+                color: #fff !important;
+            }
+        }
+    }
+}
 </style>
