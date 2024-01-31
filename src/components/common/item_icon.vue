@@ -99,8 +99,7 @@ export default {
             if (item_id) {
                 get_item(item_id, this.client)
                     .then((res) => {
-                        let data = res.data;
-                        let item = data.data.item;
+                        let item = res.data;
                         if (Object.keys(item).length) {
                             this.source = item;
                             sessionStorage.setItem(this.cache_key, JSON.stringify(item));
