@@ -14,7 +14,7 @@
                 v-for="item in items"
                 :key="item.key"
             >
-                <template v-if="item.type === 'radio'">
+                <div v-if="item.type === 'radio'">
                     <el-radio-group v-if="selectType === 'radio'" v-model="formData[item.key]">
                         <el-radio-button
                             class="type-item"
@@ -22,19 +22,8 @@
                             v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
                             :key="typeItem.type"
                             :label="typeItem.type"
-                            >{{ typeItem.name }}</el-radio-button
-                        >
+                            >{{ typeItem.name }}</el-radio-button>
                     </el-radio-group>
-                    <div v-else class="u-furniture-type-select" :class="formData[item.key] &&  'is-selected'">
-                        <el-select v-model="formData[item.key]" placeholder="分类" class="select-wrapper">
-                            <el-option
-                                v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
-                                :key="typeItem.type"
-                                :value="typeItem.type"
-                                :label="typeItem.name"
-                            ></el-option>
-                        </el-select>
-                    </div>
                     <template v-if="item.options.filter((rItem) => rItem.link).length">
                         <a
                             :href="typeItem.link"
@@ -45,8 +34,8 @@
                             >{{ typeItem.name }}</a
                         >
                     </template>
-                </template>
-                <template v-if="item.type === 'filter' && item.options.length">
+                </div>
+                <div v-if="item.type === 'filter' && item.options.length">
                     <el-popover
                         ref="popover"
                         :placement="isPhone() ? 'right' : 'bottom'"
@@ -71,7 +60,7 @@
                                     :loading="selectLoading === fItem.remote"
                                     :default-first-option="true"
                                     @focus="selectFocus"
-                                    style="width: 100%"
+                                    :style="isPhone ? 'width: 100%;' : ''"
                                 >
                                     <el-option
                                         v-for="option in fItem.remote ? fItem.options : fItem.options"
@@ -131,34 +120,34 @@
                             <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
                         </div>
                     </el-popover>
-                </template>
-                <template v-if="item.type === 'select' && item.options.length">
-                    <label v-if="item.showLabel">{{ item.name }}</label>
-                    <el-select
-                        :id="item.remote"
-                        class="select-wrapper"
-                        v-model="formData[item.key]"
-                        :multiple="item.multiple"
-                        :collapse-tags="item.multiple"
-                        clearable
-                        :filterable="item.filterable"
-                        :placeholder="!item.noPlaceholder ? `请${item.remote ? '输入' : '选择'}${item.name}` : '请选择'"
-                        :remote="Boolean(item.remote)"
-                        :remote-method="remoteMethod"
-                        :loading="selectLoading === item.remote"
-                        :default-first-option="true"
-                        @focus="selectFocus"
-                        :style="!item.showLabel && 'width: 100%'"
-                    >
-                        <el-option
-                            v-for="option in item.remote ? item.options : item.options"
-                            :key="option.value"
-                            :label="item.showValue ? option.label + '(' + option.value + ')' : option.label"
-                            :value="option.value"
+                </div>
+                <div v-if="item.type === 'select' && item.options.length" class="u-pvx-select" :class="formData[item.key] && 'is-selected'">
+                        <label v-if="item.showLabel">{{ item.name }}</label>
+                        <el-select
+                            :id="item.remote"
+                            class="select-wrapper"
+                            v-model="formData[item.key]"
+                            :multiple="item.multiple"
+                            :collapse-tags="item.multiple"
+                            clearable
+                            :filterable="item.filterable"
+                            :placeholder="!item.noPlaceholder ? `${item.name}` : '请选择'"
+                            :remote="Boolean(item.remote)"
+                            :remote-method="remoteMethod"
+                            :loading="selectLoading === item.remote"
+                            :default-first-option="true"
+                            @focus="selectFocus"
+                            :style="!item.showLabel && 'width: 100%'"
                         >
-                        </el-option>
-                    </el-select>
-                </template>
+                            <el-option
+                                v-for="option in item.remote ? item.options : item.options"
+                                :key="option.value"
+                                :label="item.showValue ? option.label + '(' + option.value + ')' : option.label"
+                                :value="option.value"
+                            >
+                            </el-option>
+                        </el-select>
+                </div>
                 <template v-if="!item.type">
                     <el-input
                         v-model="formData[item.key]"
@@ -290,49 +279,14 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/search.less";
-.u-furniture-type-select{
-    label {
-        padding-left: 20px;
-        font-size: 16px;
-        font-weight: 700;
-        color: #949494;
-        flex: none;
-    }
-    .el-select {
-        .el-input {
-            width: 90%;
-
-        }
-        .el-input__inner {
-            border: none;
-            .r(20px);
-            background-color: #f3f4f5;
-            font-size: 16px;
-            font-weight: 700;
-            color: #8D8D8D;
-            &::placeholder{
-                font-size: 16px;
-                background-color: #f3f4f5;
-                font-weight: 700;
-                color: #8D8D8D;
-            }
+@media screen and (max-width: @phone) {
+    .search-group{
+        div {
+            flex: 1;
         }
     }
-    &.is-selected {
-        label {
-            color: @furnitureColor;
-        }
-        .el-select {
-            .el-input__inner {
-                background-color: @furnitureColor;
-                color: #fff;
-                font-weight: bold;
-                .r(20px);
-            }
-            i {
-                color: #fff !important;
-            }
-        }
+    .search-item.select-wrap{
+        width: 49%;
     }
 }
 </style>

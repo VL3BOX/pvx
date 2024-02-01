@@ -5,7 +5,7 @@
     height: 60px;
     box-sizing: border-box;
     padding: 10px 15px;
-    align-items: center; 
+    align-items: center;
     gap: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     .search-group {
@@ -21,7 +21,7 @@
             justify-content: flex-start;
             align-items: center;
             flex-wrap: nowrap;
-            flex: none; 
+            flex: none;
             &.type-list {
                 input[type="radio"] {
                     margin: 0;
@@ -118,6 +118,7 @@
                 }
             }
             &.select-wrap {
+
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -141,6 +142,56 @@
                     background: #f3f4f5;
                     &::placeholder {
                         font-weight: normal;
+                    }
+                }
+                .pvx-search-wrapper{
+                    .u-pvx-select{
+                        label {
+                            padding-left: 20px;
+                            font-size: 16px;
+                            font-weight: 700;
+                            color: #949494;
+                            flex: none;
+                        }
+                        .el-select {
+                            width: 100%;
+                            .el-input {
+
+                            }
+                            .el-input__inner {
+                                border: none;
+                                .r(20px);
+                                .pl(20px);
+                                background-color: #f3f4f5;
+                                font-size: 16px !important;
+                                font-weight: 700 !important;
+                                width: 100% !important;
+                                color: #8D8D8D;
+                                &::placeholder{
+                                    font-size: 16px !important;
+                                    font-weight: 700 !important;
+                                    width: 100% !important;
+                                    background-color: #f3f4f5;
+                                    color: #8D8D8D;
+                                }
+                            }
+                        }
+                        &.is-selected {
+                            label {
+                                color: @furnitureColor;
+                            }
+                            .el-select {
+                                .el-input__inner {
+                                    background-color: @furnitureColor;
+                                    color: #fff;
+                                    font-weight: bold;
+                                    .r(20px);
+                                }
+                                i {
+                                    color: #fff !important;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -251,11 +302,16 @@
 @media screen and (max-width: @phone) {
     .pvx-search-wrapper {
         height: auto;
+        padding-left: 20px !important;
         .search-group {
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap:10px;
             .search-item {
+                width: 40% !important;
                 position: relative;
                 margin: 0;
+                flex: 1;
             }
         }
     }

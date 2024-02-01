@@ -2,17 +2,16 @@
     <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
-            :items="searchProps"
+            :items="isPhone? searchProps.slice(0,1) : searchProps"
             :initValue="initValue"
             :active="isActive"
-            :select-type="selectType"
             class="m-furniture-search"
             @search="searchEvent($event)"
         >
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
-                    <label>庐园广记</label>
-                    <el-select v-model="version" clearable>
+                    <label v-if="!isPhone">庐园广记</label>
+                    <el-select v-model="version" clearable :placeholder="isPhone ? '庐园广记' : ''">
                         <el-option
                             v-for="item in versions"
                             :key="item.nDlcID"
@@ -23,6 +22,18 @@
                 </div>
             </template>
         </PvxSearch>
+        <template v-if="isPhone">
+            <PvxSearch
+                style="margin-top: 40px"
+                ref="search"
+                :items="searchProps.slice(2,3)"
+                :initValue="initValue"
+                :active="isActive"
+                class="m-furniture-search"
+                @search="searchEvent($event)"
+            >
+            </PvxSearch>
+        </template>
         <div v-if="childCategory.length" class="m-child-category">
             <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
             <div
@@ -118,7 +129,6 @@ export default {
             categoryObj: {},
             category: [],
             childCategory: [],
-            selectType:window.innerWidth > 1680 ? 'radio' : 'select',
             // initValue: { nCatag1Index: "1" },
             initValue: {},
             append: false,
@@ -128,7 +138,7 @@ export default {
             searchProps: [
                 {
                     key: "nCatag1Index",
-                    name: "类型",
+                    name: "分类",
                     type: "radio",
                     options: [],
                 },
@@ -380,7 +390,19 @@ export default {
                         ...item,
                     };
                 });
-                this.searchProps[0].options = this.category;
+                if (window.innerWidth > 1680) {
+                    this.searchProps[0].options = this.category
+                } else {
+                    this.searchProps[0].type = 'select'
+                    this.searchProps[0].options = this.category.map(i => {
+                        return {
+                            id: i.id,
+                            value: i.type,
+                            label: i.name,
+                            children: i.children,
+                        }
+                    });
+                }
 
                 if (this.initValue.nCatag1Index) {
                     const category = this.category.find((item) => item.id === this.initValue.nCatag1Index);
