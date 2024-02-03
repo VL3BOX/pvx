@@ -63,10 +63,10 @@
                 <el-checkbox :checked="interact" v-model="interact">{{ $t('可交互') }}</el-checkbox>
                 <el-checkbox :checked="set" v-model="set">{{ $t('庐园广记') }}</el-checkbox>
                 <el-checkbox v-model="match" @change="matchChange" :disabled="!matchFurniture">
-                    园宅会赛
+                    {{ $t('园宅会赛') }}
                     <el-popover trigger="hover" v-if="matchFurniture" popper-class="m-match-furniture-pop">
                         <div>
-                            <div class="u-header">本周园宅会赛：</div>
+                            <div class="u-header">{{ $t('本周园宅会赛：') }}</div>
                             <div>{{ matchProperty.content }}</div>
                             <div>{{ matchFurniture.content | formatMatchFurniture }}</div>
                         </div>

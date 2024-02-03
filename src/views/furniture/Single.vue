@@ -30,22 +30,22 @@
                 <div class="u-metas">
                     <span class="u-meta"
                         ><img src="../../assets/img/furniture/origin.svg" svg-inline /><span class="u-label"
-                            >来源途径：</span
+                            >{{ $t('来源途径：') }}</span
                         >{{ data.szSource }}</span
                     >
                     <span v-if="data.LevelLimit" class="u-meta"
                         ><img src="../../assets/img/furniture/level.svg" svg-inline /><span class="u-label"
-                            >摆放等级：</span
+                            >{{ $t('摆放等级：') }}</span
                         >{{ data.LevelLimit }}级</span
                     >
                     <span v-if="data.MaxAmountPerLand" class="u-meta"
                         ><img src="../../assets/img/furniture/limit.svg" svg-inline /><span class="u-label"
-                            >摆放上限：</span
+                            >{{ $t('摆放上限：') }}</span
                         >{{ data.MaxAmountPerLand }}</span
                     >
                     <span class="u-meta u-meta-scale" v-if="data.szScaleRange"
                         ><img src="../../assets/img/furniture/scale.svg" svg-inline /><span class="u-label"
-                            >缩放大小：</span
+                            >{{ $t('缩放大小：') }}</span
                         >
                         <span class="u-value">
                             <b v-for="(item, index) in scaleRange(data.szScaleRange)" :key="index">{{ item }}</b>
@@ -53,7 +53,7 @@
                     </span>
                     <span class="u-meta u-meta-dyes" v-if="color_list.length"
                         ><img src="../../assets/img/furniture/level.svg" svg-inline /><span class="u-label"
-                            >染色选项：</span
+                            >{{ $t('染色选项：') }}</span
                         >
                         <span class="u-value">
                             <i
@@ -72,7 +72,7 @@
                     >
                     <a v-if="achieve_id" class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
                         <i class="el-icon-trophy"></i>
-                        成就信息
+                        {{ $t('成就信息') }}
                     </a>
                     <!-- 收藏按钮 -->
                     <Fav class="u-collect" post-type="furniture" :post-id="id" :post-title="data && data.szName" />

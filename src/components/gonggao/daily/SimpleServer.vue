@@ -15,7 +15,7 @@
                 }}
             </div>
             <div class="u-server-time">
-                <span>最近维护时间:</span
+                <span>{{ $t('最近维护时间') }}:</span
                 >{{ myServer.maintain_time ? formateTime(myServer.maintain_time * 1000) : "-" }}
             </div>
         </div>

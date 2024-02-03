@@ -24,7 +24,7 @@
                 <i class="el-icon-arrow-left"></i>
             </span>
             <span @click="crosswiseScrool($event, 'task-box', -1, 600)" :class="isDisabled('task-box', -1, isUpdate)"
-                >继续 <i class="el-icon-arrow-right"></i>
+                >{{ $t('继续') }} <i class="el-icon-arrow-right"></i>
             </span>
         </div>
     </div>

@@ -20,22 +20,22 @@
                 <span class="u-name" :class="`u-quality--${item.Quality}`">{{ item.Name }}</span>
                 <div class="u-info">
                     <span>
-                        需求等级: <b>{{ item.nLevel || "未知" }}</b>
+                        {{$t('需求等级')}}: <b>{{ item.nLevel || $t('未知') }}</b>
                     </span>
                     <span>
-                        消耗精力: <b>{{ item.CostVigor || item.CostStamina }}</b>
+                        {{$t('消耗精力')}}: <b>{{ item.CostVigor || item.CostStamina }}</b>
                     </span>
                     <span>
-                        经验值: <b>{{ item.Exp }}</b>
+                        {{$t('经验值')}}: <b>{{ item.Exp }}</b>
                     </span>
                 </div>
             </div>
         </div>
 
         <div class="u-price" v-if="client == 'std'">
-            [{{ server }}] 昨日平均价格:
+            [{{ server }}] {{ $t('昨日平均价格') }}:
             <GamePrice v-if="prices[item.itemKey]" class="u-price-num" :price="prices[item.itemKey]" />
-            <span class="u-null" v-else> 暂无数据 </span>
+            <span class="u-null" v-else> {{ $t('暂无数据') }} </span>
         </div>
 
         <template v-if="item.szTip">
@@ -64,10 +64,10 @@
                 <div class="u-info">
                     <div class="u-name">
                         <span :class="`u-quality--${el.Quality}`"> {{ el.Name }}</span>
-                        <span class="u-num"> 数量： {{ el.count || 1 }} </span>
+                        <span class="u-num"> {{ $t('数量：') }} {{ el.count || 1 }} </span>
                     </div>
                     <div class="u-price" v-if="client == 'std'">
-                        {{ prices[el.ID] ? "[NPC出售] 单价：" : `[${server}] 昨日平均单价：` }}
+                        {{ prices[el.ID] ? $t('[NPC出售] 单价：') : `[${server}] ${$t('昨日平均单价')}：` }}
                         <PriceItem
                             :data="{
                                 Price: prices[el.ID] || prices[el.priceID],
@@ -77,7 +77,7 @@
                         />
                     </div>
                     <div class="u-price" v-else>
-                        [NPC出售] 单价：
+                        {{ $t('[NPC出售] 单价：') }}
                         <PriceItem :data="{ Price: prices[el.ID], Name: el.Name, id: el.ID }" />
                     </div>
                 </div>

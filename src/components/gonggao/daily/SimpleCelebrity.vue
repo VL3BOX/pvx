@@ -6,16 +6,16 @@
             </div>
             <div class="m-celebrity-item" :class="!i && 'current-item'">
                 <div class="u-celebrity-title">
-                    <div>{{ i ? item.timeFormat : "▶ 当前" }}</div>
+                    <div>{{ i ? item.timeFormat : "▶ " + $t('当前') }}</div>
                     <div>{{ item.map }}</div>
                 </div>
                 <div class="u-celebrity-desc">
                     <div>
-                        <span>位置：</span>
+                        <span>{{ $t('位置：') }}</span>
                         <b>{{ item.site }}</b>
                     </div>
                     <div>
-                        <span>阶段：</span>
+                        <span>{{ $t('阶段：') }}</span>
                         <img :src="require(`@/assets/img/gonggao/minimap_${item.icon || 6}.png`)" />
                         <span>{{ item.stage }}</span>
                     </div>

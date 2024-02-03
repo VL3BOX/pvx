@@ -14,7 +14,7 @@
                 <daily-special :date="date"></daily-special>
                 <div class="u-daily-header">
                     <!-- <el-divider content-position="left"><i class="el-icon-date"></i> 日常</el-divider> -->
-                    日常
+                    {{ $t('日常') }}
                 </div>
                 <daily-activity :date="date"></daily-activity>
             </section>
@@ -23,7 +23,7 @@
             <section class="m-content-part">
                 <div class="u-part-header">
                     <el-divider content-position="left"
-                        ><i class="el-icon-s-flag"></i> 活动<span class="u-count"
+                        ><i class="el-icon-s-flag"></i> {{ $t('活动') }}<span class="u-count"
                             >({{ activities_count }})</span
                         ></el-divider
                     >
@@ -48,7 +48,7 @@
             <section class="m-content-part">
                 <div class="u-part-header">
                     <el-divider content-position="left"
-                        ><i class="el-icon-collection-tag"></i> 事件<span class="u-count"
+                        ><i class="el-icon-collection-tag"></i> {{ $t('事件') }}<span class="u-count"
                             >({{ events_count }})</span
                         ></el-divider
                     >

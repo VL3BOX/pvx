@@ -37,14 +37,14 @@
                     <div class="m-type">
                         <el-radio-group size="small" v-model.number="form.type">
                             <el-radio-button :label="1">{{ $t('事件') }}</el-radio-button>
-                            <el-radio-button :label="2">{{ $t('活动') }}<$t('活动') }}</el-radio-button>
+                            <el-radio-button :label="2">{{ $t('活动') }}</el-radio-button>
                         </el-radio-group>
                         <!-- 仅在活动时显示 START -->
                         <div class="m-type-icon" v-show="form.type === 2">
                             <el-input
                                 size="small"
                                 v-model.number="form.icon"
-                                placeholder="图标ID"
+                                :placeholder="$t('图标ID')"
                                 :minlength="1"
                                 :maxlength="10"
                                 :max="30000"
@@ -88,15 +88,15 @@
                 </el-form-item>
 
                 <template v-if="isEditor && isEditmode">
-                    <el-divider><i class="el-icon-coordinate"></i> 管理设置</el-divider>
+                    <el-divider><i class="el-icon-coordinate"></i> {{ $t('管理设置') }}</el-divider>
                     <el-form-item :label="$t('格子显示')">
                         <el-radio-group size="small" v-model.number="form.is_top">
-                            <el-radio-button :label="0">否</el-radio-button>
-                            <el-radio-button :label="1">是</el-radio-button>
+                            <el-radio-button :label="0">{{ $t('否') }}</el-radio-button>
+                            <el-radio-button :label="1">{{ $t('是') }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item :label="$t('格子简述')" v-if="form.is_top">
-                        <el-input type="input" v-model="form.title" placeholder="输入简述（非必填）"></el-input>
+                        <el-input type="input" v-model="form.title" :placeholder="$t('输入简述（非必填）')"></el-input>
                     </el-form-item>
                     <el-form-item :label="$t('重要级别')">
                         <el-input-number v-model.number="form.level" size="medium" :min="0" :max="5"></el-input-number>

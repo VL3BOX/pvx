@@ -16,7 +16,7 @@
                     </p>
                     <div class="u-book-info">
                         <div v-if="!['其它', '碑铭'].includes(getOrigin(book))" class="u-item book-origin">
-                            来源：
+                            {{ $t('来源：') }}
                             <el-tooltip placement="top" popper-class="book-notice-tooltip">
                                 <div slot="content">
                                     <template v-if="getOrigin(book).indexOf('秘境') > -1">
@@ -46,7 +46,7 @@
                             </el-tooltip>
                         </div>
                         <div v-else class="u-info-item">
-                            来源：<span v-if="getOrigin(book) === '碑铭'" class="book-special"
+                            {{ $t('来源：') }}<span v-if="getOrigin(book) === '碑铭'" class="book-special"
                                 >{{ getOrigin(book) }}
                                 <a
                                     class="look-site"
@@ -60,9 +60,9 @@
                             <span v-else>{{ getOrigin(book) }}</span>
                         </div>
                         <div class="u-info-item">
-                            所属套书：{{ "【" + getProfessionType(book.ExtendProfessionID1) + "】" + book.BookName }}
+                            {{ $t('所属套书：') + "【" + getProfessionType(book.ExtendProfessionID1) + "】" + book.BookName }}
                         </div>
-                        <div class="u-info-item">阅读等级：{{ book.RequireLevel }}</div>
+                        <div class="u-info-item">{{ $t('阅读等级：') + book.RequireLevel }}</div>
                     </div>
                     <template v-if="book.copy && book.copy.ID">
                         <p class="u-subtitle">
@@ -71,23 +71,23 @@
                         </p>
                         <div class="u-book-info">
                             <div class="u-info-item">
-                                <span>角色等级：</span>
+                                <span>{{ $t('角色等级：') }}</span>
                                 <span>{{ book.copy.RequirePlayerLevel }}</span>
                             </div>
                             <div class="u-info-item">
-                                <span>阅读等级：</span>
+                                <span>{{ $t('阅读等级：') }}</span>
                                 <span>{{ book.copy.RequireLevel }}</span>
                             </div>
                             <div class="u-info-item">
-                                <span>{{ getProfessionType(book.ExtendProfessionID1) }}等级：</span>
+                                <span>{{ getProfessionType(book.ExtendProfessionID1) }}{{ $t('等级：') }}</span>
                                 <span>{{ book.copy.RequireLevelExt }}</span>
                             </div>
                             <div class="u-info-item">
-                                <span>精力消耗：</span>
+                                <span>{{ $t('精力消耗：') }}</span>
                                 <span>{{ book.copy.CostVigor }}</span>
                             </div>
                             <div v-if="book.copyList.length" class="u-info-item">
-                                <span>所需材料：</span>
+                                <span>{{ $t('所需材料：') }}</span>
                                 <item-icon
                                     v-for="meterial in book.copyList"
                                     :key="meterial.item_id"
@@ -128,14 +128,14 @@
                                 <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
                             </div>
                         </div>
-                        <div class="switch" @click="toSwitch">{{ isVertical ? "古风" : "现代" }}</div>
+                        <div class="switch" @click="toSwitch">{{ isVertical ? $t('古风') : $t('现代') }}</div>
                     </template>
                 </div>
             </div>
             <!-- 套书列表 -->
             <div v-if="bookList.length" class="m-book-list" v-loading="listLoading">
                 <div class="u-title">
-                    <span class="title">套书·{{ book.BookName }}</span>
+                    <span class="title">{{ $t('套书·') + book.BookName }}</span>
                     <a
                         v-if="book.AchievementID"
                         class="book-achievement"

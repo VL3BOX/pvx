@@ -1,8 +1,8 @@
 <template>
     <div class="m-horse-broadcast">
         <div class="m-horse-broadcast__header">
-            <div class="u-title">{{ $t('抓马播报') }}<('抓马播报') }}</div>
-            <el-select class="u-select" v-model="server" :placeholder="$t('请选择服务器')"择服务器')" size="mini">
+            <div class="u-title">{{ $t('抓马播报') }}</div>
+            <el-select class="u-select" v-model="server" :placeholder="$t('请选择服务器')" size="mini">
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
         </div>
@@ -28,7 +28,7 @@
                                         </el-image>
                                     </el-tooltip>
                                 </div>
-                                <div v-if="data.item.is_chitu" class="u-horse u-chitu">&lt;赤兔&gt;</div>
+                                <div v-if="data.item.is_chitu" class="u-horse u-chitu">&lt;{{ $t('赤兔') }}&gt;</div>
                             </div>
                         </div>
                         <div class="u-times-info" :class="data.item.is_chitu && 'is-chitu'">
@@ -58,14 +58,14 @@
                             </div>
                             <div class="u-times" v-else>
                                 <span v-if="data.item.time">{{ data.item.time }}</span>
-                                <span v-else class="u-times-lately">本CD尚未刷新</span>
+                                <span v-else class="u-times-lately">{{ $t('本CD尚未刷新') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </template>
         </list-cross>
-        <div v-else class="w-no-data">{{ server }} 暂无播报</div>
+        <div v-else class="w-no-data">{{ server }} {{ $t('暂无播报') }}</div>
     </div>
 </template>
 

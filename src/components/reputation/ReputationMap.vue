@@ -6,7 +6,6 @@
             </el-carousel-item>
         </el-carousel>
         <jx3box-map
-            v-else
             v-for="(datas, mapID) in mapDatas"
             :key="mapID"
             :mapId="Number(mapID)"

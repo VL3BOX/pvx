@@ -2,7 +2,7 @@
     <div class="m-flower">
         <div class="m-flower-container">
             <h1 class="m-flower-title">{{ $t('全区服小区花价查询') }}</h1>
-            <el-divider class="m-flower-desc">精准数据·居家种田好帮手</el-divider>
+            <el-divider class="m-flower-desc">{{ $t('精准数据·居家种田好帮手') }}</el-divider>
 
             <div class="m-flower-search">
                 <el-row :gutter="20">
@@ -43,7 +43,7 @@
                                 </span>
                             </span>
                             <div class="u-desc">
-                                当前最高分线 :
+                                {{ $t('当前最高分线') }} :
                                 <span
                                     class="u-line"
                                     v-for="(line, i) in item.line"
@@ -53,9 +53,9 @@
                                     v-clipboard:success="onCopy"
                                     v-clipboard:error="onError"
                                     ><b>{{ line }}</b
-                                    >线</span
+                                    >{{ $t('线') }}</span
                                 >
-                                <span class="u-price">价格 : 1.5倍率</span>
+                                <span class="u-price">{{ $t('价格') }} : 1.5倍率</span>
                             </div>
                         </el-col>
                     </el-row>
@@ -74,7 +74,7 @@
                                 </span>
                             </span>
                             <div class="u-desc">
-                                当前最高分线 :
+                                {{ $t('当前最高分线') }} :
                                 <span
                                     class="u-line"
                                     v-for="(branch, i) in item.branch"
@@ -84,9 +84,9 @@
                                     v-clipboard:success="onCopy"
                                     v-clipboard:error="onError"
                                     ><b>{{ branch.number }}</b
-                                    >线</span
+                                    >{{ $t('线') }}</span
                                 >
-                                <span class="u-price">价格 : 1.5倍率</span>
+                                <span class="u-price">{{ $t('价格') }} : 1.5{{ $t('倍率') }}</span>
                             </div>
                         </el-col>
                     </el-row>

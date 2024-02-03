@@ -14,7 +14,7 @@
                 <el-tooltip trigger="hover" placement="top">
                     <div class="u-attr-pop" slot="content">
                         <div class="u-attr-name" v-if="attr.name">
-                            {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
+                            {{ (attr.name || "") + (Number(attr.level) ? attr.level + $t('级') : "") }}
                         </div>
                         <div class="u-attr-desc">{{ attr.desc }}</div>
                     </div>

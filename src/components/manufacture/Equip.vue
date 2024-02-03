@@ -22,7 +22,7 @@
         </div>
         <div class="u-misc">
             <a class="u-logo" :href="link" target="_blank">
-                <span>配装ID:{{ plan.id }}</span>
+                <span>{{ $t('配装ID') }}:{{ plan.id }}</span>
             </a>
         </div>
     </div>

@@ -8,7 +8,7 @@
                     <span class="u-uid">(UID : {{ data.ID }})</span>
                 </span>
                 <div class="u-tips">
-                    <el-tooltip :content="`当前经验 ${data.experience || 0}`" placement="top">
+                    <el-tooltip :content="$t('当前经验') +`${data.experience || 0}`" placement="top">
                         <span class="u-level" :class="'lv-' + level" :style="{ backgroundColor: showLevelColor(level) }"
                             >Lv.{{ level }}</span
                         >

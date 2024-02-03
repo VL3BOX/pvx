@@ -25,9 +25,9 @@
                         <div class="u-text">{{ item.desc }}</div>
                     </div>
                     <div class="u-info">
-                        <div class="u-user">出卷人： {{ item.createUser }}</div>
+                        <div class="u-user">{{ $t('出卷人: ')  + item.createUser }}</div>
                         <div class="u-star">
-                            难度：
+                            {{ $t('难度：') }}
                             <el-rate v-model="item.hardStar" disabled text-color="#ff9900"></el-rate>
                         </div>
                     </div>

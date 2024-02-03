@@ -3,7 +3,7 @@
         <div class="m-header">
             <h1 class="u-title">{{ $t('物价大全') }}</h1>
             <el-select class="u-servers" v-model="server" :placeholder="$t('请选择服务器')" size="small">
-                <span slot="prefix" class="u-prefix"><i class="el-icon-coin"></i> 价格参考服务器</span>
+                <span slot="prefix" class="u-prefix"><i class="el-icon-coin"></i> {{ $t('价格参考服务器') }}</span>
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
         </div>

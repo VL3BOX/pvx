@@ -14,12 +14,12 @@
                         </div>
                         <div class="info-item u-desc">
                             <span>
-                                分类:
-                                {{ displayType }}
+                                
+                                {{ $t('分类:') + displayType }}
                             </span>
-                            <span>品质: {{ item.Level }}</span>
-                            <span v-if="type !== '2'">跑速: {{ speedName }}</span>
-                            <span v-if="type !== '2'">饲料: {{ feedName }}</span>
+                            <span>{{ $t('品质:') + item.Level }}</span>
+                            <span v-if="type !== '2'">{{ $t('跑速:') + speedName }}</span>
+                            <span v-if="type !== '2'">{{ $t('饲料:') + feedName }}</span>
                         </div>
 
                         <div class="info-item u-desc">
@@ -34,7 +34,7 @@
                                     <el-tooltip trigger="hover" placement="top">
                                         <div class="u-attr-pop" slot="content">
                                             <div class="u-attr-name" v-if="attr.name">
-                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
+                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + $t('级') : "") }}
                                             </div>
                                             <div class="u-attr-desc">{{ attr.desc }}</div>
                                         </div>
@@ -47,7 +47,7 @@
                                     </el-tooltip>
                                 </div>
                             </div>
-                            <div v-else class="no-data">无</div>
+                            <div v-else class="no-data">{{ $t('无') }}</div>
                         </div>
                         <div class="info-item u-desc">
                             <div class="title">{{ $t('特殊属性') }}</div>
@@ -56,7 +56,7 @@
                                     <el-tooltip trigger="hover" placement="top">
                                         <div class="u-attr-pop" slot="content">
                                             <div class="u-attr-name" v-if="attr.name">
-                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + "级" : "") }}
+                                                {{ (attr.name || "") + (Number(attr.level) ? attr.level + $t('级') : "") }}
                                             </div>
                                             <div class="u-attr-desc">{{ attr.desc }}</div>
                                         </div>
@@ -64,11 +64,11 @@
                                     </el-tooltip>
                                 </div>
                             </div>
-                            <div v-else class="no-data">无</div>
+                            <div v-else class="no-data">{{ $t('无') }}</div>
                         </div>
                         <a class="u-link" :href="getLink('item', this.id)" target="_blank">
                             <i class="el-icon-collection-tag"></i>
-                            物品信息
+                            {{ $t('物品信息') }}
                         </a>
                     </div>
                     <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">

@@ -6,7 +6,7 @@
             <div class="m-face-btn-box">
                 <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/facedata" target="_blank">
                     <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
-                        管理
+                        {{ $t('管理') }}
                     </el-button>
                 </a>
                 <a :href="publish_link">

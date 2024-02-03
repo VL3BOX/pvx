@@ -9,7 +9,7 @@
             <img class="u-icon" svg-inline src="@/assets/img/homeland/post.svg" />
 
             <!-- 标题文字 -->
-            <a class="u-title" :style="item.color | showHighlight" :href="item.ID | postLink" :target="target">{{ item.post_title || "无标题" }}</a>
+            <a class="u-title" :style="item.color | showHighlight" :href="item.ID | postLink" :target="target">{{ item.post_title || $t('无标题') }}</a>
 
             <!-- 角标 -->
             <span class="u-marks" v-if="item.mark && item.mark.length">
@@ -19,7 +19,7 @@
 
         <!-- 字段 -->
         <div class="u-content u-desc">
-            {{ item.post_excerpt || item.post_title || "这个作者很懒,什么都没有留下" }}
+            {{ item.post_excerpt || item.post_title || $t('这个作者很懒,什么都没有留下') }}
         </div>
 
         <!-- 作者 -->

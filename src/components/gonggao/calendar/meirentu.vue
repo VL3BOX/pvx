@@ -2,9 +2,9 @@
     <div v-if="today" class="m-special-item m-meirentu-item">
         <div>{{ $t('美人图') }}</div>
         <div>
-            <el-tooltip class="item" effect="dark" :content="(meirentu && meirentu.desc) || '无'" placement="bottom">
+            <el-tooltip class="item" effect="dark" :content="(meirentu && meirentu.desc) || $t('无')" placement="bottom">
                 <div>
-                    {{ (meirentu && meirentu.name) || "今日暂无画像" }}
+                    {{ (meirentu && meirentu.name) || $t('今日暂无画像') }}
                 </div>
             </el-tooltip>
         </div>

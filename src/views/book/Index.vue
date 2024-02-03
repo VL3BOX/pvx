@@ -5,7 +5,7 @@
                 effect="dark"
                 v-for="profession in professionList"
                 :key="profession.id"
-                :content="`共 ${profession.total || 0} 本 ${profession.name === '全部' ? '书籍' : profession.name}`"
+                :content="`共 ${profession.total || 0} 本 ${profession.name === '全部' ? $t('书籍') : profession.name}`"
                 placement="bottom"
             >
                 <div
@@ -115,7 +115,7 @@
                         :loading="loading"
                         :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
                         icon="el-icon-arrow-down"
-                        >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
+                        >{{ hasNextPage ? $t('加载更多') : $t('没有更多了') }}</el-button
                     >
                 </div>
             </div>

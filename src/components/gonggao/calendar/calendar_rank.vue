@@ -1,6 +1,6 @@
 <template>
     <el-dialog custom-class="m-calendar-rank-dialog" :visible.sync="show" center :before-close="handleClose">
-        <span slot="title" class="u-rank-title"><i class="el-icon-s-data"></i> 剑三日历贡献排行榜 </span>
+        <span slot="title" class="u-rank-title"><i class="el-icon-s-data"></i> {{ $t('剑三日历贡献排行榜') }} </span>
         <div v-loading="loading">
             <el-divider>【 {{date.start}} ~ {{date.end}} 】</el-divider>
             <ul class="m-list">
@@ -8,7 +8,7 @@
                     <span class="u-number"> <img :src="rankImg(index+1)" alt="" srcset="" v-if="index <3"><span v-else>{{index+1}}</span> </span>
                     <img class="u-avatar" :src="item.user.user_avatar || avatar" :alt="item.user.display_name">
                     <a :href="`${author}${item.user_id}`" target="_blank" class="u-name">{{item.user.display_name}}</a>
-                    <span class="u-num"><b>{{item.count}} </b>条</span>
+                    <span class="u-num"><b>{{item.count}} </b>{{ $t('条') }}</span>
                 </li>
             </ul>
         </div>

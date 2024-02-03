@@ -13,8 +13,8 @@
 								<el-tooltip class="item" effect="light" placement="top" v-for="(house, i) in active_coords" :key="'house-' + i" popper-class="m-house-map-pop">
 									<span slot="content" class="u-house-desc">
 										{{ house.name }} <br />
-										面积：{{ house.area }} <br />
-										价格：<GamePrice :price="~~house.price * 10000" />
+										{{ $t('面积：') + house.area }} <br />
+										{{ $t('价格：') }}<GamePrice :price="~~house.price * 10000" />
 									</span>
 									<span class="u-house-item" :class="'u-house-index-' + i" :style="buildStyle(house)">
 										<i :class="'u-house-icon u-house-area-' + house.area"></i>

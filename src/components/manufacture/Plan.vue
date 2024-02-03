@@ -4,11 +4,11 @@
             <!-- 内容备注 -->
             <div class="m-plan-description">
                 <span class="u-time">
-                    <span>最后更新于 <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
+                    <span>{{ $t('最后更新于') }} <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
                     <a :href="editLink(plan)" target="_blank" class="u-del">{{ $t('编辑清单') }}</a>
                     <span class="u-del" @click="deletePlan(planId)">{{ $t('删除清单') }}</span>
                 </span>
-                <span class="u-title"><b>备注：</b> {{ plan.description || "无" }}</span>
+                <span class="u-title"><b>{{ $t('备注：') }}</b> {{ plan.description || "无" }}</span>
             </div>
             <!-- 物品 -->
             <div class="m-plan-item" v-if="plan.type == '1'">
@@ -48,7 +48,7 @@
                                     :item="eq"
                                 />
                             </div>
-                            <div v-else class="u-equip-null">- 暂无物品 -</div>
+                            <div v-else class="u-equip-null">- {{ $t('暂无物品') }} -</div>
                         </div>
                     </div>
                 </div>

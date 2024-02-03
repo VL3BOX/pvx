@@ -39,7 +39,7 @@
                         {{
                             types.find((item) => item.type === this.selected)
                                 ? types.find((item) => item.type === this.selected).name
-                                : "全部"
+                                : $t('全部')
                         }}
                     </div>
                     <div v-if="showSwitch" class="operate-wrap">
@@ -80,7 +80,7 @@
                         :loading="loading"
                         :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
                         icon="el-icon-arrow-down"
-                        >{{ hasNextPage ? "加载更多" : "没有更多了" }}</el-button
+                        >{{ hasNextPage ? $t('加载更多') : $t('没有更多了') }}</el-button
                     >
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <template>
     <el-popover popper-class="m-add-price" placement="bottom-end" trigger="click" v-model="visible">
         <el-divider content-position="left"
-            >修改 [ <b>{{ data.Name }}</b> ] 单价</el-divider
+            >{{ $t('修改') }} [ <b>{{ data.Name }}</b> ] {{ $t('单价') }}</el-divider
         >
         <div class="u-add">
             <el-input class="u-input" type="number" size="mini" v-model="my_Price.jin"></el-input>

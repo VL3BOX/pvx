@@ -3,7 +3,7 @@
         <div class="m-price-goods-body">
             <div class="m-my-follow-goods">
                 <div class="u-title">
-                    我的关注
+                    {{ $t('我的关注') }}
                     <i
                         v-if="myFollowData.length"
                         class="u-btn el-icon-setting"
@@ -14,9 +14,9 @@
                 </div>
                 <div class="m-empty-follow" v-if="myFollowData.length == 0">
                     <div class="m-empty-follow-title" v-loading="loading">
-                        {{ isLogin ? "暂无关注" : "暂未登录" }}
-                        <span class="m-empty-follow-add" @click="openAddDialog" v-if="isLogin"> 去添加 </span>
-                        <span class="m-empty-follow-login" @click="openAddDialog" v-else> 去登陆 </span>
+                        {{ isLogin ? $t('暂无关注') : $t('暂未登录') }}
+                        <span class="m-empty-follow-add" @click="openAddDialog" v-if="isLogin"> {{ $t('去添加') }} </span>
+                        <span class="m-empty-follow-login" @click="openAddDialog" v-else> {{ $t('去登陆') }} </span>
                     </div>
                 </div>
                 <myGoodList v-else :data="myFollowPlan" :priceMap="priceMap"></myGoodList>

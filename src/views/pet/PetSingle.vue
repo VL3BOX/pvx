@@ -25,20 +25,20 @@
                     <i class="el-icon-star-on" v-for="count in pet.Star" :key="count"></i>
                 </i>
                 <div class="u-metas">
-                    <div class="u-meta u-number"><span class="u-meta-label">编号：</span>{{ pet.Index }}</div>
-                    <div class="u-meta u-type"><span class="u-meta-label">分类：</span>{{ getPetType(pet.Class) }}</div>
-                    <div class="u-meta u-score"><span class="u-meta-label">分数：</span>{{ pet.Score }}</div>
+                    <div class="u-meta u-number"><span class="u-meta-label">{{ $t('编号：') }}</span>{{ pet.Index }}</div>
+                    <div class="u-meta u-type"><span class="u-meta-label">{{ $t('分类：') }}</span>{{ getPetType(pet.Class) }}</div>
+                    <div class="u-meta u-score"><span class="u-meta-label">{{ $t('分数：') }}</span>{{ pet.Score }}</div>
                     <div class="u-meta u-get-way">
-                        <span class="u-meta-label">获取方式：</span>{{ getPetSource(pet.Source) }}
+                        <span class="u-meta-label">{{ $t('获取方式：') }}</span>{{ getPetSource(pet.Source) }}
                     </div>
                     <div class="u-meta u-source">
-                        <span class="u-meta-label">获取线索：</span>
+                        <span class="u-meta-label">{{ $t('获取线索：') }}</span>
                         <template v-for="item in getPetDesc(pet.OutputDes)">
                             <span :key="item.text">{{ cleanResourceText(item.text) }}</span>
                         </template>
                     </div>
                     <div class="u-meta u-desc">
-                        <span class="u-meta-label">宠物说明：</span>
+                        <span class="u-meta-label">{{ $t('宠物说明：') }}</span>
                         <span class="u-meta-value">
                             <template v-for="(item, index) in getPetDesc(pet.Desc)">
                                 <span :key="index" v-html="item.text"></span>
@@ -47,14 +47,14 @@
                     </div>
 
                     <div class="u-meta u-shop" v-if="shopInfo.RewardsPrice || shopInfo.CoinPrice">
-                        <span class="u-meta-label">商城价格：</span>
+                        <span class="u-meta-label">{{ $t('商城价格：') }}</span>
                         <span class="u-price">
                             <el-tag class="u-price-item u-rewards" v-if="shopInfo.RewardsPrice > 0">
-                                积分<b>{{ shopInfo.RewardsPrice }}</b>
+                                {{ $t('积分') }}<b>{{ shopInfo.RewardsPrice }}</b>
                                 <i class="u-icon-rewards"></i>
                             </el-tag>
                             <el-tag class="u-price-item u-coin">
-                                通宝<b>{{ shopInfo.CoinPrice }}</b>
+                                {{ $t('通宝') }}<b>{{ shopInfo.CoinPrice }}</b>
                                 <i class="u-icon-coin"></i>
                             </el-tag>
                         </span>

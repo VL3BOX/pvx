@@ -6,17 +6,17 @@
             <WikiPanel :wiki-post="wiki_post">
                 <template slot="head-title">
                     <img class="u-icon" svg-inline src="@/assets/img/item.svg" />
-                    <span class="u-txt">{{ name }}攻略</span>
+                    <span class="u-txt">{{ name + $t('攻略') }}</span>
                 </template>
                 <template slot="head-actions">
                     <a class="el-button el-button--primary" :href="publish_url(`${type}/${id}`)">
                         <i class="el-icon-edit"></i>
-                        <span>完善{{ name }}攻略</span>
+                        <span>{{ $t('完善') + name + $t('攻略')}}</span>
                     </a>
                 </template>
                 <template slot="body">
                     <div class="m-wiki-compatible" v-if="compatible">
-                        <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
+                        <i class="el-icon-warning-outline"></i> {{ $t('暂无缘起攻略，以下为重制攻略，仅作参考，') }}<a
                             class="s-link"
                             :href="publish_url(`${type}/${id}`)"
                             >{{ $t('参与修订') }}</a
@@ -25,7 +25,7 @@
                     <Article :content="wiki_post.post.content" />
                     <div class="m-wiki-signature">
                         <i class="el-icon-edit"></i>
-                        本次修订由 <b>{{ user_name }}</b> 提交于{{ updated_at }}
+                        {{ $t('本次修订由') }} <b>{{ user_name }}</b> {{ $t('提交于') + updated_at }}
                     </div>
                 </template>
             </WikiPanel>

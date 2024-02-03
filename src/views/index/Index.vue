@@ -2,9 +2,9 @@
     <div class="p-index">
         <div class="m-index-info">
             <div class="m-intro">
-                <div class="u-title">创作、收集、资讯、江湖之路何必枯燥？认识一下，我们全新的PVX栏目</div>
+                <div class="u-title">{{ $t('创作、收集、资讯、江湖之路何必枯燥？认识一下，我们全新的PVX栏目') }}</div>
                 <div class="u-desc">
-                    这里，是PVX主页，你可以通过左侧的侧边栏或下方的矩阵快速切换栏目。目前还有部分项目正在持续更新中，请耐心等待。
+                    {{ $t('这里，是PVX主页，你可以通过左侧的侧边栏或下方的矩阵快速切换栏目。目前还有部分项目正在持续更新中，请耐心等待。') }}
                 </div>
                 <div class="u-nav">
                     <div class="u-nav-item" v-for="(menu, index) in menus" :key="menu.index" @click="active = index">
@@ -25,8 +25,8 @@
                 </div>
                 <div class="u-tips">
                     <i class="el-icon-warning"></i>
-                    <span>对我们的栏目有建设性意见？</span>
-                    <a @click="onQQClick" class="u-link" :title="$t('点击复制')">加入QQ群</a>
+                    <span>{{ $t('对我们的栏目有建设性意见？') }}</span>
+                    <a @click="onQQClick" class="u-link" :title="$t('点击复制')">{{ $t('加入QQ群') }}</a>
                 </div>
             </div>
             <img class="u-normal-img" src="@/assets/img/index.png" />

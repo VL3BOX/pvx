@@ -30,24 +30,24 @@
                                 <template v-if="reputation.szMapNames && reputation.szMapNames.length">
                                     <div class="sub-title2">
                                         <img src="@/assets/img/reputation/reputation_map.svg" width="15" svg-inline />
-                                        声望地图
+                                        {{ $t('声望地图') }}
                                     </div>
                                     <div class="u-desc">{{ reputation.szMapNames[0] }}</div>
                                 </template>
                                 <template v-if="reputation.GroupName">
                                     <div class="sub-title2">
                                         <img src="@/assets/img/reputation/reputation_title.svg" width="15" svg-inline />
-                                        势力类型
+                                        {{ $t('势力类型') }}
                                     </div>
                                     <div class="u-desc">{{ reputation.GroupName }}</div>
                                 </template>
                                 <template>
                                     <div class="sub-title2">
                                         <img src="@/assets/img/reputation/reputation_path.svg" width="15" svg-inline />
-                                        遗失的尊敬
+                                        {{ $t('遗失的尊敬') }}
                                     </div>
                                     <div class="u-desc">
-                                        {{ getPath(reputation.szName) || "无法使用遗失的尊敬来提高该声望等级进度" }}
+                                        {{ getPath(reputation.szName) || $t('无法使用遗失的尊敬来提高该声望等级进度') }}
                                     </div>
                                 </template>
                             </div>
@@ -65,7 +65,7 @@
                                             width="15"
                                             svg-inline
                                         />
-                                        知交祝福
+                                        {{ $t('知交祝福') }}
                                     </div>
                                     <div class="u-desc">
                                         <span>{{ reputation.servant.szBuffName }}</span>
@@ -74,13 +74,13 @@
                                 </template>
                             </div>
                             <div class="detail-wrap" v-if="activeTab === 1 && !reputation.servant">
-                                <div class="u-desc">无</div>
+                                <div class="u-desc">{{ $t('无') }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="current-progress">
-                    <div class="progress-num"><span>当前进度：中立</span><span>0</span></div>
+                    <div class="progress-num"><span>{{ $t('当前进度：中立') }}</span><span>0</span></div>
                     <div class="progress-wrap">
                         <div class="progress-value"></div>
                     </div>
@@ -88,7 +88,7 @@
             </div>
             <div class="map-wrapper" v-if="reputation.szMapNames && reputation.szMapNames.length && !reputation.hiddenMap">
                 <div class="title">
-                    声望商人
+                    {{ $t('声望商人') }}
                     <span>{{ reputation.Guides[0].npcName }}</span>
                 </div>
                 <div class="map-content">
@@ -117,8 +117,8 @@
                 <div v-if="reputation.gainList" class="stage-reward-list">
                     <div class="stage-title">
                         <span
-                            >阶段奖励（{{
-                                stage === -1 ? reputation.gainList[0].from : reputation.gainList[stage].to
+                            >（{{
+                                $t('阶段奖励')  + (stage === -1 ? reputation.gainList[0].from : reputation.gainList[stage].to)
                             }}）</span
                         >
                         <div class="page-list" v-if="stageList.length && stageList[0].length">

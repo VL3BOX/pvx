@@ -5,7 +5,7 @@
             <Upload type="face" @success="handleSuccess">
                 <template #guide>
                     <a class="u-help" href="/tool/746" target="_blank">
-                        <i class="el-icon-collection"></i> 游戏脸型导入导出指南
+                        <i class="el-icon-collection"></i> {{ $t('游戏脸型导入导出指南') }}
                     </a>
                 </template>
             </Upload>

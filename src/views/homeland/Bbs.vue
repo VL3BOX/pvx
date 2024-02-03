@@ -2,7 +2,7 @@
     <div class="m-bbs">
         <!-- 搜索 -->
         <div class="m-archive-search m-collection-search">
-            <a :href="publish_link" class="u-publish el-button el-button--primary">+ 发布作品</a>
+            <a :href="publish_link" class="u-publish el-button el-button--primary">+ {{ $t('发布作品') }}</a>
             <el-input :placeholder="$t('请输入搜索内容')" v-model.trim.lazy="search" class="input-with-select">
                 <span slot="prepend">{{ $t('关键词') }}</span>
                 <el-button slot="append" icon="el-icon-position" @click="loadList"></el-button>

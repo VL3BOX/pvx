@@ -16,7 +16,7 @@
             <div class="m-trigger-links">
                 <a class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
                     <i class="el-icon-trophy"></i>
-                    成就信息
+                    {{ $t('成就信息') }}
                 </a>
             </div>
         </div>

@@ -55,7 +55,7 @@
                                     :collapse-tags="fItem.multiple"
                                     clearable
                                     :filterable="fItem.filterable"
-                                    :placeholder="`请${fItem.remote ? '输入' : '选择'}${fItem.name}`"
+                                    :placeholder="`请${fItem.remote ? $t('输入') : $t('选择')}${fItem.name}`"
                                     :remote="Boolean(fItem.remote)"
                                     :remote-method="remoteMethod"
                                     :loading="selectLoading === fItem.remote"
@@ -132,7 +132,7 @@
                         :collapse-tags="item.multiple"
                         clearable
                         :filterable="item.filterable"
-                        :placeholder="!item.noPlaceholder ? `请${item.remote ? '输入' : '选择'}${item.name}` : '请选择'"
+                        :placeholder="!item.noPlaceholder ? `请${item.remote ? $t('输入') : '选择'}${item.name}` : $t('请选择')"
                         :remote="Boolean(item.remote)"
                         :remote-method="remoteMethod"
                         :loading="selectLoading === item.remote"
@@ -153,7 +153,7 @@
                     <el-input
                         v-model="formData[item.key]"
                         class="search-input"
-                        :placeholder="`输入${item.name}搜索`"
+                        :placeholder="$t('输入') + item.name + $t('搜索')"
                         clearable
                         suffix-icon="el-icon-search"
                     >

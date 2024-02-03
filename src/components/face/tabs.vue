@@ -48,7 +48,7 @@
 
         <a :href="link.data" target="_blank">
             <el-button type="primary" size="medium" icon="el-icon-c-scale-to-original" class="u-analysis">
-                数据解析
+                {{ $t('数据解析') }}
             </el-button>
         </a>
         <a :href="publish_link(link.key)" target="_blank">

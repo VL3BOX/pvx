@@ -3,12 +3,12 @@
         <div class="u-title">
             <span class="u-label">
                 <i class="el-icon-present"></i>
-                触发记录
+                {{ $t('触发记录') }}
                 <el-select v-model="server" :placeholder="$t('区服')" size="small" class="u-server" @change="changeServer">
                     <el-option v-for="item in servers" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
             </span>
-            <a class="u-more" href="https://j3cx.com/serendipity" target="_blank">查看更多 &raquo;</a>
+            <a class="u-more" href="https://j3cx.com/serendipity" target="_blank">{{ $t('查看更多') }} &raquo;</a>
         </div>
         <ul class="u-list" v-if="list && list.length > 0">
             <li class="u-header">
@@ -21,7 +21,7 @@
                 <span class="u-date">{{ item.date_str | showDate }}</span>
                 <span class="u-time">{{ item.dwTime | wikiDate }}</span>
                 <span class="u-server">{{ item.region }}-{{ item.server }}</span>
-                <span class="u-name">{{ item.name || "匿名" }}</span>
+                <span class="u-name">{{ item.name || $t('匿名') }}</span>
             </li>
         </ul>
         <el-alert class="u-alert" v-else :title="$t('无记录')" type="info" center :closable="false" />

@@ -7,7 +7,7 @@
                 <div class="m-face-btn-box">
                     <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/bodydata" target="_blank">
                         <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
-                            管理
+                            {{ $t('管理') }}
                         </el-button>
                     </a>
                     <a :href="publish_link">
@@ -28,7 +28,7 @@
 
             <div class="m-header-info">
                 <h2>
-                    {{ post.title || "无标题" }}
+                    {{ post.title || $t('无标题') }}
                     <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">{{ $t('已下架') }}</el-tag>
                 </h2>
                 <div class="u-author">
@@ -43,11 +43,11 @@
                     <time class="u-time">{{ post.updated_at }}</time>
                     <a class="u-edit" v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
                         <i class="el-icon-edit-outline u-edit-icon"></i>
-                        编辑
+                        {{ $t('编辑') }}
                     </a>
                 </div>
                 <div class="u-meta">
-                    <i class="u-mark" v-if="!!post.star">★ 编辑推荐</i>
+                    <i class="u-mark" v-if="!!post.star">★ {{ $t('编辑推荐') }}</i>
                     <i class="u-fr" v-if="!!post.is_fr">{{ $t('首发') }}</i>
                     <i class="u-original" v-if="!!post.original">{{ $t('原创') }}</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
@@ -85,10 +85,10 @@
             <!-- 购买区 -->
             <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
                 <div class="m-face-pay-info">
-                    <span class="u-text">该体型数据售价：</span>
+                    <span class="u-text">{{ $t('该体型数据售价：') }}</span>
                     <el-tag effect="dark" color="#ffad31" round>
-                        <span v-if="post.price_type == 1">{{ post.price_count }} 盒币</span>
-                        <span v-if="post.price_type == 2">{{ post.price_count }} 金箔</span>
+                        <span v-if="post.price_type == 1">{{ post.price_count }} {{ $t('盒币') }}</span>
+                        <span v-if="post.price_type == 2">{{ post.price_count }} {{ $t('金箔') }}</span>
                     </el-tag>
                     <el-button
                         class="u-btn"
@@ -98,7 +98,7 @@
                         @click="facePay"
                         :loading="payBtnLoading"
                     >
-                        购买
+                        {{ $t('购买') }}
                     </el-button>
                 </div>
                 <img class="u-box-img" src="../../assets/img/box.svg" />
@@ -123,13 +123,13 @@
                     <li v-for="item in downFileList" :key="item.id">
                         <div>
                             <span class="u-label"
-                                >名称: <em>{{ item.name }}</em></span
+                                >{{ $t('名称') }}: <em>{{ item.name }}</em></span
                             >
                             <span class="u-label"
-                                >版本 : <em>{{ item.created_at }}</em></span
+                                >{{ $t('版本') }} : <em>{{ item.created_at }}</em></span
                             >
                             <span class="u-label" v-if="item.describe"
-                                >备注 ： <em>{{ item.describe }}</em></span
+                                >{{ $t('备注') }} ： <em>{{ item.describe }}</em></span
                             >
                         </div>
                         <el-button
@@ -152,7 +152,7 @@
             <div class="u-list m-single-content-box" v-if="randomList.length">
                 <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
             </div>
-            <span class="u-list-null m-single-content-box" v-else>· 作者没有更多作品了 ·</span>
+            <span class="u-list-null m-single-content-box" v-else>· {{ $t('作者没有更多作品了') }} ·</span>
         </div>
         <!--搭配随机作品-->
         <!-- <div class="m-pvxbody-list">

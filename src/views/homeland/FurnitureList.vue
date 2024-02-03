@@ -12,7 +12,7 @@
         <div class="m-furniture-container flexNormal">
             <div class="m-furniture-types">
                 <div class="u-list">
-                    <span class="u-item" @click="onDefault" :class="{ active: attKey == '-1' }"> 全部</span>
+                    <span class="u-item" @click="onDefault" :class="{ active: attKey == '-1' }"> {{ $t('全部') }}</span>
                     <span
                         class="u-item"
                         v-for="(item, i) in category"

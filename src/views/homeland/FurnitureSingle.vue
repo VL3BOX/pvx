@@ -13,7 +13,7 @@
                 >
                 <a v-if="achieve_id" class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
                     <i class="el-icon-trophy"></i>
-                    成就信息
+                    {{ $t('成就信息') }}
                 </a>
             </div>
         </div>
@@ -46,17 +46,17 @@
                     >
                 </div>
                 <div class="u-metas">
-                    <span class="u-meta"><span class="u-label">来源途径：</span>{{ data.szSource }}</span>
-                    <span class="u-meta"><span class="u-label">园宅等级：</span>{{ data.LevelLimit }}级</span>
-                    <span class="u-meta"><span class="u-label">摆放上限：</span>{{ data.MaxAmountPerLand }}</span>
+                    <span class="u-meta"><span class="u-label">{{ $t('来源途径：') }}</span>{{ data.szSource }}</span>
+                    <span class="u-meta"><span class="u-label">{{ $t('园宅等级：') }}</span>{{ data.LevelLimit }}级</span>
+                    <span class="u-meta"><span class="u-label">{{ $t('摆放上限：') }}</span>{{ data.MaxAmountPerLand }}</span>
                     <span class="u-meta u-meta-scale" v-if="data.szScaleRange"
-                        ><span class="u-label">缩放大小：</span>
+                        ><span class="u-label">{{ $t('缩放大小：') }}</span>
                         <span class="u-value">
                             <b v-for="item in scaleRange(data.szScaleRange)" :key="item">{{ item }}</b>
                         </span>
                     </span>
                     <span class="u-meta u-meta-dyes" v-if="color_list.length"
-                        ><span class="u-label">染色选项：</span>
+                        ><span class="u-label">{{ $t('染色选项：') }}</span>
                         <span class="u-value">
                             <i
                                 v-for="item in color_list"

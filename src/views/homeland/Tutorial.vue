@@ -22,7 +22,7 @@
 				<el-table :data="level_data" stripe>
 					<el-table-column align="center">
 						<template slot="header">
-							<h2 class="u-header"><i class="el-icon-s-home"></i> 家园升级需求</h2>
+							<h2 class="u-header"><i class="el-icon-s-home"></i> {{ $t('家园升级需求') }}</h2>
 						</template>
 						<el-table-column prop="Level" :label="$t('等级')" align="center" width="100px"> </el-table-column>
 						<el-table-column prop="Attribute1" :label="$t('观赏')" align="center"> </el-table-column>

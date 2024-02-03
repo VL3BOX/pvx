@@ -3,19 +3,19 @@
         <section class="m-actions">
             <el-button icon="el-icon-arrow-left" @click="goBack" size="small">{{ $t('返回') }}</el-button>
             <el-button icon="el-icon-setting" type="primary" size="small" @click="manage(true)" v-if="isEditor">
-                管理
+                {{ $t('管理') }}
             </el-button>
             <el-button icon="el-icon-edit" type="primary" size="small" @click="manage(false)" v-else-if="isCreator">
-                编辑
+                {{ $t('编辑') }}
             </el-button>
         </section>
         <section class="m-single-block m-today" v-loading="todayLoading">
             <header class="m-single-title m-history-header">
                 <i :class="today.type == 1 ? 'el-icon-collection-tag' : 'el-icon-s-flag'"></i
-                >{{ today.type == 1 ? "事件" : "活动" }}记录
+                >{{ today.type == 1 ? $t('事件') : $t('活动') }}{{ $t('记录') }}
             </header>
             <div class="m-today-content">
-                <i class="u-client" :class="today.client">{{ today.client == "std" ? "正式服" : "怀旧服" }}</i
+                <i class="u-client" :class="today.client">{{ today.client == "std" ? $t('正式服') : $t('怀旧服') }}</i
                 >{{ today.desc }}
             </div>
             <div class="m-today-meta" v-if="today && today.user_info">

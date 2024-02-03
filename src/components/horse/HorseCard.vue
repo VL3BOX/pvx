@@ -35,7 +35,7 @@
             >
                 <div class="u-attr-pop" slot="content">
                     <div class="u-attr-name" v-if="data.name">
-                        {{ (data.name || "") + (Number(data.level) ? data.level + "级" : "") }}
+                        {{ (data.name || "") + (Number(data.level) ? data.level + $t('级') : "") }}
                     </div>
                     <div class="u-attr-desc">{{ data.desc }}</div>
                 </div>

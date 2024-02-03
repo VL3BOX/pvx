@@ -10,7 +10,7 @@
             >
             <div class="u-search">
                 <el-input
-                    :placeholder="`搜索${craftName}配方`"
+                    :placeholder="$t('搜索') + craftName + $t('配方')"
                     v-model.lazy="search"
                     suffix-icon="el-icon-search"
                     class="u-search-input"
@@ -23,7 +23,7 @@
                 <div class="m-manufacture-title">
                     <span class="u-title">{{ craftName }}</span>
                     <el-select class="m-server" v-model="server" :placeholder="$t('请选择')" size="small">
-                        <span slot="prefix" class="u-prefix"> 区服价格</span>
+                        <span slot="prefix" class="u-prefix"> {{ $t('区服价格') }}</span>
                         <el-option v-for="item in serverList" :key="item" :label="item" :value="item"> </el-option>
                     </el-select>
                 </div>

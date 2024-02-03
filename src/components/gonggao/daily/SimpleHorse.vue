@@ -17,7 +17,7 @@
                         >{{ existData.map }}
                     </div>
                     <div v-if="hasExist" class="u-times is-exist">{{ existData.time }}</div>
-                    <span v-else class="u-times">本CD尚未刷新</span>
+                    <span v-else class="u-times">{{ $t('本CD尚未刷新') }}</span>
                 </div>
             </div>
             <template v-if="list.length">

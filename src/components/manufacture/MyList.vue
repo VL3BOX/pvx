@@ -13,7 +13,7 @@
                     <span> <i :class="item.public ? 'el-icon-caret-right' : 'el-icon-lock'"></i> {{ item.title }}</span>
                 </div>
             </template>
-            <span class="m-null" v-else>- 请登录后查看 -</span>
+            <span class="m-null" v-else>- {{ $t('请登录后查看') }} -</span>
         </div>
         <Plan :planId="planId" :visible="visible" @close="close" />
     </div>

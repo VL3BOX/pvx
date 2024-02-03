@@ -2,7 +2,7 @@
     <div class="c-paper-title" v-if="item">
         <div class="m-title">
             <div class="u-star">
-                <span class="u-label">难度：</span>
+                <span class="u-label">{{ $t('难度：') }}</span>
                 <el-rate v-model="item.hardStar" disabled text-color="#ff9900"></el-rate>
             </div>
             <div class="u-block u-title" v-if="isPaper">{{ title }}</div>
@@ -15,18 +15,18 @@
             </div>
             <div class="u-info">
                 <img class="u-icon" svg-inline src="../../assets/img/logo.svg" fill="#fff" />
-                <span class="u-desc" v-if="item.desc">{{ desc || "无" }}</span>
+                <span class="u-desc" v-if="item.desc">{{ desc || $t('无') }}</span>
             </div>
             <div class="u-block u-author">
-                <span>出卷人：</span><a :href="authorLink(item.createUserId)" target="_blank">{{ item.createUser }}</a>
+                <span>{{ $t('出卷人：') }}</span><a :href="authorLink(item.createUserId)" target="_blank">{{ item.createUser }}</a>
             </div>
         </div>
 
         <div class="m-score" :class="score && score !== -1 ? 'is-score' : ''">
             <div class="u-left">
-                <div class="u-start-title">考试{{ score && score !== -1 ? "结束" : "开始" }}</div>
+                <div class="u-start-title">{{ $t('考试') + (score && score !== -1 ? $t('结束') : $t('开始')) }}</div>
                 <div class="u-start-desc" v-if="item.questionList">
-                    本次考试共{{ item.questionDetailList.length }}题，每题{{ number }}分，满分100分。
+                    {{ $t('本次考试共') + item.questionDetailList.length + $t('题，每题') + number + $t('分，满分100分。')}}
                 </div>
                 <div class="u-start-tip">{{ $t('请各位考生严格遵守考生条约，如有违规行为则本次考试成绩作废') }}</div>
             </div>

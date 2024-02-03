@@ -38,14 +38,14 @@
                         ><span class="u-label">{{ $t('出题人') }}</span>{{ item.createUser }}</a
                     >
                     <div v-if="fromQuestion" class="u-star">
-                        <span>难度：</span>
+                        <span>{{ $t('难度：') }}</span>
                         <el-rate v-model="item.hardStar" disabled text-color="#ff9900"></el-rate>
                     </div>
                 </div>
             </div>
             <div class="u-cont">
                 <div class="u-title">
-                    <span class="u-hint"> [{{ item.type == "checkbox" ? "多选题" : "单选题" }}] </span>
+                    <span class="u-hint"> [{{ item.type == "checkbox" ? $t('多选题') : $t('单选题') }}] </span>
                     <span v-html="resolveImagePath(item.title)" class="m-html-title"> </span>
                 </div>
                 <div class="u-option">
@@ -109,19 +109,19 @@
                     {{ status }}
                 </div>
                 <div class="u-answer">
-                    你的答案：
+                    {{ $t('你的答案：') }}
                     <span v-if="answer.myAnswer">
                         <b v-for="key in answer.myAnswer" :key="key">{{ letter(key) }}</b>
                     </span>
                     <b v-else>-</b>
                 </div>
                 <div class="u-answer">
-                    正确答案：
+                    {{ $t('正确答案：') }}
                     <b v-for="key in answer.answerList" :key="key">{{ letter(key) }}</b>
                 </div>
                 <hr />
                 <div class="m-analysis">
-                    <span class="u-label">解析：</span>
+                    <span class="u-label">{{ $t('解析：') }}</span>
                     <!-- <Article :content="answer.whyami" v-if="answer.whyami"></Article> -->
                     <span v-if="answer.whyami" v-html="answer.whyami"></span>
                     <div v-else>{{ $t('暂无解析') }}</div>

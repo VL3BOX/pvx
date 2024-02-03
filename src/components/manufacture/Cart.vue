@@ -42,7 +42,7 @@
 
                         <div class="u-info">
                             <el-divider content-position="left">
-                                [ {{ server }} ] - <i class="el-icon-box"></i> 材料成本统计
+                                [ {{ server }} ] - <i class="el-icon-box"></i> {{ $t('材料成本统计') }}
                             </el-divider>
                             <div class="u-children" v-if="item.children.length">
                                 <div class="u-child" v-for="(child, k) in item.children" :key="k">
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="u-item-num">
-                                <span>制作次数：</span>
+                                <span>{{ $t('制作次数：') }}</span>
                                 <el-input-number
                                     v-model="item.count"
                                     size="mini"
@@ -83,11 +83,11 @@
                                 ></el-input-number>
                             </div>
                             <div class="u-item-num">
-                                <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
+                                <span><i class="el-icon-sunny"></i> {{ $t('消耗精力值：') }}</span>
                                 <b>{{ (item.CostVigor || item.CostStamina) * item.count }}</b>
                             </div>
                             <div class="u-item-num">
-                                <span><i class="el-icon-coin"></i> 小计金额：</span>
+                                <span><i class="el-icon-coin"></i> {{ $t('小计金额：') }}</span>
                                 <span class="u-price">
                                     <GamePrice class="u-price-num" :price="item.allPrices * item.count" />
                                 </span>
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="m-null" v-else>- 暂未添加生产配方 -</div>
+                <div class="m-null" v-else>- {{ $t('暂未添加生产配方') }} -</div>
             </div>
 
             <div class="m-stat">
@@ -103,11 +103,11 @@
                     <div class="u-label">{{ $t('总计') }}</div>
                     <div class="u-value">
                         <div class="u-num">
-                            <span><i class="el-icon-sunny"></i> 消耗精力值：</span>
+                            <span><i class="el-icon-sunny"></i> {{ $t('消耗精力值：') }}</span>
                             <b>{{ allExp }}</b>
                         </div>
                         <div class="u-num u-price">
-                            <span><i class="el-icon-coin"></i> 消耗金钱：</span>
+                            <span><i class="el-icon-coin"></i> {{ $t('消耗金钱：') }}</span>
                             <GamePrice v-if="allPrice" class="u-price-num" :price="allPrice" />
                         </div>
                     </div>

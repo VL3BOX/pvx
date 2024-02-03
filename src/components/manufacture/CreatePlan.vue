@@ -7,7 +7,7 @@
                 <el-button size="mini" icon="el-icon-thumb" type="primary" @click="setMyPlan">{{ $t('直接保存') }}</el-button>
             </div>
             <el-button slot="reference" type="success" icon="el-icon-document-checked" size="small">
-                保存至我的清单
+                {{ $t('保存至我的清单') }}
             </el-button>
         </el-popover>
 
