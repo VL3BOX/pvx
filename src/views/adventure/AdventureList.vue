@@ -60,7 +60,7 @@
             ></el-pagination>
         </template>
         <div class="u-archive-alert" v-if="isNoRes()">
-            <el-alert title="没有对应的奇遇，请重新查找" type="info" center show-icon />
+            <el-alert :title="$t('没有对应的奇遇，请重新查找')" type="info" center show-icon />
         </div>
     </div>
 </template>

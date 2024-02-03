@@ -2,7 +2,7 @@
     <div id="app">
         <Header></Header>
         <Breadcrumb
-            name="家园建设"
+            :name="$t('家园建设')"
             slug="homeland"
             root="/homeland"
             :publishEnable="false"

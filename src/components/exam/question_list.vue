@@ -2,14 +2,14 @@
     <div class="m-question-list">
         <!-- 表格 -->
         <el-table class="m-list" :data="list" style="width: 100%" @row-click="takeQuestion">
-            <el-table-column prop="id" label="编号" width="56"></el-table-column>
-            <el-table-column prop="title" label="标题" min-width="200">
+            <el-table-column prop="id" :label="$t('编号')" width="56"></el-table-column>
+            <el-table-column prop="title" :label="$t('标题')" min-width="200">
                 <div class="u-title" slot-scope="scope">
                     <span :class="`u-client i-client-${scope.row.client}`">{{ clients[scope.row.client] }}</span>
                     {{ scope.row.title }}
                 </div>
             </el-table-column>
-            <el-table-column prop="tags" label="标签" width="180">
+            <el-table-column prop="tags" :label="$t('标签')" width="180">
                 <template slot-scope="scope">
                     <div class="u-tags">
                         <el-tag
@@ -24,17 +24,17 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="hardStar" label="难度" width="120">
+            <el-table-column prop="hardStar" :label="$t('难度')" width="120">
                 <template slot-scope="scope">
                     <el-rate v-model="scope.row.hardStar" disabled text-color="#ff9900"></el-rate>
                 </template>
             </el-table-column>
-            <el-table-column prop="author" label="出题人" width="180">
+            <el-table-column prop="author" :label="$t('出题人')" width="180">
                 <template slot-scope="scope">
                     {{ scope.row.createUser }}
                 </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" width="100">
+            <el-table-column fixed="right" :label="$t('操作')" width="100">
                 <template>
                     <el-button size="small" plain type="primary" icon="el-icon-edit">去答题</el-button>
                 </template>

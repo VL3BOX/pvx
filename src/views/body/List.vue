@@ -54,7 +54,7 @@
                     </template>
                 </div>
             </template>
-            <el-alert v-else class="m-archive-null" title="没有找到相关的体型" type="info" show-icon center></el-alert>
+            <el-alert v-else class="m-archive-null" :title="$t('没有找到相关的体型')" type="info" show-icon center></el-alert>
         </div>
     </div>
 </template>

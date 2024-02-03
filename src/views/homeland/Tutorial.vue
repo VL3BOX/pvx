@@ -24,13 +24,13 @@
 						<template slot="header">
 							<h2 class="u-header"><i class="el-icon-s-home"></i> 家园升级需求</h2>
 						</template>
-						<el-table-column prop="Level" label="等级" align="center" width="100px"> </el-table-column>
-						<el-table-column prop="Attribute1" label="观赏" align="center"> </el-table-column>
-						<el-table-column prop="Attribute2" label="实用" align="center"> </el-table-column>
-						<el-table-column prop="Attribute3" label="坚固" align="center"> </el-table-column>
-						<el-table-column prop="Attribute4" label="风水" align="center"> </el-table-column>
-						<el-table-column prop="Attribute5" label="趣味" align="center"> </el-table-column>
-						<el-table-column prop="Currency" label="园宅币" align="center"> </el-table-column>
+						<el-table-column prop="Level" :label="$t('等级')" align="center" width="100px"> </el-table-column>
+						<el-table-column prop="Attribute1" :label="$t('观赏')" align="center"> </el-table-column>
+						<el-table-column prop="Attribute2" :label="$t('实用')" align="center"> </el-table-column>
+						<el-table-column prop="Attribute3" :label="$t('坚固')" align="center"> </el-table-column>
+						<el-table-column prop="Attribute4" :label="$t('风水')" align="center"> </el-table-column>
+						<el-table-column prop="Attribute5" :label="$t('趣味')" align="center"> </el-table-column>
+						<el-table-column prop="Currency" :label="$t('园宅币')" align="center"> </el-table-column>
 					</el-table-column>
 				</el-table>
 			</div>

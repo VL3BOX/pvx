@@ -5,10 +5,10 @@
         </template>
         <main class="u-form">
             <el-form label-position="left" label-width="80px">
-                <el-form-item label="日期" required :error="dateError">
+                <el-form-item :label="$t('日期')" required :error="dateError">
                     <div class="m-date">
                         <el-input-number
-                            placeholder="请输入年份"
+                            :placeholder="$t('请输入年份')"
                             :min="2009"
                             :max="maxYear"
                             class="u-date"
@@ -16,7 +16,7 @@
                             v-model.number="form.year"
                         ></el-input-number>
                         <el-input-number
-                            placeholder="请输入月份"
+                            :placeholder="$t('请输入月份')"
                             :min="1"
                             :max="12"
                             class="u-date"
@@ -24,7 +24,7 @@
                             v-model.number="form.month"
                         ></el-input-number>
                         <el-input-number
-                            placeholder="请输入日期"
+                            :placeholder="$t('请输入日期')"
                             :min="1"
                             :max="31"
                             class="u-date"
@@ -33,7 +33,7 @@
                         ></el-input-number>
                     </div>
                 </el-form-item>
-                <el-form-item label="类型" required>
+                <el-form-item :label="$t('类型')" required>
                     <div class="m-type">
                         <el-radio-group size="small" v-model.number="form.type">
                             <el-radio-button :label="1">事件</el-radio-button>
@@ -58,27 +58,27 @@
                         <!-- 仅在活动时显示 END -->
                     </div>
                 </el-form-item>
-                <el-form-item label="描述" required :error="descError">
-                    <el-input type="textarea" v-model="form.desc" :rows="8" placeholder="输入事件描述" ></el-input>
+                <el-form-item :label="$t('描述')" required :error="descError">
+                    <el-input type="textarea" v-model="form.desc" :rows="8" :placeholder="$t('输入事件描述')" ></el-input>
                 </el-form-item>
-                <el-form-item label="客户端" required>
+                <el-form-item :label="$t('客户端')" required>
                     <el-radio-group size="small" v-model="form.client">
                         <el-radio-button label="std">正式服</el-radio-button>
                         <el-radio-button label="origin">怀旧服</el-radio-button>
                         <el-radio-button label="all" v-if="form.type == 1">双端</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="参考资料">
+                <el-form-item :label="$t('参考资料')">
                     <template v-for="(item, index) in form.link">
                         <div class="m-links" :key="item.id || index">
-                            <el-input class="u-link-item" v-model="item.label" placeholder="请输入标题"></el-input>
-                            <el-input class="u-link-item" v-model="item.url" placeholder="请输入链接"></el-input>
+                            <el-input class="u-link-item" v-model="item.label" :placeholder="$t('请输入标题')"></el-input>
+                            <el-input class="u-link-item" v-model="item.url" :placeholder="$t('请输入链接')"></el-input>
                             <el-button
                                 class="u-del-icon"
                                 type="text"
                                 icon="el-icon-circle-close"
                                 @click="removeLink(index)"
-                                title="删除参考资料"
+                                :title="$t('删除参考资料')"
                             ></el-button>
                         </div>
                     </template>
@@ -89,21 +89,21 @@
 
                 <template v-if="isEditor && isEditmode">
                     <el-divider><i class="el-icon-coordinate"></i> 管理设置</el-divider>
-                    <el-form-item label="格子显示">
+                    <el-form-item :label="$t('格子显示')">
                         <el-radio-group size="small" v-model.number="form.is_top">
                             <el-radio-button :label="0">否</el-radio-button>
                             <el-radio-button :label="1">是</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="格子简述" v-if="form.is_top">
+                    <el-form-item :label="$t('格子简述')" v-if="form.is_top">
                         <el-input type="input" v-model="form.title" placeholder="输入简述（非必填）"></el-input>
                     </el-form-item>
-                    <el-form-item label="重要级别">
+                    <el-form-item :label="$t('重要级别')">
                         <el-input-number v-model.number="form.level" size="medium" :min="0" :max="5"></el-input-number>
                     </el-form-item>
-                    <el-form-item label="样式">
+                    <el-form-item :label="$t('样式')">
                         <div class="m-style">
-                            <!-- <el-select v-model="form.style" size="medium" placeholder="请选择样式"></el-select> -->
+                            <!-- <el-select v-model="form.style" size="medium" :placeholder="$t('请选择样式')"></el-select> -->
                             <div class="m-color-item">
                                 <label class="u-label">背景色</label>
                                 <span class="u-color-value" v-show="form.bgcolor">【{{ form.bgcolor }}】</span>
@@ -116,16 +116,16 @@
                             </div>
                         </div>
                     </el-form-item>
-                    <!-- <el-form-item label="海报">
+                    <!-- <el-form-item :label="$t('海报')">
                         <img-upload :data="form.banner" filed="banner" @update="setMeta"></img-upload>
                     </el-form-item> -->
-                    <el-form-item label="图片">
+                    <el-form-item :label="$t('图片')">
                         <img-upload :data="form.img" filed="img" @update="setMeta"></img-upload>
                     </el-form-item>
-                    <el-form-item label="备注">
-                        <el-input v-model="form.remark" size="medium" placeholder="请输入备注"></el-input>
+                    <el-form-item :label="$t('备注')">
+                        <el-input v-model="form.remark" size="medium" :placeholder="$t('请输入备注')"></el-input>
                     </el-form-item>
-                    <el-form-item label="操作">
+                    <el-form-item :label="$t('操作')">
                         <el-button icon="el-icon-refresh-left" size="small" @click="recheck" type="warning"
                             >复审</el-button
                         >

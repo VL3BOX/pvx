@@ -26,7 +26,7 @@
                 <div class="u-tips">
                     <i class="el-icon-warning"></i>
                     <span>对我们的栏目有建设性意见？</span>
-                    <a @click="onQQClick" class="u-link" title="点击复制">加入QQ群</a>
+                    <a @click="onQQClick" class="u-link" :title="$t('点击复制')">加入QQ群</a>
                 </div>
             </div>
             <img class="u-normal-img" src="@/assets/img/index.png" />

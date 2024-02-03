@@ -44,7 +44,7 @@
                     <PaperList v-if="search.type === 3" :data="data"></PaperList>
                 </template>
                 <!-- 空 -->
-                <el-empty v-else description="没有找到相关条目" :image-size="100"></el-empty>
+                <el-empty v-else :description="$t('没有找到相关条目')" :image-size="100"></el-empty>
             </template>
             <!-- 分页 -->
             <el-pagination

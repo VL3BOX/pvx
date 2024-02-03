@@ -8,7 +8,7 @@
 
         <!-- 地图筛选 -->
         <div class="u-maps">
-            <el-select v-model="mapId" filterable placeholder="宠物地图" popper-class="u-select" clearable>
+            <el-select v-model="mapId" filterable :placeholder="$t('宠物地图')" popper-class="u-select" clearable>
                 <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
@@ -39,7 +39,7 @@
 
         <div class="u-search">
             <el-input
-                placeholder="请输入搜索内容"
+                :placeholder="$t('请输入搜索内容')"
                 v-model="title"
                 suffix-icon="el-icon-search"
                 class="u-search-input"

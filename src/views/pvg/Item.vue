@@ -2,14 +2,14 @@
     <div class="m-item_price m-price-header">
         <div class="m-header">
             <h1 class="u-title">物价大全</h1>
-            <el-select class="u-servers" v-model="server" placeholder="请选择服务器" size="small">
+            <el-select class="u-servers" v-model="server" :placeholder="$t('请选择服务器')" size="small">
                 <span slot="prefix" class="u-prefix"><i class="el-icon-coin"></i> 价格参考服务器</span>
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
         </div>
         <div class="m-search">
             <!-- @keyup.enter.native="search_data" -->
-            <el-input class="u-search" placeholder="请输入搜索内容" v-model="search" size="mini">
+            <el-input class="u-search" :placeholder="$t('请输入搜索内容')" v-model="search" size="mini">
                 <span slot="prepend">关键词</span>
                 <el-button slot="append" icon="el-icon-search" @click="search_data"></el-button>
             </el-input>
@@ -60,7 +60,7 @@
         <div class="m-price-empty" v-else>
             <el-alert
                 class="u-alert"
-                title="没有对应的物品"
+                :title="$t('没有对应的物品')"
                 type="info"
                 center
                 show-icon

@@ -115,7 +115,7 @@
                 :source_id="item_id"
                 :type="type"
                 :id="id"
-                title="家具攻略"
+                :title="$t('家具攻略')"
                 :source_title="data.szName"
             ></Wiki>
         </div>

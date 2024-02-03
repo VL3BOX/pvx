@@ -10,7 +10,7 @@
             <el-input
                 v-if="params.currentTab != 'gold'"
                 v-model="params.keywords"
-                placeholder="请输入"
+                :placeholder="$t('请输入')"
                 suffix-icon="el-icon-search"
                 class="u-search-input"
             />

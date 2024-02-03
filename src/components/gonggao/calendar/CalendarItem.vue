@@ -40,7 +40,7 @@
                         class="u-team-logo"
                         :src="showTeamLogo(item.raid_team_info.logo) || defaultTeamLogo"
                         width="22"
-                        alt="团队"
+                        :alt="$t('团队')"
                     />
                     <span class="u-raid-time">{{ formatTime(item.raid_info) }} -</span>
                     {{ formatRaidInfo(item) }}

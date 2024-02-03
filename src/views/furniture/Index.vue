@@ -39,7 +39,7 @@
         <div v-if="list.length" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
             <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
             <div class="m-furniture-null" v-if="!list.length">
-                <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
+                <el-alert center :title="$t('没有对应的家具')" show-icon type="info"> </el-alert>
             </div>
         </div>
         <div v-if="setList.length" class="m-furniture-wrap">

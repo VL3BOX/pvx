@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header></Header>
-        <!-- <Breadcrumb name="家具大全" slug="furniture" root="/furniture" :feedbackEnable="true" :crumbEnable="false">
+        <!-- <Breadcrumb :name="$t('家具大全')" slug="furniture" root="/furniture" :feedbackEnable="true" :crumbEnable="false">
             <img slot="logo" svg-inline :src="getAppIcon('furniture')" />
         </Breadcrumb> -->
         <Nav @statusChange="statusChange"></Nav>

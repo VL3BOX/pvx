@@ -150,7 +150,7 @@
             </div>
         </div>
         <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
-        <pvx-user :id="achievement_id" name="声望" type="achievement"></pvx-user>
+        <pvx-user :id="achievement_id" :name="$t('声望')" type="achievement"></pvx-user>
     </div>
 </template>
 

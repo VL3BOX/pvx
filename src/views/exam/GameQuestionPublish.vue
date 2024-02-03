@@ -5,7 +5,7 @@
             <el-button @click="goBack">返回列表</el-button>
         </div>
         <el-form label-position="left" label-width="80px" class="m-publish-exam">
-            <el-form-item label="题目" class="m-publish-exam-title">
+            <el-form-item :label="$t('题目')" class="m-publish-exam-title">
                 <el-input
                     v-model="primary.title"
                     :maxlength="500"
@@ -17,12 +17,12 @@
                     placeholder="请填写题目内容 (支持html)"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="题型" class="m-publish-exam-type">
+            <el-form-item :label="$t('题型')" class="m-publish-exam-type">
                 <el-radio-group v-model="primary.type">
                     <el-radio :label="0" border>单选题</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="选项" class="m-publish-exam-options">
+            <el-form-item :label="$t('选项')" class="m-publish-exam-options">
                 <el-input placeholder="选项1 (支持html)" v-model="primary.options[0]">
                     <template slot="prepend">A</template>
                 </el-input>
@@ -36,7 +36,7 @@
                     <template slot="prepend">D</template>
                 </el-input>
             </el-form-item>
-            <el-form-item label="答案" class="m-publish-exam-answer">
+            <el-form-item :label="$t('答案')" class="m-publish-exam-answer">
                 <el-radio-group v-model="answer_radio" v-if="!primary.type">
                     <el-radio :label="0">A</el-radio>
                     <el-radio :label="1">B</el-radio>

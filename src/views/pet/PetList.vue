@@ -57,7 +57,7 @@
         <el-alert
             v-if="isNoRes()"
             class="m-archive-null"
-            title="没有找到相关宠物"
+            :title="$t('没有找到相关宠物')"
             type="info"
             center
             show-icon

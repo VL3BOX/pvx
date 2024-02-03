@@ -11,7 +11,7 @@
                             :disabled="prevDisabled"
                             @click="toggleYear('prev')"
                             class="u-btn"
-                            title="上一年"
+                            :title="$t('上一年')"
                         ></el-button>
                         <span class="u-year" :style="{ color: getSloganMeta('color') }">{{ current.year }}</span>
                         <el-button
@@ -20,7 +20,7 @@
                             :disabled="nextDisabled"
                             @click="toggleYear('next')"
                             class="u-btn"
-                            title="下一年"
+                            :title="$t('下一年')"
                         ></el-button>
                         <!-- 月份切换 -->
                         <el-button
@@ -29,7 +29,7 @@
                             :disabled="prevDisabled"
                             @click="toggleMonth('prev')"
                             class="u-btn"
-                            title="上一月"
+                            :title="$t('上一月')"
                         ></el-button>
                         <span class="u-year u-month-text" :style="{ color: getSloganMeta('color') }">{{
                             current.month
@@ -40,7 +40,7 @@
                             :disabled="nextDisabled"
                             @click="toggleMonth('next')"
                             class="u-btn"
-                            title="下一月"
+                            :title="$t('下一月')"
                         ></el-button>
                     </section>
                     <!-- <span class="u-contribute" @click="rank_show = true"><i class="el-icon-s-data"></i>剑三日历贡献排行榜</span> -->

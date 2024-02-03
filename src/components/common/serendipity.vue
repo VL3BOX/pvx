@@ -4,7 +4,7 @@
             <span class="u-label">
                 <i class="el-icon-present"></i>
                 触发记录
-                <el-select v-model="server" placeholder="区服" size="small" class="u-server" @change="changeServer">
+                <el-select v-model="server" :placeholder="$t('区服')" size="small" class="u-server" @change="changeServer">
                     <el-option v-for="item in servers" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
             </span>
@@ -24,7 +24,7 @@
                 <span class="u-name">{{ item.name || "匿名" }}</span>
             </li>
         </ul>
-        <el-alert class="u-alert" v-else title="无记录" type="info" center :closable="false" />
+        <el-alert class="u-alert" v-else :title="$t('无记录')" type="info" center :closable="false" />
     </div>
 </template>
 <script>

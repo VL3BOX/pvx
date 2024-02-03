@@ -8,7 +8,7 @@
                         v-if="myFollowData.length"
                         class="u-btn el-icon-setting"
                         v-popover:myPlans
-                        title="设置清单"
+                        :title="$t('设置清单')"
                         @click="openAddDialog"
                     ></i>
                 </div>

@@ -18,7 +18,7 @@
                             <i class="u-icon vip">{{ vipType }}</i>
                         </a>
                     </el-tooltip>
-                    <el-tooltip content="签约作者" v-if="isSuperAuthor" placement="top">
+                    <el-tooltip :content="$t('签约作者')" v-if="isSuperAuthor" placement="top">
                         <span class="u-superauthor">
                             <i class="u-icon superauthor">签约作者</i>
                         </span>

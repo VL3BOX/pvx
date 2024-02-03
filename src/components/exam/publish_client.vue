@@ -1,6 +1,6 @@
 <template>
     <div class="m-publish-client">
-        <el-form-item label="版本">
+        <el-form-item :label="$t('版本')">
             <el-radio-group v-model="client" @change="handleChange">
                 <el-radio label="std">重制</el-radio>
                 <el-radio label="origin">缘起</el-radio>

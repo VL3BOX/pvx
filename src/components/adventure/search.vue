@@ -7,7 +7,7 @@
             </span>
         </div>
         <div class="u-input">
-            <input type="text" v-model="search" placeholder="请输入奇遇或宠物名字搜索" />
+            <input type="text" v-model="search" :placeholder="$t('请输入奇遇或宠物名字搜索')" />
         </div>
     </div>
 </template>

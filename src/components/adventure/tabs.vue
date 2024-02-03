@@ -15,7 +15,7 @@
         </template>
 
         <div class="u-search">
-            <el-input placeholder="请输入搜索内容" v-model="name" suffix-icon="el-icon-search" class="u-search-input" />
+            <el-input :placeholder="$t('请输入搜索内容')" v-model="name" suffix-icon="el-icon-search" class="u-search-input" />
         </div>
     </div>
 </template>

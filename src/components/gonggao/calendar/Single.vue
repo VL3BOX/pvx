@@ -23,7 +23,7 @@
                     <img :src="showAvatar(today.user_info.user_avatar)" width="24" height="24" alt="" />
                     <a :href="authorLink(today.user_id)" target="_blank">{{ today.user_info.display_name }}</a>
                 </span>
-                <span class="u-create-time" title="创建时间">
+                <span class="u-create-time" :title="$t('创建时间')">
                     <i class="el-icon-date"></i>
                     <time>{{ showTime(today.created_at) }}</time>
                 </span>

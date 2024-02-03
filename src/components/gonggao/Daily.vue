@@ -38,10 +38,10 @@
             <div class="m-daily-item">
                 <div class="u-title">园宅会赛</div>
                 <div class="m-child-item">
-                    <SimpleFurniture :furniture="currentFurniture" title="本期"></SimpleFurniture>
+                    <SimpleFurniture :furniture="currentFurniture" :title="$t('本期')"></SimpleFurniture>
                 </div>
                 <div class="m-child-item">
-                    <SimpleFurniture :furniture="nextFurniture" title="下期"></SimpleFurniture>
+                    <SimpleFurniture :furniture="nextFurniture" :title="$t('下期')"></SimpleFurniture>
                 </div>
             </div>
             <div class="m-daily-item">

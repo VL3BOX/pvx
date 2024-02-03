@@ -11,15 +11,15 @@
             </el-button>
         </el-popover>
 
-        <el-dialog title="编辑清单" :visible.sync="dialogVisible" custom-class="m-plan-dialog">
+        <el-dialog :title="$t('编辑清单')" :visible.sync="dialogVisible" custom-class="m-plan-dialog">
             <el-form :inline="true" :model="plan" class="demo-form-inline">
-                <el-form-item label="标题">
+                <el-form-item :label="$t('标题')">
                     <el-input v-model="plan.title"></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
+                <el-form-item :label="$t('备注')">
                     <el-input v-model="plan.description"></el-input>
                 </el-form-item>
-                <el-form-item label="是否公开">
+                <el-form-item :label="$t('是否公开')">
                     <el-switch v-model="plan.publics" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </el-form>

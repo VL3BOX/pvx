@@ -22,7 +22,7 @@
             <div class="m-manufacture-box">
                 <div class="m-manufacture-title">
                     <span class="u-title">{{ craftName }}</span>
-                    <el-select class="m-server" v-model="server" placeholder="请选择" size="small">
+                    <el-select class="m-server" v-model="server" :placeholder="$t('请选择')" size="small">
                         <span slot="prefix" class="u-prefix"> 区服价格</span>
                         <el-option v-for="item in serverList" :key="item" :label="item" :value="item"> </el-option>
                     </el-select>

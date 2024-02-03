@@ -3,7 +3,7 @@
         <div class="m-price-overview-header">
             <div class="u-title">走势速览</div>
             <div class="u-servers">
-                <el-select v-model="server" placeholder="请选择" :default-first-option="true" @change="serverChange">
+                <el-select v-model="server" :placeholder="$t('请选择')" :default-first-option="true" @change="serverChange">
                     <div slot="prefix">区服价格</div>
                     <el-option v-for="server in serverList" :key="server" :label="server" :value="server"> </el-option>
                 </el-select>

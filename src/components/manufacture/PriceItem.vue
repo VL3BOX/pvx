@@ -16,7 +16,7 @@
             <div class="m-price-item">
                 <GamePrice v-if="data.Price" class="u-price-num" :price="data.Price" />
                 <span class="u-null" v-else>暂无价格</span>
-                <i class="u-edit el-icon-edit" title="修改价格"></i>
+                <i class="u-edit el-icon-edit" :title="$t('修改价格')"></i>
             </div>
         </template>
     </el-popover>

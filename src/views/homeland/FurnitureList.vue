@@ -3,7 +3,7 @@
         <h1 class="m-furniture-title">家具大全</h1>
 
         <div class="m-furniture-search">
-            <el-input placeholder="请输入搜索内容" v-model="search">
+            <el-input :placeholder="$t('请输入搜索内容')" v-model="search">
                 <span slot="prepend">关键词</span>
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="m-furniture-null" v-else>
-                    <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
+                    <el-alert center :title="$t('没有对应的家具')" show-icon type="info"> </el-alert>
                 </div>
 
                 <div class="m-furniture-pages">

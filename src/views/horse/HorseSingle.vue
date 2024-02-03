@@ -94,7 +94,7 @@
                 <horse-map :name="item.Name" :list="originDatas" />
             </div>
             <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
-            <pvx-user :id="id" name="坐骑" type="item"></pvx-user>
+            <pvx-user :id="id" :name="$t('坐骑')" type="item"></pvx-user>
         </div>
     </div>
 </template>

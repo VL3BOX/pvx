@@ -8,17 +8,17 @@
         <el-form label-position="left" label-width="80px" class="m-publish-exam">
             <!-- 客户端 -->
             <publish-client v-model="primary.client"></publish-client>
-            <el-form-item label="标题" class="m-publish-exam-title">
+            <el-form-item :label="$t('标题')" class="m-publish-exam-title">
                 <el-input
                     v-model="primary.title"
                     :maxlength="120"
                     :minlength="2"
                     show-word-limit
                     required
-                    placeholder="请填写试卷标题"
+                    :placeholder="$t('请填写试卷标题')"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="描述" class="m-publish-exam-desc">
+            <el-form-item :label="$t('描述')" class="m-publish-exam-desc">
                 <el-input
                     v-model="primary.desc"
                     :maxlength="200"
@@ -27,19 +27,19 @@
                     required
                     :rows="3"
                     type="textarea"
-                    placeholder="请填写试卷描述"
+                    :placeholder="$t('请填写试卷描述')"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="题目" class="m-publish-exam-common">
+            <el-form-item :label="$t('题目')" class="m-publish-exam-common">
                 <div>请设置10道题（每道题10分，满分100分），用半角逗号隔开，例如1,2,3</div>
                 <el-input v-model="list" show-word-limit required placeholder="请填写题目ID序列"></el-input>
             </el-form-item>
-            <el-form-item label="外链" class="m-publish-exam-common">
+            <el-form-item :label="$t('外链')" class="m-publish-exam-common">
                 <div>如果为外链地址，则设置的题目将不会生效</div>
-                <el-input v-model="primary.iframe" show-word-limit required placeholder="请填写外链问卷地址">
+                <el-input v-model="primary.iframe" show-word-limit required :placeholder="$t('请填写外链问卷地址')">
                 </el-input>
             </el-form-item>
-            <el-form-item label="难度" class="m-publish-exam-level">
+            <el-form-item :label="$t('难度')" class="m-publish-exam-level">
                 <el-rate
                     v-model="primary.hardStar"
                     show-score
@@ -47,8 +47,8 @@
                     score-template="{value} 星"
                 ></el-rate>
             </el-form-item>
-            <el-form-item label="风格" class="m-publish-exam-style">
-                <el-select v-model="primary.style" placeholder="请选择封面风格">
+            <el-form-item :label="$t('风格')" class="m-publish-exam-style">
+                <el-select v-model="primary.style" :placeholder="$t('请选择封面风格')">
                     <el-option
                         v-for="item in styles"
                         :key="item.value"

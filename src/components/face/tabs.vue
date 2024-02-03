@@ -39,7 +39,7 @@
 
         <div class="u-search">
             <el-input
-                placeholder="请输入搜索内容"
+                :placeholder="$t('请输入搜索内容')"
                 v-model="title"
                 suffix-icon="el-icon-search"
                 class="u-search-input"

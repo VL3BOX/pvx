@@ -4,7 +4,7 @@
             <el-button class="u-goback" size="medium" icon="el-icon-arrow-left" @click="goBack" plain
                 >返回列表</el-button
             >
-            <el-input placeholder="请输入家具名字搜索" v-model="search" class="u-input" @keyup.enter.native="goSearch">
+            <el-input :placeholder="$t('请输入家具名字搜索')" v-model="search" class="u-input" @keyup.enter.native="goSearch">
                 <el-button slot="append" icon="el-icon-search" @click="goSearch"></el-button>
             </el-input>
             <div class="u-links">
@@ -103,7 +103,7 @@
                 :source_id="item_id"
                 :type="type"
                 :id="id"
-                title="家具攻略"
+                :title="$t('家具攻略')"
                 :source_title="data.szName"
             ></Wiki>
         </div>

@@ -7,18 +7,18 @@
             <div class="m-flower-search">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-select class="u-server" v-model="current_server" filterable placeholder="请选择服务器">
+                        <el-select class="u-server" v-model="current_server" filterable :placeholder="$t('请选择服务器')">
                             <el-option v-for="item in servers" :key="item" :label="item" :value="item"> </el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="7">
-                        <el-select class="u-server" v-model="current_map" filterable placeholder="请选择小区">
+                        <el-select class="u-server" v-model="current_map" filterable :placeholder="$t('请选择小区')">
                             <el-option v-for="item in maps" :key="item" :label="item" :value="item"> </el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="7">
-                        <el-select class="u-type" v-model="type" placeholder="请选择花型">
-                            <el-option label="全部" value=""></el-option>
+                        <el-select class="u-type" v-model="type" :placeholder="$t('请选择花型')">
+                            <el-option :label="$t('全部')" value=""></el-option>
                             <el-option v-for="item in types" :key="item.name" :label="item.name" :value="item.key"> </el-option>
                         </el-select>
                     </el-col>
@@ -48,7 +48,7 @@
                                     class="u-line"
                                     v-for="(line, i) in item.line"
                                     :key="line + i"
-                                    title="点击快速复制"
+                                    :title="$t('点击快速复制')"
                                     v-clipboard:copy="line"
                                     v-clipboard:success="onCopy"
                                     v-clipboard:error="onError"
@@ -79,7 +79,7 @@
                                     class="u-line"
                                     v-for="(branch, i) in item.branch"
                                     :key="branch + i"
-                                    title="点击快速复制"
+                                    :title="$t('点击快速复制')"
                                     v-clipboard:copy="branch.number"
                                     v-clipboard:success="onCopy"
                                     v-clipboard:error="onError"

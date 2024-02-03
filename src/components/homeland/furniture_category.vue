@@ -23,7 +23,7 @@
                 placeholder="输入 ≥ 分值，如：2600"
                 oninput="value=value.replace(/[^\d]/g,'')"
             >
-                <el-select :disabled="match" v-model="select" slot="prepend" placeholder="请选择">
+                <el-select :disabled="match" v-model="select" slot="prepend" :placeholder="$t('请选择')">
                     <el-option
                         v-for="item in categoryData.categoryList"
                         :key="item.key"
@@ -33,9 +33,9 @@
                     </el-option>
                 </el-select>
             </el-input> -->
-            <el-select class="u-source u-select u-margin" v-model="select" slot="prepend" placeholder="排序方式">
+            <el-select class="u-source u-select u-margin" v-model="select" slot="prepend" :placeholder="$t('排序方式')">
                 <span slot="prefix" class="u-prefix">排序方式</span>
-                <el-option label="不限制" value=""></el-option>
+                <el-option :label="$t('不限制')" value=""></el-option>
                 <el-option
                         v-for="item in categoryData.categoryList"
                         :key="item.key"
@@ -44,12 +44,12 @@
                     >
                 </el-option>
             </el-select>
-            <el-select class="u-source u-select u-margin" v-model="source" slot="prepend" placeholder="来源途径" clearable>
+            <el-select class="u-source u-select u-margin" v-model="source" slot="prepend" :placeholder="$t('来源途径')" clearable>
                 <span slot="prefix" class="u-prefix">来源途径</span>
-                <el-option label="全部" value=""></el-option>
+                <el-option :label="$t('全部')" value=""></el-option>
                 <el-option v-for="item in source_types" :key="item" :label="item" :value="item"> </el-option>
             </el-select>
-            <el-select class="u-level u-select u-margin" v-model="level" slot="prepend" placeholder="家园等级">
+            <el-select class="u-level u-select u-margin" v-model="level" slot="prepend" :placeholder="$t('家园等级')">
                 <span slot="prefix" class="u-prefix">家园等级</span>
                 <el-option
                     v-for="item in categoryData.levelList"
