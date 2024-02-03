@@ -10,9 +10,9 @@
                 @click="active = item.value"
                 >{{ item.label }}
             </a>
-            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html" class="u-tab" target="_blank">免费蓝图</a>
-            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html?" class="u-tab" target="_blank">付费蓝图</a>
-            <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" class="u-tab" target="_blank">藏品蓝图</a>
+            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html" class="u-tab" target="_blank">{{ $t('免费蓝图') }}</a>
+            <a href="https://gdca.xoyo.com/jx3/blueprint/index.html?" class="u-tab" target="_blank">{{ $t('付费蓝图') }}</a>
+            <a href="https://jx3.seasunwbl.com/buyer?t=blueprint" class="u-tab" target="_blank">{{ $t('藏品蓝图') }}</a>
         </div>
         <div class="m-homeland-content">
             <!-- 家园信息 -->

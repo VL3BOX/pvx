@@ -11,7 +11,7 @@
 
         <template v-if="luckyList.length > 0">
             <div class="m-pet-title u-type u-lucky-title">
-                <div class="u-title">今日福缘</div>
+                <div class="u-title">{{ $t('今日福缘') }}</div>
             </div>
             <div class="m-lucky-list">
                 <luckyItem v-for="item in luckyList" :key="item.id" :item="item"></luckyItem>
@@ -21,7 +21,7 @@
             <div v-for="(item, index) in list_type" :key="'l' + index">
                 <div class="m-pet-title u-type" v-if="item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
-                    <div class="u-all" @click="setActive(item.class)">查看全部</div>
+                    <div class="u-all" @click="setActive(item.class)">{{ $t('查看全部') }}</div>
                 </div>
                 <div class="m-pet-list">
                     <pet-item v-for="pet in item.list" :key="pet.id" :petObject="pet" />
@@ -42,7 +42,7 @@
                 @click="appendPage"
                 :loading="loading"
                 icon="el-icon-arrow-down"
-                >加载更多</el-button
+                >{{ $t('加载更多') }}</el-button
             >
             <el-pagination
                 class="m-archive-pages"

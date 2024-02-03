@@ -3,11 +3,11 @@
 		<!-- <el-popover class="m-popover"  placement="top-start" width="200" trigger="hover">
 			<div class="u-info">
 				<span class="u-name">{{ item.szName }}</span>
-				<span v-if="item.Attribute1"><span class="u-label u-blue">观赏</span>{{ item.Attribute1 }}</span>
-				<span v-if="item.Attribute2"><span class="u-label u-pink">实用</span>{{ item.Attribute2 }}</span>
-				<span v-if="item.Attribute3"><span class="u-label u-yellow">坚固</span>{{ item.Attribute3 }}</span>
-				<span v-if="item.Attribute4"><span class="u-label u-green">风水</span>{{ item.Attribute4 }}</span>
-				<span v-if="item.Attribute5"><span class="u-label u-purple">趣味</span>{{ item.Attribute5 }}</span>
+				<span v-if="item.Attribute1"><span class="u-label u-blue">{{ $t('观赏') }}</span>{{ item.Attribute1 }}</span>
+				<span v-if="item.Attribute2"><span class="u-label u-pink">{{ $t('实用') }}</span>{{ item.Attribute2 }}</span>
+				<span v-if="item.Attribute3"><span class="u-label u-yellow">{{ $t('坚固') }}</span>{{ item.Attribute3 }}</span>
+				<span v-if="item.Attribute4"><span class="u-label u-green">{{ $t('风水') }}</span>{{ item.Attribute4 }}</span>
+				<span v-if="item.Attribute5"><span class="u-label u-purple">{{ $t('趣味') }}</span>{{ item.Attribute5 }}</span>
 				<span><span class="u-label">园宅等级：</span>{{ item.LevelLimit }}级</span>
 			</div>
 

@@ -12,7 +12,7 @@
                 <div class="m-list" v-for="(_list, index) in groupList" :key="index">
                     <h2 class="u-list-title">
                         <span>{{ nameMap[_list.key] }}</span>
-                        <span class="u-more" @click="setActive(_list.key)">查看全部</span>
+                        <span class="u-more" @click="setActive(_list.key)">{{ $t('查看全部') }}</span>
                     </h2>
                     <!-- 显示一行 -->
                     <div class="m-list-box" v-if="!tabsData.body_type">
@@ -40,7 +40,7 @@
                             @click="appendPage"
                             :loading="loading"
                             icon="el-icon-arrow-down"
-                            >加载更多</el-button
+                            >{{ $t('加载更多') }}</el-button
                         >
                         <el-pagination
                             class="m-archive-pages"

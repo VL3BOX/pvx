@@ -10,12 +10,12 @@
             <img :src="`${img}/yin.png`" alt="银" />
             <el-input class="u-input" type="number" size="mini" v-model="my_Price.tong"></el-input>
             <img :src="`${img}/tong.png`" alt="铜" />
-            <el-button class="u-button" size="mini" @click="inputPrice">确定</el-button>
+            <el-button class="u-button" size="mini" @click="inputPrice">{{ $t('确定') }}</el-button>
         </div>
         <template slot="reference">
             <div class="m-price-item">
                 <GamePrice v-if="data.Price" class="u-price-num" :price="data.Price" />
-                <span class="u-null" v-else>暂无价格</span>
+                <span class="u-null" v-else>{{ $t('暂无价格') }}</span>
                 <i class="u-edit el-icon-edit" :title="$t('修改价格')"></i>
             </div>
         </template>

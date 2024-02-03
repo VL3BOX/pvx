@@ -1,7 +1,7 @@
 <template>
     <div class="m-facedata">
         <div class="m-face-parse" :class="{ on: done }">
-            <h1 class="m-face-parse-title">捏脸数据解析器</h1>
+            <h1 class="m-face-parse-title">{{ $t('捏脸数据解析器') }}</h1>
             <Upload type="face" @success="handleSuccess">
                 <template #guide>
                     <a class="u-help" href="/tool/746" target="_blank">

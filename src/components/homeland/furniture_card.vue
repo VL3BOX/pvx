@@ -10,19 +10,19 @@
             <div class="m-furniture-detail">
                 <div class="u-name" :class="quality(item.Quality)">{{ item.szName }}</div>
                 <div class="u-nature" v-if="item.Attribute1">
-                    <span class="u-attribute u-blue">观赏</span> <span class="u-num">{{ data.Attribute1 }}</span>
+                    <span class="u-attribute u-blue">{{ $t('观赏') }}</span> <span class="u-num">{{ data.Attribute1 }}</span>
                 </div>
                 <div class="u-nature" v-if="item.Attribute2">
-                    <span class="u-attribute u-pink">实用</span> <span class="u-num">{{ data.Attribute2 }}</span>
+                    <span class="u-attribute u-pink">{{ $t('实用') }}</span> <span class="u-num">{{ data.Attribute2 }}</span>
                 </div>
                 <div class="u-nature" v-if="item.Attribute3">
-                    <span class="u-attribute u-yellow">坚固</span> <span class="u-num">{{ data.Attribute3 }}</span>
+                    <span class="u-attribute u-yellow">{{ $t('坚固') }}</span> <span class="u-num">{{ data.Attribute3 }}</span>
                 </div>
                 <div class="u-nature" v-if="item.Attribute4">
-                    <span class="u-attribute u-green">风水</span> <span class="u-num">{{ data.Attribute4 }}</span>
+                    <span class="u-attribute u-green">{{ $t('风水') }}</span> <span class="u-num">{{ data.Attribute4 }}</span>
                 </div>
                 <div class="u-nature" v-if="item.Attribute5">
-                    <span class="u-attribute u-purple">趣味</span> <span class="u-num">{{ data.Attribute5 }}</span>
+                    <span class="u-attribute u-purple">{{ $t('趣味') }}</span> <span class="u-num">{{ data.Attribute5 }}</span>
                 </div>
             </div>
         </a>

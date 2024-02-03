@@ -32,10 +32,10 @@
 
                 <div class="u-right">
                     <a class="u-exam" v-if="!fromQuestion" :href="`${exam_link}${item.id}`" target="_blank"
-                        ><span class="u-label">试题编号</span>{{ item.id }}</a
+                        ><span class="u-label">{{ $t('试题编号') }}</span>{{ item.id }}</a
                     >
                     <a class="u-user" :href="authorLink(item.createUserId)" target="_blank"
-                        ><span class="u-label">出题人</span>{{ item.createUser }}</a
+                        ><span class="u-label">{{ $t('出题人') }}</span>{{ item.createUser }}</a
                     >
                     <div v-if="fromQuestion" class="u-star">
                         <span>难度：</span>
@@ -88,7 +88,7 @@
         </div>
         <template v-if="fromQuestion">
             <div class="m-question-answer" v-if="answer">
-                <div class="u-answer-title">正确答案</div>
+                <div class="u-answer-title">{{ $t('正确答案') }}</div>
                 <div class="u-answer-content">
                     <div class="u-content-title">
                         <div class="u-content-title-item" v-for="key in answer.answerList" :key="key">
@@ -98,7 +98,7 @@
                     </div>
                     <div class="u-content-desc">
                         <span v-if="answer.whyami" v-html="answer.whyami"></span>
-                        <div v-else>暂无解析</div>
+                        <div v-else>{{ $t('暂无解析') }}</div>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                     <span class="u-label">解析：</span>
                     <!-- <Article :content="answer.whyami" v-if="answer.whyami"></Article> -->
                     <span v-if="answer.whyami" v-html="answer.whyami"></span>
-                    <div v-else>暂无解析</div>
+                    <div v-else>{{ $t('暂无解析') }}</div>
                 </div>
             </div>
         </template>

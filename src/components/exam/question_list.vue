@@ -36,7 +36,7 @@
             </el-table-column>
             <el-table-column fixed="right" :label="$t('操作')" width="100">
                 <template>
-                    <el-button size="small" plain type="primary" icon="el-icon-edit">去答题</el-button>
+                    <el-button size="small" plain type="primary" icon="el-icon-edit">{{ $t('去答题') }}</el-button>
                 </template>
             </el-table-column>
         </el-table>

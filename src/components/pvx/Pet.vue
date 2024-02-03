@@ -2,7 +2,7 @@
     <div class="m-pets">
         <div class="u-header">
             <div class="u-title">{{ title }}</div>
-            <a class="u-more" href="/pet">查看更多</a>
+            <a class="u-more" href="/pet">{{ $t('查看更多') }}</a>
         </div>
         <div class="u-list">
             <list-cross v-if="list.length" :list="list" :gap="10">

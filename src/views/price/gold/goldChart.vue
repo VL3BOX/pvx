@@ -15,15 +15,15 @@
                 <div class="item-data">
                     <div>
                         <div class="data-value">{{ item.beforeYesterday }}</div>
-                        <div class="data-label">前日</div>
+                        <div class="data-label">{{ $t('前日') }}</div>
                     </div>
                     <div>
                         <div class="data-value">{{ item.yesterday }}</div>
-                        <div class="data-label">昨日</div>
+                        <div class="data-label">{{ $t('昨日') }}</div>
                     </div>
                     <div>
                         <div class="data-value">{{ item.lastDay }}</div>
-                        <div class="data-label">今日</div>
+                        <div class="data-label">{{ $t('今日') }}</div>
                     </div>
                 </div>
             </div>

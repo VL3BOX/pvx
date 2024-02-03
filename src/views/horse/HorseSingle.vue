@@ -1,7 +1,7 @@
 <template>
     <div class="horse-single-wrapper  m-single-wrapper">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
         <div class="horse-single-content" v-loading="loading">
             <!-- 主要信息 -->
@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="info-item u-desc">
-                            <div class="u-title">基础属性</div>
+                            <div class="u-title">{{ $t('基础属性') }}</div>
                             <!-- <div v-if="basicAttrs.length" class="basic-list">
                                 <div class="item" v-for="item in basicAttrs" :key="item.id">
                                     {{ item.desc }}
@@ -50,7 +50,7 @@
                             <div v-else class="no-data">无</div>
                         </div>
                         <div class="info-item u-desc">
-                            <div class="title">特殊属性</div>
+                            <div class="title">{{ $t('特殊属性') }}</div>
                             <div v-if="magicAttrs.length" class="u-list">
                                 <div class="u-attr" v-for="(attr, index) in magicAttrs" :key="index">
                                     <el-tooltip trigger="hover" placement="top">
@@ -76,11 +76,11 @@
                         <!-- <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon> -->
                     </div>
                 </div>
-                <div v-else>无此信息</div>
+                <div v-else>{{ $t('无此信息') }}</div>
             </div>
             <!-- 同类坐骑 - 普通坐骑 -->
             <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
-                <div class="title">同类坐骑</div>
+                <div class="title">{{ $t('同类坐骑') }}</div>
                 <list-cross :width="30" :list="sameList" class="m-horse-list">
                     <template v-slot="data">
                         <same-item :item="data.item" @click.native="getHorse(data.item.ItemID)"></same-item>
@@ -89,7 +89,7 @@
             </div>
             <!-- 捕获地图 -->
             <div v-if="originDatas.length" class="catch-container">
-                <div class="title">捕获地图</div>
+                <div class="title">{{ $t('捕获地图') }}</div>
                 <!-- 地图组件 -->
                 <horse-map :name="item.Name" :list="originDatas" />
             </div>

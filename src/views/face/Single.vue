@@ -1,7 +1,7 @@
 <template>
     <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <el-button class="u-goback" size="medium" @click="goBack" plain>{{ $t('返回列表') }}</el-button>
 
             <div class="m-face-btn-box">
                 <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/facedata" target="_blank">
@@ -10,7 +10,7 @@
                     </el-button>
                 </a>
                 <a :href="publish_link">
-                    <div class="u-face-publish"><span>发布脸型</span></div>
+                    <div class="u-face-publish"><span>{{ $t('发布脸型') }}</span></div>
                 </a>
             </div>
         </div>
@@ -23,7 +23,7 @@
             <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover"> </el-image> -->
 
             <div class="m-header-info">
-                <h2>{{ post.title || "无标题" }} <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">已下架</el-tag></h2>
+                <h2>{{ post.title || "无标题" }} <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">{{ $t('已下架') }}</el-tag></h2>
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
@@ -41,8 +41,8 @@
                 </div>
                 <div class="u-meta">
                     <i class="u-mark" v-if="!!post.star">★ 编辑推荐</i>
-                    <i class="u-fr" v-if="!!post.is_fr">首发</i>
-                    <i class="u-original" v-if="!!post.original">原创</i>
+                    <i class="u-fr" v-if="!!post.is_fr">{{ $t('首发') }}</i>
+                    <i class="u-original" v-if="!!post.original">{{ $t('原创') }}</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
                     <i class="u-is-new-face" v-if="post.client === 'std'" :class="post.is_new_face === 1 ? 'u-new' : 'u-old'">{{ newFaceMap[post.is_new_face] }}</i>
                     <i class="u-bodytype" :class="'u-bodytype-' + post.body_type" v-if="post.body_type">{{
@@ -58,7 +58,7 @@
                 <!-- 动态改为当前图片 -->
                 <div v-if="previewSrcList.length === 0" class="u-no-pic">
                     <i class="el-icon-picture-outline"></i>
-                    <span>该脸型数据暂无图片</span>
+                    <span>{{ $t('该脸型数据暂无图片') }}</span>
                 </div>
                 <template v-else>
                     <div class="u-bg-wrap">
@@ -88,10 +88,10 @@
                     <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
                         <div class="u-price"  v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
                         <div class="u-price"  v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
-                        <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
+                        <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">{{ $t('购买') }}</div>
                     </div>
                     <div class="m-face-buy-btn" v-else @click="downloadAll">
-                        <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">下载数据</div>
+                        <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">{{ $t('下载数据') }}</div>
                     </div>
 
                     <div class="u-update-time">
@@ -112,12 +112,12 @@
                     <span
                         @click="rightShow = 'desc'"
                         :style="rightShow === 'data' ? 'color: #c2c5c7;cursor: pointer;' : ''"
-                    >说明</span>
+                    >{{ $t('说明') }}</span>
                     <span
                         @click="rightShow = 'data'"
                         v-if="downFileList && downFileList.length"
                         :style="rightShow === 'desc' ? 'color: #c2c5c7;cursor: pointer;' : ''"
-                    >数据列表</span>
+                    >{{ $t('数据列表') }}</span>
                 </div>
                 <div class="m-face-desc">
                     <div v-if="rightShow === 'desc'" class="u-desc">{{ post.remark || '暂无说明' }}</div>
@@ -127,7 +127,7 @@
                                 <span class="u-label">名称: <em>{{ item.name }}</em></span>
                                 <span class="u-label" v-if="item.describe">备注 ： <em>{{ item.describe }}</em></span>
                             </div>
-                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">下载</a>
+                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">{{ $t('下载') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -159,19 +159,19 @@
         </div>
 
 <!--        <div class="m-desc" v-if="post.remark">-->
-<!--            <h3>说明</h3>-->
+<!--            <h3>{{ $t('说明') }}</h3>-->
 <!--            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>-->
 <!--        </div>-->
 
         <!-- 数据区 -->
         <div class="m-single-data">
-            <span class="m-single-data-title">独家数据分析</span>
+            <span class="m-single-data-title">{{ $t('独家数据分析') }}</span>
             <facedata v-if="has_buy && facedata" :data="faceAllData" :lock="true" type="face" />
             <div class="m-single-buy-box" v-else>
                 <div class="m-face-buy-btn" @click="facePay()" v-if="post.price_type && post.price_type != 0 && !has_buy">
                     <div class="u-price"  v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
                     <div class="u-price"  v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
-                    <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">购买</div>
+                    <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="">{{ $t('购买') }}</div>
                 </div>
                 <div class="u-face-buy-tip">
                     数据分析将在购买后解锁
@@ -180,7 +180,7 @@
         </div>
         <div class="m-face-download" v-if="has_buy && facedata">
             <div class="m-face-download-btn" @click="downloadAll">
-                <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">下载数据</div>
+                <div class="u-buy" ><img :src="require('@/assets/img/face/download.svg')" alt="">{{ $t('下载数据') }}</div>
             </div>
             <img class="u-box-img" :src="require('@/assets/img/face/face_download.svg')">
         </div>
@@ -188,7 +188,7 @@
 
 <!--        &lt;!&ndash;下载区&ndash;&gt;-->
 <!--        <div class="m-face-files m-single-content-box" v-if="downFileList && downFileList.length > 0">-->
-<!--            <h3>原始文件列表</h3>-->
+<!--            <h3>{{ $t('原始文件列表') }}</h3>-->
 <!--            <div class="m-single-content-box">-->
 <!--                <ul class="m-face-files-list">-->
 <!--                    <li v-for="item in downFileList" :key="item.id">-->
@@ -210,7 +210,7 @@
 <!--                            type="primValueary"-->
 <!--                            round-->
 <!--                            @click="getDownUrl(item.uuid)"-->
-<!--                            >下载</el-button-->
+<!--                            >{{ $t('下载') }}</el-button-->
 <!--                        >-->
 <!--                    </li>-->
 <!--                </ul>-->
@@ -218,7 +218,7 @@
 <!--        </div>-->
         <!--作者随机作品-->
 
-        <div class="u-about-author">关于作者</div>
+        <div class="u-about-author">{{ $t('关于作者') }}</div>
         <authorItem :uid="post.user_id" />
         <div class="m-random-list">
             <div class="u-list m-single-content-box m-author-faces" v-if="randomList.length">
@@ -227,7 +227,7 @@
         </div>
         <!--搭配随机作品-->
         <!-- <div class="m-pvxbody-list">
-            <h3>搭配指南</h3>
+            <h3>{{ $t('搭配指南') }}</h3>
             <div class="u-list m-single-content-box" v-if="pvxbodyList.length">
                 <faceItem :item="face" />
                 <bodyItem :item="item" :onlyPic="true" :noName="true" v-for="item in pvxbodyList" :key="item.id" />
@@ -248,7 +248,7 @@
         />
         <!-- 评论 -->
         <div class="m-single-content-box">
-            <el-divider content-position="left">讨论</el-divider>
+            <el-divider content-position="left">{{ $t('讨论') }}</el-divider>
             <Comment :id="id" category="face" />
         </div>
     </div>

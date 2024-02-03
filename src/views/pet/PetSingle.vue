@@ -1,17 +1,17 @@
 <template>
     <div class="p-pet-single" v-if="pet" v-loading="loading">
         <div class="m-pet-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <el-button class="u-goback" size="medium" @click="goBack" plain>{{ $t('返回列表') }}</el-button>
         </div>
         <div class="m-pet-content flex">
             <div class="m-pet-links">
                 <a class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
-                    ><i class="el-icon-collection-tag"></i>物品信息</a
+                    ><i class="el-icon-collection-tag"></i>{{ $t('物品信息') }}</a
                 >
                 <template v-if="achievement_id">
                     <em> | </em>
                     <a class="u-link u-achievement" :href="getLink('cj', achievement_id)" target="_blank"
-                        ><i class="el-icon-trophy"></i>成就信息</a
+                        ><i class="el-icon-trophy"></i>{{ $t('成就信息') }}</a
                     >
                 </template>
             </div>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <!-- 宠物技能 -->
-                <div class="u-pet-skill-title">宠物招式</div>
+                <div class="u-pet-skill-title">{{ $t('宠物招式') }}</div>
                 <div class="m-pet-skills">
                     <div class="u-skill" v-for="(skill, index) in petSkills" :key="index">
                         <el-popover trigger="hover" popper-class="m-pet-skill" :visible-arrow="false" placement="top">
@@ -85,7 +85,7 @@
         <div class="m-pet-fetters" v-if="medalList && medalList.length">
             <div class="u-header">
                 <img class="u-icon" svg-inline src="@/assets/img/achievement.svg" />
-                <span class="u-txt">宠物羁绊</span>
+                <span class="u-txt">{{ $t('宠物羁绊') }}</span>
             </div>
             <!-- 羁绊信息 -->
             <petFetters :info="item" v-for="item in medalList" :key="item.ID" />
@@ -95,7 +95,7 @@
         <div class="m-pet-map" v-show="mapDisplay">
             <div class="u-header">
                 <img class="u-icon" svg-inline src="@/assets/img/achievement.svg" />
-                <span class="u-txt">捕获地图</span>
+                <span class="u-txt">{{ $t('捕获地图') }}</span>
             </div>
             <!-- 地图组件 -->
             <pet-map :petId="parseInt(id)" @loaded="mapLoaded" />

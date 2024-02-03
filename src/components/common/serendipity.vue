@@ -12,10 +12,10 @@
         </div>
         <ul class="u-list" v-if="list && list.length > 0">
             <li class="u-header">
-                <span class="u-date">日期</span>
-                <span class="u-time">激活时间</span>
-                <span class="u-server">服务器</span>
-                <span class="u-name">玩家</span>
+                <span class="u-date">{{ $t('日期') }}</span>
+                <span class="u-time">{{ $t('激活时间') }}</span>
+                <span class="u-server">{{ $t('服务器') }}</span>
+                <span class="u-name">{{ $t('玩家') }}</span>
             </li>
             <li v-for="(item, i) in list" :key="i">
                 <span class="u-date">{{ item.date_str | showDate }}</span>

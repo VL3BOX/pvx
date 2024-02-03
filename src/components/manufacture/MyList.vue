@@ -1,10 +1,10 @@
 <template>
     <div class="m-myList">
         <div class="m-manufacture-title m-manufacture-title__myList">
-            <span class="u-title">我的清单</span>
+            <span class="u-title">{{ $t('我的清单') }}</span>
             <a class="fr el-button el-button--success el-button--mini" @click="onAddPlan" v-if="isLogin">
                 <i class="el-icon-document-add"></i>
-                <span>创建</span>
+                <span>{{ $t('创建') }}</span>
             </a>
         </div>
         <div class="m-box">

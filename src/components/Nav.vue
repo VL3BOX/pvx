@@ -1,7 +1,7 @@
 <template>
     <div class="m-pvx-nav">
         <RightSideMsg>
-            <em>休闲交流群</em> :
+            <em>{{ $t('休闲交流群') }}</em> :
             <strong>
                 <a href="https://jq.qq.com/?_wv=1027&k=utHr10Tl">658035079</a>
             </strong>

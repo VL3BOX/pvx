@@ -1,7 +1,7 @@
 <template>
     <div class="p-face-single" v-loading="loading">
         <div class="m-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>返回列表</el-button>
+            <el-button class="u-goback" size="medium" @click="goBack" plain>{{ $t('返回列表') }}</el-button>
             <!-- 操作tool -->
             <div class="u-right-btn">
                 <div class="m-face-btn-box">
@@ -12,7 +12,7 @@
                     </a>
                     <a :href="publish_link">
                         <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
-                        >发布</el-button
+                        >{{ $t('发布') }}</el-button
                         >
                     </a>
                 </div>
@@ -29,7 +29,7 @@
             <div class="m-header-info">
                 <h2>
                     {{ post.title || "无标题" }}
-                    <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">已下架</el-tag>
+                    <el-tag class="u-status" v-if="post.status != 1" effect="dark" type="danger">{{ $t('已下架') }}</el-tag>
                 </h2>
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
@@ -48,8 +48,8 @@
                 </div>
                 <div class="u-meta">
                     <i class="u-mark" v-if="!!post.star">★ 编辑推荐</i>
-                    <i class="u-fr" v-if="!!post.is_fr">首发</i>
-                    <i class="u-original" v-if="!!post.original">原创</i>
+                    <i class="u-fr" v-if="!!post.is_fr">{{ $t('首发') }}</i>
+                    <i class="u-original" v-if="!!post.original">{{ $t('原创') }}</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
                     <i class="u-bodytype" :class="'u-bodytype-' + post.body_type" v-if="post.body_type">{{
                         showBodyTypeLabel(post.body_type)
@@ -106,18 +106,18 @@
         </div>
 
         <div class="m-desc" v-if="post.remark">
-            <h3>说明</h3>
+            <h3>{{ $t('说明') }}</h3>
             <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
         </div>
 
         <!-- 数据区 -->
         <div class="m-single-data" v-if="has_buy && bodydata">
-            <h3>独家数据分析</h3>
+            <h3>{{ $t('独家数据分析') }}</h3>
             <Bodydat class="m-single-content-box" v-if="bodydata" :data="bodydata" />
         </div>
         <!--下载区-->
         <div class="m-face-files" v-if="has_buy && downFileList && downFileList.length > 0">
-            <h3>原始文件列表</h3>
+            <h3>{{ $t('原始文件列表') }}</h3>
             <div class="m-single-content-box">
                 <ul class="m-face-files-list">
                     <li v-for="item in downFileList" :key="item.id">
@@ -139,7 +139,7 @@
                             type="primary"
                             round
                             @click="getDownUrl(item.uuid)"
-                            >下载</el-button
+                            >{{ $t('下载') }}</el-button
                         >
                     </li>
                 </ul>
@@ -148,7 +148,7 @@
 
         <!--作者随机作品-->
         <div class="m-random-list">
-            <h3>作者其他作品</h3>
+            <h3>{{ $t('作者其他作品') }}</h3>
             <div class="u-list m-single-content-box" v-if="randomList.length">
                 <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
             </div>
@@ -156,7 +156,7 @@
         </div>
         <!--搭配随机作品-->
         <!-- <div class="m-pvxbody-list">
-            <h3>搭配指南</h3>
+            <h3>{{ $t('搭配指南') }}</h3>
             <div class="u-list m-single-content-box" v-if="faceList.length">
                 <bodyItem :onlyPic="true" :item="pvxbody" />
                 <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
@@ -178,7 +178,7 @@
         />
         <!-- 评论 -->
         <div class="m-single-content-box">
-            <el-divider content-position="left">讨论</el-divider>
+            <el-divider content-position="left">{{ $t('讨论') }}</el-divider>
             <Comment :id="id" category="pvxbody" />
         </div>
     </div>

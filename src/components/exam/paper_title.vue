@@ -28,10 +28,10 @@
                 <div class="u-start-desc" v-if="item.questionList">
                     本次考试共{{ item.questionDetailList.length }}题，每题{{ number }}分，满分100分。
                 </div>
-                <div class="u-start-tip">请各位考生严格遵守考生条约，如有违规行为则本次考试成绩作废</div>
+                <div class="u-start-tip">{{ $t('请各位考生严格遵守考生条约，如有违规行为则本次考试成绩作废') }}</div>
             </div>
             <div v-if="score && score !== -1" class="u-score">
-                <span class="u-start-title">得分</span>
+                <span class="u-start-title">{{ $t('得分') }}</span>
                 <span class="u-value">{{ score }}</span>
             </div>
         </div>

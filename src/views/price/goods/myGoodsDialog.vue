@@ -13,13 +13,13 @@
                 </div>
             </template>
             <div v-else>
-                <div class="m-price-goods-empty" @click="goItem">还没有清单，<span class="strong">去创建</span></div>
+                <div class="m-price-goods-empty" @click="goItem">{{ $t('还没有清单，') }}<span class="strong">{{ $t('去创建') }}</span></div>
             </div>
         </div>
 
         <span slot="footer" class="dialog-footer">
-            <el-button @click="$emit('close')">取 消</el-button>
-            <el-button type="primary" @click="setMyFollowList">确 定</el-button>
+            <el-button @click="$emit('close')">{{ $t('取 消') }}</el-button>
+            <el-button type="primary" @click="setMyFollowList">{{ $t('确 定') }}</el-button>
         </span>
     </el-dialog>
 </template>

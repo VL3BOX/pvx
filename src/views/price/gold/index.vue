@@ -1,10 +1,10 @@
 <template>
     <div class="p-price-gold">
         <div class="m-price-gold-header">
-            <div class="u-title">金价走势</div>
+            <div class="u-title">{{ $t('金价走势') }}</div>
             <div class="u-servers">
                 <el-select v-model="server" :placeholder="$t('请选择')" :default-first-option="true" @change="serverChange">
-                    <div slot="prefix">区服价格</div>
+                    <div slot="prefix">{{ $t('区服价格') }}</div>
                     <el-option v-for="server in serverList" :key="server" :label="server" :value="server"> </el-option>
                 </el-select>
             </div>

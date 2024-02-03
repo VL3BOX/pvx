@@ -1,16 +1,16 @@
 <template>
     <div class="v-paper-single m-single-wrapper" v-loading="loading">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
             <a v-if="data.id && canManage" class="u-edit" :href="editLink('paper', data.id)">
-                <i class="el-icon-edit-outline"></i><span>编辑</span>
+                <i class="el-icon-edit-outline"></i><span>{{ $t('编辑') }}</span>
             </a>
         </div>
 
         <PaperTitle :item="data" :score="score" type="paper" />
 
         <template v-if="isIframe">
-            <div class="m-paper-iframe">当前试卷为外链，<a :href="data.iframe" target="_blank">点击前往</a></div>
+            <div class="m-paper-iframe">{{ $t('当前试卷为外链，') }}<a :href="data.iframe" target="_blank">{{ $t('点击前往') }}</a></div>
         </template>
         <template v-else>
             <div class="m-paper-list">
@@ -25,7 +25,7 @@
                 />
             </div>
             <div class="m-exam-submit" @click="submit" :class="{ isSubmitted }">
-                <el-button class="u-btn" :disabled="isSubmitted">提交</el-button>
+                <el-button class="u-btn" :disabled="isSubmitted">{{ $t('提交') }}</el-button>
             </div>
 
             <Thx
@@ -39,7 +39,7 @@
                 :client="client"
             />
             <div class="m-single-comment">
-                <el-divider content-position="left">评论</el-divider>
+                <el-divider content-position="left">{{ $t('评论') }}</el-divider>
                 <Comment :id="id" category="paper" />
             </div>
         </template>

@@ -2,7 +2,7 @@
     <el-tooltip popper-class="m-next-match" v-if="furnitureCategory || furnitureProperty">
         <div :class="{ 'u-next-match': furnitureNextMatch }" slot="content" v-html="nextMatch"></div>
         <div class="m-special-item m-furniture-item">
-            <div class="u-label">园宅会赛</div>
+            <div class="u-label">{{ $t('园宅会赛') }}</div>
             <div>{{ furnitureProperty && furnitureProperty.content }}</div>
             <div class="u-furniture">
                 <a class="u-pet" href="/furniture?match=1" target="_blank">{{

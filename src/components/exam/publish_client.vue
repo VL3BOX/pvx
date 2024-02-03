@@ -2,9 +2,9 @@
     <div class="m-publish-client">
         <el-form-item :label="$t('版本')">
             <el-radio-group v-model="client" @change="handleChange">
-                <el-radio label="std">重制</el-radio>
-                <el-radio label="origin">缘起</el-radio>
-                <el-radio label="all" v-if="!forbidAll">双端</el-radio>
+                <el-radio label="std">{{ $t('重制') }}</el-radio>
+                <el-radio label="origin">{{ $t('缘起') }}</el-radio>
+                <el-radio label="all" v-if="!forbidAll">{{ $t('双端') }}</el-radio>
             </el-radio-group>
         </el-form-item>
         <slot></slot>

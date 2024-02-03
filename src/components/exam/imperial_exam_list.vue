@@ -2,8 +2,8 @@
     <div class="m-imperial-list">
         <div class="m-search">
             <el-input v-model="search" :placeholder="$t('在此输入内容开始搜索')" :minlength="2"></el-input>
-            <div class="u-tip" v-if="!search">请输入关键字开始搜索，搜索词长度不少于<span>2个字符</span>。</div>
-            <div class="u-tip" v-else>当前搜索关键字“<span>{{ search }}</span>”，返回结果<span>{{ total }}</span>条。</div>
+            <div class="u-tip" v-if="!search">{{ $t('请输入关键字开始搜索，搜索词长度不少于') }}<span>2个字符</span>。</div>
+            <div class="u-tip" v-else>{{ $t('当前搜索关键字“') }}<span>{{ search }}</span>”，返回结果<span>{{ total }}</span>{{ $t('条。') }}</div>
         </div>
         <el-row class="u-list" :gutter="20">
             <el-col :span="24" v-for="item in list" :key="item.rid"

@@ -18,19 +18,19 @@
             <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
                 <div class="m-face-filter m-common-filter">
                     <el-radio-group v-model="is_new_face" v-if="client === 'std'">
-                        <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
-                        <el-radio-button class="u-filter" :label="1">写实</el-radio-button>
-                        <el-radio-button class="u-filter" :label="0">写意</el-radio-button>
+                        <el-radio-button class="u-filter" :label="-1">{{ $t('全部') }}</el-radio-button>
+                        <el-radio-button class="u-filter" :label="1">{{ $t('写实') }}</el-radio-button>
+                        <el-radio-button class="u-filter" :label="0">{{ $t('写意') }}</el-radio-button>
                     </el-radio-group>
                     <p>
-                        <el-checkbox-button @click.native="star = false; price_type = false; is_unlimited = false; " :value="star === false && price_type === false && is_unlimited === false"  class="u-filter">全部</el-checkbox-button>
-                        <el-checkbox-button v-model="star" class="u-filter">精选</el-checkbox-button>
-                        <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
-                        <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
+                        <el-checkbox-button @click.native="star = false; price_type = false; is_unlimited = false; " :value="star === false && price_type === false && is_unlimited === false"  class="u-filter">{{ $t('全部') }}</el-checkbox-button>
+                        <el-checkbox-button v-model="star" class="u-filter">{{ $t('精选') }}</el-checkbox-button>
+                        <el-checkbox-button v-model="price_type" class="u-filter">{{ $t('免费') }}</el-checkbox-button>
+                        <el-checkbox-button v-model="is_unlimited" class="u-filter">{{ $t('可新建') }}</el-checkbox-button>
                     </p>
                     <el-radio-group v-model="filter_empty_images">
-                        <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
-                        <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
+                        <el-radio-button class="u-filter" :label="0">{{ $t('全部') }}</el-radio-button>
+                        <el-radio-button class="u-filter" :label="1">{{ $t('有图') }}</el-radio-button>
                     </el-radio-group>
                 </div>
                 <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
@@ -52,7 +52,7 @@
             </el-button>
         </a>
         <a :href="publish_link(link.key)" target="_blank">
-            <div class="u-face-publish"><span>发布脸型</span></div>
+            <div class="u-face-publish"><span>{{ $t('发布脸型') }}</span></div>
         </a>
     </div>
 </template>

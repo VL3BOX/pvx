@@ -10,10 +10,10 @@
             <div class="u-mask"></div>
             <div class="m-mark-left">
                 <template v-if="client === 'std'">
-                    <i class="u-mark u-mark--type u-new-face" v-if="item.is_new_face">写实</i>
-                    <i class="u-mark u-mark--type" v-else>写意</i>
+                    <i class="u-mark u-mark--type u-new-face" v-if="item.is_new_face">{{ $t('写实') }}</i>
+                    <i class="u-mark u-mark--type" v-else>{{ $t('写意') }}</i>
                 </template>
-                <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">可新建</i>
+                <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">{{ $t('可新建') }}</i>
             </div>
             <i class="u-mark u-mark--star" v-if="!!item.star">
                 <img :src="require('@/assets/img/face/star.svg')" alt="">

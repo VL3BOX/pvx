@@ -2,7 +2,7 @@
     <div class="m-faces">
         <div class="u-header">
             <div class="u-title">{{ title }}</div>
-            <a class="u-more" href="/face">查看更多</a>
+            <a class="u-more" href="/face">{{ $t('查看更多') }}</a>
         </div>
         <div class="u-list">
             <list-cross v-if="list.length" :list="list" type="share" :gap="10" :arrow="2">

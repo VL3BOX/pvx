@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </template>
-            <!-- <div v-else class="u-item">暂无播报</div> -->
+            <!-- <div v-else class="u-item">{{ $t('暂无播报') }}</div> -->
         </div>
     </div>
 </template>

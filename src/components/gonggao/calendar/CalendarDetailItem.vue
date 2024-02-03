@@ -30,20 +30,20 @@
             <span class="u-action u-comment">
                 <i class="u-comment-icon el-icon-chat-dot-round"></i>
                 <span class="u-comment-count"
-                    >评论<em class="u-count">({{ data.comments_count || 0 }})</em></span
+                    >{{ $t('评论') }}<em class="u-count">({{ data.comments_count || 0 }})</em></span
                 >
             </span>
 
             <span class="u-action u-reference">
                 <i class="u-reference-icon el-icon-connection"></i>
                 <span class="u-reference-count"
-                    >参考资料<span class="u-count">({{ getRefCount(data) }})</span></span
+                    >{{ $t('参考资料') }}<span class="u-count">({{ getRefCount(data) }})</span></span
                 >
             </span>
 
             <span class="u-action u-edit" @click.stop="edit(data)" v-if="isEditor">
                 <i class="el-icon-edit-outline"></i>
-                <span class="u-edit-text">编辑</span>
+                <span class="u-edit-text">{{ $t('编辑') }}</span>
             </span>
         </div>
     </div>

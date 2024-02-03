@@ -1,7 +1,7 @@
 <template>
     <div class="m-calendar-single">
         <section class="m-actions">
-            <el-button icon="el-icon-arrow-left" @click="goBack" size="small">返回</el-button>
+            <el-button icon="el-icon-arrow-left" @click="goBack" size="small">{{ $t('返回') }}</el-button>
             <el-button icon="el-icon-setting" type="primary" size="small" @click="manage(true)" v-if="isEditor">
                 管理
             </el-button>
@@ -31,7 +31,7 @@
         </section>
 
         <div class="m-single-block m-reference">
-            <header class="m-single-title m-history-header"><i class="el-icon-connection"></i>参考资料</header>
+            <header class="m-single-title m-history-header"><i class="el-icon-connection"></i>{{ $t('参考资料') }}</header>
             <template v-if="references && references.length">
                 <div class="m-reference-item" v-for="(reference, index) in references" :key="index">
                     <a class="u-item u-link" :href="reference.url" target="_blank" v-if="reference.url">
@@ -44,11 +44,11 @@
                     </span>
                 </div>
             </template>
-            <div v-else class="u-null"><i class="el-icon-warning-outline"></i>暂时没有任何参考资料</div>
+            <div v-else class="u-null"><i class="el-icon-warning-outline"></i>{{ $t('暂时没有任何参考资料') }}</div>
         </div>
 
         <section class="m-single-block m-history" v-loading="historyLoading">
-            <header class="m-single-title m-history-header"><i class="el-icon-date"></i>那年今日</header>
+            <header class="m-single-title m-history-header"><i class="el-icon-date"></i>{{ $t('那年今日') }}</header>
             <div class="m-history-content">
                 <el-timeline>
                     <el-timeline-item v-for="key in timelineKeys" :key="key" :timestamp="String(key)" placement="top">

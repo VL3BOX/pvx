@@ -12,7 +12,7 @@
                         <div class="title">
                             {{ types[index + 1].name }}
                         </div>
-                        <a href="javascript:;" @click="toLookAll(types[index + 1].type)">查看全部</a>
+                        <a href="javascript:;" @click="toLookAll(types[index + 1].type)">{{ $t('查看全部') }}</a>
                     </div>
                     <list-cross
                         v-if="showCross[index]"

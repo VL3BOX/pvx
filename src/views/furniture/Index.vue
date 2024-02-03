@@ -10,7 +10,7 @@
         >
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
-                    <label>庐园广记</label>
+                    <label>{{ $t('庐园广记') }}</label>
                     <el-select v-model="version" clearable>
                         <el-option
                             v-for="item in versions"
@@ -23,7 +23,7 @@
             </template>
             <template slot="extra">
                 <div v-if="childCategory.length" class="m-child-category">
-                    <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">全部</div>
+                    <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">{{ $t('全部') }}</div>
                     <div
                         class="u-item"
                         :class="item.nCatag2Index === childActive ? 'is-active' : ''"
@@ -63,7 +63,7 @@
                 :loading="loading"
                 icon="el-icon-arrow-down"
                 :style="{ width: buttonWidth ? buttonWidth + 'px' : '100%' }"
-                >加载更多</el-button
+                >{{ $t('加载更多') }}</el-button
             >
             <el-pagination
                 class="m-archive-pages"

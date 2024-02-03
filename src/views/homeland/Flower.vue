@@ -1,7 +1,7 @@
 <template>
     <div class="m-flower">
         <div class="m-flower-container">
-            <h1 class="m-flower-title">全区服小区花价查询</h1>
+            <h1 class="m-flower-title">{{ $t('全区服小区花价查询') }}</h1>
             <el-divider class="m-flower-desc">精准数据·居家种田好帮手</el-divider>
 
             <div class="m-flower-search">
@@ -23,7 +23,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="3">
-                        <el-button class="u-button" type="primary" icon="el-icon-search" :disabled="isGuest" @click="loadData">查询</el-button>
+                        <el-button class="u-button" type="primary" icon="el-icon-search" :disabled="isGuest" @click="loadData">{{ $t('查询') }}</el-button>
                     </el-col>
                 </el-row>
             </div>

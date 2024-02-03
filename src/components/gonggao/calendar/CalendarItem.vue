@@ -50,7 +50,7 @@
         <div class="u-nothing" v-else>...</div>
         <div class="u-date-count" v-if="countData">
             <b>{{ countData.count }}</b>
-            <span>条纪事</span>
+            <span>{{ $t('条纪事') }}</span>
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@
         <div class="plane-header">
             <div class="plane-data">
                 <div class="data-value">{{ item.recommend || 0 }}</div>
-                <div class="data-label">建议价格</div>
+                <div class="data-label">{{ $t('建议价格') }}</div>
             </div>
             <div class="plane-channel">{{ item.name }}</div>
         </div>
@@ -11,15 +11,15 @@
         <div class="plane-xAxis">
             <div class="xAxis-item">
                 <div class="xAxis-value">{{ item.beforeYesterday || 0 }}</div>
-                <div class="xAxis-label">前日</div>
+                <div class="xAxis-label">{{ $t('前日') }}</div>
             </div>
             <div class="xAxis-item">
                 <div class="xAxis-value">{{ item.yesterday || 0 }}</div>
-                <div class="xAxis-label">昨日</div>
+                <div class="xAxis-label">{{ $t('昨日') }}</div>
             </div>
             <div class="xAxis-item">
                 <div class="xAxis-value">{{ item.lastDay || 0 }}</div>
-                <div class="xAxis-label">今日</div>
+                <div class="xAxis-label">{{ $t('今日') }}</div>
             </div>
         </div>
     </div>

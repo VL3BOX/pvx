@@ -1,7 +1,7 @@
 <template>
     <div class="m-reputation-wrapper m-single-wrapper">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
         <div class="m-reputation-content">
             <div class="info-wrapper">
@@ -20,8 +20,8 @@
                     </div>
                     <div class="switch-wrap">
                         <div class="switch-btns">
-                            <div class="item" :class="activeTab === 0 && 'active'" @click="activeTab = 0">声望</div>
-                            <div class="item" :class="activeTab === 1 && 'active'" @click="activeTab = 1">知交</div>
+                            <div class="item" :class="activeTab === 0 && 'active'" @click="activeTab = 0">{{ $t('声望') }}</div>
+                            <div class="item" :class="activeTab === 1 && 'active'" @click="activeTab = 1">{{ $t('知交') }}</div>
                         </div>
                         <div class="content-detail">
                             <div v-show="activeTab === 0" class="detail-wrap">
@@ -97,7 +97,7 @@
             </div>
         </div>
         <div v-if="showPath" class="reputation-reward-wrapper">
-            <div class="title">声望奖励</div>
+            <div class="title">{{ $t('声望奖励') }}</div>
             <div class="reward-content">
                 <div class="reward-desc-list">
                     <div
@@ -109,7 +109,7 @@
                     >
                         <div class="from-to">{{ item.from }}<i class="el-icon-caret-right"></i>{{ item.to }}</div>
                         <div class="desc">
-                            <div class="desc-title">提升方式</div>
+                            <div class="desc-title">{{ $t('提升方式') }}</div>
                             <div class="desc-content">{{ item.desc }}</div>
                         </div>
                     </div>

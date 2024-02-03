@@ -1,7 +1,7 @@
 <template>
     <div class="m-manufacture-cart">
         <div class="m-manufacture-title">
-            <span class="u-title">成本计算器</span>
+            <span class="u-title">{{ $t('成本计算器') }}</span>
             <el-button
                 v-if="cartList.length"
                 class="u-del"
@@ -100,7 +100,7 @@
 
             <div class="m-stat">
                 <div class="m-all">
-                    <div class="u-label">总计</div>
+                    <div class="u-label">{{ $t('总计') }}</div>
                     <div class="u-value">
                         <div class="u-num">
                             <span><i class="el-icon-sunny"></i> 消耗精力值：</span>

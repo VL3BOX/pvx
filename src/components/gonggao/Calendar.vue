@@ -43,7 +43,7 @@
                             :title="$t('下一月')"
                         ></el-button>
                     </section>
-                    <!-- <span class="u-contribute" @click="rank_show = true"><i class="el-icon-s-data"></i>剑三日历贡献排行榜</span> -->
+                    <!-- <span class="u-contribute" @click="rank_show = true"><i class="el-icon-s-data"></i>{{ $t('剑三日历贡献排行榜') }}</span> -->
                 </div>
                 <!-- 中央海报 -->
                 <div class="u-slogan m-calendar-slogan">

@@ -16,7 +16,7 @@
                         <div class="m-mygoods-list-item-label">{{ item.Name || "" }}</div>
                         <div class="m-mygoods-list-item-money">
                             <GamePrice v-if="priceMap[item.id]" :price="priceMap[item.id].AvgPrice || 0" />
-                            <div v-else class="is-null">暂无价目</div>
+                            <div v-else class="is-null">{{ $t('暂无价目') }}</div>
                         </div>
                     </div>
                 </div>

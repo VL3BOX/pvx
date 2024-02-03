@@ -12,7 +12,7 @@
             >
                 <div class="u-type" v-if="item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
-                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                    <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
                 </div>
                 <div
                     class="u-shade-btn u-shade-btn-left"
@@ -47,7 +47,7 @@
                 @click="appendPage"
                 :loading="loading"
                 icon="el-icon-arrow-down"
-                >加载更多</el-button
+                >{{ $t('加载更多') }}</el-button
             >
             <el-pagination
                 class="m-archive-pages"

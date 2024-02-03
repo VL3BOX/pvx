@@ -113,7 +113,7 @@
                             </div>
                             <el-row v-if="item.options.length">
                                 <el-col :offset="20" :span="4">
-                                    <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                                    <el-button size="mini" type="info" plain @click="reset">{{ $t('重置') }}</el-button>
                                 </el-col>
                             </el-row>
                         </div>

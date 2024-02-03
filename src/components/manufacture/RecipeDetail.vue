@@ -42,7 +42,7 @@
             <span class="u-desc" v-for="text in textFilter(item.szTip)" :key="text">{{ text }}</span>
         </template>
         <div class="u-children" v-if="childrenList && childrenList.length">
-            <el-divider content-position="left">合成所需材料</el-divider>
+            <el-divider content-position="left">{{ $t('合成所需材料') }}</el-divider>
             <div class="u-child" v-for="(el, index) in childrenList" :key="index">
                 <el-popover
                     popper-class="u-icon-popper"

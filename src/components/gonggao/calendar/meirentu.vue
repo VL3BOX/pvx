@@ -1,6 +1,6 @@
 <template>
     <div v-if="today" class="m-special-item m-meirentu-item">
-        <div>美人图</div>
+        <div>{{ $t('美人图') }}</div>
         <div>
             <el-tooltip class="item" effect="dark" :content="(meirentu && meirentu.desc) || '无'" placement="bottom">
                 <div>

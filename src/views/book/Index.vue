@@ -23,8 +23,8 @@
                 <!-- 最近阅读 -->
                 <div v-if="recentReadList.length" class="list-item-wrapper">
                     <div class="title-header">
-                        <div class="title">最近阅读</div>
-                        <a href="javascript:;" @click="clearRecent">清除记录</a>
+                        <div class="title">{{ $t('最近阅读') }}</div>
+                        <a href="javascript:;" @click="clearRecent">{{ $t('清除记录') }}</a>
                     </div>
                     <list-cross
                         v-if="isPhone() || showRecentCross"
@@ -50,7 +50,7 @@
                         <div class="title">
                             {{ professionList[index + 1].name }}
                         </div>
-                        <a href="javascript:;" @click="selected = professionList[index + 1].id">查看全部</a>
+                        <a href="javascript:;" @click="selected = professionList[index + 1].id">{{ $t('查看全部') }}</a>
                     </div>
                     <list-cross
                         v-if="showCross[index]"

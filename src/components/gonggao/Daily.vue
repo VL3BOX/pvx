@@ -1,16 +1,16 @@
 <template>
     <div class="m-daily">
         <div class="m-daily-item">
-            <div class="u-title">服务器状态</div>
+            <div class="u-title">{{ $t('服务器状态') }}</div>
             <SimpleServer></SimpleServer>
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">日常</div>
+                <div class="u-title">{{ $t('日常') }}</div>
                 <SimpleDaily></SimpleDaily>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">楚天社</div>
+                <div class="u-title">{{ $t('楚天社') }}</div>
                 <SimpleCelebrity></SimpleCelebrity>
             </div>
         </template>
@@ -25,18 +25,18 @@
             <SimpleFb :list="teamFbList"></SimpleFb>
         </div>
         <div class="m-daily-item is-disabled">
-            <div class="u-title">门派事件</div>
+            <div class="u-title">{{ $t('门派事件') }}</div>
             <SimpleMp></SimpleMp>
         </div> -->
         <div class="m-daily-item">
             <div class="m-daily-item">
-                <div class="u-title">今日福缘</div>
+                <div class="u-title">{{ $t('今日福缘') }}</div>
                 <SimplePet></SimplePet>
             </div>
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">园宅会赛</div>
+                <div class="u-title">{{ $t('园宅会赛') }}</div>
                 <div class="m-child-item">
                     <SimpleFurniture :furniture="currentFurniture" :title="$t('本期')"></SimpleFurniture>
                 </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">抓马播报</div>
+                <div class="u-title">{{ $t('抓马播报') }}<('抓马播报') }}</div>
                 <SimpleHorse></SimpleHorse>
             </div>
         </template>

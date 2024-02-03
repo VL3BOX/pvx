@@ -2,7 +2,7 @@
     <div class="m-publish-box">
         <!-- 头部 -->
         <div class="m-back">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
         <el-form label-position="left" label-width="80px" class="m-publish-exam">
             <publish-client v-model="primary.client"></publish-client>
@@ -20,8 +20,8 @@
             </el-form-item>
             <el-form-item :label="$t('题型')" class="m-publish-exam-type">
                 <el-radio-group v-model="primary.type">
-                    <el-radio label="radio" border>单选题</el-radio>
-                    <el-radio label="checkbox" border>多选题</el-radio>
+                    <el-radio label="radio" border>{{ $t('单选题') }}</el-radio>
+                    <el-radio label="checkbox" border>{{ $t('多选题') }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item :label="$t('选项')" class="m-publish-exam-options">
@@ -71,7 +71,7 @@
                     type="primary"
                     @click="publish"
                     :disabled="processing"
-                    >提交题目</el-button
+                    >{{ $t('提交题目') }}</el-button
                 >
             </el-form-item>
         </el-form>

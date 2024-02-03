@@ -20,7 +20,7 @@
         <el-tooltip effect="dark" :content="(meirentu && meirentu.desc) || '无'" placement="bottom">
             <div class="m-simple-daily-item">
                 <div class="u-name">
-                    <span>美人图</span>
+                    <span>{{ $t('美人图') }}</span>
                     <span class="u-week">{{ week }}</span>
                 </div>
                 <span class="u-desc">{{ (meirentu && meirentu.name) || "今日暂无画像" }}</span>

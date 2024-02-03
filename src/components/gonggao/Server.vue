@@ -1,7 +1,7 @@
 <template>
     <div class="m-server">
         <div v-if="uid && favList.length" class="m-fav-list">
-            <h2 class="u-title">我的关注</h2>
+            <h2 class="u-title">{{ $t('我的关注') }}</h2>
             <div class="m-server-list">
                 <ServerItem
                     v-for="server in favList"

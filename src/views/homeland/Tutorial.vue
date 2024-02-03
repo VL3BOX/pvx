@@ -1,6 +1,6 @@
 <template>
 	<div class="v-homeland-tutorial">
-		<!-- <h1 class="m-homeland-title">家园指南</h1> -->
+		<!-- <h1 class="m-homeland-title">{{ $t('家园指南') }}</h1> -->
 
 		<div class="m-homeland-info">
 			<div class="m-homeland-games">

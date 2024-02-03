@@ -34,7 +34,7 @@
                 </el-select>
             </el-input> -->
             <el-select class="u-source u-select u-margin" v-model="select" slot="prepend" :placeholder="$t('排序方式')">
-                <span slot="prefix" class="u-prefix">排序方式</span>
+                <span slot="prefix" class="u-prefix">{{ $t('排序方式') }}</span>
                 <el-option :label="$t('不限制')" value=""></el-option>
                 <el-option
                         v-for="item in categoryData.categoryList"
@@ -45,12 +45,12 @@
                 </el-option>
             </el-select>
             <el-select class="u-source u-select u-margin" v-model="source" slot="prepend" :placeholder="$t('来源途径')" clearable>
-                <span slot="prefix" class="u-prefix">来源途径</span>
+                <span slot="prefix" class="u-prefix">{{ $t('来源途径') }}</span>
                 <el-option :label="$t('全部')" value=""></el-option>
                 <el-option v-for="item in source_types" :key="item" :label="item" :value="item"> </el-option>
             </el-select>
             <el-select class="u-level u-select u-margin" v-model="level" slot="prepend" :placeholder="$t('家园等级')">
-                <span slot="prefix" class="u-prefix">家园等级</span>
+                <span slot="prefix" class="u-prefix">{{ $t('家园等级') }}</span>
                 <el-option
                     v-for="item in categoryData.levelList"
                     :key="item.level"
@@ -60,8 +60,8 @@
                 </el-option>
             </el-select>
             <div class="flexNormal">
-                <el-checkbox :checked="interact" v-model="interact">可交互</el-checkbox>
-                <el-checkbox :checked="set" v-model="set">庐园广记</el-checkbox>
+                <el-checkbox :checked="interact" v-model="interact">{{ $t('可交互') }}</el-checkbox>
+                <el-checkbox :checked="set" v-model="set">{{ $t('庐园广记') }}</el-checkbox>
                 <el-checkbox v-model="match" @change="matchChange" :disabled="!matchFurniture">
                     园宅会赛
                     <el-popover trigger="hover" v-if="matchFurniture" popper-class="m-match-furniture-pop">

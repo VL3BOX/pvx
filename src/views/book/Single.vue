@@ -1,7 +1,7 @@
 <template>
     <div ref="bookSingleWrap" class="book-single-wrapper m-single-wrapper">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
         <div v-if="book" class="book-single-content" v-loading="loading">
             <div class="book-header">
@@ -12,7 +12,7 @@
                 <div class="book-info">
                     <p class="u-subtitle">
                         <img svg-inline src="@/assets/img/book/book-info.svg" />
-                        <span>书籍信息</span>
+                        <span>{{ $t('书籍信息') }}</span>
                     </p>
                     <div class="u-book-info">
                         <div v-if="!['其它', '碑铭'].includes(getOrigin(book))" class="u-item book-origin">
@@ -20,15 +20,15 @@
                             <el-tooltip placement="top" popper-class="book-notice-tooltip">
                                 <div slot="content">
                                     <template v-if="getOrigin(book).indexOf('秘境') > -1">
-                                        <div class="u-detail-item">秘境</div>
+                                        <div class="u-detail-item">{{ $t('秘境') }}</div>
                                         <div class="book-fb" v-html="getBossOrigin(book)"></div>
                                     </template>
                                     <template v-if="getOrigin(book).indexOf('商店') > -1">
-                                        <div class="u-detail-item">商店</div>
+                                        <div class="u-detail-item">{{ $t('商店') }}</div>
                                         <div class="book-shop" v-html="getShopOrigin(book)"></div>
                                     </template>
                                     <template v-if="getOrigin(book).indexOf('任务') > -1">
-                                        <div class="u-detail-item">任务</div>
+                                        <div class="u-detail-item">{{ $t('任务') }}</div>
                                         <div class="book-quest">
                                             <div
                                                 class="quest-item"
@@ -53,7 +53,7 @@
                                     href="javascript:;"
                                     v-if="bookMapSite.length"
                                     @click="dialogVisible = true"
-                                    >查看位置</a
+                                    >{{ $t('查看位置') }}</a
                                 >
                             </span>
                             <!-- 其它 -->
@@ -67,7 +67,7 @@
                     <template v-if="book.copy && book.copy.ID">
                         <p class="u-subtitle">
                             <img svg-inline src="@/assets/img/book/request.svg" />
-                            <span>抄录要求</span>
+                            <span>{{ $t('抄录要求') }}</span>
                         </p>
                         <div class="u-book-info">
                             <div class="u-info-item">
@@ -121,10 +121,10 @@
                         <div v-if="arrowShow" class="buttons" :class="isVertical ? 'vertical' : 'row'">
                             <div class="left" :class="noMore && 'disabled'" @click="toMore">
                                 <i :class="isVertical ? 'el-icon-arrow-left' : 'el-icon-arrow-down'"></i>
-                                <!-- <span>继续</span> -->
+                                <!-- <span>{{ $t('继续') }}</span> -->
                             </div>
                             <div class="right" :class="noBack && 'disabled'" @click="toBack">
-                                <!-- <span>返回</span> -->
+                                <!-- <span>{{ $t('返回') }}</span> -->
                                 <i :class="isVertical ? 'el-icon-arrow-right' : 'el-icon-arrow-up'"></i>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                     >
                         <!-- [{{ book.achievement ? book.achievement.Name : "" }}] -->
                         <i class="el-icon-warning"></i>
-                        <span>该套书有成就</span>
+                        <span>{{ $t('该套书有成就') }}</span>
                     </a>
                 </div>
                 <div class="book-list-wrapper">
@@ -156,7 +156,7 @@
             <!-- 碑铭信息 -->
             <!-- <div v-if="bookMapSite.length" class="m-book-map">
                 <div class="u-title">
-                    <span class="u-txt">碑铭信息</span>
+                    <span class="u-txt">{{ $t('碑铭信息') }}</span>
                 </div>
                 <jx3box-map
                     class="u-content"

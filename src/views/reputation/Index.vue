@@ -7,11 +7,11 @@
             :class="selected && 'selected-wrapper'"
             @search="searchEvent($event)"
         >
-            <div class="select-item" :class="!selected && 'active'" @click="toAll">全部</div>
+            <div class="select-item" :class="!selected && 'active'" @click="toAll">{{ $t('全部') }}</div>
         </PvxSearch>
         <div v-loading="loading" class="reputaion-content-wrapper">
             <div v-if="!selected && !this.search.keyword" class="reputation-list-wrapper">
-                <div class="reputation-title">资料片新增</div>
+                <div class="reputation-title">{{ $t('资料片新增') }}</div>
                 <div class="reputation-list">
                     <reputation-item :item="item" v-for="item in newsList" :key="item.dwForceID"></reputation-item>
                 </div>

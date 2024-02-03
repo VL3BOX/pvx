@@ -1,7 +1,7 @@
 <template>
     <div class="p-furniture-single m-single-wrapper" v-loading="loading">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
 
         <div class="m-furniture-content">
@@ -12,19 +12,19 @@
                 </div>
                 <div class="u-attrs">
                     <span class="u-attr" v-if="data.Attribute1"
-                        ><span class="u-label blue">观赏</span>{{ data.Attribute1 }}</span
+                        ><span class="u-label blue">{{ $t('观赏') }}</span>{{ data.Attribute1 }}</span
                     >
                     <span class="u-attr" v-if="data.Attribute2"
-                        ><span class="u-label pink">实用</span>{{ data.Attribute2 }}</span
+                        ><span class="u-label pink">{{ $t('实用') }}</span>{{ data.Attribute2 }}</span
                     >
                     <span class="u-attr" v-if="data.Attribute3"
-                        ><span class="u-label yellow">坚固</span>{{ data.Attribute3 }}</span
+                        ><span class="u-label yellow">{{ $t('坚固') }}</span>{{ data.Attribute3 }}</span
                     >
                     <span class="u-attr" v-if="data.Attribute4"
-                        ><span class="u-label green">风水</span>{{ data.Attribute4 }}</span
+                        ><span class="u-label green">{{ $t('风水') }}</span>{{ data.Attribute4 }}</span
                     >
                     <span class="u-attr" v-if="data.Attribute5"
-                        ><span class="u-label purple">趣味</span>{{ data.Attribute5 }}</span
+                        ><span class="u-label purple">{{ $t('趣味') }}</span>{{ data.Attribute5 }}</span
                     >
                 </div>
                 <div class="u-metas">
@@ -68,7 +68,7 @@
 
                 <div class="m-buttons">
                     <a v-if="other_id" class="u-link u-item" :href="getLink('item', item_id)" target="_blank"
-                        ><i class="el-icon-collection-tag"></i>物品信息</a
+                        ><i class="el-icon-collection-tag"></i>{{ $t('物品信息') }}</a
                     >
                     <a v-if="achieve_id" class="u-link u-achievement" :href="getLink('cj', achieve_id)" target="_blank">
                         <i class="el-icon-trophy"></i>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="u-desc">
                     <div v-if="data.szTip" class="u-txt" v-html="description_filter(data.szTip)"></div>
-                    <div v-else class="u-txt">暂无介绍</div>
+                    <div v-else class="u-txt">{{ $t('暂无介绍') }}</div>
                 </div>
 
                 <list-cross v-if="setData.furnitures.length" :width="30" :list="setData.furnitures">
@@ -103,7 +103,7 @@
                 </list-cross>
             </div>
             <div class="m-extend-content m-extend-materials" v-if="data.szSource == '生活技能' && data.__manufactureID">
-                <div class="u-title">合成材料</div>
+                <div class="u-title">{{ $t('合成材料') }}</div>
                 <furnitureMaterials :id="other_id" />
             </div>
         </div>

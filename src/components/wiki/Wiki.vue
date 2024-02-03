@@ -17,7 +17,7 @@
                         <i class="el-icon-warning-outline"></i> 暂无缘起攻略，以下为重制攻略，仅作参考，<a
                             class="s-link"
                             :href="publish_url"
-                            >参与修订</a
+                            >{{ $t('参与修订') }}</a
                         >。
                     </div>
                     <Article :content="wiki_post.post.content" />
@@ -42,8 +42,8 @@
         </div>
         <div class="m-wiki-post-empty" v-if="is_empty">
             <i class="el-icon-s-opportunity"></i>
-            <span>暂无攻略，我要</span>
-            <a class="s-link" :href="publish_url">完善攻略</a>
+            <span>{{ $t('暂无攻略，我要') }}</span>
+            <a class="s-link" :href="publish_url">{{ $t('完善攻略') }}</a>
         </div>
     </div>
 </template>

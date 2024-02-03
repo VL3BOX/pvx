@@ -10,7 +10,7 @@
 
 <!--        <template v-if="!showAllList">-->
 <!--            <div class="m-recommend-box" @mouseenter="mouseenter($event)" @mouseleave="mouseleave($event)">-->
-<!--                <div class="u-title u-recommend-title">编辑推荐</div>-->
+<!--                <div class="u-title u-recommend-title">{{ $t('编辑推荐') }}</div>-->
 <!--                <div-->
 <!--                    class="u-shade-btn u-shade-btn-left"-->
 <!--                    :class="isDisabled('recommend', 1, isUpdate)"-->
@@ -45,7 +45,7 @@
             >
                 <div class="u-type" :class="index === 0 ? 'u-first-row':''"  v-if="item.client.indexOf(client) != -1 && item.list.length > 0">
                     <div class="u-title">{{ item.name }}</div>
-                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                    <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
                 </div>
                 <div
                     class="u-shade-btn u-shade-btn-left"
@@ -85,7 +85,7 @@
                 @click="appendPage"
                 :loading="loading"
                 icon="el-icon-arrow-down"
-                >加载更多</el-button
+                >{{ $t('加载更多') }}</el-button
             >
             <el-pagination
                 class="m-archive-pages"

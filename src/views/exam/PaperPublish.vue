@@ -2,7 +2,7 @@
     <div class="m-publish-box">
         <!-- 头部 -->
         <div class="m-back">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
 
         <el-form label-position="left" label-width="80px" class="m-publish-exam">
@@ -35,7 +35,7 @@
                 <el-input v-model="list" show-word-limit required placeholder="请填写题目ID序列"></el-input>
             </el-form-item>
             <el-form-item :label="$t('外链')" class="m-publish-exam-common">
-                <div>如果为外链地址，则设置的题目将不会生效</div>
+                <div>{{ $t('如果为外链地址，则设置的题目将不会生效') }}</div>
                 <el-input v-model="primary.iframe" show-word-limit required :placeholder="$t('请填写外链问卷地址')">
                 </el-input>
             </el-form-item>
@@ -65,7 +65,7 @@
                     type="primary"
                     @click="publish"
                     :disabled="processing"
-                    >发布试卷</el-button
+                    >{{ $t('发布试卷') }}</el-button
                 >
             </el-form-item>
         </el-form>

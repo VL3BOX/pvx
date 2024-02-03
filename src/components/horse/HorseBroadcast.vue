@@ -1,7 +1,7 @@
 <template>
     <div class="m-horse-broadcast">
         <div class="m-horse-broadcast__header">
-            <div class="u-title">抓马播报</div>
+            <div class="u-title">{{ $t('抓马播报') }}<('抓马播报') }}</div>
             <el-select class="u-select" v-model="server" :placeholder="$t('请选择服务器')"择服务器')" size="mini">
                 <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
             </el-select>
@@ -103,7 +103,7 @@ export default {
             chituTip: `
              <p>CD: 周二7点 ~ 下周一7点。</p>
              <p>地图: 黑戈壁、阴山大草原、鲲鹏岛。</p>
-             <p>必备: <卦文龟甲>交大战时有几率获得，赤兔刷新后再到信使处领取，有效期7天。</p>
+             <p>必备: <卦文龟甲>{{ $t('交大战时有几率获得，赤兔刷新后再到信使处领取，有效期7天。') }}</p>
             `,
             chituLoading: false,
         };

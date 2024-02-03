@@ -1,10 +1,10 @@
 <template>
     <div class="v-homeland-furniture" v-loading="loading">
-        <h1 class="m-furniture-title">家具大全</h1>
+        <h1 class="m-furniture-title">{{ $t('家具大全') }}</h1>
 
         <div class="m-furniture-search">
             <el-input :placeholder="$t('请输入搜索内容')" v-model="search">
-                <span slot="prepend">关键词</span>
+                <span slot="prepend">{{ $t('关键词') }}</span>
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
@@ -52,7 +52,7 @@
                         @click="appendPage"
                         :loading="loading"
                         icon="el-icon-arrow-down"
-                        >加载更多</el-button
+                        >{{ $t('加载更多') }}</el-button
                     >
                     <el-pagination
                         class="m-archive-pages"

@@ -2,7 +2,7 @@
     <div class="c-pvx-block m-adventures">
         <div class="u-header">
             <div class="u-title">{{ title }}</div>
-            <a class="u-more" href="/adventure">查看更多</a>
+            <a class="u-more" href="/adventure">{{ $t('查看更多') }}</a>
         </div>
         <div class="u-tabs">
             <div

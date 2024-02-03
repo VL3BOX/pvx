@@ -36,8 +36,8 @@
                 <el-form-item :label="$t('类型')" required>
                     <div class="m-type">
                         <el-radio-group size="small" v-model.number="form.type">
-                            <el-radio-button :label="1">事件</el-radio-button>
-                            <el-radio-button :label="2">活动</el-radio-button>
+                            <el-radio-button :label="1">{{ $t('事件') }}</el-radio-button>
+                            <el-radio-button :label="2">{{ $t('活动') }}<$t('活动') }}</el-radio-button>
                         </el-radio-group>
                         <!-- 仅在活动时显示 START -->
                         <div class="m-type-icon" v-show="form.type === 2">
@@ -63,9 +63,9 @@
                 </el-form-item>
                 <el-form-item :label="$t('客户端')" required>
                     <el-radio-group size="small" v-model="form.client">
-                        <el-radio-button label="std">正式服</el-radio-button>
-                        <el-radio-button label="origin">怀旧服</el-radio-button>
-                        <el-radio-button label="all" v-if="form.type == 1">双端</el-radio-button>
+                        <el-radio-button label="std">{{ $t('正式服') }}</el-radio-button>
+                        <el-radio-button label="origin">{{ $t('怀旧服') }}</el-radio-button>
+                        <el-radio-button label="all" v-if="form.type == 1">{{ $t('双端') }}</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item :label="$t('参考资料')">
@@ -83,7 +83,7 @@
                         </div>
                     </template>
                     <el-button type="primary" size="small" icon="el-icon-plus" @click="addLink" :disabled="addDisabled"
-                        >添加</el-button
+                        >{{ $t('添加') }}</el-button
                     >
                 </el-form-item>
 
@@ -105,12 +105,12 @@
                         <div class="m-style">
                             <!-- <el-select v-model="form.style" size="medium" :placeholder="$t('请选择样式')"></el-select> -->
                             <div class="m-color-item">
-                                <label class="u-label">背景色</label>
+                                <label class="u-label">{{ $t('背景色') }}</label>
                                 <span class="u-color-value" v-show="form.bgcolor">【{{ form.bgcolor }}】</span>
                                 <el-color-picker v-model="form.bgcolor" size="small" :predefine="predefineColors"> </el-color-picker>
                             </div>
                             <div class="m-color-item">
-                                <label class="u-label">颜色</label>
+                                <label class="u-label">{{ $t('颜色') }}</label>
                                 <span class="u-color-value" v-show="form.color">【{{ form.color }}】</span>
                                 <el-color-picker v-model="form.color" size="small" :predefine="predefineColors"> </el-color-picker>
                             </div>
@@ -127,16 +127,16 @@
                     </el-form-item>
                     <el-form-item :label="$t('操作')">
                         <el-button icon="el-icon-refresh-left" size="small" @click="recheck" type="warning"
-                            >复审</el-button
+                            >{{ $t('复审') }}</el-button
                         >
-                        <el-button icon="el-icon-delete" size="small" @click="del" type="danger">删除</el-button>
+                        <el-button icon="el-icon-delete" size="small" @click="del" type="danger">{{ $t('删除') }}</el-button>
                     </el-form-item>
                 </template>
             </el-form>
         </main>
         <template v-slot:footer>
-            <el-button size="medium" @click="cancel">取消</el-button>
-            <el-button type="primary" size="medium" @click="confirm" :loading="loading">确认</el-button>
+            <el-button size="medium" @click="cancel">{{ $t('取消') }}</el-button>
+            <el-button type="primary" size="medium" @click="confirm" :loading="loading">{{ $t('确认') }}</el-button>
         </template>
     </el-dialog>
 </template>

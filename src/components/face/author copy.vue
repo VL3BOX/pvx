@@ -20,7 +20,7 @@
                     </el-tooltip>
                     <el-tooltip :content="$t('签约作者')"签约作者')" v-if="isSuperAuthor" placement="top">
                         <span class="u-superauthor">
-                            <i class="u-icon superauthor">签约作者</i>
+                            <i class="u-icon superauthor">{{ $t('签约作者') }}</i>
                         </span>
                     </el-tooltip>
                 </div>

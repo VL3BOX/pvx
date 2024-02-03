@@ -10,7 +10,7 @@
         <main class="m-calendar-detail-content">
             <!-- 日常+周常活动 -->
             <section class="m-content-part" v-if="client == 'std'">
-                <div class="u-daily-header">特殊</div>
+                <div class="u-daily-header">{{ $t('特殊') }}</div>
                 <daily-special :date="date"></daily-special>
                 <div class="u-daily-header">
                     <!-- <el-divider content-position="left"><i class="el-icon-date"></i> 日常</el-divider> -->
@@ -39,7 +39,7 @@
                         />
                     </template>
                     <template v-else>
-                        <div class="u-null"><i class="el-icon-warning-outline"></i>暂时没有任何活动记录</div>
+                        <div class="u-null"><i class="el-icon-warning-outline"></i>{{ $t('暂时没有任何活动记录') }}</div>
                     </template>
                 </div>
             </section>
@@ -64,7 +64,7 @@
                         />
                     </template>
                     <template v-else>
-                        <div class="u-null"><i class="el-icon-warning-outline"></i>暂时没有任何事件记录</div>
+                        <div class="u-null"><i class="el-icon-warning-outline"></i>{{ $t('暂时没有任何事件记录') }}</div>
                     </template>
                 </div>
             </section>

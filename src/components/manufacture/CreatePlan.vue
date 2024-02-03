@@ -1,10 +1,10 @@
 <template>
     <div class="m-create-plan" v-if="list.length">
         <el-popover popper-class="m-plan-tips" placement="top" width="220" trigger="click">
-            <el-divider>新建清单</el-divider>
+            <el-divider>{{ $t('新建清单') }}</el-divider>
             <div class="u-tips">
-                <el-button size="mini" icon="el-icon-edit" @click="dialogVisible = true">编辑信息</el-button>
-                <el-button size="mini" icon="el-icon-thumb" type="primary" @click="setMyPlan">直接保存</el-button>
+                <el-button size="mini" icon="el-icon-edit" @click="dialogVisible = true">{{ $t('编辑信息') }}</el-button>
+                <el-button size="mini" icon="el-icon-thumb" type="primary" @click="setMyPlan">{{ $t('直接保存') }}</el-button>
             </div>
             <el-button slot="reference" type="success" icon="el-icon-document-checked" size="small">
                 保存至我的清单
@@ -24,8 +24,8 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="setMyPlan">确 定</el-button>
+                <el-button @click="dialogVisible = false">{{ $t('取 消') }}</el-button>
+                <el-button type="primary" @click="setMyPlan">{{ $t('确 定') }}</el-button>
             </span>
         </el-dialog>
     </div>

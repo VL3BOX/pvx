@@ -1,9 +1,9 @@
 <template>
     <div class="v-question-single m-single-wrapper" v-loading="loading">
         <div class="back-wrap">
-            <el-button @click="goBack">返回列表</el-button>
+            <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
             <a v-if="data.id && canManage" class="u-edit" :href="editLink('question', data.id)">
-                <i class="el-icon-edit-outline"></i><span>编辑</span>
+                <i class="el-icon-edit-outline"></i><span>{{ $t('编辑') }}</span>
             </a>
         </div> 
         <!-- <SingleTitle :item="data" type="question" /> -->
@@ -15,7 +15,7 @@
             @changeVal="finalAnswer"
         />
         <div class="m-exam-submit" @click="submit" :class="{ isSubmitted }">
-            <el-button class="u-btn" :disabled="isSubmitted">提交</el-button>
+            <el-button class="u-btn" :disabled="isSubmitted">{{ $t('提交') }}</el-button>
         </div>
 
         <Thx
@@ -29,7 +29,7 @@
             :client="client"
         />
         <div class="m-single-comment">
-            <el-divider content-position="left">评论</el-divider>
+            <el-divider content-position="left">{{ $t('评论') }}</el-divider>
             <Comment :id="id" category="question" />
         </div>
     </div>

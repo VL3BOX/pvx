@@ -5,8 +5,8 @@
             <div class="m-plan-description">
                 <span class="u-time">
                     <span>最后更新于 <i class="el-icon-time"></i>{{ date_format(plan.updated) }}</span>
-                    <a :href="editLink(plan)" target="_blank" class="u-del">编辑清单</a>
-                    <span class="u-del" @click="deletePlan(planId)">删除清单</span>
+                    <a :href="editLink(plan)" target="_blank" class="u-del">{{ $t('编辑清单') }}</a>
+                    <span class="u-del" @click="deletePlan(planId)">{{ $t('删除清单') }}</span>
                 </span>
                 <span class="u-title"><b>备注：</b> {{ plan.description || "无" }}</span>
             </div>
