@@ -11,7 +11,7 @@ const routes = [
     {
         name: "pvx",
         path: "/",
-        component: () => import("@/views/face/List.vue"),
+        component: () => import("@/views/index/Index.vue"),
         meta: {
             sidebar: false,
         },
