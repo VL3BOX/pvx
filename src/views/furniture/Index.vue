@@ -2,7 +2,7 @@
     <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
-            :items="isPhone? searchProps.slice(0,1) : searchProps"
+            :items="isPhone()? searchProps.slice(0,1) : searchProps"
             :initValue="initValue"
             :active="isActive"
             class="m-furniture-search"
@@ -10,7 +10,7 @@
         >
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
-                    <label v-if="!isPhone">庐园广记</label>
+                    <label v-if="!isPhone()">庐园广记</label>
                     <el-select v-model="version" clearable :placeholder="isPhone ? '庐园广记' : ''">
                         <el-option
                             v-for="item in versions"
@@ -22,7 +22,7 @@
                 </div>
             </template>
         </PvxSearch>
-        <template v-if="isPhone">
+        <template v-if="isPhone()">
             <PvxSearch
                 style="margin-top: 40px"
                 ref="search"
