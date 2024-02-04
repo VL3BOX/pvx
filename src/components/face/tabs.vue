@@ -160,7 +160,7 @@ export default {
             is_new_face: -1,
             title: "",
             filterOpen: false,
-            isPhone: isPhone()
+            isPhone:document.documentElement.clientWidth <= 1024 ? true : false
         };
     },
     computed: {

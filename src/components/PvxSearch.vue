@@ -14,15 +14,16 @@
                 v-for="item in items"
                 :key="item.key"
             >
-                <div v-if="item.type === 'radio'">
-                    <el-radio-group v-if="selectType === 'radio'" v-model="formData[item.key]">
+                <template v-if="item.type === 'radio'">
+                    <el-radio-group v-model="formData[item.key]">
                         <el-radio-button
                             class="type-item"
                             :class="{ active: typeItem.type === formData[item.type] }"
                             v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
                             :key="typeItem.type"
                             :label="typeItem.type"
-                            >{{ typeItem.name }}</el-radio-button>
+                        >{{ typeItem.name }}</el-radio-button
+                        >
                     </el-radio-group>
                     <template v-if="item.options.filter((rItem) => rItem.link).length">
                         <a
@@ -31,11 +32,11 @@
                             class="type-item"
                             v-for="typeItem in item.options.filter((rItem) => rItem.link)"
                             :key="typeItem.type"
-                            >{{ typeItem.name }}</a
+                        >{{ typeItem.name }}</a
                         >
                     </template>
-                </div>
-                <div v-if="item.type === 'filter' && item.options.length">
+                </template>
+                <template v-if="item.type === 'filter' && item.options.length">
                     <el-popover
                         ref="popover"
                         :placement="isPhone() ? 'right' : 'bottom'"
@@ -60,7 +61,7 @@
                                     :loading="selectLoading === fItem.remote"
                                     :default-first-option="true"
                                     @focus="selectFocus"
-                                    :style="isPhone ? 'width: 100%;' : ''"
+                                    style="width: 100%"
                                 >
                                     <el-option
                                         v-for="option in fItem.remote ? fItem.options : fItem.options"
@@ -90,8 +91,8 @@
                                                 customLabel === option.label
                                                     ? customLabel
                                                     : option.label.indexOf("·") > -1
-                                                    ? option.label.split("·")[1]
-                                                    : option.label
+                                                        ? option.label.split("·")[1]
+                                                        : option.label
                                             }}
                                         </el-checkbox-button>
                                     </el-checkbox-group>
@@ -105,7 +106,7 @@
                                             v-for="radioItem in fItem.options"
                                             :key="radioItem.type"
                                             :label="radioItem.key"
-                                            >{{ radioItem.value }}</el-radio-button
+                                        >{{ radioItem.value }}</el-radio-button
                                         >
                                     </el-radio-group>
                                 </div>
@@ -120,34 +121,34 @@
                             <img svg-inline src="@/assets/img/filter.svg" fill="#949494" />
                         </div>
                     </el-popover>
-                </div>
-                <div v-if="item.type === 'select' && item.options.length" class="u-pvx-select" :class="formData[item.key] && 'is-selected'">
-                        <label v-if="item.showLabel">{{ item.name }}</label>
-                        <el-select
-                            :id="item.remote"
-                            class="select-wrapper"
-                            v-model="formData[item.key]"
-                            :multiple="item.multiple"
-                            :collapse-tags="item.multiple"
-                            clearable
-                            :filterable="item.filterable"
-                            :placeholder="!item.noPlaceholder ? `${item.name}` : '请选择'"
-                            :remote="Boolean(item.remote)"
-                            :remote-method="remoteMethod"
-                            :loading="selectLoading === item.remote"
-                            :default-first-option="true"
-                            @focus="selectFocus"
-                            :style="!item.showLabel && 'width: 100%'"
+                </template>
+                <template v-if="item.type === 'select' && item.options.length">
+                    <label v-if="item.showLabel">{{ item.name }}</label>
+                    <el-select
+                        :id="item.remote"
+                        class="select-wrapper"
+                        v-model="formData[item.key]"
+                        :multiple="item.multiple"
+                        :collapse-tags="item.multiple"
+                        clearable
+                        :filterable="item.filterable"
+                        :placeholder="!item.noPlaceholder ? `请${item.remote ? '输入' : '选择'}${item.name}` : '请选择'"
+                        :remote="Boolean(item.remote)"
+                        :remote-method="remoteMethod"
+                        :loading="selectLoading === item.remote"
+                        :default-first-option="true"
+                        @focus="selectFocus"
+                        :style="!item.showLabel && 'width: 100%'"
+                    >
+                        <el-option
+                            v-for="option in item.remote ? item.options : item.options"
+                            :key="option.value"
+                            :label="item.showValue ? option.label + '(' + option.value + ')' : option.label"
+                            :value="option.value"
                         >
-                            <el-option
-                                v-for="option in item.remote ? item.options : item.options"
-                                :key="option.value"
-                                :label="item.showValue ? option.label + '(' + option.value + ')' : option.label"
-                                :value="option.value"
-                            >
-                            </el-option>
-                        </el-select>
-                </div>
+                        </el-option>
+                    </el-select>
+                </template>
                 <template v-if="!item.type">
                     <el-input
                         v-model="formData[item.key]"
@@ -182,10 +183,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        selectType: {
-            type: String,
-            default: 'radio',
-        }
     },
     data() {
         return {
@@ -279,14 +276,4 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/search.less";
-@media screen and (max-width: @phone) {
-    .search-group{
-        div {
-            flex: 1;
-        }
-    }
-    .search-item.select-wrap{
-        width: 49%;
-    }
-}
 </style>

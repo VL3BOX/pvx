@@ -2,7 +2,7 @@
     <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
-            :items="isPhone()? searchProps.slice(0,1) : searchProps"
+            :items="isPhone? searchProps.slice(0,1) : searchProps"
             :initValue="initValue"
             :active="isActive"
             class="m-furniture-search"
@@ -10,7 +10,7 @@
         >
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
-                    <label v-if="!isPhone()">庐园广记</label>
+                    <label v-if="!isPhone">庐园广记</label>
                     <el-select v-model="version" clearable :placeholder="isPhone ? '庐园广记' : ''">
                         <el-option
                             v-for="item in versions"
@@ -22,7 +22,7 @@
                 </div>
             </template>
         </PvxSearch>
-        <template v-if="isPhone()">
+        <template v-if="isPhone">
             <PvxSearch
                 style="margin-top: 40px"
                 ref="search"
@@ -270,6 +270,7 @@ export default {
                 ...this.search,
             };
         },
+        isPhone
     },
     watch: {
         active(type) {
@@ -314,7 +315,6 @@ export default {
         },
     },
     methods: {
-        isPhone,
         appendPage() {
             this.append = true;
             this.page += 1;
@@ -520,4 +520,26 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/furniture/index.less";
+@media screen and (max-width: @ipad) {
+    .pvx-search-wrapper {
+        height: auto;
+        padding-left: 20px !important;
+        .search-group {
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-between;
+            gap:10px;
+            .search-item {
+                width: 40% !important;
+                position: relative;
+                margin: 0;
+                flex: 1;
+                input {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}
+
 </style>
