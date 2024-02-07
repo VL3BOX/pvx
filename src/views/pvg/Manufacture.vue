@@ -172,6 +172,9 @@ export default {
             background-color: #07ad36;
         }
     }
+    .u-search .u-search-input input {
+        background-color: #fff;
+    }
 }
 .m-manufacture-body {
     .pt(20px);
@@ -181,9 +184,11 @@ export default {
     gap: 20px;
 }
 @media screen and (max-width: @phone) {
-    .m-manufacture-body {
-        .pt(110px);
-    }
+    .m-manufacture-tabs {
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
+    } 
 }
 .m-manufacture-title {
     .flex;

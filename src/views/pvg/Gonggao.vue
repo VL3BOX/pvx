@@ -141,8 +141,14 @@ export default {
     }
 }
 @media screen and (max-width: @phone) {
-    .p-gonggao .m-content {
-        .pt(64px);
+    .p-gonggao {
+        .m-gonggao-tabs {
+            flex-direction: row;
+            gap:10px;
+        }
+        .m-content {
+            .pt(64px);
+        }
     }
 }
 </style>
