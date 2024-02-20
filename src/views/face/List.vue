@@ -1,5 +1,6 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
+        <!-- <CommonToolbar search /> -->
         <faceTabs
             @change="handleFaceTabChange"
             :body_types="list"
@@ -83,6 +84,7 @@
 <script>
 import PublicNotice from "@/components/PublicNotice";
 import CommonList from "@/components/common/list.vue";
+import CommonToolbar from "@/components/common/toolbar.vue";
 import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
 import { isPhone } from "@/utils/index";
