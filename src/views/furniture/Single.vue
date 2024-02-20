@@ -119,12 +119,6 @@
                 :source_title="data.szName"
             ></Wiki>
         </div>
-        <!--
-        <div class="m-furniture-comment">
-            <div class="u-title">评论</div>
-            <div class="u-desc">请文明用语，共创美好社区。</div>
-            <Comment :id="id" :category="type" order="desc" />
-        </div> -->
         <WikiComments type="item" :source-id="String(id)" />
     </div>
 </template>
@@ -148,7 +142,6 @@ export default {
     inject: ["__imgRoot"],
     components: {
         Wiki,
-        // Comment,
         furnitureSet,
         furnitureMaterials,
         // ListCross,

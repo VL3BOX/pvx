@@ -1,7 +1,7 @@
 [
     {
         "key": "share",
-        "label": "策勋",
+        "label": "玩家创作类栏目",
         "index": "1",
         "submenus": [
             {
@@ -28,11 +28,10 @@
                 "isStd": true
             }
         ]
-    },
-
+    }, 
     {
         "key": "rare",
-        "label": "珍奇",
+        "label": "图鉴百科类栏目",
         "index": "2",
         "submenus": [
             {
@@ -89,7 +88,7 @@
     },
     {
         "key": "merchants",
-        "label": "商贾",
+        "label": "信息查询类栏目",
         "index": "3",
         "submenus": [
             {
