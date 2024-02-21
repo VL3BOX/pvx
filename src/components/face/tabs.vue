@@ -211,15 +211,6 @@ export default {
 }
 @media screen and (max-width: @ipad) {
     .m-face-tabs {
-        .m-toolbar-item {
-            .flex;
-            .r(10px);
-            .w(100%);
-            box-sizing: border-box;
-            flex-wrap: wrap;
-            padding: 10px 15px;
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-        }
         .m-toolbar-publish {
             order: -1;
             justify-content: space-between;
@@ -228,13 +219,6 @@ export default {
 }
 @media screen and (max-width: @phone) {
     .m-face-tabs .m-toolbar-item {
-        justify-content: space-between;
-        .u-item:first-child {
-            .w(100%);
-        }
-        .u-item {
-            width: calc(50% - 10px);
-        }
         &.m-toolbar-publish {
             a:first-child {
                 order: 2;

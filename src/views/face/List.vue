@@ -1,12 +1,6 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
-        <faceTabs
-            @change="handleFaceTabChange"
-            :body_types="list"
-            :link="link"
-            :active="active"
-            @setActive="setActive"
-        />
+        <faceTabs :body_types="list" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
         <PublicNotice bckey="face_ac" />
         <template v-if="active === 0">
             <div
@@ -87,7 +81,6 @@ import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
 import { isPhone } from "@/utils/index";
 import { cloneDeep, omit, concat } from "lodash";
-import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getFaceList, getSliders } from "@/service/face";
 
 export default {
@@ -124,9 +117,6 @@ export default {
         };
     },
     computed: {
-        publish_link() {
-            return publishLink("face");
-        },
         client() {
             return this.$store.state.client;
         },

@@ -84,8 +84,7 @@ import CommonList from "@/components/common/list.vue";
 import faceTabs from "@/components/face/tabs";
 import bodyItem from "@/components/body/item";
 import { isPhone } from "@/utils/index";
-import { cloneDeep, omit, concat } from "lodash";
-import { publishLink } from "@jx3box/jx3box-common/js/utils";
+import { cloneDeep, omit, concat } from "lodash"; 
 import { getBodyList, getSliders } from "@/service/body";
 
 export default {

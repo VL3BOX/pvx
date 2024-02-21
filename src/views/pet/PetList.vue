@@ -1,13 +1,6 @@
 <template>
     <div class="p-pet-list p-common-list" v-loading="loading" ref="listRef">
-        <petTabs
-            @change="handleTabChange"
-            :types="Type"
-            :Source="Source"
-            :active="active"
-            @setActive="setActive"
-            :mapList="mapList"
-        />
+        <petTabs @change="handleTabChange" :types="Type" :Source="Source" @setActive="setActive" :mapList="mapList" />
         <PublicNotice bckey="pet_ac" />
         <template v-if="luckyList.length > 0">
             <div class="m-pet-title u-type u-lucky-title">
@@ -141,12 +134,15 @@ export default {
             return this.$store.state.client;
         },
         params({ tabsData }) {
-            return {
+            const _params = {
                 ...tabsData,
                 page: this.page || 1,
                 client: this.client,
             };
+            if (this.active) _params.Class = this.active;
+            return _params;
         },
+
         hasNextPage() {
             return this.page < this.pages;
         },

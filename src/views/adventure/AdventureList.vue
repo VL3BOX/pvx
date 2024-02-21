@@ -1,6 +1,6 @@
 <template>
     <div class="p-adventure-List p-common-list" v-loading="loading" ref="listRef">
-        <AdventureTabs @change="onSearch" :body_types="list" :active="active" @setActive="setActive" />
+        <AdventureTabs :body_types="list" @setActive="setActive" @change="onSearch" />
         <template v-if="active === 'all'">
             <div
                 v-for="(item, index) in list"
@@ -20,7 +20,12 @@
                         @update:load="handleLoad"
                     >
                         <div class="m-common-list">
-                            <AdventureItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
+                            <AdventureItem
+                                v-for="item in item.list"
+                                :key="item.id"
+                                :item="item"
+                                :reporter="{ aggregate: listId(list) }"
+                            />
                         </div>
                     </CommonList>
                 </template>
@@ -31,7 +36,12 @@
                 <div class="u-title">{{ typeName + "奇遇" }}</div>
             </div>
             <div class="m-face-list--all" v-if="subList.length">
-                <AdventureItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
+                <AdventureItem
+                    v-for="item in subList"
+                    :key="item.id"
+                    :item="item"
+                    :reporter="{ aggregate: listId(subList) }"
+                />
             </div>
             <el-button
                 class="m-archive-more"
@@ -39,7 +49,7 @@
                 type="primary"
                 @click="appendPage"
                 :loading="loading"
-                icon="el-icon-arrow-down" 
+                icon="el-icon-arrow-down"
                 >加载更多</el-button
             >
             <el-pagination
