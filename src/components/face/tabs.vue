@@ -119,21 +119,8 @@ export default {
 <style lang="less">
 .m-face-tabs {
     .u-filter {
-        .pointer;
-        .size(40px);
-        .r(30px);
-        background-color: #fff;
-        svg {
-            fill: #949494;
-        }
         &:hover {
             background-color: @faceColor;
-            i {
-                color: #fff;
-            }
-            svg {
-                fill: #fff;
-            }
         }
     }
     .u-analysis {

@@ -1,70 +1,53 @@
 <template>
     <div class="horse-home-wrapper">
-        <div class="m-share-tabs m-common-tabs">
-            <div class="m-common-card">
-                <div
-                    v-for="item in list"
-                    :key="item.type"
-                    class="u-tab"
-                    @click="clickTabs(item.type)"
-                    :class="{ active: item.type === active }"
-                >
-                    {{ item.name }}
-                </div>
-            </div>
-
-            <div class="u-search m-common-card">
-                <el-popover
-                    ref="popover"
-                    :placement="isPhone ? 'right' : 'bottom'"
-                    :width="!isPhone && 420"
-                    trigger="click"
-                >
-                    <div class="filter-content">
-                        <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
-                            <div class="check-box-wrapper">
-                                <div class="name">{{ sItem.name }}</div>
-                                <el-checkbox-group v-model="searchType[i].checked">
-                                    <el-checkbox-button
-                                        v-for="option in sItem.list"
-                                        :label="option.label"
-                                        :key="option.value"
-                                    ></el-checkbox-button>
-                                </el-checkbox-group>
+        <CommonToolbar class="m-horse-tabs" color="#d16400" search :types="list" @update="updateToolbar">
+            <template v-slot:filter>
+                <div class="u-filter">
+                    <el-popover
+                        ref="popover"
+                        :placement="isPhone ? 'right' : 'bottom'"
+                        :width="!isPhone && 420"
+                        trigger="click"
+                    >
+                        <div class="filter-content">
+                            <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
+                                <div class="check-box-wrapper">
+                                    <div class="name">{{ sItem.name }}</div>
+                                    <el-checkbox-group v-model="searchType[i].checked">
+                                        <el-checkbox-button
+                                            v-for="option in sItem.list"
+                                            :label="option.label"
+                                            :key="option.value"
+                                        ></el-checkbox-button>
+                                    </el-checkbox-group>
+                                </div>
                             </div>
+                            <el-row>
+                                <el-col :offset="20" :span="4">
+                                    <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                                </el-col>
+                            </el-row>
                         </div>
-                        <el-row>
-                            <el-col :offset="20" :span="4">
-                                <el-button size="mini" type="info" plain @click="reset">重置</el-button>
-                            </el-col>
-                        </el-row>
-                    </div>
-                    <div class="filter-img" slot="reference">
-                        <img svg-inline src="@/assets/img/filter.svg" fill="#949494" @click="filter = true" />
-                    </div>
-                </el-popover>
-                <el-input
-                    placeholder="输入关键词搜索"
-                    v-model="keyword"
-                    clearable
-                    suffix-icon="el-icon-search"
-                    class="u-search-input"
-                />
-            </div>
-        </div>
+                        <template slot="reference">
+                            <img svg-inline src="@/assets/img/filter.svg" fill="#949494" @click="filter = true" />
+                        </template>
+                    </el-popover>
+                </div>
+            </template>
+        </CommonToolbar>
         <div class="m-horse-content" ref="listRef" v-loading="loading">
             <!-- 全部模式 -->
             <template v-if="active === ''">
                 <!-- 抓马播报 -->
                 <HorseBroadcastV2 v-if="client === 'std'"></HorseBroadcastV2>
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
-                <div v-for="(item, i) in list" :key="i" class="m-list-wrapper">
+                <div v-for="(item, i) in typeList" :key="i" class="m-list-wrapper">
                     <template v-if="item.list && item.list.length">
                         <div class="u-type">
                             <div class="u-title">
                                 {{ item.name }}
                             </div>
-                            <div class="u-all" @click="clickTabs(item.type)">查看全部</div>
+                            <div class="u-all" @click="clickTabs(item.value)">查看全部</div>
                         </div>
 
                         <CommonList :data="{ ...itemData, type: item.type }" @update:load="handleLoad">
@@ -166,7 +149,9 @@
 
 <script>
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
+import { list, searchType, showTypes } from "@/assets/data/horse.json";
 import CommonList from "@/components/common/list.vue";
+import CommonToolbar from "@/components/common/toolbar.vue";
 import HorseBroadcastV2 from "@/components/horse/HorseBroadcastV2";
 import HorseCard from "@/components/horse/HorseCard";
 import SameItem from "@/components/horse/SameItem.vue";
@@ -177,57 +162,17 @@ import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
 export default {
     name: "HorseHome",
-    components: { SameItem, HorseCard, HorseBroadcastV2, CommonList, ListHead, HorseItem },
+    components: { SameItem, HorseCard, HorseBroadcastV2, CommonList, CommonToolbar, ListHead, HorseItem },
     data() {
         return {
             loading: false,
             showType: "card",
-            showTypes: [
-                {
-                    value: "list",
-                    label: "列表",
-                },
-                {
-                    value: "card",
-                    label: "卡片",
-                },
-            ],
             keyword: "",
             active: "",
             page: 1, //当前页数
             total: 0, //总条目数
             per: 0, //每页条目
             count: 0, // 自动判断最多显示几个
-            list: [
-                {
-                    type: "",
-                    name: "全部",
-                    page: 1,
-                    pages: 1,
-                    list: [],
-                },
-                {
-                    type: 0,
-                    name: "普通坐骑",
-                    page: 1,
-                    pages: 1,
-                    list: [],
-                },
-                {
-                    type: 1,
-                    name: "奇趣坐骑",
-                    page: 1,
-                    pages: 1,
-                    list: [],
-                },
-                {
-                    type: 2,
-                    name: "马具",
-                    page: 1,
-                    pages: 1,
-                    list: [],
-                },
-            ],
             itemData: {
                 color: "#E86F00",
                 width: "220",
@@ -236,22 +181,11 @@ export default {
             feeds: [],
             attrs: [],
             filter: false,
-            searchType: [
-                {
-                    key: "feed",
-                    type: "checkbox",
-                    name: "喂食饲料",
-                    list: [],
-                    checked: [],
-                },
-                {
-                    key: "attr",
-                    type: "checkbox",
-                    name: "属性",
-                    list: [],
-                    checked: [],
-                },
-            ],
+
+            typeList: [],
+            list,
+            searchType,
+            showTypes,
         };
     },
     computed: {
@@ -265,21 +199,27 @@ export default {
             return _params;
         },
         hasNextPage: function () {
-            const pages = this.list.filter((e) => e.type === this.active)[0].pages;
+            const pages = this.typeList.filter((e) => e.type === this.active)[0].pages;
             return pages > 1 && this.page < pages;
         },
         typeName() {
-            return this.list.filter((e) => e.type == this.active)[0].name;
+            return this.typeList.filter((e) => e.type == this.active)[0].name;
         },
         subList() {
             if (this.active === "") return null;
-            return this.list.filter((e) => e.type === this.active)[0].list;
+            return this.typeList.filter((e) => e.type === this.active)[0].list;
         },
         isPhone() {
             return isPhone();
         },
     },
     watch: {
+        list: {
+            immediate: true,
+            handler: function (_list) {
+                this.typeList = cloneDeep(_list);
+            },
+        },
         params: {
             deep: true,
             handler() {
@@ -301,8 +241,9 @@ export default {
     methods: {
         iconLink,
         clickTabs(type) {
-            this.active = type;
-            this.list = this.list.map((e) => {
+            const active = this.typeList.filter((item) => item.value == type)[0].type; 
+            this.active = active;
+            this.typeList = this.typeList.map((e) => {
                 e.page = 1;
                 return e;
             });
@@ -415,7 +356,7 @@ export default {
             this.handleLoad(this.active, true);
         },
         handleLoad(type, append) {
-            const page = this.list.filter((e) => e.type === type)[0].page;
+            const page = this.typeList.filter((e) => e.type === type)[0].page;
             let params = cloneDeep(this.params);
             params.page = page + 1;
             params.per = append ? this.per * 3 : this.per;
@@ -424,28 +365,28 @@ export default {
         },
         loadData(params = this.params) {
             this.loading = true;
-            params = omit(params, ["type"]);
+            params = omit(params, ["type", "value", "label"]); 
             if (this.active === "") {
-                const list = this.list.filter((e) => e.type !== "");
+                const list = this.typeList.filter((e) => e.type !== "");
                 list.forEach((e) => {
                     params.page = e.page;
                     params.type = e.type;
                     params.per = this.per;
                     this.loadList(params, e.type);
-                });
+                }); 
             } else {
                 params.page = this.page;
                 params.per = this.per * 3;
-                this.loadList({ ...params, type: this.active }, this.active);
+                this.loadList({ ...params, type: this.active }, this.active); 
             }
         },
         loadList(params, key) {
-            const index = this.list.findIndex((e) => e.type === key);
-            if (this.list[index].pages < params.page && this.active === "") params.page = 1;
+            const index = this.typeList.findIndex((e) => e.type === key);
+            if (this.typeList[index].pages < params.page && this.active === "") params.page = 1;
             getHorses(params)
                 .then((res) => {
                     const { list, total, pages, page } = res.data;
-                    const _list = this.appendMode ? concat(this.list[index].list, list) : list;
+                    const _list = this.appendMode ? concat(this.typeList[index].list, list) : list;
                     const newList = _list.map((item) => {
                         item.typeName = this.getType(item);
                         item.modeName = this.canDouble(item);
@@ -461,9 +402,9 @@ export default {
                         }
                         return item;
                     });
-                    this.list[index].list = newList || [];
-                    this.list[index].page = page || 1;
-                    this.list[index].pages = pages || 1;
+                    this.typeList[index].list = newList || [];
+                    this.typeList[index].page = page || 1;
+                    this.typeList[index].pages = pages || 1;
                     if (this.active !== "") this.page = page || 1;
                     this.total = total;
                 })
@@ -483,6 +424,11 @@ export default {
             });
             this.feed = [];
             this.attr = [];
+        },
+        updateToolbar(data) { 
+            const { type, search } = data;
+            this.keyword = search;
+            this.clickTabs(type);
         },
     },
     mounted() {
