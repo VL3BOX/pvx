@@ -1,13 +1,21 @@
 <template>
     <div class="m-common-toolbar">
         <slot name="prefix"></slot>
-        <div class="m-toolbar-item">
-            <div class="u-item" v-for="(item, i) in types" :key="i" @click="changeType(item.value)">
+        <div class="m-toolbar-item" v-if="types.length">
+            <div
+                class="u-item"
+                :style="style(item.value)"
+                @mouseover="handleMouseOver(item.value)"
+                @mouseout="handleMouseOut"
+                v-for="(item, i) in types"
+                :key="i"
+                @click="changeType(item.value)"
+            >
                 {{ item.label }}
             </div>
         </div>
         <slot name="prepend"></slot>
-        <div class="m-toolbar-item" v-if="search">
+        <div class="m-toolbar-item m-toolbar-search" v-if="search">
             <slot name="filter"></slot>
             <div class="u-search">
                 <el-input
@@ -34,10 +42,15 @@ export default {
             type: Boolean,
             default: false,
         },
+        color: {
+            type: String,
+            default: "#6b52ff",
+        },
     },
     data: function () {
         return {
             type: "",
+            hover: "",
             title: "",
         };
     },
@@ -54,6 +67,18 @@ export default {
     methods: {
         changeType(type) {
             this.type = type;
+        },
+        handleMouseOver(val) {
+            this.hover = val;
+        },
+        handleMouseOut() {
+            this.hover = "";
+        },
+        style(val) {
+            const has = this.hover == val || this.type == val;
+            const backgroundColor = has ? this.color : "#fff";
+            const color = has ? "#fff" : "#949494";
+            return { backgroundColor, color };
         },
     },
     watch: {

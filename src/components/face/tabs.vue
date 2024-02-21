@@ -1,36 +1,6 @@
 <template>
-    <div class="m-face-tabs m-common-tabs">
-        <template v-if="isPhone">
-            <div class="m-box" style="display: flex;justify-content: space-between">
-                <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" class="u-analysis" style="flex:1;">
-                        数据解析
-                    </el-button>
-                </a>
-                <a :href="publish_link(link.key)" target="_blank">
-                    <div class="u-face-publish" style="flex:1;">
-                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img"/>
-                        <span>发布作品</span>
-                    </div>
-                </a>
-            </div>
-        <div class="m-box">
-            <template v-for="item in body_types">
-                <div
-                    :key="item.value"
-                    class="u-tab"
-                    @click="clickTabs(item)"
-                    :class="{
-                        active: item.value == active,
-                    }"
-                    v-if="item.client && item.client.indexOf(client) != -1"
-                >
-                    {{ item.label }}
-                </div>
-            </template>
-        </div>
-
-        <div class="m-box">
+    <CommonToolbar class="m-face-tabs" search :types="body_types" @update="updateToolbar">
+        <template v-slot:filter>
             <div class="u-filter">
                 <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
                     <div class="m-face-filter m-common-filter">
@@ -62,76 +32,11 @@
                     <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
                 </el-popover>
             </div>
-
-            <div class="u-search">
-                <el-input
-                    placeholder="请输入搜索内容"
-                    v-model="title"
-                    suffix-icon="el-icon-search"
-                    class="u-search-input"
-                />
-            </div>
-        </div>
         </template>
-        <template v-else>
-                <template v-for="item in body_types">
-                    <div
-                        :key="item.value"
-                        class="u-tab"
-                        @click="clickTabs(item)"
-                        :class="{
-                        active: item.value == active,
-                    }"
-                        v-if="item.client && item.client.indexOf(client) != -1"
-                    >
-                        {{ item.label }}
-                    </div>
-                </template>
-
-                <div class="u-filter">
-                    <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
-                        <div class="m-face-filter m-common-filter">
-                            <el-radio-group v-model="is_new_face" v-if="client === 'std'">
-                                <el-radio-button class="u-filter" :label="-1">全部</el-radio-button>
-                                <el-radio-button class="u-filter" :label="1">写实</el-radio-button>
-                                <el-radio-button class="u-filter" :label="0">写意</el-radio-button>
-                            </el-radio-group>
-                            <p>
-                                <el-checkbox-button
-                                    @click.native="
-                                    star = false;
-                                    price_type = false;
-                                    is_unlimited = false;
-                                "
-                                    :value="star === false && price_type === false && is_unlimited === false"
-                                    class="u-filter"
-                                >全部</el-checkbox-button
-                                >
-                                <el-checkbox-button v-model="star" class="u-filter">精选</el-checkbox-button>
-                                <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
-                                <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
-                            </p>
-                            <el-radio-group v-model="filter_empty_images">
-                                <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
-                                <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
-                            </el-radio-group>
-                        </div>
-                        <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
-                    </el-popover>
-                </div>
-
-                <div class="u-search">
-                    <el-input
-                        placeholder="请输入搜索内容"
-                        v-model="title"
-                        suffix-icon="el-icon-search"
-                        class="u-search-input"
-                    />
-                </div>
+        <template v-slot:append>
+            <div class="m-toolbar-item m-toolbar-publish">
                 <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" class="u-analysis">
-                        数据解析
-                    </el-button>
+                    <el-button type="primary" size="medium" class="u-analysis"> 数据解析 </el-button>
                 </a>
                 <a :href="publish_link(link.key)" target="_blank">
                     <div class="u-face-publish">
@@ -139,17 +44,19 @@
                         <span>发布作品</span>
                     </div>
                 </a>
+            </div>
         </template>
-    </div>
+    </CommonToolbar>
 </template>
 
 <script>
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
-import { isPhone } from "@/utils";
+import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "tabs",
     props: ["body_types", "active", "link"],
+    components: { CommonToolbar },
     data: function () {
         return {
             all: true,
@@ -160,7 +67,7 @@ export default {
             is_new_face: -1,
             title: "",
             filterOpen: false,
-            isPhone:document.documentElement.clientWidth <= 1024 ? true : false
+            isPhone: document.documentElement.clientWidth <= 1024 ? true : false,
         };
     },
     computed: {
@@ -182,7 +89,7 @@ export default {
 
     methods: {
         //切换数据
-        clickTabs({ value }) {
+        clickTabs(value) {
             this.$emit("setActive", value);
         },
         getThumbnail: function (filename) {
@@ -190,6 +97,11 @@ export default {
         },
         publish_link(key) {
             return publishLink(key);
+        },
+        updateToolbar(data) {
+            const { type, search } = data;
+            this.title = search;
+            this.clickTabs(type);
         },
     },
     watch: {
@@ -200,39 +112,28 @@ export default {
                 this.$emit("change", obj);
             },
         },
-    }
+    },
 };
 </script>
 
 <style lang="less">
-@import "~@/assets/css/common/tabs.less";
-
 .m-face-tabs {
-    overflow: visible;
-    .m-box {
-        .flex;
-        .w(100%);
-        .r(10px);
-        box-sizing: border-box;
-        gap: 10px;
-        flex-wrap: wrap;
-        padding: 10px 15px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-    .u-tab {
-        transition: 0.3s ease-out;
-
-        &.active,
-        &:hover {
-            background-color: @faceColor;
-            color: #fff;
-        }
-    }
     .u-filter {
-        transition: 0.3s ease-out;
+        .pointer;
+        .size(40px);
+        .r(30px);
+        background-color: #fff;
+        svg {
+            fill: #949494;
+        }
         &:hover {
             background-color: @faceColor;
-            color: #fff;
+            i {
+                color: #fff;
+            }
+            svg {
+                fill: #fff;
+            }
         }
     }
     .u-analysis {
@@ -245,24 +146,54 @@ export default {
             filter: brightness(1.1);
         }
     }
-
-    .u-btn {
+    .u-face-publish {
+        .pr;
+        .pointer;
+        .bold;
+        .pr(10px);
+        .size(120px, 38px);
+        .fz(16px, 38px);
         .r(5px);
-        .w(120px);
-        .fz(16px);
-        background-color: @faceColor;
-        border-color: @faceColor;
-        transition: 0.3s ease-out;
+        background: @faceColor;
+        color: #fff;
+        span {
+            .fr;
+        }
+        .u-img {
+            .pa;
+            .lb(0);
+            .w(65px);
+        }
         &:hover {
             filter: brightness(1.1);
         }
     }
 }
-
 .m-face-filter {
+    .flex;
+    gap: 10px;
     flex-direction: column;
     .u-filter {
+        .el-button,
+        .el-checkbox-button__inner,
+        .el-radio-button__inner {
+            margin: 0 10px 0 10px;
+            .db;
+            .r(30px);
+            border: 1px solid #dcdfe6;
+            background-color: #e1dfdf;
+            &:hover {
+                color: #fff;
+                background-color: @faceColor;
+                border-color: @faceColor;
+            }
+        }
+        .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+            background-color: @faceColor;
+            border-color: @faceColor;
+        }
         .el-checkbox-button__inner {
+            white-space: nowrap;
             transition: 0.3s ease-out;
             &:hover {
                 background-color: @faceColor;
@@ -274,6 +205,39 @@ export default {
                 border-color: @faceColor;
                 background-color: @faceColor;
                 color: #fff;
+            }
+        }
+    }
+}
+@media screen and (max-width: @ipad) {
+    .m-face-tabs {
+        .m-toolbar-item {
+            .flex;
+            .r(10px);
+            .w(100%);
+            box-sizing: border-box;
+            flex-wrap: wrap;
+            padding: 10px 15px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+        .m-toolbar-publish {
+            order: -1;
+            justify-content: space-between;
+        }
+    }
+}
+@media screen and (max-width: @phone) {
+    .m-face-tabs .m-toolbar-item {
+        justify-content: space-between;
+        .u-item:first-child {
+            .w(100%);
+        }
+        .u-item {
+            width: calc(50% - 10px);
+        }
+        &.m-toolbar-publish {
+            a:first-child {
+                order: 2;
             }
         }
     }
