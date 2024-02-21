@@ -2,7 +2,7 @@
     <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
-            :items="isPhone? searchProps.slice(0,1) : searchProps"
+            :items="isPhone ? searchProps.slice(0, 1) : searchProps"
             :initValue="initValue"
             :active="isActive"
             class="m-furniture-search"
@@ -26,7 +26,7 @@
             <PvxSearch
                 style="margin-top: 40px"
                 ref="search"
-                :items="searchProps.slice(2,3)"
+                :items="searchProps.slice(2, 3)"
                 :initValue="initValue"
                 :active="isActive"
                 class="m-furniture-search"
@@ -47,14 +47,8 @@
             </div>
         </div>
         <div v-if="list.length" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
-<!--            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>-->
-            <furnitureSet
-                :data="item"
-                v-for="item in list"
-                :key="item.ID"
-                :category="categoryObj"
-                :copy="hasCopy"
-            />
+            <!--            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>-->
+            <furnitureSet :data="item" v-for="item in list" :key="item.ID" :category="categoryObj" :copy="hasCopy" />
             <div class="m-furniture-null" v-if="!list.length">
                 <el-alert center title="没有对应的家具" show-icon type="info"> </el-alert>
             </div>
@@ -233,6 +227,9 @@ export default {
         },
     },
     computed: {
+        isPhone() {
+            return isPhone();
+        },
         hasNextPage: function () {
             return this.pages > 1 && this.page < this.pages;
         },
@@ -270,7 +267,6 @@ export default {
                 ...this.search,
             };
         },
-        isPhone
     },
     watch: {
         active(type) {
@@ -391,16 +387,16 @@ export default {
                     };
                 });
                 if (window.innerWidth > 1680) {
-                    this.searchProps[0].options = this.category
+                    this.searchProps[0].options = this.category;
                 } else {
-                    this.searchProps[0].type = 'select'
-                    this.searchProps[0].options = this.category.map(i => {
+                    this.searchProps[0].type = "select";
+                    this.searchProps[0].options = this.category.map((i) => {
                         return {
                             id: i.id,
                             value: i.type,
                             label: i.name,
                             children: i.children,
-                        }
+                        };
                     });
                 }
 
@@ -481,7 +477,7 @@ export default {
                 const base = 348;
                 this.per = Math.floor(listWidth / base) * 4;
                 // 加载更多按钮的实际宽度
-                if (!this.isPhone()) {
+                if (!this.isPhone) {
                     this.buttonWidth = (this.per / 4) * (base + 20) - 20;
                 }
                 this.getData();
@@ -528,7 +524,7 @@ export default {
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: space-between;
-            gap:10px;
+            gap: 10px;
             .search-item {
                 width: 40% !important;
                 position: relative;
@@ -541,5 +537,4 @@ export default {
         }
     }
 }
-
 </style>

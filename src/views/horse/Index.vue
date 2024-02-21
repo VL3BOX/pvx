@@ -6,7 +6,7 @@
                     <el-popover
                         ref="popover"
                         :placement="isPhone ? 'right' : 'bottom'"
-                        :width="!isPhone && 420"
+                        :width="isPhone ? '100%' : '420px'"
                         trigger="click"
                     >
                         <div class="filter-content">
@@ -29,7 +29,7 @@
                             </el-row>
                         </div>
                         <template slot="reference">
-                            <img svg-inline src="@/assets/img/filter.svg" fill="#949494" @click="filter = true" />
+                            <img svg-inline src="@/assets/img/filter.svg" @click="filter = true" />
                         </template>
                     </el-popover>
                 </div>
@@ -241,7 +241,7 @@ export default {
     methods: {
         iconLink,
         clickTabs(type) {
-            const active = this.typeList.filter((item) => item.value == type)[0].type; 
+            const active = this.typeList.filter((item) => item.value == type)[0].type;
             this.active = active;
             this.typeList = this.typeList.map((e) => {
                 e.page = 1;
@@ -365,7 +365,7 @@ export default {
         },
         loadData(params = this.params) {
             this.loading = true;
-            params = omit(params, ["type", "value", "label"]); 
+            params = omit(params, ["type", "value", "label"]);
             if (this.active === "") {
                 const list = this.typeList.filter((e) => e.type !== "");
                 list.forEach((e) => {
@@ -373,11 +373,11 @@ export default {
                     params.type = e.type;
                     params.per = this.per;
                     this.loadList(params, e.type);
-                }); 
+                });
             } else {
                 params.page = this.page;
                 params.per = this.per * 3;
-                this.loadList({ ...params, type: this.active }, this.active); 
+                this.loadList({ ...params, type: this.active }, this.active);
             }
         },
         loadList(params, key) {
@@ -425,7 +425,7 @@ export default {
             this.feed = [];
             this.attr = [];
         },
-        updateToolbar(data) { 
+        updateToolbar(data) {
             const { type, search } = data;
             this.keyword = search;
             this.clickTabs(type);
