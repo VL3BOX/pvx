@@ -1,31 +1,9 @@
 <template>
     <div class="p-book">
-        <div class="m-share-tabs m-common-tabs">
-            <div class="m-common-card">
-                <div
-                    v-for="item in professions"
-                    :key="item.id"
-                    class="u-tab"
-                    @click="clickTabs(item.id)"
-                    :class="{ active: item.id == active }"
-                >
-                    {{ item.name }}
-                </div>
-            </div>
-
-            <div class="u-search m-common-card">
-                <el-input
-                    placeholder="输入关键词搜索"
-                    v-model="keyword"
-                    clearable
-                    suffix-icon="el-icon-search"
-                    class="u-search-input"
-                />
-            </div>
-        </div>
+        <CommonToolbar class="m-reputation-tabs" color="#d16400" search :types="professions" @update="updateToolbar" />
         <div class="m-content" ref="listRef" v-loading="loading">
             <template v-if="active === 0">
-                <div v-for="(item, i) in list" :key="i" class="m-book-list">
+                <div v-for="(item, i) in list" :key="item.label + i" class="m-book-list">
                     <template v-if="item.list.length">
                         <div class="u-type" :class="{ reading: item.id === 8 }">
                             <div class="u-title">
@@ -46,7 +24,7 @@
                                 <BookCard
                                     :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
                                     v-for="(item, index) in item.list"
-                                    :key="index"
+                                    :key="index + Math.random()"
                                     :item="item"
                                     :reporter="{ aggregate: listId(item.list) }"
                                     @click="setItem(item)"
@@ -68,7 +46,7 @@
                         <div
                             class="m-item"
                             :class="showType === item.value && 'active'"
-                            :key="item.value"
+                            :key="item.value + Math.random()"
                             v-for="item in showTypes"
                             @click="showType = item.value"
                         >
@@ -80,7 +58,7 @@
                     <div class="m-book-list--card" v-if="showType === 'card'">
                         <BookCard
                             v-for="item in subList"
-                            :key="item.ID"
+                            :key="item.ID + Math.random()"
                             :item="item"
                             :reporter="{ aggregate: listId(subList) }"
                         />
@@ -89,7 +67,7 @@
                         <ListHead></ListHead>
                         <BookItem
                             v-for="item in subList"
-                            :key="item.ID"
+                            :key="item.ID + Math.random()"
                             :item="item"
                             :reporter="{ aggregate: listId(subList) }"
                         />
@@ -123,6 +101,7 @@
 <script>
 import ListCross from "@/components/ListCross.vue";
 import CommonList from "@/components/common/list.vue";
+import CommonToolbar from "@/components/common/toolbar.vue";
 import professions from "@/assets/data/book_profession.json";
 import { isPhone } from "@/utils/index";
 import { omit, cloneDeep, concat } from "lodash";
@@ -134,7 +113,7 @@ import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { CommonList, BookCard, BookItem, ListHead, ListCross },
+    components: { CommonList, CommonToolbar, BookCard, BookItem, ListHead, ListCross },
     data() {
         return {
             loading: false,
@@ -203,8 +182,14 @@ export default {
     },
     computed: {
         professions() {
-            const _list = professions.filter((item) => item.id !== 8);
-            return [{ id: 0, name: "全部" }, ..._list];
+            const _list = professions
+                .filter((item) => item.id !== 8)
+                .map((item) => {
+                    item.label = item.name;
+                    item.value = item.id;
+                    return item;
+                });
+            return [{ id: 0, value: -1, name: "全部", label: "全部" }, ..._list];
         },
         ...mapState(["recentReadList"]),
         client() {
@@ -249,8 +234,13 @@ export default {
         },
     },
     methods: {
+        updateToolbar(data) {
+            const { type, search } = data;
+            this.keyword = search;
+            this.clickTabs(type);
+        },
         clickTabs(id) {
-            this.active = id;
+            this.active = id == -1 ? 0 : id;
             this.list = this.list.map((e) => {
                 e.page = 1;
                 return e;

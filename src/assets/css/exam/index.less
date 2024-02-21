@@ -6,6 +6,9 @@
             .search-item {
                 &.type-list {
                     .type-item {
+                        &:last-child {
+                            margin: 0;
+                        }
                         &:hover,
                         &.is-active {
                             background-color: @examColor;
@@ -17,6 +20,7 @@
                     }
                 }
                 &.filter-wrap {
+                    margin: 0;
                     .filter-img {
                         &.active {
                             svg {
@@ -147,12 +151,18 @@
                 flex-wrap: wrap;
             }
             .search-group {
-                gap: 0;
-                .search-item {
+                flex-direction: row;
+                flex-wrap: wrap;
+                .type-list {
+                    .w(100%);
+                    box-sizing: border-box;
                     flex-direction: column;
                     align-items: flex-start;
-                    gap: 10px;
+                    .el-radio-group {
+                        gap: 0;
+                    }
                     .type-item {
+                        width: calc(33%);
                         margin: 0;
                     }
                 }

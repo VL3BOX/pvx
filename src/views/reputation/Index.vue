@@ -1,30 +1,21 @@
 <template>
     <div class="reputation-container" v-loading="loading">
-        <div class="m-common-tabs">
-            <div class="m-group">
-                <div class="u-tab" :class="{ active: isAll }" @click="toAll">全部</div>
-                <el-select class="u-select" v-model="dlc" clearable :class="{ active: dlc }">
-                    <el-option
-                        v-for="item in versions"
-                        :key="item.value"
-                        :value="item.value"
-                        :label="item.label"
-                    ></el-option>
-                    <template #prefix> 版本 </template>
-                </el-select>
-            </div>
-
-            <div class="m-group m-group-search">
-                <el-input
-                    v-model="keyword"
-                    class="u-search"
-                    :placeholder="`输入关键词搜索`"
-                    clearable
-                    suffix-icon="el-icon-search"
-                >
-                </el-input>
-            </div>
-        </div>
+        <CommonToolbar class="m-reputation-tabs" color="#d16400" search :types="list" @update="updateToolbar">
+            <template v-slot:prefix>
+                <div class="m-toolbar-item">
+                    <div class="u-item" :class="{ active: isAll }" @click="toAll">全部</div>
+                    <el-select class="u-select" v-model="dlc" clearable :class="{ active: dlc }">
+                        <el-option
+                            v-for="item in versions"
+                            :key="item.value"
+                            :value="item.value"
+                            :label="item.label"
+                        ></el-option>
+                        <template #prefix> 版本 </template>
+                    </el-select>
+                </div>
+            </template>
+        </CommonToolbar>
 
         <div v-if="isAll && !this.keyword" class="reputation-list-wrapper">
             <div class="reputation-title">资料片新增</div>
@@ -44,6 +35,7 @@
 </template>
 
 <script>
+import CommonToolbar from "@/components/common/toolbar.vue";
 import ReputationItem from "@/components/reputation/ReputationItem.vue";
 import { getList, getMenus } from "@/service/reputation";
 import maps_std from "@jx3box/jx3box-data/data/fb/fb_map.json";
@@ -53,7 +45,7 @@ import { cloneDeep } from "lodash";
 
 export default {
     name: "Index",
-    components: { ReputationItem },
+    components: { ReputationItem, CommonToolbar },
     data() {
         return {
             loading: false,
@@ -103,10 +95,14 @@ export default {
         },
     },
     methods: {
+        updateToolbar(data) {
+            const { search } = data;
+            this.keyword = search;
+        },
         toAll() {
             this.isAll = true;
             this.dlc = "";
-        }, 
+        },
         loadData() {
             this.loading = true;
             getBreadcrumb("reputation-newest", { client: this.client })
@@ -157,6 +153,5 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/common/tabs.less";
 @import "~@/assets/css/reputation/home.less";
 </style>
