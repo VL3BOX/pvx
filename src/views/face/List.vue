@@ -2,7 +2,7 @@
     <div class="p-face-list" v-loading="loading" ref="listRef">
         <faceTabs :body_types="list" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
         <PublicNotice bckey="face_ac" />
-        <template v-if="active === 0">
+        <template v-if="active === -1">
             <div
                 v-for="(item, index) in list"
                 :key="'l' + index"
@@ -80,7 +80,7 @@ import CommonList from "@/components/common/list.vue";
 import faceTabs from "@/components/face/tabs";
 import faceItem from "@/components/face/item";
 import { isPhone } from "@/utils/index";
-import { cloneDeep, omit, concat } from "lodash";
+import { cloneDeep, omit, concat, debounce } from "lodash";
 import { getFaceList, getSliders } from "@/service/face";
 
 export default {
@@ -90,9 +90,9 @@ export default {
         return {
             loading: false,
             tabsData: {},
-            active: 0,
+            active: -1,
             list: [
-                { label: "全部", list: [], value: 0, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "全部", list: [], value: -1, client: ["std", "origin"], page: 1, pages: 1 },
                 { label: "成男", list: [], value: 1, client: ["std", "origin"], page: 1, pages: 1 },
                 { label: "成女", list: [], value: 2, client: ["std", "origin"], page: 1, pages: 1 },
                 { label: "正太", list: [], value: 5, client: ["std"], page: 1, pages: 1 },
@@ -123,6 +123,7 @@ export default {
         params({ tabsData }) {
             return {
                 ...tabsData,
+                body_type: this.active,
                 pageSize: this.per,
                 client: this.client,
             };
@@ -148,17 +149,14 @@ export default {
     },
     watch: {
         params: {
-            deep: true,
-            handler() {
+            handler: debounce(function () {
                 this.loadData();
-            },
+            }, 500),
+            deep: true,
         },
-        active: {
-            immediate: true,
-            handler: function (val) {
-                this.per = val === 0 ? this.count : this.count * 3;
-                this.page = 1;
-            },
+        active(val) {
+            this.per = val === -1 ? this.count : this.count * 3;
+            this.page = 1;
         },
     },
 
@@ -177,8 +175,8 @@ export default {
         loadData() {
             this.loading = true;
             let params = omit(this.params, ["type"]);
-            if (this.active === 0) {
-                const list = this.list.filter((e) => e.value);
+            if (this.active === -1) {
+                const list = this.list.filter((e) => e.value !== -1);
                 list.forEach((e) => {
                     params.pageIndex = e.page;
                     params.body_type = e.value;
@@ -192,7 +190,7 @@ export default {
 
         loadList(params, key) {
             const index = this.list.findIndex((e) => e.value === key);
-            if (this.list[index].pages < params.page && this.active === 0) params.page = 1;
+            if (this.list[index].pages < params.page && this.active === -1) params.page = 1;
             getFaceList(params)
                 .then((res) => {
                     const { list, page } = res.data.data;
@@ -200,7 +198,7 @@ export default {
                     this.list[index].list = _list || [];
                     this.list[index].page = page.index || 1;
                     this.list[index].pages = page.pageTotal || 1;
-                    if (this.active !== 0) this.page = page.index || 1;
+                    if (this.active !== -1) this.page = page.index || 1;
                     this.total = page.total;
                 })
                 .finally(() => {
@@ -227,7 +225,7 @@ export default {
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
             this.count = Math.floor(listWidth / (Number(this.itemData.width) + 10));
-            this.per = this.active === 0 ? this.count : this.count * 3;
+            this.per = this.active === -1 ? this.count : this.count * 3;
         },
         handleLoad(type) {
             const page = this.list.filter((e) => e.value === type)[0].page;

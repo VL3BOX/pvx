@@ -53,6 +53,7 @@
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
 import CommonToolbar from "@/components/common/toolbar.vue";
+import { debounce } from "lodash";
 export default {
     name: "tabs",
     props: ["body_types", "active", "link"],
@@ -73,13 +74,13 @@ export default {
     computed: {
         params() {
             const _params = {};
-            if (this.active) _params.body_type = this.active;
             if (this.star) _params.star = 1;
             if (this.is_unlimited) _params.is_unlimited = 1;
             if (this.title) _params.title = this.title;
             if (this.price_type) _params.price_type = 0;
             if (this.filter_empty_images) _params.filter_empty_images = true;
             _params.is_new_face = this.is_new_face;
+            _params.body_type = this.active;
             return _params;
         },
         client() {
@@ -88,10 +89,6 @@ export default {
     },
 
     methods: {
-        //切换数据
-        clickTabs(value) {
-            this.$emit("setActive", value);
-        },
         getThumbnail: function (filename) {
             return __imgPath + "image/face/" + filename + ".jpg";
         },
@@ -101,16 +98,15 @@ export default {
         updateToolbar(data) {
             const { type, search } = data;
             this.title = search;
-            this.clickTabs(type);
+            this.$emit("setActive", type);
         },
     },
     watch: {
         params: {
-            deep: true,
-            immediate: true,
-            handler: function (obj) {
+            handler: debounce(function () {
                 this.$emit("change", obj);
-            },
+            }, 500),
+            deep: true,
         },
     },
 };
