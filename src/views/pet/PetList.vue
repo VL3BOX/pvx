@@ -1,6 +1,13 @@
 <template>
     <div class="p-pet-list p-common-list" v-loading="loading" ref="listRef">
-        <petTabs @change="handleTabChange" :types="Type" :Source="Source" @setActive="setActive" :mapList="mapList" />
+        <petTabs
+            @change="handleTabChange"
+            :types="Type"
+            :active="active"
+            :Source="Source"
+            @setActive="setActive"
+            :mapList="mapList"
+        />
         <PublicNotice bckey="pet_ac" />
         <template v-if="luckyList.length > 0">
             <div class="m-pet-title u-type u-lucky-title">
@@ -154,9 +161,9 @@ export default {
         params: {
             deep: true,
             handler(val) {
-                this.getPetListInit();
+                this.getPetListInit(val);
             },
-        },
+        }, 
     },
     created() {
         this.showCount();
@@ -165,17 +172,10 @@ export default {
     },
     mounted: function () {},
     methods: {
-        /**
-         * 地图
-         */
         getMapList() {
             getMapList().then((res) => {
-                let data = res.data,
-                    mapList = [];
-                Object.keys(data).forEach((key, i) => {
-                    mapList.push({ label: data[key], value: key });
-                });
-                this.mapList = mapList;
+                let data = res.data;
+                this.mapList = Object.keys(data).map((key, i) => ({ label: data[key], value: key }));
             });
         },
         isNoRes() {
@@ -193,6 +193,7 @@ export default {
         },
         setActive(val) {
             this.active = val;
+            this.page = 1;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();
         },

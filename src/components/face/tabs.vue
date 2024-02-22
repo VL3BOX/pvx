@@ -1,5 +1,5 @@
 <template>
-    <CommonToolbar class="m-face-tabs" search :types="body_types" @update="updateToolbar">
+    <CommonToolbar class="m-face-tabs" :active="active" search :types="body_types" @update="updateToolbar">
         <template v-slot:filter>
             <div class="u-filter">
                 <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
@@ -103,9 +103,9 @@ export default {
     },
     watch: {
         params: {
-            handler: debounce(function () {
+            handler: debounce(function (obj) {
                 this.$emit("change", obj);
-            }, 500),
+            }, 50),
             deep: true,
         },
     },

@@ -1,5 +1,5 @@
 <template>
-    <CommonToolbar search color="#d16400" :types="list" @update="updateToolbar">
+    <CommonToolbar search color="#d16400" :active="active" :types="list" @update="updateToolbar">
         <template v-slot:prepend>
             <div class="m-toolbar-item">
                 <el-select v-model="mapId" :class="{ active: mapId }" filterable class="u-select" clearable>
@@ -28,7 +28,7 @@ import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "tabs",
     components: { CommonToolbar },
-    props: ["types", "Source", "mapList"],
+    props: ["types", "Source", "active", "mapList"],
     data: function () {
         return {
             petSource: "",
@@ -54,7 +54,7 @@ export default {
         list() {
             return this.types.map((item) => {
                 item.label = item.name;
-                item.value = item.class || -1;
+                item.value = item.class;
                 return item;
             });
         },
@@ -62,7 +62,6 @@ export default {
     methods: {
         //切换数据
         clickTabs(val) {
-            if (val == -1) val = "";
             this.$emit("setActive", val);
         },
         updateToolbar(data) {

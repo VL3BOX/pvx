@@ -1,6 +1,6 @@
 <template>
     <div class="p-adventure-List p-common-list" v-loading="loading" ref="listRef">
-        <AdventureTabs :body_types="list" @setActive="setActive" @change="onSearch" />
+        <AdventureTabs :active="active" :body_types="list" @setActive="setActive" @change="onSearch" />
         <template v-if="active === 'all'">
             <div
                 v-for="(item, index) in list"

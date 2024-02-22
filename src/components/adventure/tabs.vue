@@ -1,5 +1,5 @@
 <template>
-    <CommonToolbar search color="#d16400" :types="body_types" @update="updateToolbar"> </CommonToolbar>
+    <CommonToolbar search color="#d16400" :active="active" :types="body_types" @update="updateToolbar"> </CommonToolbar>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "tabs",
     components: { CommonToolbar },
-    props: ["body_types"],
+    props: ["body_types","active"],
     data: function () {
         return {
             name: "",

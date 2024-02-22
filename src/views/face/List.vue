@@ -1,6 +1,6 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
-        <faceTabs :body_types="list" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
+        <faceTabs :body_types="list" :active="active" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
         <PublicNotice bckey="face_ac" />
         <template v-if="active === -1">
             <div

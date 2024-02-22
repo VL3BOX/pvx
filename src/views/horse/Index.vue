@@ -1,6 +1,6 @@
 <template>
     <div class="horse-home-wrapper">
-        <CommonToolbar class="m-horse-tabs" color="#d16400" search :types="list" @update="updateToolbar">
+        <CommonToolbar class="m-horse-tabs" :active="active" color="#d16400" search :types="list" @update="updateToolbar">
             <template v-slot:filter>
                 <div class="u-filter">
                     <el-popover

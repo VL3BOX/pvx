@@ -46,11 +46,15 @@ export default {
             type: String,
             default: "#6b52ff",
         },
+        active: {
+            type: [String, Number],
+            default: null,
+        },
     },
     data: function () {
         return {
-            type: "",
-            hover: "",
+            type: null,
+            hover: null,
             title: "",
         };
     },
@@ -72,28 +76,25 @@ export default {
             this.hover = val;
         },
         handleMouseOut() {
-            this.hover = "";
+            this.hover = null;
         },
         style(val) {
-            const has = this.hover == val || this.type == val;
+            const has = this.hover === val || this.type === val;
             const backgroundColor = has ? this.color : "#fff";
             const color = has ? "#fff" : "#949494";
             return { backgroundColor, color };
         },
     },
     watch: {
-        types: {
-            immediate: true,
-            handler: function (list) {
-                if (list && list.length) this.type = list[0].value;
-            },
-        },
         params: {
             deep: true,
             handler: function (obj) {
                 this.$emit("update", obj);
             },
         },
+    },
+    mounted() {
+        this.type = this.active || this.types[0].value;
     },
 };
 </script>
