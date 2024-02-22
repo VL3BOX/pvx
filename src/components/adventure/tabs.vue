@@ -11,6 +11,7 @@ export default {
     data: function () {
         return {
             name: "",
+            type: "",
         };
     },
     computed: {
@@ -18,6 +19,9 @@ export default {
             const _params = {};
             if (this.name) {
                 _params.name = this.name;
+            }
+            if (this.type) {
+                _params.type = this.type;
             }
             return _params;
         },
@@ -33,6 +37,7 @@ export default {
         updateToolbar(data) {
             const { type, search } = data;
             this.name = search;
+            this.type = type;
             this.clickTabs(type);
         },
     },
