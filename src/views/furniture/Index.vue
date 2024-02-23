@@ -516,22 +516,25 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/furniture/index.less";
+.pvx-search-wrapper .search-group .search-item.filter-wrap {
+    margin: 0;
+}
+.p-furniture .u-furniture-select {
+    margin: 0;
+}
 @media screen and (max-width: @ipad) {
     .pvx-search-wrapper {
         height: auto;
-        padding-left: 20px !important;
+        padding-left: 15px;
         .search-group {
             flex-wrap: wrap;
             flex-direction: row;
-            justify-content: space-between;
-            gap: 10px;
             .search-item {
-                width: 40% !important;
-                position: relative;
-                margin: 0;
-                flex: 1;
                 input {
                     width: 100% !important;
+                }
+                .search-input {
+                    min-width: 300px;
                 }
             }
         }

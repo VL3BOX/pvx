@@ -9,7 +9,7 @@
             :mapList="mapList"
         />
         <PublicNotice bckey="pet_ac" />
-        <template v-if="luckyList.length > 0">
+        <template v-if="luckyList.length > 0 && !showAllList">
             <div class="m-pet-title u-type u-lucky-title">
                 <div class="u-title">今日福缘</div>
             </div>
@@ -163,7 +163,7 @@ export default {
             handler(val) {
                 this.getPetListInit(val);
             },
-        }, 
+        },
     },
     created() {
         this.showCount();
