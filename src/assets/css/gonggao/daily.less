@@ -50,8 +50,10 @@
     @media screen and (max-width: @phone) {
         .m-daily-item {
             width: 100%;
+            height: auto;
             .m-daily-content {
                 .w(100%);
+                height: auto;
             }
         }
     }
@@ -154,6 +156,14 @@
                         }
                     }
                 }
+            }
+        }
+        @media screen and (max-width: @phone) {
+            .m-my-server {
+                height: auto;
+                .m-fav-list {
+                    flex-wrap: wrap;
+                } 
             }
         }
         .m-all-servers {
@@ -532,6 +542,9 @@
         flex-wrap: wrap;
         gap: 10px;
         width: 100%;
+        @media screen and(max-width:@phone) {
+            grid-template-columns: repeat(2, 1fr);
+        }
         .u-item {
             display: flex;
             flex-direction: column;

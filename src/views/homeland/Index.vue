@@ -85,4 +85,13 @@ export default {
         }
     }
 }
+@media screen and (max-width: @phone) {
+    .p-homeland .m-common-tabs.m-homeland-tabs {
+        justify-content: flex-start;
+        .u-tab {
+            .fz(14px);
+            width: calc(33% - 6px);
+        }
+    }
+}
 </style>
