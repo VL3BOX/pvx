@@ -533,9 +533,6 @@ export default {
                 input {
                     width: 100% !important;
                 }
-                .search-input {
-                    min-width: 300px;
-                }
             }
         }
     }
