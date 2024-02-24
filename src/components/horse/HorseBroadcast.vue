@@ -87,6 +87,7 @@ export default {
     },
     inject: ["__imgRoot2"],
     data() {
+    console.log('LOCALE', this.$i18n.locale,this.$i18n.t('editor.tinymce.color_map'))
         return {
             list: [],
             server: "",

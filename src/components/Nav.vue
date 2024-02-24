@@ -36,16 +36,17 @@ export default {
     props: [],
     components: {},
     data: function () {
+        const { t } = this.$i18n;
         return {
             menus: [
                 {
                     key: "share",
-                    label: "策勋",
+                    label: t('策勋'),
                     index: "1",
                     submenus: [
                         {
                             path: "/face",
-                            label: "捏脸数据",
+                            label: t('捏脸数据'),
                             icon: "el-icon-download",
                             key: "face",
                             status: true,
@@ -53,7 +54,7 @@ export default {
                         },
                         {
                             path: "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
-                            label: "家园蓝图",
+                            label: t('家园蓝图'),
                             icon: "el-icon-download",
                             key: "blueprint",
                             status: true,
@@ -61,7 +62,7 @@ export default {
                         },
                         // {
                         //     path: "/share/facedata",
-                        //     label: "妆容解析",
+                        //     label: t('妆容解析'),
                         //     icon: "el-icon-setting",
                         //     key: "facedata",
                         //     status: true,
@@ -71,54 +72,54 @@ export default {
 
                 {
                     key: "rare",
-                    label: "珍奇",
+                    label: t('珍奇'),
                     index: "2",
                     submenus: [
                         {
                             path: "/pet",
-                            label: "宠物大全",
+                            label: t('宠物大全'),
                             icon: "el-icon-files",
                             key: "pet",
                             status: true,
                         },
                         {
                             path: "/adventure",
-                            label: "奇遇大全",
+                            label: t('奇遇大全'),
                             icon: "el-icon-files",
                             key: "adventure",
                             status: true,
                         },
                         {
                             path: "/horse",
-                            label: "坐骑大全",
+                            label: t('坐骑大全'),
                             icon: "el-icon-files",
                             key: "horse",
                             status: true,
                         },
                         {
                             path: "/book",
-                            label: "书籍大全",
+                            label: t('书籍大全'),
                             icon: "el-icon-files",
                             key: "book",
                             status: true,
                         },
                         {
                             path: "/furniture",
-                            label: "家具大全",
+                            label: t('家具大全'),
                             icon: "el-icon-files",
                             key: "furniture",
                             status: true,
                         },
                         {
                             path: "/reputation",
-                            label: "声望大全",
+                            label: t('声望大全'),
                             icon: "el-icon-sugar",
                             key: "reputation",
                             status: true,
                         },
                         // {
                         //     path: "/exterior",
-                        //     label: "外观大全",
+                        //     label: t('外观大全'),
                         //     icon: "el-icon-setting",
                         //     key: "exterior",
                         //     status: false,
@@ -128,26 +129,26 @@ export default {
 
                 {
                     key: "merchants",
-                    label: "商贾",
+                    label: t('商贾'),
                     index: "3",
                     submenus: [
                         {
                             path: "/pvg/manufacture",
-                            label: "技艺助手",
+                            label: t('技艺助手'),
                             icon: "el-icon-sugar",
                             key: "manufacture",
                             status: true,
                         },
                         {
                             path: "/pvg/price",
-                            label: "价格走势",
+                            label: t('价格走势'),
                             icon: "el-icon-sugar",
                             key: "price",
                             status: true,
                         },
                         {
                             path: "/pvg/gonggao",
-                            label: "活动告示",
+                            label: t('活动告示'),
                             icon: "el-icon-sugar",
                             key: "gonggao",
                             status: true,
@@ -157,26 +158,26 @@ export default {
 
                 // {
                 //     key: "homeland",
-                //     label: "家园",
+                //     label: t('家园'),
                 //     index: "4",
                 //     submenus: [
                         // {
                         //     path: "/homeland/tutorial",
-                        //     label: "家园建设",
+                        //     label: t('家园建设'),
                         //     icon: "el-icon-reading",
                         //     key: "tutorial",
                         //     status: true,
                         // },
                         // {
                         //     path: "/homeland/maps",
-                        //     label: "家园地图",
+                        //     label: t('家园地图'),
                         //     icon: "el-icon-map-location",
                         //     key: "maps",
                         //     status: true,
                         // },
                         // {
                         //     path: "/homeland/flower",
-                        //     label: "家园花价",
+                        //     label: t('家园花价'),
                         //     icon: "el-icon-sunny",
                         //     key: "flower",
                         //     status: true,
