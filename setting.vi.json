@@ -1,0 +1,10 @@
+{
+    "title": "Võ lâm 3D",
+    "keys": "vl3box,jx3box,võ lâm 3d,kiếm tam,thành tựu võ lâm 3d,macro võ lâm 3d,phó bản võ lâm 3d,nhiệm vụ võ lâm 3d,vật phẩm võ lâm 3d,kỹ năng võ lâm 3d,thành tựu kiếm tam,macro kiếm tam,phó bản kiếm tam,nhiệm vụ kiếm tam,vật phẩm kiếm tam,kỹ năng kiếm tam",
+    "desc": "VL3BOX - Bách khoa toàn thư Võ lâm truyền kỳ 3D dựa trên JX3BOX, cung cấp tài nguyên và hướng dẫn trò chơi Võ lâm truyền kỳ 3D (JX3-Kiếm Tam)",
+    "suffix":" » VL3BOX - Bách khoa toàn thư Võ lâm truyền kỳ 3D",
+    "theme":{
+        "std":"jianghuwuxian",
+        "origin":"wuduxianshi"
+    }
+}

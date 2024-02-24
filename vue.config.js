@@ -1,79 +1,79 @@
 const path = require("path");
 const pkg = require("./package.json");
 const { JX3BOX, SEO } = require("@jx3box/jx3box-common");
-const Setting = require("./setting.json");
+const Setting = require("./setting.vi.json");
 
 module.exports = {
     //❤️ Multiple pages ~
     pages: {
         index: {
-            title: "休闲栏目 - JX3BOX",
+            title: "Chuyên mục hưu nhàn" + Setting.suffix,
             entry: "src/main.js",
             template: "public/index.html",
             filename: "index.html",
         },
         face: {
-            title: "捏脸分享 - JX3BOX",
+            title: "Dị dung" + Setting.suffix,
             entry: "src/pages/face.js",
             template: "public/index.html",
             filename: "face/index.html",
         },
         body: {
-            title: "体型分享 - JX3BOX",
+            title: "Hình thể" + Setting.suffix,
             entry: "src/pages/body.js",
             template: "public/index.html",
             filename: "body/index.html",
         },
         homeland: {
-            title: "家园指南 - JX3BOX",
+            title: "Gia viên chỉ nam" + Setting.suffix,
             entry: "src/pages/homeland.js",
             template: "public/index.html",
             filename: "homeland/index.html",
         },
         pet: {
-            title: "宠物大全 - JX3BOX",
+            title: "Bách khoa sủng vật" + Setting.suffix,
             entry: "src/pages/pet.js",
             template: "public/index.html",
             filename: "pet/index.html",
         },
         adventure: {
-            title: "奇遇大全 - JX3BOX",
+            title: "Bách khoa kỳ ngộ" + Setting.suffix,
             entry: "src/pages/adventure.js",
             template: "public/index.html",
             filename: "adventure/index.html",
         },
         horse: {
-            title: "坐骑大全 - JX3BOX",
+            title: "Bách khoa tọa kỵ" + Setting.suffix,
             entry: "src/pages/horse.js",
             template: "public/index.html",
             filename: "horse/index.html",
         },
         book: {
-            title: "书籍大全 - JX3BOX",
+            title: "Bách khoa thư tịch" + Setting.suffix,
             entry: "src/pages/book.js",
             template: "public/index.html",
             filename: "book/index.html",
         },
         furniture: {
-            title: "家具大全 - JX3BOX",
+            title: "Bách khoa gia cụ" + Setting.suffix,
             entry: "src/pages/furniture.js",
             template: "public/index.html",
             filename: "furniture/index.html",
         },
         reputation: {
-            title: "声望大全 - JX3BOX",
+            title: "Bách khoa danh vọng" + Setting.suffix,
             entry: "src/pages/reputation.js",
             template: "public/index.html",
             filename: "reputation/index.html",
         },
         pvg: {
-            title: "商贾奇才 - JX3BOX",
+            title: "Thương gia kỳ tài" + Setting.suffix,
             entry: "src/pages/pvg.js",
             template: "public/index.html",
             filename: "pvg/index.html",
         },
         exam: {
-            title: "剑三考试 - JX3BOX",
+            title: "Thi cử Kiếm Tam" + Setting.suffix,
             entry: "src/pages/exam.js",
             template: "public/index.html",
             filename: "exam/index.html",
