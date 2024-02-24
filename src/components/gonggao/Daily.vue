@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">{{ $t('抓马播报') }}<('抓马播报') }}</div>
+                <div class="u-title">{{ $t('抓马播报') }}</div>
                 <SimpleHorse></SimpleHorse>
             </div>
         </template>
