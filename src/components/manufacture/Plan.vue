@@ -68,30 +68,31 @@ export default {
     props: ["planId", "visible"],
     components: { itemIcon, Equip },
     data: function () {
+        const { t } = this.$i18n;
         return {
             loading: false,
             plan: "",
             date_format: ts2str,
             equipList: [
                 [
-                    { title: "melee_weapon", label: "武器", AucGenre: 1, list: [] },
-                    { title: "range_weapon", label: "暗器", AucGenre: 2, list: [] },
+                    { title: "melee_weapon", label: t('武器'), AucGenre: 1, list: [] },
+                    { title: "range_weapon", label: t('暗器'), AucGenre: 2, list: [] },
                 ],
                 [
-                    { title: "helm", label: "帽子", AucGenre: 3, AucSubType: 2, list: [] },
-                    { title: "chest", label: "上衣", AucGenre: 3, AucSubType: 1, list: [] },
-                    { title: "waist", label: "腰带", AucGenre: 3, AucSubType: 3, list: [] },
+                    { title: "helm", label: t('帽子'), AucGenre: 3, AucSubType: 2, list: [] },
+                    { title: "chest", label: t('上衣'), AucGenre: 3, AucSubType: 1, list: [] },
+                    { title: "waist", label: t('腰带'), AucGenre: 3, AucSubType: 3, list: [] },
                 ],
                 [
-                    { title: "bangle", label: "护腕", AucGenre: 3, AucSubType: 6, list: [] },
-                    { title: "pants", label: "下装", AucGenre: 3, AucSubType: 4, list: [] },
-                    { title: "boots", label: "鞋子", AucGenre: 3, AucSubType: 5, list: [] },
+                    { title: "bangle", label: t('护腕'), AucGenre: 3, AucSubType: 6, list: [] },
+                    { title: "pants", label: t('下装'), AucGenre: 3, AucSubType: 4, list: [] },
+                    { title: "boots", label: t('鞋子'), AucGenre: 3, AucSubType: 5, list: [] },
                 ],
                 [
-                    { title: "amulet", label: "项链", AucGenre: 4, AucSubType: 1, list: [] },
-                    { title: "pendant", label: "腰坠", AucGenre: 4, AucSubType: 3, list: [] },
-                    { title: "ring_1", label: "戒指", AucGenre: 4, AucSubType: 2, list: [] },
-                    { title: "ring_2", label: "戒指", AucGenre: 4, AucSubType: 2, list: [] },
+                    { title: "amulet", label: t('项链'), AucGenre: 4, AucSubType: 1, list: [] },
+                    { title: "pendant", label: t('腰坠'), AucGenre: 4, AucSubType: 3, list: [] },
+                    { title: "ring_1", label: t('戒指'), AucGenre: 4, AucSubType: 2, list: [] },
+                    { title: "ring_2", label: t('戒指'), AucGenre: 4, AucSubType: 2, list: [] },
                 ],
             ],
         };

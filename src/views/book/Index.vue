@@ -142,17 +142,18 @@ export default {
     name: "Index",
     components: { PvxSearch, ListCross, BookCard, ListHead, BookItem, Pagination },
     data() {
+        const { t } = this.$i18n;
         return {
             loading: false,
             listType: "card",
             listTypes: [
                 {
                     value: "list",
-                    label: "列表",
+                    label: t('列表'),
                 },
                 {
                     value: "card",
-                    label: "卡片",
+                    label: t('卡片'),
                 },
             ],
             query: {

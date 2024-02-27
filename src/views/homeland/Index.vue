@@ -41,23 +41,24 @@ export default {
         Bbs,
     },
     data() {
+        const { t } = this.$i18n;
         return {
             active: 0,
             tabs: [
                 {
-                    label: "家园信息",
+                    label: t('家园信息'),
                     value: 0,
                 },
                 {
-                    label: "家园地图",
+                    label: t('家园地图'),
                     value: 1,
                 },
                 // {
-                //     label: "家园花价",
+                //     label: t('家园花价'),
                 //     value: 2,
                 // },
                 {
-                    label: "家园攻略",
+                    label: t('家园攻略'),
                     value: 3,
                 },
             ],

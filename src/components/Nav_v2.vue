@@ -32,12 +32,13 @@ export default {
     props: [],
     components: {},
     data: function () {
+        const { t } = this.$i18n;
         return {
             isCollapse: false,
             menus: [
                 {
                     path: "/face",
-                    label: "捏脸数据",
+                    label: t('捏脸数据'),
                     icon: "el-icon-download",
                     key: "face",
                     status: true,
@@ -46,7 +47,7 @@ export default {
                 },
                 {
                     path: "https://jx3.xoyo.com/zt/2020/09/24/blueprint/#/",
-                    label: "家园蓝图",
+                    label: t('家园蓝图'),
                     icon: "el-icon-download",
                     key: "blueprint",
                     status: true,
@@ -56,7 +57,7 @@ export default {
                 },
                 {
                     path: "/pet",
-                    label: "宠物大全",
+                    label: t('宠物大全'),
                     icon: "el-icon-files",
                     key: "pet",
                     status: true,
@@ -64,7 +65,7 @@ export default {
                 },
                 {
                     path: "/adventure",
-                    label: "奇遇大全",
+                    label: t('奇遇大全'),
                     icon: "el-icon-files",
                     key: "adventure",
                     status: true,
@@ -72,7 +73,7 @@ export default {
                 },
                 {
                     path: "/horse",
-                    label: "坐骑大全",
+                    label: t('坐骑大全'),
                     icon: "el-icon-files",
                     key: "horse",
                     status: true,
@@ -80,7 +81,7 @@ export default {
                 },
                 {
                     path: "/book",
-                    label: "书籍大全",
+                    label: t('书籍大全'),
                     icon: "el-icon-files",
                     key: "book",
                     status: true,
@@ -88,7 +89,7 @@ export default {
                 },
                 {
                     path: "/furniture",
-                    label: "家具大全",
+                    label: t('家具大全'),
                     icon: "el-icon-files",
                     key: "furniture",
                     status: true,
@@ -96,7 +97,7 @@ export default {
                 },
                 {
                     path: "/reputation",
-                    label: "声望大全",
+                    label: t('声望大全'),
                     icon: "el-icon-sugar",
                     key: "reputation",
                     status: true,
@@ -105,7 +106,7 @@ export default {
                 },
                 {
                     path: "/pvg/manufacture",
-                    label: "技艺助手",
+                    label: t('技艺助手'),
                     icon: "el-icon-sugar",
                     key: "manufacture",
                     status: true,
@@ -113,7 +114,7 @@ export default {
                 },
                 {
                     path: "/pvg/price",
-                    label: "价格走势",
+                    label: t('价格走势'),
                     icon: "el-icon-sugar",
                     key: "price",
                     status: true,
