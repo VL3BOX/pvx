@@ -103,17 +103,18 @@ export default {
     name: "HorseHome",
     components: { PvxSearch, ListCross, HorseCard, ListHead, HorseItem, Pagination, HorseBroadcast },
     data() {
+        const { t } = this.$i18n;
         return {
             loading: false,
             listType: "card",
             listTypes: [
                 {
                     value: "list",
-                    label: "列表",
+                    label: t('列表'),
                 },
                 {
                     value: "card",
-                    label: "卡片",
+                    label: t('卡片'),
                 },
             ],
             query: {
@@ -134,49 +135,49 @@ export default {
             searchProps: [
                 {
                     key: "type",
-                    name: "类型",
+                    name: t('类型'),
                     type: "radio",
                     options: [
                         {
                             type: "",
-                            name: "全部",
+                            name: t('全部'),
                         },
                         {
                             type: 0,
-                            name: "普通坐骑",
+                            name: t('普通坐骑'),
                         },
                         {
                             type: 1,
-                            name: "奇趣坐骑",
+                            name: t('奇趣坐骑'),
                         },
                         {
                             type: 2,
-                            name: "马具",
+                            name: t('马具'),
                         },
                     ],
                 },
                 {
                     type: "filter",
                     key: "filter",
-                    name: "过滤",
+                    name: t('过滤'),
                     options: [
                         {
                             key: "feed",
                             type: "checkbox",
-                            name: "喂食饲料",
+                            name: t('喂食饲料'),
                             options: [],
                         },
                         {
                             key: "attr",
                             type: "checkbox",
-                            name: "属性",
+                            name: t('属性'),
                             options: [],
                         },
                     ],
                 },
                 {
                     key: "keyword",
-                    name: "名称/ID",
+                    name: t('名称/ID'),
                 },
             ],
             buttonWidth: 0,

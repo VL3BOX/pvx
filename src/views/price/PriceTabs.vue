@@ -23,18 +23,19 @@ export default {
         params: {},
     },
     data() {
+        const { t } = this.$i18n;
         return {
             tabs: [
                 {
-                    label: "总览",
+                    label: t('总览'),
                     value: "",
                 },
                 {
-                    label: "金价",
+                    label: t('金价'),
                     value: "gold",
                 },
                 {
-                    label: "物价",
+                    label: t('物价'),
                     value: "goods",
                 },
             ],

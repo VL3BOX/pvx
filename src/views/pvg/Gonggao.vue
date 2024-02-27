@@ -27,41 +27,42 @@ export default {
     //     Server,
     // },
     data() {
+        const { t } = this.$i18n;
         return {
             tabs: [
                 {
                     key: "daily",
-                    label: "速览",
+                    label: t('速览'),
                 },
                 {
                     key: "calendar",
-                    label: "日历",
+                    label: t('日历'),
                 },
                 {
                     key: "server",
-                    label: "开服状态",
+                    label: t('开服状态'),
                 },
             ],
             serverList: [],
             heatStateArr: [
                 {
                     value: "6",
-                    label: "良好",
+                    label: t('良好'),
                     class: "is-open",
                 },
                 {
                     value: "7",
-                    label: "繁忙",
+                    label: t('繁忙'),
                     class: "is-busy",
                 },
                 {
                     value: "8",
-                    label: "爆满",
+                    label: t('爆满'),
                     class: "is-full-load",
                 },
                 {
                     value: "3",
-                    label: "维护",
+                    label: t('维护'),
                     class: "is-close",
                 },
             ],

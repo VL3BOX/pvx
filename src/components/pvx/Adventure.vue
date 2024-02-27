@@ -43,21 +43,22 @@ export default {
         __dataRoot: __dataPath + "pvx/",
     },
     data() {
+        const { t } = this.$i18n;
         return {
             list: [],
             tabActive: "perfect",
             tabs: [
                 {
-                    label: "绝世奇遇",
+                    label: t('绝世奇遇'),
                     value: "perfect",
                 },
 
                 {
-                    label: "普通奇遇",
+                    label: t('普通奇遇'),
                     value: "normal",
                 },
                 {
-                    label: "宠物奇遇",
+                    label: t('宠物奇遇'),
                     value: "pet",
                 },
             ],
