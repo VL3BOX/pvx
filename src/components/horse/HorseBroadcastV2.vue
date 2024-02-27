@@ -118,7 +118,7 @@ export default {
             return list.concat(this.existData, arr) || [];
         },
         isPhone() {
-            return document.documentElement.clientWidth <= 768;
+            return document.documentElement.clientWidth <= 820;
         },
     },
     watch: {

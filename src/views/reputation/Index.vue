@@ -1,6 +1,6 @@
 <template>
     <div class="reputation-container" v-loading="loading">
-        <CommonToolbar class="m-reputation-tabs" color="#d16400" search :types="list" @update="updateToolbar">
+        <CommonToolbar class="m-reputation-tabs" color="#d16400" search @update="updateToolbar">
             <template v-slot:prefix>
                 <div class="m-toolbar-item">
                     <div class="u-item" :class="{ active: isAll }" @click="toAll">全部</div>

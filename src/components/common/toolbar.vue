@@ -92,9 +92,15 @@ export default {
                 this.$emit("update", obj);
             },
         },
-    },
-    mounted() {
-        this.type = this.active || this.types[0].value;
+        types: {
+            immediate: true,
+            deep: true,
+            handler: function (list) {
+                if (list && list.length) {
+                    this.type = this.active || list[0].value;
+                }
+            },
+        },
     },
 };
 </script>

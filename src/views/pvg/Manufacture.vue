@@ -1,6 +1,6 @@
 <template>
-    <div class="m-manufacture">
-        <CommonToolbar color="#07ad36" search :types="craftList" @update="updateToolbar" />
+    <div class="m-manufacture"> 
+        <CommonToolbar color="#07ad36" search :active="active" :types="craftList" @update="updateToolbar" />
 
         <div class="m-manufacture-body">
             <!-- 配方 -->
@@ -53,6 +53,7 @@ export default {
             craftTypes: craft_types,
             server: "蝶恋花",
             cartItem: {},
+            active: "",
         };
     },
     computed: {
@@ -78,8 +79,10 @@ export default {
                             item.value = item.key;
                             item.label = item.name;
                             return item;
-                        }) || []; 
+                        }) || [];
                     if (this.craftList.length) this.index = 0;
+                    this.active = this.craftList[0].value;
+            
                 })
                 .finally(() => {
                     this.loading = false;
@@ -132,7 +135,7 @@ export default {
         updateToolbar(data) {
             const { type, search } = data;
             this.search = search;
-            this.changeCraft(type); 
+            this.changeCraft(type);
         },
     },
 
