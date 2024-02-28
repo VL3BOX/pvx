@@ -1,37 +1,17 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
-        <faceTabs
-            :body_types="list"
-            :active="active"
-            :link="link"
-            @change="handleFaceTabChange"
-            @setActive="setActive"
-        />
+        <faceTabs :body_types="list" :active="active" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
         <PublicNotice bckey="face_ac" />
         <template v-if="active === -1">
-            <div
-                v-for="(item, index) in list"
-                :key="'l' + index"
-                class="m-face-box"
-                :class="{ none: !item.list.length }"
-            >
+            <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box" :class="{ none: !item.list.length }">
                 <div class="u-type">
                     <div class="u-title">{{ item.label + "脸型" }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
 
-                <CommonList
-                    :class="{ search: tabsData.name }"
-                    :data="{ ...itemData, type: item.value }"
-                    @update:load="handleLoad"
-                >
+                <CommonList :class="{ search: tabsData.name }" :data="{ ...itemData, type: item.value }" @update:load="handleLoad">
                     <div class="m-common-list">
-                        <faceItem
-                            v-for="item in item.list"
-                            :key="item.id"
-                            :item="item"
-                            :reporter="{ aggregate: listId(list) }"
-                        />
+                        <faceItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
                     </div>
                 </CommonList>
             </div>
@@ -41,20 +21,9 @@
                 <div class="u-title">{{ typeName + "脸型" }}</div>
             </div>
             <div class="m-face-list--all">
-                <faceItem
-                    v-for="item in subList"
-                    :key="item.id"
-                    :item="item"
-                    :reporter="{ aggregate: listId(subList) }"
-                />
+                <faceItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
             </div>
-            <el-button
-                class="m-archive-more"
-                v-show="hasNextPage"
-                type="primary"
-                @click="appendPage"
-                :loading="loading"
-                icon="el-icon-arrow-down"
+            <el-button class="m-archive-more" v-show="hasNextPage" type="primary" @click="appendPage" :loading="loading" icon="el-icon-arrow-down"
                 >加载更多</el-button
             >
             <el-pagination
@@ -190,7 +159,7 @@ export default {
 
         loadList(params, key) {
             const index = this.list.findIndex((e) => e.value === key);
-            if (this.list[index].pages < params.page && this.active === -1) params.page = 1;
+            if (this.list[index].pages < params.pageIndex && this.active === -1) params.pageIndex = 1;
             getFaceList(params)
                 .then((res) => {
                     const { list, page } = res.data.data;
