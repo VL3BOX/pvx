@@ -69,14 +69,7 @@
                 :current-page.sync="page"
             ></el-pagination>
         </div>
-        <el-alert
-            v-if="noList || (subList && !subList.length)"
-            class="m-archive-null"
-            :title="alertTitle"
-            type="info"
-            center
-            show-icon
-        ></el-alert>
+        <el-alert v-if="noList" class="m-archive-null" :title="alertTitle" type="info" center show-icon></el-alert>
     </div>
 </template>
 <script>
@@ -137,8 +130,8 @@ export default {
             return pages > 1 && this.page < pages;
         },
         alertTitle: function () {
-            if (this.title) return "没找到对应的捏脸，请重新选择条件或关键词搜索";
-            return "没有找到相关的捏脸";
+            if (this.title) return "没找到对应的体型，请重新选择条件或关键词搜索";
+            return "没有找到相关的体型";
         },
         subList() {
             if (!this.active) return null;
@@ -148,7 +141,8 @@ export default {
             return this.list.filter((e) => e.value == this.active)[0].label;
         },
         noList() {
-            return this.list.filter((e) => e.value).every((e) => !e.list.length);
+            if (this.active === -1) return this.list.every((obj) => obj.list.length === 0);
+            return this.subList.length === 0;
         },
     },
     watch: {
@@ -166,7 +160,7 @@ export default {
 
     methods: {
         setActive(val) {
-            this.active = val; 
+            this.active = val;
             document.documentElement.scrollTop = 0;
         },
         // 捏脸海报

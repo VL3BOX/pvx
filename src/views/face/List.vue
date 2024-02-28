@@ -1,6 +1,12 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
-        <faceTabs :body_types="list" :active="active" :link="link" @change="handleFaceTabChange" @setActive="setActive" />
+        <faceTabs
+            :body_types="list"
+            :active="active"
+            :link="link"
+            @change="handleFaceTabChange"
+            @setActive="setActive"
+        />
         <PublicNotice bckey="face_ac" />
         <template v-if="active === -1">
             <div
@@ -64,14 +70,7 @@
                 :current-page.sync="page"
             ></el-pagination>
         </div>
-        <el-alert
-            v-if="noList || (subList && !subList.length)"
-            class="m-archive-null"
-            :title="alertTitle"
-            type="info"
-            center
-            show-icon
-        ></el-alert>
+        <el-alert v-if="noList" class="m-archive-null" :title="alertTitle" type="info" center show-icon></el-alert>
     </div>
 </template>
 <script>
@@ -144,7 +143,8 @@ export default {
             return this.list.filter((e) => e.value == this.active)[0].label;
         },
         noList() {
-            return this.list.filter((e) => e.value).every((e) => !e.list.length);
+            if (this.active === -1) return this.list.every((obj) => obj.list.length === 0);
+            return this.subList.length === 0;
         },
     },
     watch: {
