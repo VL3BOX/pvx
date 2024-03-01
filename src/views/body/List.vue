@@ -4,7 +4,7 @@
         <template v-if="active === -1">
             <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box" :class="{ none: !item.list.length }">
                 <div class="u-type">
-                    <div class="u-title">{{ item.label + "脸型" }}</div>
+                    <div class="u-title">{{ item.label + "体型" }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
 
@@ -17,7 +17,7 @@
         </template>
         <div class="m-face-box" v-else>
             <div class="m-face-title u-type">
-                <div class="u-title">{{ typeName + "脸型" }}</div>
+                <div class="u-title">{{ typeName + "体型" }}</div>
             </div>
             <div class="m-face-list--all">
                 <bodyItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
@@ -132,7 +132,7 @@ export default {
             this.active = val;
             document.documentElement.scrollTop = 0;
         },
-        // 捏脸海报
+        // 捏体海报
         getSliders() {
             getSliders("slider", this.client, 9).then((res) => {
                 this.slidersList = res.data.data.list || [];
