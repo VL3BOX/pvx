@@ -16,17 +16,8 @@
             ></jx3box-map>
             <div class="m-list">
                 <div class="m-item" v-for="(item, index) in listData" :key="index">
-                    <div
-                        class="m-horse"
-                        @click="changeHorse(item, index)"
-                        v-if="!item.is_chitu"
-                        :class="{ active: active === index }"
-                    >
-                        <div
-                            class="u-col u-times"
-                            :class="item.subtype === 'foreshow' && 'u-times-lately'"
-                            v-if="item.fromTime"
-                        >
+                    <div class="m-horse" @click="changeHorse(item, index)" v-if="!item.is_chitu" :class="{ active: active === index }">
+                        <div class="u-col u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'" v-if="item.fromTime">
                             <span>{{ item.fromTime }}</span>
                             <span> ~ </span>
                             <span>{{ item.toTime }}</span>
@@ -112,8 +103,9 @@ export default {
             }
         },
         listData() {
+            let column = Math.floor((document.body.clientWidth - 460) / 350);
             let list = this.list || [];
-            const arr = this.isPhone ? [] : new Array(15 - list.length).fill({});
+            const arr = this.isPhone ? [] : new Array(column * 4 - 1 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
             return list.concat(this.existData, arr) || [];
         },
@@ -246,26 +238,18 @@ export default {
                 const list = data?.list || [];
                 // 三大马场只各取一条
                 const myMap = new Map();
-                const threeList = list.filter(
-                    (item) => item.map_id && !myMap.has(item.map_id) && myMap.set(item.map_id, 1)
-                );
+                const threeList = list.filter((item) => item.map_id && !myMap.has(item.map_id) && myMap.set(item.map_id, 1));
                 // 播报列表, 且取上报时间距离现在在15分钟之内的
-                const bList = list.filter(
-                    (item) =>
-                        !item.map_id && (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
-                );
+                const bList = list.filter((item) => !item.map_id && (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15);
                 const newThreeList = [];
                 threeList.forEach((item) => {
                     // 三大马场拆分成四条
                     item.content.split("\n\n").forEach((content, index) => {
                         if (content && (content.match(/还有(\S*)分钟/) || content.match("即将出世"))) {
                             // 还有多少分钟
-                            const minute = content.match(/还有(\S*)分钟/)
-                                ? Number(content.match(/还有(\S*)分钟/)[1])
-                                : 0;
+                            const minute = content.match(/还有(\S*)分钟/) ? Number(content.match(/还有(\S*)分钟/)[1]) : 0;
                             // 如果上报时间+出现时间+15分钟在当前时间之前则过滤掉
-                            const bol =
-                                new Date(item.created_at).valueOf() + (minute + 15) * 60 * 1000 >= new Date().valueOf();
+                            const bol = new Date(item.created_at).valueOf() + (minute + 15) * 60 * 1000 >= new Date().valueOf();
                             if (bol) {
                                 newThreeList.push({
                                     ...item,
@@ -283,12 +267,8 @@ export default {
                     let fromTime = "";
                     let toTime = "";
                     if (!!("minute" in item)) {
-                        fromTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
-                            .format("HH:mm");
-                        toTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
-                            .format("HH:mm");
+                        fromTime = dayjs.tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000).format("HH:mm");
+                        toTime = dayjs.tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format("HH:mm");
                     } else {
                         fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
                         toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
