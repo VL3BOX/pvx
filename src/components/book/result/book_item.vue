@@ -12,7 +12,7 @@
         <div class="u-name">
             <span>{{ item.Desc }}</span>
         </div>
-        <div class="u-path" :class="getOrigin(item) !== '其它' && 'special'">
+        <div class="u-path" :class="getOrigin(item) !== $t('其它') && 'special'">
             <span>{{ getOrigin(item) }}</span>
         </div>
     </div>
@@ -46,25 +46,26 @@ export default {
             this.$router.push(`/${id}`);
         },
         getOrigin(item) {
+            const t = this.$i18n.t.bind(this.$i18n);
             const tempId = item.DoodadTemplateID;
             const ShopNames = item.ShopNames;
             const drops = item.drops || [];
             const quests = item?.Quests;
             let orgin = "";
             if (tempId) {
-                orgin = orgin + (orgin ? "/" : "") + (this.bookMapInfo[tempId] ? "碑铭" : "其它");
+                orgin = orgin + (orgin ? "/" : "") + (this.bookMapInfo[tempId] ? t("碑铭") : t("其它"));
             }
             if (ShopNames) {
-                orgin = orgin + (orgin ? "/" : "") + "商店";
+                orgin = orgin + (orgin ? "/" : "") + t("商店");
             }
             if (drops.length) {
-                orgin = orgin + (orgin ? "/" : "") + "秘境";
+                orgin = orgin + (orgin ? "/" : "") + t("秘境");
             }
             if (quests) {
-                orgin = orgin + (orgin ? "/" : "") + "任务";
+                orgin = orgin + (orgin ? "/" : "") + t("任务");
             }
             if (!orgin) {
-                orgin = "其它";
+                orgin = t("其它");
             }
             return orgin;
         },

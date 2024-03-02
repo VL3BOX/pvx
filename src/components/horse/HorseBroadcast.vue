@@ -87,7 +87,6 @@ export default {
     },
     inject: ["__imgRoot2"],
     data() {
-    console.log('LOCALE', this.$i18n.locale,this.$i18n.t('editor.tinymce.color_map'))
         return {
             list: [],
             server: "",
@@ -101,11 +100,11 @@ export default {
             // 本cd是否刷新
             hasExist: false,
             existData: {},
-            chituTip: `
+            chituTip: this.$i18n.locale === 'zh-CN' ? `
              <p>CD: 周二7点 ~ 下周一7点。</p>
              <p>地图: 黑戈壁、阴山大草原、鲲鹏岛。</p>
              <p>必备: <卦文龟甲>{{ $t('交大战时有几率获得，赤兔刷新后再到信使处领取，有效期7天。') }}</p>
-            `,
+            `: this.$i18n.t('pvx.horse.chitu_tip'),
             chituLoading: false,
         };
     },

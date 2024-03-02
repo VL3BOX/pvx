@@ -48,7 +48,7 @@ export default {
             return this.$store.state.client;
         },
         title() {
-            return "精选捏脸";
+            return this.$i18n.t("精选捏脸");
         },
     },
     methods: {

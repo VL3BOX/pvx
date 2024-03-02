@@ -50,7 +50,7 @@ export default {
                     // title: this.name,
                     content: `
                       ${coor.kind || "NPC"}：${coor.npcName}
-                      <br /> 坐标：(${coor.positions[0]},${coor.positions[1]},${coor.positions[2]})`,
+                      <br /> ${this.$i18n.t('坐标：')}(${coor.positions[0]},${coor.positions[1]},${coor.positions[2]})`,
                     x: coor.positions[0],
                     y: coor.positions[1],
                     z: coor.positions[2],

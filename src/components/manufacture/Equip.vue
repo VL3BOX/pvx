@@ -49,7 +49,7 @@ export default {
             return this.plan?.user_info?.user_avatar || default_avatar;
         },
         username: function () {
-            return this.plan?.user_info?.display_name || "匿名";
+            return this.plan?.user_info?.display_name || this.$i18n.t("匿名");
         },
         uid: function () {
             return this.plan.user_id;

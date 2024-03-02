@@ -32,7 +32,7 @@ export default {
     props: [],
     components: {},
     data: function () {
-        const { t } = this.$i18n;
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             isCollapse: false,
             menus: [

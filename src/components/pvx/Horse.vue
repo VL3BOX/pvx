@@ -48,12 +48,12 @@ export default {
             tabActive: 0,
             tabs: [
                 {
-                    label: "普通坐骑",
+                    label: this.$i18n.t("普通坐骑"),
                     value: 0,
                 },
 
                 {
-                    label: "奇趣坐骑",
+                    label: this.$i18n.t("奇趣坐骑"),
                     value: 1,
                 },
             ],
@@ -64,7 +64,7 @@ export default {
             return this.$store.state.client;
         },
         title() {
-            return "最新坐骑";
+            return this.$i18n.t("最新坐骑");
         },
         params() {
             return {

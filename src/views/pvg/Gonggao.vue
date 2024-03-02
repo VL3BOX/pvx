@@ -14,7 +14,7 @@ export default {
     name: "Gonggao",
     components: { CommonToolbar },
     data() {
-        const { t } = this.$i18n;
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             tabs: [
                 {

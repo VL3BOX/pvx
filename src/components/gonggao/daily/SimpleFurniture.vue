@@ -1,6 +1,6 @@
 <template>
     <div class="m-simple-furniture">
-        <div class="u-furniture-title">园宅会赛</div>
+        <div class="u-furniture-title">{{ $t('园宅会赛') }}</div>
         <div class="u-furniture-standard">
             <div class="u-label">{{ $t('评分标准：') }}</div>
             <div class="u-value">

@@ -55,7 +55,7 @@
                                     ><b>{{ line }}</b
                                     >{{ $t('线') }}</span
                                 >
-                                <span class="u-price">{{ $t('价格') }} : 1.5倍率</span>
+                                <span class="u-price">{{ $t('价格') }} : 1.5{{ $t('倍率') }}</span>
                             </div>
                         </el-col>
                     </el-row>
@@ -114,53 +114,54 @@ export default {
     name: "Flower",
     props: [],
     data: function () {
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             servers,
             current_server: "",
             current_map: "广陵邑",
             types: [
                 {
-                    name: "绣球花",
+                    name: t("绣球花"),
                     key: "绣球花",
                 },
                 {
-                    name: "郁金香",
+                    name: t("郁金香"),
                     key: "郁金香",
                 },
                 {
-                    name: "牵牛花",
+                    name: t("牵牛花"),
                     key: "牵牛花",
                 },
                 {
-                    name: "玫瑰",
+                    name: t("玫瑰"),
                     key: "玫瑰",
                 },
                 {
-                    name: "百合",
+                    name: t("百合"),
                     key: "百合",
                 },
                 {
-                    name: "荧光菌",
+                    name: t("荧光菌"),
                     key: "荧光菌",
                 },
                 {
-                    name: "羽扇豆花",
+                    name: t("羽扇豆花"),
                     key: "羽扇豆花",
                 },
                 {
-                    name: "葫芦",
+                    name: t("葫芦"),
                     key: "葫芦",
                 },
                 {
-                    name: "麦子",
+                    name: t("麦子"),
                     key: "麦",
                 },
                 {
-                    name: "青菜",
+                    name: t("青菜"),
                     key: "青菜",
                 },
                 {
-                    name: "芜菁",
+                    name: t("芜菁"),
                     key: "芜菁",
                 },
             ],

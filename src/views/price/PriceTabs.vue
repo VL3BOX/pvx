@@ -23,7 +23,7 @@ export default {
         params: {},
     },
     data() {
-        const { t } = this.$i18n;
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             tabs: [
                 {

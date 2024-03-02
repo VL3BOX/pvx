@@ -4,7 +4,7 @@
             <div class="u-title" v-if="isPaper">{{ title }}</div>
             <div class="u-info">
                 <div class="u-info-subblock">
-                    <span>适用客户端：</span>
+                    <span>{{ $t('适用客户端：') }}</span>
                     <span :class="`u-client i-client-${item.client || 'std'}`">{{
                         clients[item.client || "std"]
                     }}</span>
@@ -85,12 +85,12 @@ export default {
             return this.item.title;
         },
         desc: function () {
-            return this.item.desc || "作者很懒，没有备注";
+            return this.item.desc || this.$i18n.t("作者很懒，没有备注");
         },
 
         sharingTitle: function () {
-            if (this.type == "paper") return "试卷";
-            return "问题";
+            if (this.type == "paper") return this.$i18n.t("试卷");
+            return this.$i18n.t("问题");
         },
         number: function () {
             return Math.floor(100 / this.item.questionIdList.length);

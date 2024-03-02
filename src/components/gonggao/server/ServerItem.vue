@@ -5,7 +5,7 @@
             <div class="u-status">{{ server.connect_state_name }}</div>
         </div>
         <div class="u-server-ip">IP:{{ server.ip_address + ":" + server.ip_port }}</div>
-        <div class="u-server-time"><span>最近维护时间:</span>{{ formateTime(server.maintain_time * 1000) }}</div>
+        <div class="u-server-time"><span>{{ $t('最近维护时间') }}:</span>{{ formateTime(server.maintain_time * 1000) }}</div>
         <div class="u-server-fav hvr-icon-push" :class="isSaved && 'is-saved'" @click="favHandle">
             <img class="hvr-icon" svg-inline :src="require(`@/assets/img/gonggao/${isSaved ? 'unfav' : 'fav'}.svg`)" />
         </div>

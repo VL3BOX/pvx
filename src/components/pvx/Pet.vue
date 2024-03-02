@@ -37,7 +37,8 @@ export default {
             return this.$store.state.client;
         },
         title() {
-            return this.client === "std" ? "今日福源宠物" : "最新宠物";
+            const t = this.$i18n.t.bind(this.$i18n);
+            return this.client === "std" ? t("今日福源宠物") : t("最新宠物");
         },
     },
     methods: {

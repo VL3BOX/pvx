@@ -41,6 +41,7 @@ export default {
             return [];
         },
         mapDatas() {
+            const t = this.$i18n.t.bind(this.$i18n);
             let result = {};
             for (let data of this.originDatas) {
                 let mapId = data.MapID;
@@ -48,7 +49,7 @@ export default {
                 for (let coor of data.Coordinates) {
                     result[mapId].push({
                         title: this.pointType(data.WorkType),
-                        content: `坐标：(${coor.x},${coor.y},${coor.z}) <br /> 
+                        content: `${t("坐标：")}(${coor.x},${coor.y},${coor.z}) <br /> 
                         ${this.objectType(data.ObjectType)}：${data.ObjectID}`,
                         x: coor.x,
                         y: coor.y,
@@ -64,21 +65,23 @@ export default {
             this.height = size[1] + "px";
         },
         pointType: function (WorkType) {
+            const t = this.$i18n.t.bind(this.$i18n);
             switch (WorkType) {
                 case "TRIGGER":
-                    return "触发点";
+                    return t("触发点");
                 case "LOOT":
-                    return "前置/其他";
+                    return t("前置/其他");
                 default:
-                    return "未知";
+                    return t("未知");
             }
         },
         objectType: function (ObjectType) {
+            const t = this.$i18n.t.bind(this.$i18n);
             switch (ObjectType) {
                 case 3:
                     return "NPC";
                 default:
-                    return "交互物品";
+                    return t("交互物品");
             }
         },
     },

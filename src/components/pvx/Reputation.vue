@@ -28,7 +28,8 @@ export default {
             return this.$store.state.client;
         },
         title() {
-            return "赛季声望";
+            const t = this.$i18n.t.bind(this.$i18n);
+            return t("赛季声望");
         },
     },
     methods: {

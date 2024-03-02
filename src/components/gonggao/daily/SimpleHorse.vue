@@ -1,10 +1,10 @@
 <template>
     <div class="m-simple-horse">
-        <div class="u-switch" v-if="list.length > remainNum" @click="switchList">切换</div>
+        <div class="u-switch" v-if="list.length > remainNum" @click="switchList">{{ $t('切换') }}</div>
         <template v-if="list.length <= 2 || listIndex === 0">
             <template v-if="defaultList.length">
                 <div class="u-item" v-for="(item, d) in defaultList" :key="item.id + d">
-                    <div class="u-name">马场</div>
+                    <div class="u-name">{{ $t('马场') }}</div>
                     <div class="u-info">
                         <div class="u-map-name">{{ item.map_name }}</div>
                         <div
@@ -16,7 +16,7 @@
                             <span> ~ </span>
                             <span>{{ item.toTime }}</span>
                         </div>
-                        <div v-else class="u-no">暂无信息</div>
+                        <div v-else class="u-no">{{ $t('暂无信息') }}</div>
                         <div class="u-img-list">
                             <a
                                 v-for="horse in item.horses"
@@ -38,7 +38,7 @@
                 </div>
             </template>
             <div class="u-item" key="chitu">
-                <div class="u-name">赤兔</div>
+                <div class="u-name">{{ $t('赤兔') }}</div>
                 <div class="u-info u-chitu-info">
                     <template v-if="hasExist">
                         <div class="u-map-name">
@@ -54,7 +54,7 @@
                         </div>
                     </template>
                     <span v-else class="u-times-chitu"
-                        >本CD尚未刷新
+                        >{{ $t('本CD尚未刷新') }}
                         <i
                             class="u-times-lately"
                             :class="chituLoading ? 'el-icon-loading' : 'el-icon-refresh'"
@@ -70,7 +70,7 @@
             </div>
             <template v-if="list.length">
                 <div class="u-item" v-for="(item, l) in list.slice(0, remainNum)" :key="item.id + l">
-                    <div class="u-name">播报</div>
+                    <div class="u-name">{{ $t('播报') }}</div>
                     <div class="u-info">
                         <div class="u-map-name">{{ item.map_name }}</div>
                         <div class="u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
@@ -101,7 +101,7 @@
         </template>
         <template v-else>
             <div class="u-item" v-for="(item, index) in list.slice(remainNum, list.length)" :key="item.id + index">
-                <div class="u-name">播报</div>
+                <div class="u-name">{{ $t('播报') }}</div>
                 <div class="u-info">
                     <div class="u-map-name">{{ item.map_name }}</div>
                     <div class="u-times" :class="item.subtype === 'foreshow' && 'u-times-lately'">
@@ -143,6 +143,7 @@ import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "WorldHorse",
     data() {
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             noList: [],
             list: [],
@@ -156,9 +157,9 @@ export default {
             },
             timer: null,
             chituMap: {
-                方问: "鲲鹏岛",
-                小赤: "阴山大草原",
-                杨新: "黑戈壁",
+                方问: t("鲲鹏岛"),
+                小赤: t("阴山大草原"),
+                杨新: t("黑戈壁"),
             },
             // 本cd是否刷新
             hasExist: false,

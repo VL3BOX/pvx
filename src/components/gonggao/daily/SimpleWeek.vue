@@ -1,12 +1,12 @@
 <template>
     <div class="m-simple-week">
         <div class="m-week-item" v-for="(item, i) in item5" :key="item + i">
-            <div class="u-name">五人</div>
-            <div v-if="getItem(item)" class="u-val">英雄</div>
+            <div class="u-name">{{ $t('五人') }}</div>
+            <div v-if="getItem(item)" class="u-val">{{ $t('英雄') }}</div>
             <div class="u-val">{{ getItem(item) }}</div>
         </div>
         <div class="m-week-item" v-for="(item, i) in item10" :key="item + i">
-            <div class="u-name">十人</div>
+            <div class="u-name">{{ $t('十人') }}</div>
             <div class="u-val">{{ item }}</div>
         </div>
     </div>

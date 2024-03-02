@@ -152,8 +152,9 @@ export default {
             return this.item.options;
         },
         status: function () {
-            if (!this.answer.myAnswer) return "未作答";
-            return this.answer.myAnswerIsRight ? "回答正确" : "回答错误";
+            const t = this.$i18n.t.bind(this.$i18n);
+            if (!this.answer.myAnswer) return t("未作答");
+            return this.answer.myAnswerIsRight ? t("回答正确") : t("回答错误");
         },
         exam_link() {
             return `/exam/question/`;

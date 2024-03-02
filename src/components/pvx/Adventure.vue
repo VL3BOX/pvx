@@ -43,7 +43,7 @@ export default {
         __dataRoot: __dataPath + "pvx/",
     },
     data() {
-        const { t } = this.$i18n;
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             list: [],
             tabActive: "perfect",

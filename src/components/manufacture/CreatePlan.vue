@@ -54,6 +54,7 @@ export default {
     methods: {
         // 保存清单
         setMyPlan() {
+            const t = this.$i18n.t.bind(this.$i18n);
             let recipe = [],
                 materials = [];
             this.list.forEach((item) => {
@@ -73,13 +74,13 @@ export default {
             let { title, publics, description } = this.plan;
 
             let data = {
-                title: title || `技艺助手成本计算 ${date}`,
+                title: title || t("技艺助手成本计算") + ` ${date}`,
                 type: 1,
                 public: publics,
                 description: description || "",
                 relation: [
-                    { title: "生产配方", data: recipe },
-                    { title: "生产配方所需材料", data: materials },
+                    { title: t("生产配方"), data: recipe },
+                    { title: t("生产配方所需材料"), data: materials },
                 ],
             };
             addMyPlan(data)
@@ -87,7 +88,7 @@ export default {
                     this.dialogVisible = false;
                     this.data = res.data.data;
                     this.$notify({
-                        title: "清单创建成功",
+                        title: t("清单创建成功"),
                         type: "success",
                     });
                 })

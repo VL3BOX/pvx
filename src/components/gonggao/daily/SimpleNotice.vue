@@ -28,13 +28,14 @@ export default {
     name: "SimpleNotice",
     components: {},
     data: function () {
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             mode: "all",
             mode_list: [
-                { label: "全部", value: "all" },
-                { label: "游戏", value: "game" },
-                { label: "技改", value: "skill_change" },
-                { label: "魔盒", value: "box" },
+                { label: t("全部"), value: "all" },
+                { label: t("游戏"), value: "game" },
+                { label: t("技改"), value: "skill_change" },
+                { label: t("魔盒"), value: "box" },
             ],
 
             // 游戏

@@ -113,6 +113,7 @@ export default {
         __dataRoot: __dataPath + "pvx/",
     },
     data() {
+        const t = this.$i18n.t.bind(this);
         return {
             loading: false,
             search: {},
@@ -132,19 +133,19 @@ export default {
             searchProps: [
                 {
                     key: "nCatag1Index",
-                    name: "分类",
+                    name: t("分类"),
                     type: "radio",
                     options: [],
                 },
                 {
                     type: "filter",
                     key: "filter",
-                    name: "过滤",
+                    name: t("过滤"),
                     options: [
                         {
                             key: "attribute",
                             type: "radio",
-                            name: "家具属性",
+                            name: t("家具属性"),
                             options: categoryList.map((item) => {
                                 return {
                                     key: item.key,
@@ -155,7 +156,7 @@ export default {
                         {
                             key: "szSource",
                             type: "radio",
-                            name: "来源途径",
+                            name: t("来源途径"),
                             options: sourceList.map((item) => {
                                 return {
                                     key: item.name === "全部" ? "" : item.name,
@@ -166,7 +167,7 @@ export default {
                         {
                             key: "LevelLimit",
                             type: "radio",
-                            name: "家园等级",
+                            name: t("家园等级"),
                             options: levelList.map((item) => {
                                 return {
                                     key: item.level,
@@ -177,7 +178,7 @@ export default {
                         {
                             key: "other",
                             type: "radio",
-                            name: "其它",
+                            name: t("其它"),
                             options: [
                                 {
                                     key: "bInteract",
@@ -197,7 +198,7 @@ export default {
                 },
                 {
                     key: "name",
-                    name: "家具名称",
+                    name: t("家具名称"),
                 },
             ],
             active: "",
@@ -206,15 +207,15 @@ export default {
             buttonWidth: 0,
             versions: [
                 {
-                    name: "横刀断浪(120级)",
+                    name: t("横刀断浪(120级)"),
                     nDlcID: 7,
                 },
                 {
-                    name: "奉天证道(110级)",
+                    name: t("奉天证道(110级)"),
                     nDlcID: 6,
                 },
                 {
-                    name: "世外蓬莱(100级)",
+                    name: t("世外蓬莱(100级)"),
                     nDlcID: 5,
                 },
             ],

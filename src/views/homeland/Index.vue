@@ -41,7 +41,9 @@ export default {
         Bbs,
     },
     data() {
-        const { t } = this.$i18n;
+        // const t = this.$i18n.t.bind(this.$i18n);
+        console.log();
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             active: 0,
             tabs: [

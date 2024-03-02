@@ -48,7 +48,7 @@ export default {
             return this.$store.state.client;
         },
         title() {
-            return "最新书籍";
+            return this.$i18n.t("最新书籍");
         },
         tabs() {
             return this.professions

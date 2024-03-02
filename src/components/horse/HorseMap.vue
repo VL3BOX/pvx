@@ -33,6 +33,7 @@ export default {
     },
     computed: {
         mapDatas() {
+            const t = this.$i18n.t.bind(this.$i18n);
             let result = {};
             const horseName = this.name;
             for (let data of this.list) {
@@ -42,8 +43,8 @@ export default {
                     result[mapId].push({
                         title: data.mapName,
                         content: `
-                        马驹·${horseName.indexOf("·") > -1 ? horseName.split("·")[0] : horseName}
-                        <br /> 坐标：(${coor.x},${coor.y},${coor.z})`,
+                        ${t('马驹')}·${horseName.indexOf("·") > -1 ? horseName.split("·")[0] : horseName}
+                        <br /> ${t('坐标：')}(${coor.x},${coor.y},${coor.z})`,
                         x: coor.x,
                         y: coor.y,
                         z: coor.z,

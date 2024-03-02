@@ -10,13 +10,13 @@
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">{{ $t('日常') }}&福缘</div>
+                <div class="u-title">{{ $t('日常') }}&{{ $t('福缘') }}</div>
                 <SimpleDaily class="m-daily-content" :activities="activities"></SimpleDaily>
             </div>
             <div class="m-daily-item">
                 <div class="u-title">
-                    <div>{{ !currentCelebrity ? "楚天社" : "云从社" }}</div>
-                    <span @click="switchCelebrity">切换</span>
+                    <div>{{ !currentCelebrity ? $t('楚天社') : $t('云从社') }}</div>
+                    <span @click="switchCelebrity">{{ $t('切换') }}</span>
                 </div>
                 <SimpleCelebrity :type="currentCelebrity" class="m-daily-content"></SimpleCelebrity>
             </div>
@@ -25,7 +25,7 @@
                 <SimpleWeek class="m-daily-content" :activities="activities"></SimpleWeek>
             </div>
             <div class="m-daily-item">
-                <div class="u-title">家园</div>
+                <div class="u-title">{{ $t('家园') }}</div>
                 <SimpleReputation :activities="activities"></SimpleReputation>
                 <SimpleFurniture :furniture="currentFurniture" :nextFurniture="nextFurniture"></SimpleFurniture>
             </div>

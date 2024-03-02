@@ -1,6 +1,6 @@
 <template>
     <div class="m-simple-reputation">
-        <div class="u-reputation-title">声望</div>
+        <div class="u-reputation-title">{{ $t('声望') }}</div>
         <div class="m-reputations">
             <div class="u-reputation" v-for="(item, i) in list" :key="i">
                 <div v-for="(name, index) in getNames(item)" :key="index">{{ name }}</div>
@@ -30,10 +30,10 @@ export default {
     },
     methods: {
         getNames(name) {
-            const str = "声望·";
+            const str = this.$i18n.t("声望·");
             if (name.indexOf(str) > -1) {
                 const newName = name.split(str)?.[1] || "";
-                const newStr = "英雄";
+                const newStr = this.$i18n.t("英雄");
                 if (newName.indexOf(newStr) > -1) {
                     return [newStr].concat(newName.split(newStr));
                 }

@@ -76,7 +76,7 @@ export default {
             return showAvatar(userinfo?.user_avatar);
         },
         showNickname : function (userinfo){
-            return userinfo?.display_name || '匿名'
+            return userinfo?.display_name || this.$i18n.t("匿名")
         },
         dateFormat : function (gmt){
             return showDate(new Date(gmt))

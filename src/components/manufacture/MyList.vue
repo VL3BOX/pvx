@@ -50,13 +50,14 @@ export default {
             this.visible = false;
         },
         onAddPlan() {
-            this.$prompt("请输入清单名称", "创建空白清单", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                inputPlaceholder: "请输入清单名称",
+            const t = this.$i18n.t.bind(this.$i18n);
+            this.$prompt(t("请输入清单名称"), t("创建空白清单"), {
+                confirmButtonText: t("确定"),
+                cancelButtonText: t("取消"),
+                inputPlaceholder: t("请输入清单名称"),
                 inputValidator: (value) => {
                     if (!value) {
-                        return "请输入清单名称";
+                        return t("请输入清单名称");
                     }
                 },
                 callback: (action, instance) => {
@@ -70,7 +71,7 @@ export default {
                         };
                         addMyPlan(data).then((res) => {
                             this.$message({
-                                message: "创建成功",
+                                message: t("创建成功"),
                                 type: "success",
                             });
                             this.list.unshift(res.data.data);

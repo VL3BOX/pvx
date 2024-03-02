@@ -68,7 +68,7 @@ export default {
     props: ["planId", "visible"],
     components: { itemIcon, Equip },
     data: function () {
-        const { t } = this.$i18n;
+        const t = this.$i18n.t.bind(this.$i18n);
         return {
             loading: false,
             plan: "",
@@ -225,13 +225,14 @@ export default {
         },
         // 删除清单
         deletePlan(planId) {
-            this.$confirm("确认是否删除该物品清单？", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
+            const t = this.$i18n.t.bind(this.$i18n);
+            this.$confirm(t("确认是否删除该物品清单？"), t("提示"), {
+                confirmButtonText: t("确定"),
+                cancelButtonText: t("取消"),
                 type: "warning",
             }).then(() => {
                 delItemPlan(planId).then(() => {
-                    this.$message.success("删除成功");
+                    this.$message.success(t("删除成功"));
                     this.$emit("close");
                 });
             });
