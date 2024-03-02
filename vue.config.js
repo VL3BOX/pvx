@@ -9,73 +9,73 @@ module.exports = {
         index: {
             title: "Chuyên mục hưu nhàn" + Setting.suffix,
             entry: "src/main.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "index.html",
         },
         face: {
             title: "Dị dung" + Setting.suffix,
             entry: "src/pages/face.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "face/index.html",
         },
         body: {
             title: "Hình thể" + Setting.suffix,
             entry: "src/pages/body.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "body/index.html",
         },
         homeland: {
             title: "Gia viên chỉ nam" + Setting.suffix,
             entry: "src/pages/homeland.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "homeland/index.html",
         },
         pet: {
             title: "Bách khoa sủng vật" + Setting.suffix,
             entry: "src/pages/pet.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "pet/index.html",
         },
         adventure: {
             title: "Bách khoa kỳ ngộ" + Setting.suffix,
             entry: "src/pages/adventure.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "adventure/index.html",
         },
         horse: {
             title: "Bách khoa tọa kỵ" + Setting.suffix,
             entry: "src/pages/horse.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "horse/index.html",
         },
         book: {
             title: "Bách khoa thư tịch" + Setting.suffix,
             entry: "src/pages/book.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "book/index.html",
         },
         furniture: {
             title: "Bách khoa gia cụ" + Setting.suffix,
             entry: "src/pages/furniture.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "furniture/index.html",
         },
         reputation: {
             title: "Bách khoa danh vọng" + Setting.suffix,
             entry: "src/pages/reputation.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "reputation/index.html",
         },
         pvg: {
             title: "Thương gia kỳ tài" + Setting.suffix,
             entry: "src/pages/pvg.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "pvg/index.html",
         },
         exam: {
             title: "Thi cử Kiếm Tam" + Setting.suffix,
             entry: "src/pages/exam.js",
-            template: "public/index.html",
+            template: "public/index.vi.html",
             filename: "exam/index.html",
         },
     },
@@ -92,47 +92,53 @@ module.exports = {
                 },
             },
             "/api/vip": {
-                target: "https://pay.jx3box.com",
+                target: "https://pay.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api/inspire": {
-                target: "https://pay.jx3box.com",
+                target: "https://pay.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api/messages": {
-                target: "https://helper.jx3box.com",
+                target: "https://helper.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api/cms": {
-                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:7100" : "https://cms.jx3box.com",
-                // target: "https://cms.jx3box.com",
+                target: process.env["DEV_SERVER"] == "true" ? "http://localhost:7100" : "https://cms.vl3box.com",
+                // target: "https://cms.vl3box.com",
             },
             "/api/team": {
-                target: "https://team.api.jx3box.com",
+                target: "https://team.api.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api/buy-licence": {
-                target: "https://pay.jx3box.com",
+                target: "https://pay.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api/spider": {
-                target: "https://spider2.jx3box.com",
+                target: "https://spider2.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
             },
             "/api": {
-                target: "https://next2.jx3box.com",
+                target: "https://next2.vl3box.com",
+                onProxyReq: function (request) {
+                    request.setHeader("origin", "");
+                },
+            },
+            "/locales": {
+                target: "https://cms.vl3box.com",
                 onProxyReq: function (request) {
                     request.setHeader("origin", "");
                 },
