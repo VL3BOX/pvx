@@ -1,19 +1,17 @@
 @import "~@/assets/css/face/animation.less";
 
 .p-face-list {
-    padding-bottom: 40px;
+    .pr;
+    .pt(40px);
     .u-type {
         .flex;
-        margin: 40px 0 20px 0;
+        .mb(20px);
         justify-content: space-between;
         align-items: flex-end;
         .u-all {
             cursor: pointer;
             color: #a5a5a5;
             .fz(16px,21px);
-        }
-        &.u-first-row{
-            .mt(20px);
         }
     }
     .u-title {
@@ -23,6 +21,9 @@
     }
     .u-recommend-title {
         margin: 20px 0 20px 0;
+    }
+    .c-public-notice {
+        .mt(40px);
     }
 }
 .m-recommend-list {
@@ -46,7 +47,7 @@
 
 .m-recommend-box,
 .m-face-box {
-    .pr;
+    .mt(40px);
     .u-shade-btn {
         .pointer;
         .pa;
@@ -90,21 +91,23 @@
     .m-recommend-box {
         padding-top: 64px;
     }
-}
-.m-face-box {
-    .u-shade-btn {
-        .h(264px);
+    .m-face-tabs {
+        .pr;
+        width: unset;
     }
-    .u-shade {
-        .h(224px);
+    .m-face-box {
+        &:nth-child(2) {
+            .mt(40px);
+        }
     }
-}
-
-.m-face-list {
-    .flex;
-    gap: 20px;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    .m-face-box {
+        .u-shade-btn {
+            .h(264px);
+        }
+        .u-shade {
+            .h(224px);
+        }
+    }
 }
 
 //单个体型全部list
@@ -123,16 +126,17 @@
     .mt(20px);
 }
 .m-archive-more {
-    .mb(20px);
+    .mt(40px);
     .w(100%);
     background-color: #6b52ff;
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: #6b52ff;
         border-color: #6b52ff;
     }
 }
 .m-archive-pages {
-    overflow-x: auto;
+    overflow: auto;
     .active {
         background-color: #6b52ff !important;
     }
@@ -159,10 +163,10 @@
         justify-content: space-between;
         .m-face-item {
             .pr;
-            .w(40%);
             .mb(30px);
             overflow: hidden;
-            .size(35%,auto);
+            .h(auto);
+            .w(100%);
             .mr(10px);
             .u-img {
                 .size(auto);
@@ -175,13 +179,12 @@
             }
         }
     }
-    .m-face-list {
+    .m-common-list {
         .scrollbar(2px);
         overflow-x: auto;
 
         .m-face-item {
             .u-img {
-                .size(20vw);
                 .u-star-mark {
                     .fz(12px);
                     .lt(6px);

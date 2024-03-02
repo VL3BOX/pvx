@@ -1,12 +1,16 @@
 .scrollbar(6px);
 body {
-    background-color: #f3f5f6;
+    background-color: #fff;
 }
 .m-main {
-    .pr;
-    min-height: calc(100vh - @header-height);
-    padding: 60px 40px 40px 40px;
+    // min-height: calc(100vh - @header-height);
+    min-height: 100vh;
+    padding: calc(@header-height) 40px 40px 40px;
     box-sizing: border-box;
+    &.m-pvg-main {
+        background-color: #f5f5f5;
+    }
+    .pr;
 }
 @media screen and(max-width:@ipad) {
     .m-main {
@@ -14,10 +18,12 @@ body {
         .pr(20px);
     }
 }
-@media screen and(max-width:@phone) {
-    .m-main {
-        padding: 20px;
-    }
+.p-common-list {
+    .pt(40px);
+}
+.m-archive-pages {
+    .mt(40px);
+    overflow-x: auto;
 }
 .c-main {
     .mt(0);

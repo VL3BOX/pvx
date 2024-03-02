@@ -1,11 +1,11 @@
 <template>
-    <div class="horse-single-wrapper  m-single-wrapper">
+    <div class="horse-single-wrapper m-single-wrapper">
         <div class="back-wrap">
             <el-button @click="goBack">{{ $t('返回列表') }}</el-button>
         </div>
         <div class="horse-single-content" v-loading="loading">
             <!-- 主要信息 -->
-            <div class="main-info-wrapper"> 
+            <div class="main-info-wrapper">
                 <div v-if="item.ID" class="main-info-wrap">
                     <div class="info-wrap">
                         <div class="info-item">
@@ -72,8 +72,15 @@
                         </a>
                     </div>
                     <div class="img-wrap" :class="`u-quality-bg--` + item.Quality">
-                        <img v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image" />
-                        <!-- <item-icon v-else :item_id="String(item.ItemID)" :size="410" :onlyIcon="true"></item-icon> -->
+                        <el-image v-if="item.SubType === 15" :src="getImgSrc(item)" class="u-image"> </el-image>
+                        <item-icon
+                            v-else
+                            class="u-image"
+                            :item_id="String(item.ItemID)"
+                            :isLink="false"
+                            :size="150"
+                            :onlyIcon="true"
+                        ></item-icon>
                     </div>
                 </div>
                 <div v-else>{{ $t('无此信息') }}</div>
@@ -81,11 +88,14 @@
             <!-- 同类坐骑 - 普通坐骑 -->
             <div v-if="sameList.length" class="same-list-container" v-loading="sameLoading">
                 <div class="title">{{ $t('同类坐骑') }}</div>
-                <list-cross :width="30" :list="sameList" class="m-horse-list">
-                    <template v-slot="data">
-                        <same-item :item="data.item" @click.native="getHorse(data.item.ItemID)"></same-item>
-                    </template>
-                </list-cross>
+                <div class="m-horse-list">
+                    <HorseCard
+                        :item="item"
+                        v-for="item in sameList"
+                        :key="item.ItemID"
+                        @click.native="getHorse(item.ItemID)"
+                    ></HorseCard>
+                </div>
             </div>
             <!-- 捕获地图 -->
             <div v-if="originDatas.length" class="catch-container">
@@ -100,10 +110,10 @@
 </template>
 
 <script>
+import ItemIcon from "@/components/common/item_icon.vue";
 import { getHorse, getHorses } from "@/service/horse";
 import { iconLink, getLink } from "@jx3box/jx3box-common/js/utils";
-import SameItem from "@/components/horse/SameItem.vue";
-import ListCross from "@/components/ListCross.vue";
+import HorseCard from "@/components/horse/HorseCard";
 import HorseMap from "@/components/horse/HorseMap.vue";
 import PvxUser from "@/components/PvxUser.vue";
 
@@ -113,7 +123,7 @@ import horseSites from "@/assets/data/horse_sites.json";
 export default {
     name: "Single",
     inject: ["__imgRoot", "__imgRoot2"],
-    components: { SameItem, ListCross, HorseMap, PvxUser },
+    components: { HorseCard, HorseMap, PvxUser, ItemIcon },
     data() {
         return {
             loading: false,
@@ -245,8 +255,11 @@ export default {
         },
     },
     watch: {
-        id(id) {
-            this.getHorse(id);
+        id: {
+            immediate: true,
+            handler(val) {
+                val && this.getHorse(val);
+            },
         },
     },
     methods: {
@@ -255,7 +268,7 @@ export default {
         },
         getHorse(id) {
             const params = {
-                id: id || this.id,
+                id: id,
                 client: this.client,
             };
             if (this.type === "2") {
@@ -319,9 +332,6 @@ export default {
             }
         },
         getLink,
-    },
-    mounted() {
-        this.getHorse();
     },
 };
 </script>

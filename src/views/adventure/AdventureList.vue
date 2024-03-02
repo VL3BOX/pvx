@@ -1,44 +1,47 @@
 <template>
-    <div class="p-adventure-List" v-loading="loading" ref="listRef">
-        <AdventureTabs @change="onSearch" :body_types="body_types" :active="active" @setActive="setActive" />
-        <template v-if="!showAllList">
+    <div class="p-adventure-List p-common-list" v-loading="loading" ref="listRef">
+        <AdventureTabs :active="active" :body_types="list" @setActive="setActive" @change="onSearch" />
+        <template v-if="active === 'all'">
             <div
-                v-for="(item, index) in list_type"
+                v-for="(item, index) in list"
                 :key="'l' + index"
                 class="m-adventure-list"
                 :class="`m-adventure-list-${index}`"
-                @mouseenter="mouseenter($event)"
-                @mouseleave="mouseleave($event)"
             >
-                <div class="u-type" v-if="item.list.length > 0">
-                    <div class="u-title">{{ item.name }}</div>
-                    <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
-                </div>
-                <div
-                    class="u-shade-btn u-shade-btn-left"
-                    :class="isDisabled('nav' + index, 1, isUpdate)"
-                    @click="crosswiseScroll($event, 'nav' + index, 1, 600)"
-                >
-                    <i class="el-icon-arrow-left"></i>
-                </div>
-                <div
-                    class="u-shade-btn u-shade-btn-right"
-                    :class="isDisabled('nav' + index, -1, isUpdate)"
-                    @click="crosswiseScroll($event, 'nav' + index, -1, 600)"
-                >
-                    <i class="el-icon-arrow-right"></i>
-                </div>
-                <div class="m-face-list" :id="'nav' + index">
-                    <AdventureItem v-for="item in item.list" :key="item.id" :item="item" />
-                </div>
+                <template v-if="item.list.length">
+                    <div class="u-type">
+                        <div class="u-title">{{ item.label + "奇遇" }}</div>
+                        <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
+                    </div>
+
+                    <CommonList
+                        :class="{ search: tabsData.name }"
+                        :data="{ ...itemData, type: item.value }"
+                        @update:load="handleLoad"
+                    >
+                        <div class="m-common-list">
+                            <AdventureItem
+                                v-for="item in item.list"
+                                :key="item.id"
+                                :item="item"
+                                :reporter="{ aggregate: listId(list) }"
+                            />
+                        </div>
+                    </CommonList>
+                </template>
             </div>
         </template>
-        <template v-if="showAllList">
+        <div class="m-adventure-list" v-else>
             <div class="u-type u-all-type">
-                <div class="u-title">{{ body_types_name() }}</div>
+                <div class="u-title">{{ typeName + "奇遇" }}</div>
             </div>
-            <div class="m-face-list--all">
-                <AdventureItem v-for="item in list" :key="item.id" :item="item" />
+            <div class="m-face-list--all" v-if="subList.length">
+                <AdventureItem
+                    v-for="item in subList"
+                    :key="item.id"
+                    :item="item"
+                    :reporter="{ aggregate: listId(subList) }"
+                />
             </div>
             <el-button
                 class="m-archive-more"
@@ -56,94 +59,106 @@
                 :hide-on-single-page="true"
                 :page-size="per"
                 :total="total"
-                :current-page.sync="page"
+                :current-page="page"
+                @current-change="changePage"
             ></el-pagination>
-        </template>
-        <div class="u-archive-alert" v-if="isNoRes()">
+        </div>
+        <div class="u-archive-alert" v-if="noList || (subList && !subList.length)">
             <el-alert :title="$t('没有对应的奇遇，请重新查找')" type="info" center show-icon />
         </div>
     </div>
 </template>
 
 <script>
+import CommonList from "@/components/common/list.vue";
 import AdventureTabs from "@/components/adventure/tabs.vue";
 import AdventureItem from "@/components/adventure/item.vue";
-import { getAdventures, getUserSchool } from "@/service/adventure";
+import { getAdventures } from "@/service/adventure";
+import { cloneDeep, omit, concat } from "lodash";
 import { isPhone } from "@/utils/index";
-import { clone } from "lodash";
-// import User from "@jx3box/jx3box-common/js/user";
-// import schoolImgID from "@/assets/data/school_img_id.json";
 import dayjs from "@/plugins/day";
 export default {
     name: "adventureList",
     props: [],
-    components: { AdventureTabs, AdventureItem },
+    components: { AdventureTabs, AdventureItem, CommonList },
     data: function () {
         return {
             loading: false,
             tabsData: {},
-            body_types: [
+            list: [
                 {
                     value: "all",
-                    label: "全部奇遇",
+                    label: "全部",
                     client: ["std", "origin"],
+                    list: [],
                 },
                 {
                     value: "perfect",
-                    label: "绝世奇遇",
+                    label: "绝世",
                     client: ["std", "origin"],
+                    list: [],
+                    pages: 1,
+                    page: 1,
                 },
                 {
                     value: "normal",
-                    label: "普通奇遇",
+                    label: "普通",
                     client: ["std", "origin"],
+                    list: [],
+                    page: 1,
+                    pages: 1,
                 },
                 {
                     value: "pet",
-                    label: "宠物奇遇",
+                    label: "宠物",
                     client: ["std", "origin"],
+                    list: [],
+                    page: 1,
+                    pages: 1,
                 },
             ],
             active: "all",
-            list: [],
-            list_type: [
-                { name: "绝世奇遇", list: [], value: "perfect", client: ["std", "origin"] },
-                { name: "普通奇遇", list: [], value: "normal", client: ["std", "origin"] },
-                { name: "宠物奇遇", list: [], value: "pet", client: ["std", "origin"] },
-            ],
-            showAllList: false, //是否显示单独某项全部
-            isUpdate: false,
+
             page: 1, //当前页数
-            total: 1, //总条目数
-            pages: 1, //总页数
-            per: 15, //每页条目
+            total: 0, //总条目数
+            per: 8, //每页条目
+            count: 0, // 自动判断最多显示几个
 
             appendMode: false,
             school: "2",
-            search: {},
-            hasSearch: "",
+
+            itemData: {
+                color: "#E86F00",
+                width: "210",
+                height: "224",
+            },
         };
     },
     computed: {
         client() {
             return this.$store.state.client;
         },
-        hasNextPage: function () {
-            return this.pages > 1 && this.page < this.pages;
-        },
+
         params({ tabsData }) {
             return {
                 ...tabsData,
-                page: this.page,
+                per: this.per,
                 client: this.client,
             };
         },
-        newList: function () {
-            let list = [];
-            this.list.forEach((e) => {
-                list.push(this.toSpecial(e));
-            });
-            return list;
+        typeName() {
+            return this.list.filter((e) => e.value == this.active)[0].label;
+        },
+        subList() {
+            if (this.active === "all") return null;
+            return this.list.filter((e) => e.value == this.active)[0].list;
+        },
+        noList() {
+            return this.list.filter((e) => e.value !== "all").every((e) => !e.list.length);
+        },
+        hasNextPage: function () {
+            const pages = this.list.filter((e) => e.value == this.active)[0].pages;
+            return pages > 1 && this.page < pages;
         },
         camp() {
             return dayjs.tz().date() % 2 ? 1 : 2;
@@ -152,101 +167,53 @@ export default {
     watch: {
         params: {
             deep: true,
-            handler(val) {
-                this.getListInit();
+            handler() {
+                this.loadData();
             },
         },
-        $route(obj) {
-            if (obj.params.search) this.hasSearch = obj.params.search;
+        active: {
+            immediate: true,
+            handler: function (val) {
+                this.per = val == "all" ? this.count : this.count * 3; 
+                this.page = 1;
+            },
         },
     },
     methods: {
+        // 设置当前tab
         setActive(val) {
             this.active = val;
             document.documentElement.scrollTop = 0;
         },
-        isNoRes() {
-            let type = this.params.type;
-            if (type == "all") {
-                // return false;
-                return (
-                    this.list_type[0].list.length == 0 &&
-                    this.list_type[1].list.length == 0 &&
-                    this.list_type[2].list.length == 0
-                );
-            }
-            return this.list.length > 0 ? false : true;
-        },
-        mouseenter(e) {
-            if (isPhone()) {
-                return;
-            }
-            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "visible";
-            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "visible";
-        },
-        mouseleave(e) {
-            if (isPhone()) {
-                return;
-            }
-            e.target.getElementsByClassName("u-shade-btn")[0].style.visibility = "hidden";
-            e.target.getElementsByClassName("u-shade-btn")[1].style.visibility = "hidden";
-        },
-        body_types_name() {
-            let type = this.params.type;
-            if (!type) return;
-            const nameMap = {
-                perfect: () => "绝世奇遇",
-                normal: () => "普通奇遇",
-                pet: () => "宠物奇遇",
-            };
-            return nameMap[type]();
-        },
-        getListInit: function () {
+        // 加载数据
+        loadData() {
             this.loading = true;
-
-            if (this.params.type == "all") {
-                this.showAllList = false;
-                this.list_type.forEach((e) => {
-                    let params = clone(this.params);
-                    params.per = 14;
+            let params = omit(this.params, ["type"]);
+            if (this.active === "all") {
+                const list = this.list.filter((e) => e.value !== "all");
+                list.forEach((e) => {
+                    params.page = e.page;
                     params.type = e.value;
-                    this.getAdventures(params);
+                    this.loadList(params, e.value);
                 });
             } else {
-                let params = clone(this.params);
-                params.per = this.per;
-                this.getAdventures(params);
+                params.page = this.page;
+                this.loadList({ ...params, type: this.active }, this.active);
             }
         },
-        getAdventures(params) {
+        // 加载type对应的数据
+        loadList(params, key) {
+            const index = this.list.findIndex((e) => e.value == key);
+            if (this.list[index].pages < params.page && this.active === "all") params.page = 1;
             getAdventures(params)
                 .then((res) => {
-                    let list = [];
-                    res.data.list.forEach((e) => {
-                        // list.push(e);
-                        list.push(this.toSpecial(e));
-                    });
-                    if (this.appendMode) {
-                        this.list = this.list.concat(list || []);
-                    } else {
-                        if (this.params.type == "all") {
-                            //分别赋值
-                            const typesMap = {
-                                perfect: () => (this.list_type[0].list = list || []),
-                                normal: () => (this.list_type[1].list = list || []),
-                                pet: () => (this.list_type[2].list = list || []),
-                            };
-                            typesMap[params.type]();
-                        } else {
-                            this.showAllList = true;
-                            this.list = list || [];
-                        }
-                    }
-                    if (this.params.type) {
-                        this.total = res.data.total;
-                        this.pages = res.data.pages;
-                    }
-                    this.$forceUpdate();
+                    const { list, total, pages, page } = res.data;
+                    const _list = this.appendMode ? concat(this.list[index].list, list) : list;
+                    this.list[index].list = _list || [];
+                    this.list[index].page = page || 1;
+                    this.list[index].pages = pages || 1;
+                    if (this.active !== "all") this.page = page || 1;
+                    this.total = total;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -258,92 +225,55 @@ export default {
             const type = data.szRewardType;
             let str = data.szOpenRewardPath;
             const name = data.szOpenRewardPath.split("\\").filter(Boolean).pop();
-
             if (type == "school") str = `ui/Image/Adventure/reward/Open/${name}/school_${this.school}_Open.tga`;
-
             if (type == "camp") {
                 data.bHide;
                 str = `ui/Image/Adventure/reward/Open/${name}/camp_${this.camp}_Open.tga`;
             }
-
             data.szOpenRewardPath = str;
             return data;
         },
+        // 切换页数
         changePage(i) {
             this.page = i;
-            // this.getData();
+            this.loadData();
         },
-        appendPage: function () {
-            this.page = this.page + 1;
+        // 加载更多
+        appendPage() {
             this.appendMode = true;
-            // this.getData();
+            this.handleLoad(this.active);
         },
+        // 搜索toolbar传值
         onSearch(params) {
-            // this.page = 1;
-            // this.search = params;
-            // this.getData();
+            console.log(params)
             this.page = 1;
             this.tabsData = params;
         },
         // 按宽度显示个数
         showCount() {
-            const listWidth = this.$refs.listRef?.clientWidth;
-            this.per = Math.floor(listWidth / 300) * 4;
-        },
-        isDisabled(id, detail) {
-            // 获取要绑定事件的元素
-            const nav = document.getElementById(id);
-            if (!nav) return;
-            if (nav.scrollLeft == 0 && detail == 1) {
-                return "u-disabled";
-            }
-            if (nav.scrollLeft != 0 && nav.scrollWidth <= nav.scrollLeft + nav.clientWidth && detail == -1) {
-                return "u-disabled";
-            }
-            return "";
-        },
-        crosswiseScroll(event, id, detail, distance) {
             if (isPhone()) {
+                this.per = 8;
                 return;
             }
-            event.preventDefault();
-
-            // 获取要绑定事件的元素
-            // const nav = this.$refs[id];
-            const nav = document.getElementById(id);
-            let scrollWidth = nav.scrollWidth;
-            // return;
-            if (nav.scrollLeft == 0 && detail == 1) return;
-
-            if (scrollWidth <= nav.scrollLeft + nav.clientWidth && detail == -1) return;
-            let step = (distance || 200) / 100;
-            let total = 0;
-            // 对需要滚动的元素进行滚动操作
-            let _this = this;
-            scrollFun();
-
-            function scrollFun() {
-                total = total + step;
-                if (total < distance) {
-                    if (detail == 1) {
-                        nav.scrollLeft -= step;
-                    } else {
-                        nav.scrollLeft += step;
-                    }
-                    setTimeout(scrollFun, 1);
-                } else {
-                    _this.isUpdate = !_this.isUpdate;
-                }
-            }
+            const listWidth = this.$refs.listRef?.clientWidth - 120;
+            this.count = Math.floor(listWidth / this.itemData.width);
+            this.per = this.active == "all" ? this.count : this.count * 3;
+        },
+        // 单独加载
+        handleLoad(type) {
+            const page = this.list.filter((e) => e.value == type)[0].page;
+            let params = cloneDeep(this.params);
+            params.per = this.per;
+            params.page = page + 1;
+            params.type = type;
+            this.loadList(params, type);
+        },
+        listId(list) {
+            return list.map((e) => e.id);
         },
     },
     mounted: function () {
-        // User.isLogin() &&
-        //     getUserSchool().then(res => {
-        //         if (res.data.data.list) this.school = schoolImgID[res.data.data.list[0].mount];
-        //     });
         this.showCount();
-        // this.getData();
     },
 };
 </script>

@@ -2,7 +2,7 @@
     <div ref="listRef" class="p-furniture" v-loading="loading">
         <PvxSearch
             ref="search"
-            :items="searchProps"
+            :items="isPhone ? searchProps.slice(0, 1) : searchProps"
             :initValue="initValue"
             :active="isActive"
             class="m-furniture-search"
@@ -10,8 +10,8 @@
         >
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
-                    <label>{{ $t('庐园广记') }}</label>
-                    <el-select v-model="version" clearable>
+                    <label v-if="!isPhone">{{ $t('庐园广记') }}</label>
+                    <el-select v-model="version" clearable :placeholder="isPhone ? '庐园广记' : ''">
                         <el-option
                             v-for="item in versions"
                             :key="item.nDlcID"
@@ -21,23 +21,34 @@
                     </el-select>
                 </div>
             </template>
-            <template slot="extra">
-                <div v-if="childCategory.length" class="m-child-category">
-                    <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">{{ $t('全部') }}</div>
-                    <div
-                        class="u-item"
-                        :class="item.nCatag2Index === childActive ? 'is-active' : ''"
-                        v-for="item in childCategory"
-                        :key="item.dwTableID"
-                        @click.stop="setIndex(item.nCatag2Index)"
-                    >
-                        {{ item.szName }}
-                    </div>
-                </div>
-            </template>
         </PvxSearch>
+        <template v-if="isPhone">
+            <PvxSearch
+                style="margin-top: 40px"
+                ref="search"
+                :items="searchProps.slice(2, 3)"
+                :initValue="initValue"
+                :active="isActive"
+                class="m-furniture-search"
+                @search="searchEvent($event)"
+            >
+            </PvxSearch>
+        </template>
+        <div v-if="childCategory.length" class="m-child-category">
+            <div class="u-item" :class="!childActive && 'is-active'" @click="setIndex('')">{{ $t('全部') }}</div>
+            <div
+                class="u-item"
+                :class="item.nCatag2Index === childActive ? 'is-active' : ''"
+                v-for="item in childCategory"
+                :key="item.dwTableID"
+                @click.stop="setIndex(item.nCatag2Index)"
+            >
+                {{ item.szName }}
+            </div>
+        </div>
         <div v-if="list.length" class="m-furniture-list" :class="!childCategory.length && 'm-no-child'">
-            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>
+            <!--            <FurnitureItem :item="item" v-for="item in list" :key="item.ID" :copy="hasCopy"></FurnitureItem>-->
+            <furnitureSet :data="item" v-for="item in list" :key="item.ID" :category="categoryObj" :copy="hasCopy" />
             <div class="m-furniture-null" v-if="!list.length">
                 <el-alert center :title="$t('没有对应的家具')" show-icon type="info"> </el-alert>
             </div>
@@ -82,7 +93,7 @@
 
 <script>
 import PvxSearch from "@/components/PvxSearch.vue";
-import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
+// import FurnitureItem from "@/components/furniture/FurnitureItem.vue";
 import furnitureSet from "@/components/furniture/furniture_set.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 
@@ -96,7 +107,7 @@ import dayjs from "@/plugins/day";
 
 export default {
     name: "Index",
-    components: { PvxSearch, FurnitureItem, furnitureSet, PvxBacktop },
+    components: { PvxSearch, furnitureSet, PvxBacktop },
     provide: {
         __imgRoot: __imgPath + "homeland/",
         __dataRoot: __dataPath + "pvx/",
@@ -121,7 +132,7 @@ export default {
             searchProps: [
                 {
                     key: "nCatag1Index",
-                    name: "类型",
+                    name: "分类",
                     type: "radio",
                     options: [],
                 },
@@ -216,6 +227,9 @@ export default {
         },
     },
     computed: {
+        isPhone() {
+            return isPhone();
+        },
         hasNextPage: function () {
             return this.pages > 1 && this.page < this.pages;
         },
@@ -297,7 +311,6 @@ export default {
         },
     },
     methods: {
-        isPhone,
         appendPage() {
             this.append = true;
             this.page += 1;
@@ -373,7 +386,19 @@ export default {
                         ...item,
                     };
                 });
-                this.searchProps[0].options = this.category;
+                if (window.innerWidth > 1680) {
+                    this.searchProps[0].options = this.category;
+                } else {
+                    this.searchProps[0].type = "select";
+                    this.searchProps[0].options = this.category.map((i) => {
+                        return {
+                            id: i.id,
+                            value: i.type,
+                            label: i.name,
+                            children: i.children,
+                        };
+                    });
+                }
 
                 if (this.initValue.nCatag1Index) {
                     const category = this.category.find((item) => item.id === this.initValue.nCatag1Index);
@@ -452,7 +477,7 @@ export default {
                 const base = 348;
                 this.per = Math.floor(listWidth / base) * 4;
                 // 加载更多按钮的实际宽度
-                if (!this.isPhone()) {
+                if (!this.isPhone) {
                     this.buttonWidth = (this.per / 4) * (base + 20) - 20;
                 }
                 this.getData();
@@ -491,4 +516,25 @@ export default {
 
 <style lang="less">
 @import "~@/assets/css/furniture/index.less";
+.pvx-search-wrapper .search-group .search-item.filter-wrap {
+    margin: 0;
+}
+.p-furniture .u-furniture-select {
+    margin: 0;
+}
+@media screen and (max-width: @ipad) {
+    .pvx-search-wrapper {
+        height: auto;
+        padding-left: 15px;
+        .search-group {
+            flex-wrap: wrap;
+            flex-direction: row;
+            .search-item {
+                input {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}
 </style>

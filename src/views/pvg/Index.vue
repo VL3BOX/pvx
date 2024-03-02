@@ -13,7 +13,7 @@
         </Breadcrumb> -->
         <Nav @statusChange="statusChange"></Nav>
         <Main :class="navStatusClass" :withoutRight="true">
-            <div class="m-main">
+            <div class="m-main m-pvg-main">
                 <router-view></router-view>
             </div>
             <!-- <Footer></Footer> -->
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav_v3.vue";
+import Nav from "@/components/Nav_v4.vue";
 export default {
     name: "Index",
     components: {

@@ -5,37 +5,56 @@
         :class="getFrameClass(petObject.Quality)"
         target="_blank"
     >
-        <!-- <div class="u-shade"></div> -->
-        <itemIcon
-            :item_id="String(petObject.ItemTabType + '_' + petObject.ItemTabIndex)"
-            :size="80"
-            :onlyIcon="true"
-            :isLink="false"
-            class="u-icon"
-        ></itemIcon>
-        <div class="u-name">{{ petObject.Name }}</div>
+        <div class="m-info">
+            <el-image class="u-icon" :src="iconLink(petObject.IconID)" fit="fit"></el-image>
+            <div class="u-text">
+                <div class="u-name">{{ petObject.Name }}</div>
+                <div class="u-rate">
+                    <img
+                        v-for="o in petObject.Star"
+                        :key="o"
+                        class="u-star"
+                        src="../../assets/img/star.svg"
+                        svg-inline
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="u-desc" v-if="petObject.Desc" v-html="renderTextHtml(petObject.Desc)"></div>
     </router-link>
 </template>
 
 <script>
-import itemIcon from "@/components/common/item_icon.vue";
+import { iconLink, extractTextContent } from "@jx3box/jx3box-common/js/utils";
 import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     props: {
         petObject: {},
     },
-    components: {
-        itemIcon,
-    },
+
     data: function () {
         return {};
     },
+
     computed: {
         client() {
             return this.$store.state.client;
         },
     },
     methods: {
+        iconLink,
+        renderTextHtml: function (Text) {
+            let result = Text; 
+            const matches = Text.match(/<Text>(.*?)<\/text>/gims);
+            if (!matches) return Text;
+            for (let match of matches) {
+                let text = extractTextContent(match);
+                const html = text[0].text.replace(/\\n/g, "").replace(/\\/g, "");
+                result = result.replace(match, html);
+            }
+            return result;
+        },
         // 获取宠物边框样式
         getFrameClass: function (quality) {
             let className = "";

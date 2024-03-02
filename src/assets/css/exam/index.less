@@ -1,10 +1,14 @@
 .p-exam {
     position: relative;
+    .pt(40px);
     .m-exam-search {
         .search-group {
             .search-item {
                 &.type-list {
                     .type-item {
+                        &:last-child {
+                            margin: 0;
+                        }
                         &:hover,
                         &.is-active {
                             background-color: @examColor;
@@ -16,6 +20,7 @@
                     }
                 }
                 &.filter-wrap {
+                    margin: 0;
                     .filter-img {
                         &.active {
                             svg {
@@ -27,11 +32,7 @@
             }
         }
     }
-    @media screen and (max-width: @phone) {
-        .m-exam-search {
-            max-width: 100%;
-        }
-    }
+
     .u-search-btn {
         position: absolute;
         right: 0;
@@ -118,7 +119,9 @@
         }
     }
 }
-
+.p-exam .m-exam-search .search-group .search-item.type-list .type-item:last-child {
+    .ml(20px);
+}
 .filter-content {
     .filter-item {
         .check-box-wrapper {
@@ -137,7 +140,38 @@
 }
 
 @media screen and (max-width: @phone) {
-    .p-exam .m-exam-content {
-        .pt(64px);
+    .p-exam .m-exam-search .search-group .search-item.type-list .type-item:last-child {
+        .ml(0px);
+    }
+    .p-exam {
+        .m-exam-content {
+            .pt(64px);
+        }
+        .m-exam-search {
+            box-sizing: border-box;
+            max-width: 100%;
+            .el-radio-group {
+                .flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .search-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+                .type-list {
+                    .w(100%);
+                    box-sizing: border-box;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    .el-radio-group {
+                        gap: 0;
+                    }
+                    .type-item {
+                        width: calc(33%);
+                        margin: 0;
+                    }
+                }
+            }
+        }
     }
 }

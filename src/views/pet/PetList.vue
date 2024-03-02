@@ -1,15 +1,15 @@
 <template>
-    <div class="p-pet-list" v-loading="loading" ref="listRef">
+    <div class="p-pet-list p-common-list" v-loading="loading" ref="listRef">
         <petTabs
             @change="handleTabChange"
             :types="Type"
-            :Source="Source"
             :active="active"
+            :Source="Source"
             @setActive="setActive"
             :mapList="mapList"
         />
-
-        <template v-if="luckyList.length > 0">
+        <PublicNotice bckey="pet_ac" />
+        <template v-if="luckyList.length > 0 && !showAllList">
             <div class="m-pet-title u-type u-lucky-title">
                 <div class="u-title">{{ $t('今日福缘') }}</div>
             </div>
@@ -24,7 +24,12 @@
                     <div class="u-all" @click="setActive(item.class)">{{ $t('查看全部') }}</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item v-for="pet in item.list" :key="pet.id" :petObject="pet" />
+                    <pet-item
+                        :style="!isPhone ? `width: calc(100% / ${per_page} - 20px)` : ''"
+                        v-for="pet in item.list"
+                        :key="pet.id"
+                        :petObject="pet"
+                    />
                 </div>
             </div>
         </template>
@@ -65,10 +70,12 @@
     </div>
 </template>
 <script>
+import PublicNotice from "@/components/PublicNotice";
 import petTabs from "@/components/pet/tabs";
 import petItem from "@/components/pet/item";
 import luckyItem from "@/components/pet/lucky";
 import { clone } from "lodash";
+import { isPhone } from "@/utils/index";
 import Type from "@/assets/data/pet_type.json";
 import Source from "@/assets/data/pet_source.json";
 
@@ -82,6 +89,7 @@ export default {
         petTabs,
         petItem,
         luckyItem,
+        PublicNotice,
     },
     data() {
         return {
@@ -133,21 +141,27 @@ export default {
             return this.$store.state.client;
         },
         params({ tabsData }) {
-            return {
+            const _params = {
                 ...tabsData,
                 page: this.page || 1,
                 client: this.client,
             };
+            if (this.active) _params.Class = this.active;
+            return _params;
         },
+
         hasNextPage() {
             return this.page < this.pages;
+        },
+        isPhone() {
+            return isPhone();
         },
     },
     watch: {
         params: {
             deep: true,
             handler(val) {
-                this.getPetListInit();
+                this.getPetListInit(val);
             },
         },
     },
@@ -158,17 +172,10 @@ export default {
     },
     mounted: function () {},
     methods: {
-        /**
-         * 地图
-         */
         getMapList() {
             getMapList().then((res) => {
-                let data = res.data,
-                    mapList = [];
-                Object.keys(data).forEach((key, i) => {
-                    mapList.push({ label: data[key], value: key });
-                });
-                this.mapList = mapList;
+                let data = res.data;
+                this.mapList = Object.keys(data).map((key, i) => ({ label: data[key], value: key }));
             });
         },
         isNoRes() {
@@ -186,6 +193,7 @@ export default {
         },
         setActive(val) {
             this.active = val;
+            this.page = 1;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();
         },
@@ -195,7 +203,7 @@ export default {
         },
         getPetListInit() {
             if (!this.params.Class) {
-                this.showCount(2);
+                this.showCount(1);
                 this.showAllList = false;
                 this.list_type.forEach((e) => {
                     let params = clone(this.params);
@@ -244,14 +252,6 @@ export default {
                         this.pages = res.data.pages;
                     }
                     this.$forceUpdate();
-                    // if (this.appendMode) {
-                    //     this.list = this.list.concat(newList);
-                    // } else {
-                    //     this.list = newList;
-                    // }
-                    // this.appendMode = false;
-                    // this.total = res.data.total;
-                    // this.pages = res.data.pages;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -279,9 +279,10 @@ export default {
             this.tabsData = data;
         },
         // 按宽度显示个数
-        showCount(num = 2) {
+        showCount(num = 1) {
+            if (this.isPhone) num += 8;
             const listWidth = this.$refs.listRef?.clientWidth;
-            this.per_page = Math.floor(listWidth / 118) * num;
+            this.per_page = Math.floor(listWidth / 206) * num;
         },
     },
 };

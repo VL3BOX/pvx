@@ -1,57 +1,33 @@
 <template>
-    <div class="m-pet-tabs m-common-tabs">
-        <template v-for="item in types">
-            <div :key="item.type" class="u-tab" @click="clickTabs(item)" :class="item.class == active && 'active'">
-                {{ item.name }}
-            </div>
-        </template>
-
-        <!-- 地图筛选 -->
-        <div class="u-maps">
-            <el-select v-model="mapId" filterable :placeholder="$t('宠物地图')" popper-class="u-select" clearable>
-                <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
-        </div>
-
-        <div class="u-filter">
-            <el-popover
-                placement="bottom-end"
-                trigger="click"
-                width="90"
-                v-model="filterOpen"
-                popper-class="u-filter-popover"
-            >
-                <el-radio-group v-model="petSource" class="m-pet-filter m-common-filter">
-                    <el-radio-button
-                        class="u-filter"
+    <CommonToolbar search color="#d16400" :active="active" :types="list" @update="updateToolbar">
+        <template v-slot:prepend>
+            <div class="m-toolbar-item">
+                <el-select v-model="mapId" :class="{ active: mapId }" filterable class="u-select" clearable>
+                    <el-option label="全部地图" value=""></el-option>
+                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                    </el-option>
+                    <template #prefix> 地图 </template>
+                </el-select>
+                <el-select v-model="petSource" :class="{ active: petSource }" filterable class="u-select" clearable>
+                    <el-option
                         v-for="(item, index) in Source"
                         :key="'laiyuan' + index"
-                        :label="item.source"
-                        size="mini"
-                        >{{ item.name }}</el-radio-button
+                        :label="item.name"
+                        :value="item.source"
                     >
-                </el-radio-group>
-
-                <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
-            </el-popover>
-        </div>
-
-        <div class="u-search">
-            <el-input
-                :placeholder="$t('请输入搜索内容')"
-                v-model="title"
-                suffix-icon="el-icon-search"
-                class="u-search-input"
-            />
-        </div>
-    </div>
+                    </el-option>
+                    <template #prefix> 来源 </template>
+                </el-select>
+            </div>
+        </template>
+    </CommonToolbar>
 </template>
 
 <script>
-import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
+import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "tabs",
+    components: { CommonToolbar },
     props: ["types", "Source", "active", "mapList"],
     data: function () {
         return {
@@ -64,9 +40,6 @@ export default {
     computed: {
         params() {
             const _params = {};
-            if (this.active) {
-                _params.Class = this.active;
-            }
             if (this.petSource) {
                 _params.Source = this.petSource;
             }
@@ -78,11 +51,23 @@ export default {
             }
             return _params;
         },
+        list() {
+            return this.types.map((item) => {
+                item.label = item.name;
+                item.value = item.class;
+                return item;
+            });
+        },
     },
     methods: {
         //切换数据
-        clickTabs(item) {  
-            this.$emit("setActive", item.class);
+        clickTabs(val) {
+            this.$emit("setActive", val);
+        },
+        updateToolbar(data) {
+            const { type, search } = data;
+            this.title = search;
+            this.clickTabs(type);
         },
     },
     watch: {
@@ -96,50 +81,3 @@ export default {
     },
 };
 </script>
-
-<style lang="less">
-@import "~@/assets/css/common/tabs.less";
-.m-pet-tabs {
-    .u-tab {
-        &.active,
-        &:hover {
-            background-color: @petColor;
-        }
-    }
-    .u-filter {
-        &:hover {
-            background-color: @petColor;
-        }
-    }
-    .u-maps {
-        flex-shrink: 0;
-        input {
-            .r(30px);
-        }
-    }
-}
-
-.m-pet-filter {
-    .u-filter {
-        .w(100px);
-        .el-radio-button__inner {
-            padding: 12px 0;
-            &:hover {
-                background-color: @petColor !important;
-                color: #fff;
-                border: 1px solid  @petColor;
-            }
-        }
-        &.is-active {
-            .el-radio-button__inner {
-                background-color: @petColor !important;
-                border-color: @petColor !important;
-                color: #fff;
-            }
-        }
-    }
-}
-.u-filter-popover {
-    width: 220px !important;
-}
-</style>

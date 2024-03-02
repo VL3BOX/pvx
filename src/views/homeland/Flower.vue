@@ -403,8 +403,6 @@ export default {
                 this.current_server = localStorage.getItem("flower_server") || "蝶恋花";
             }
         }
-
-        console.log(11);
     },
     components: {
     },

@@ -1,7 +1,7 @@
 <template>
     <div class="p-adventure-single" v-if="id" v-loading="loading">
         <div class="m-adventure-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>{{ $t('返回列表') }}</el-button>
+            <div class="u-goback" @click="goBack">{{ $t('返回列表') }}</div>
             <!-- <el-input
                 :placeholder="$t('请输入奇遇或宠物名字搜索')"
                 v-model="search"
@@ -24,7 +24,7 @@
             <task :id="id" :info="data" />
         </div>
         <!-- 包含攻略、评论、历史版本、点赞等 书籍，宠物等物品为item, 声望成就等为achievement -->
-        <pvx-user :id="achieve_id" :name="$t('奇遇')" type="achievement">
+        <pvx-user :id="achieve_id" :name="$t('奇遇')" type="achievement" v-if="achieve_id">
             <template slot="serendipity">
                 <div class="m-adventure-serendipity">
                     <Serendipity :title="title" />

@@ -11,8 +11,9 @@
     </div>
 </template>
 
+
 <script>
-import Nav from "@/components/Nav_v3.vue";
+import Nav from "@/components/Nav_v4.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 
 import { mapState } from "vuex";

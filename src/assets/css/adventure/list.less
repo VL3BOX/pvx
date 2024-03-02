@@ -3,7 +3,7 @@
 .p-adventure-List {
     .u-type {
         .flex;
-        margin: 20px 0 20px 0;
+        .mb(20px);
         justify-content: space-between;
         align-items: flex-end;
         .u-all {
@@ -20,7 +20,7 @@
 }
 
 .m-adventure-list {
-    .pr;
+    .mt(40px);
     .u-shade-btn {
         .pointer;
         .pa;
@@ -60,23 +60,19 @@
 }
 
 //分类型list
-.m-face-list {
-    .flex;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    .w(100%);
-}
 .u-all-type {
     margin-top: 20px !important;
 }
 //全部list
 .m-face-list--all {
+    .mb(40px);
     display: inline-flex;
     flex-wrap: wrap;
+    gap: 20px;
 }
 .m-archive-more {
     width: 100%;
-    .mb(20px);
+    .mb(40px);
 }
 @media screen and (max-width: @ipad) {
     .m-adventure {
@@ -92,17 +88,13 @@
         }
     }
 
-    .m-face-list {
+    .m-common-list { 
         overflow-x: auto;
         .scrollbar(2px);
     }
 }
-@media screen and (max-width: @phone) {
-    .m-share-tabs {
-        width: calc(100% - 30px);
-    }
-    .m-adventure-list-0,
-    .p-adventure-List .u-type.u-all-type {
-        .pt(64px);
-    }
-}
+// @media screen and (max-width: @phone) {
+//     .p-adventure-List .u-type.u-all-type {
+//         .pt(64px);
+//     }
+// }

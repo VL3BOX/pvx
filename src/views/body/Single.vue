@@ -1,31 +1,22 @@
 <template>
-    <div class="p-face-single" v-loading="loading">
+    <div class="p-face-single" v-loading="loading" ref="singleRef">
         <div class="m-navigation">
-            <el-button class="u-goback" size="medium" @click="goBack" plain>{{ $t('返回列表') }}</el-button>
-            <!-- 操作tool -->
-            <div class="u-right-btn">
-                <div class="m-face-btn-box">
-                    <a  v-if="isSinglePage && isEditor"  href="/os/#/omp/pvx/bodydata" target="_blank">
-                        <el-button type="primary" size="medium" icon="el-icon-setting" class="u-manage">
-                            {{ $t('管理') }}
-                        </el-button>
-                    </a>
-                    <a :href="publish_link">
-                        <el-button type="primary" size="medium" class="u-btn u-publish" icon="el-icon-edit"
-                        >{{ $t('发布') }}</el-button
-                        >
-                    </a>
-                </div>
+            <div class="u-goback" @click="goBack">返回列表</div>
+
+            <div class="m-face-btn-box">
+                <a :href="publish_link" target="_blank">
+                    <div class="u-face-publish">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                        <span>发布体型</span>
+                    </div>
+                </a>
+                <a href="/os/#/omp/pvx/bodydata" target="_blank">
+                    <div size="medium" class="u-manage"></div>
+                </a>
             </div>
         </div>
         <!-- 基本信息 -->
         <div class="m-header">
-            <!-- <el-image class="m-avatar" :src="imgLink(post.images)" fit="cover">
-                <div slot="error" class="image-slot">
-                    <img class="u-pic" src="../../assets/img/body_null.png" />
-                </div>
-            </el-image> -->
-
             <div class="m-header-info">
                 <h2>
                     {{ post.title || $t('无标题') }}
@@ -34,11 +25,11 @@
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
-                        post.display_name
-                    }}</a>
+                            post.display_name
+                        }}</a>
                     <a class="u-name" :href="post.author_link" target="_blank" v-else-if="post.author_link">{{
-                        post.author_name
-                    }}</a>
+                            post.author_name
+                        }}</a>
                     <span class="u-name" v-else>{{ post.author_name }}</span>
                     <time class="u-time">{{ post.updated_at }}</time>
                     <a class="u-edit" v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
@@ -52,124 +43,144 @@
                     <i class="u-original" v-if="!!post.original">{{ $t('原创') }}</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
                     <i class="u-bodytype" :class="'u-bodytype-' + post.body_type" v-if="post.body_type">{{
-                        showBodyTypeLabel(post.body_type)
-                    }}</i>
+                            showBodyTypeLabel(post.body_type)
+                        }}</i>
                 </div>
             </div>
             <a :href="tvLink" target="_blank" class="m-topic" v-if="topicText">{{ topicText }}</a>
         </div>
 
         <div class="m-face-content">
-            <div class="m-single-pics m-single-content-box" v-if="showCarousel">
+            <div class="m-single-pics m-single-content-box" v-if="previewSrcList">
                 <!-- 动态改为当前图片 -->
-                <div class="u-bg-wrap">
-                    <div class="u-bg" :style="{ backgroundImage: `url(${showPic(activePic)})` }"></div>
+                <div v-if="previewSrcList.length === 0" class="u-no-pic">
+                    <i class="el-icon-picture-outline"></i>
+                    <span>该脸型数据暂无图片</span>
                 </div>
-
-                <el-carousel class="m-carousel" :interval="4000" type="card" arrow="always" @change="carouselChange">
-                    <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
-                        <div class="m-face-pic">
-                            <el-image
-                                ref="previewImage"
-                                fit="contain"
-                                :src="showPic(item)"
-                                class="u-pic"
-                                :preview-src-list="resolveImageArr(previewSrcList)"
-                                @click.capture="handlePreviewImage(i)"
-                            ></el-image>
-                        </div>
-                    </el-carousel-item>
-                </el-carousel>
-            </div>
-
-            <!-- 购买区 -->
-            <div class="m-face-pay" v-if="post.price_type && post.price_type != 0 && !has_buy">
-                <div class="m-face-pay-info">
-                    <span class="u-text">{{ $t('该体型数据售价：') }}</span>
-                    <el-tag effect="dark" color="#ffad31" round>
-                        <span v-if="post.price_type == 1">{{ post.price_count }} {{ $t('盒币') }}</span>
-                        <span v-if="post.price_type == 2">{{ post.price_count }} {{ $t('金箔') }}</span>
-                    </el-tag>
-                    <el-button
-                        class="u-btn"
-                        type="primary"
-                        size="small"
-                        icon="el-icon-shopping-cart-2"
-                        @click="facePay"
-                        :loading="payBtnLoading"
+                <template v-else>
+                    <div class="u-bg-wrap">
+                        <div class="u-bg" :style="{ backgroundImage: `url(${showPic(activePic)})` }"></div>
+                    </div>
+                    <el-carousel
+                        class="m-carousel"
+                        :interval="4000"
+                        type="card"
+                        arrow="always"
+                        @change="carouselChange"
                     >
-                        {{ $t('购买') }}
-                    </el-button>
+                        <el-carousel-item v-for="(item, i) in previewSrcList" :key="i">
+                            <div class="m-face-pic">
+                                <el-image
+                                    ref="previewImage"
+                                    fit="contain"
+                                    :src="showPic(item)"
+                                    class="u-pic"
+                                    :preview-src-list="resolveImageArr(previewSrcList)"
+                                    @click.capture="handlePreviewImage(i)"
+                                ></el-image>
+                            </div>
+                        </el-carousel-item>
+                    </el-carousel>
+                </template>
+            </div>
+
+            <!-- 右侧 -->
+            <div class="m-face-pay">
+                <div class="m-face-buy" :class="{ 'm-dowload': (post.price_type && post.price_type === 0) || has_buy }">
+                    <div
+                        class="m-face-buy-btn"
+                        @click="bodyPay()"
+                        v-if="post.price_type && post.price_type != 0 && !has_buy"
+                    >
+                        <div class="u-price" v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
+                        <div class="u-price" v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
+                        <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="" />购买</div>
+                    </div>
+                    <div class="m-face-buy-btn" v-else @click="downloadAll">
+                        <div class="u-buy"><img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据</div>
+                    </div>
+
+                    <div class="u-update-time">更新时间： {{ post.updated_at }}</div>
+                    <img class="u-box-img" :src="require('@/assets/img/face/face_stroke.svg')" />
                 </div>
-                <img class="u-box-img" src="../../assets/img/box.svg" />
-            </div>
-        </div>
-
-        <div class="m-desc" v-if="post.remark">
-            <h3>{{ $t('说明') }}</h3>
-            <div class="u-desc" v-if="post.remark">{{ post.remark }}</div>
-        </div>
-
-        <!-- 数据区 -->
-        <div class="m-single-data" v-if="has_buy && bodydata">
-            <h3>{{ $t('独家数据分析') }}</h3>
-            <Bodydat class="m-single-content-box" v-if="bodydata" :data="bodydata" />
-        </div>
-        <!--下载区-->
-        <div class="m-face-files" v-if="has_buy && downFileList && downFileList.length > 0">
-            <h3>{{ $t('原始文件列表') }}</h3>
-            <div class="m-single-content-box">
-                <ul class="m-face-files-list">
-                    <li v-for="item in downFileList" :key="item.id">
-                        <div>
-                            <span class="u-label"
-                                >{{ $t('名称') }}: <em>{{ item.name }}</em></span
-                            >
-                            <span class="u-label"
-                                >{{ $t('版本') }} : <em>{{ item.created_at }}</em></span
-                            >
-                            <span class="u-label" v-if="item.describe"
-                                >{{ $t('备注') }} ： <em>{{ item.describe }}</em></span
-                            >
+                <div class="m-face-tips" v-if="post.game_price">
+                    <img :src="require('@/assets/img/face/info.svg')" alt="" />
+                    <div class="u-tips-left">该数据含游戏内收费项目，总计约</div>
+                    <div class="u-tips-right">{{ post.game_price }}通宝</div>
+                </div>
+                <div class="u-face-desc-tab">
+                    <span
+                        @click="rightShow = 'desc'"
+                        :style="rightShow === 'data' ? 'color: #c2c5c7;cursor: pointer;' : ''"
+                    >说明</span
+                    >
+                    <span
+                        @click="rightShow = 'data'"
+                        v-if="downFileList && downFileList.length"
+                        :style="rightShow === 'desc' ? 'color: #c2c5c7;cursor: pointer;' : ''"
+                    >数据列表</span
+                    >
+                </div>
+                <div
+                    class="m-face-desc"
+                    :class="{ 'no-desc': !post.remark && rightShow === 'desc', 'is-desc': rightShow === 'desc' }"
+                >
+                    <div v-if="rightShow === 'desc'" class="u-desc">
+                        {{ post.remark }}
+                    </div>
+                    <div class="m-face-files-list" v-if="rightShow === 'data' && downFileList && downFileList.length">
+                        <div class="u-file" v-for="item in downFileList" :key="item.id">
+                            <div class="u-info">
+                                <span class="u-label"> {{ item.name }} </span>
+                                <span class="u-label">
+                                    备注 ： <em>{{ item.describe || "无" }}</em>
+                                </span>
+                            </div>
+                            <a class="u-action" href="" @click.prevent="getDownUrl(item.uuid, item.name)">下载</a>
                         </div>
-                        <el-button
-                            class="u-action"
-                            icon="el-icon-download"
-                            size="mini"
-                            type="primary"
-                            round
-                            @click="getDownUrl(item.uuid)"
-                            >{{ $t('下载') }}</el-button
-                        >
-                    </li>
-                </ul>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!--作者随机作品-->
-        <div class="m-random-list">
-            <h3>{{ $t('作者其他作品') }}</h3>
-            <div class="u-list m-single-content-box" v-if="randomList.length">
-                <bodyItem :noName="true" :item="item" v-for="item in randomList" :key="item.id" />
+                <div class="m-face-head" v-if="topic_info">
+                    <img :src="require('@/assets/img/face/cup.svg')" alt="" />
+                    该脸型于{{ topic_info.created_at }}荣登头条
+                </div>
             </div>
-            <span class="u-list-null m-single-content-box" v-else>· {{ $t('作者没有更多作品了') }} ·</span>
         </div>
-        <!--搭配随机作品-->
-        <!-- <div class="m-pvxbody-list">
-            <h3>{{ $t('搭配指南') }}</h3>
-            <div class="u-list m-single-content-box" v-if="faceList.length">
-                <bodyItem :onlyPic="true" :item="pvxbody" />
-                <faceItem :item="item" :noName="true" v-for="item in faceList" :key="item.id" />
+        <!-- 数据区 -->
+        <div class="m-single-data">
+            <span class="m-single-data-title">独家数据分析</span>
+            <Bodydat v-if="bodydata" :data="bodydata" />
+            <div class="m-single-buy-box" v-else>
+                <div
+                    class="m-face-buy-btn"
+                    @click="bodyPay()"
+                    v-if="post.price_type && post.price_type != 0 && !has_buy"
+                >
+                    <div class="u-price" v-if="post.price_type == 1">售价：{{ post.price_count }} 盒币</div>
+                    <div class="u-price" v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
+                    <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="" />购买</div>
+                </div>
+                <div class="u-face-buy-tip">数据分析将在购买后解锁</div>
             </div>
-            <span class="u-list-null m-single-content-box" v-else>· 作者没有关联的作品 ·</span>
-        </div> -->
-        <!-- 上传作者区域 -->
+        </div>
+        <div class="m-face-download" v-if="has_buy && bodydata">
+            <div class="m-face-buy-btn" @click="downloadAll">
+                <div class="u-buy"><img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据</div>
+            </div>
+        </div>
+        <div class="u-about-author">关于作者</div>
         <authorItem :uid="post.user_id" />
+        <div class="m-random-list">
+            <div class="u-list m-single-content-box m-author-faces" v-if="randomList.length">
+                <bodyItem class="u-item" :item="item" :noName="true" v-for="item in randomList" :key="item.id" />
+            </div>
+        </div>
         <!-- 点赞 -->
         <Thx
             class="m-thx m-single-content-box"
             :postId="id"
-            postType="pvxbody"
+            postType="body"
             :postTitle="post.title || '无标题'"
             :userId="post.user_id"
             :adminBoxcoinEnable="post.status == 1"
@@ -179,13 +190,15 @@
         <!-- 评论 -->
         <div class="m-single-content-box">
             <el-divider content-position="left">{{ $t('讨论') }}</el-divider>
-            <Comment :id="id" category="pvxbody" />
+            <Comment :id="id" category="body" />
         </div>
     </div>
 </template>
 
 <script>
+import PublicNotice from "@/components/PublicNotice";
 const single_pages = ["single"];
+import { downloadZip } from "@/utils/exportFileZip";
 import {
     getOneBodyInfo,
     payBody,
@@ -203,23 +216,21 @@ import {
 import { publishLink } from "@jx3box/jx3box-common/js/utils";
 import { getStat, postStat } from "@jx3box/jx3box-common/js/stat";
 import Comment from "@jx3box/jx3box-comment-ui/src/Comment.vue";
+import Bodydat from "@jx3box/jx3box-facedat/src/Bodydat.vue";
 import { editLink, showAvatar, authorLink, resolveImagePath } from "@jx3box/jx3box-common/js/utils";
 import User from "@jx3box/jx3box-common/js/user";
 import { bodyMap } from "@jx3box/jx3box-data/data/role/body.json";
-import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __imgPath, __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 
 import dayjs from "@/plugins/day";
-import Bodydat from "@jx3box/jx3box-facedat/src/Bodydat.vue";
 import bodyItem from "@/components/body/item";
-import faceItem from "@/components/face/item";
 import authorItem from "@/components/face/author";
 export default {
     name: "single",
     components: {
-        Comment,
-        // faceItem,
         Bodydat,
-        bodyItem,
+        Comment,
+        bodyItem ,
         authorItem,
     },
     data: function () {
@@ -240,21 +251,32 @@ export default {
             randomList: [],
             carouselActive: 0,
             isEditor: User.isEditor(),
-
+            rightShow: "desc",
             topic_info: null,
-            pvxbody: {},
-            faceList: [],
+            face: {},
+            pvxbodyList: [],
+            newFaceMap: ["写意", "写实"],
         };
     },
     computed: {
+        ready: function () {
+            return !!(this.facedata && this.decalDb.ready());
+        },
         publish_link() {
             return publishLink("body");
         },
         id: function () {
             return ~~this.$route.params.id;
         },
+        isAdmin: function () {
+            return User.isAdmin();
+        },
         isAuthor: function () {
             return this.post?.user_id == User.getInfo().uid || false;
+        },
+        facedata: function () {
+            const data = this.post?.data || "";
+            return data.indexOf("\\") > -1 ? JSON.parse(data) : data;
         },
         bodydata: function () {
             const data = this.post?.data || "";
@@ -300,13 +322,15 @@ export default {
         topicText() {
             return this.topic_info ? `${dayjs.tz(this.topic_info.created_at).format("YYYY年MM月DD日")}荣登头条` : "";
         },
-        showCarousel() {
-            if (this.previewSrcList?.length > 0) return true;
-            if (!this.has_buy) return true;
-            return false;
-        },
         tvLink() {
             return __Root + "index/tv";
+        },
+        bodyAllData() {
+            return {
+                json: this.bodydata,
+                object: JSON.parse(this.bodydata),
+                type: "body",
+            };
         },
     },
     created: function () {
@@ -314,7 +338,7 @@ export default {
     },
     methods: {
         imgLink: function (images) {
-            return images?.length ? images[0] : "";
+            return images?.[0] || __imgPath + "image/body/null2.png";
         },
         showAvatar(url) {
             return showAvatar(url, "l");
@@ -324,11 +348,11 @@ export default {
         },
         authorLink,
         editLink,
-        getFaceList() {
+        getBodyList() {
             this.$router.push({ name: "list", query: { title: this.search } });
         },
         goBack() {
-            document.title = "体型分享 - JX3BOX";
+            document.title = "捏脸分享 - JX3BOX";
             this.$router.push({ name: "list" });
         },
         showClientLabel: function (val) {
@@ -352,22 +376,23 @@ export default {
                 this.loading = true;
                 getOneBodyInfo(this.id)
                     .then((res) => {
-                        this.post = this.$store.state.faceSingle = res.data.data;
+                        this.post = this.$store.state.bodySingle = res.data.data;
                         document.title = this.post.title;
+
                         this.getAccessoryList();
-                        //获取作者作品
-                        this.getRandomFaceList();
-                        this.getRandomList();
+                        //获取作者作品 和 系统推荐作品
+                        this.getRandomBodyList();
+                        // this.getRandomList();
                         this.getSliders();
                     })
                     .catch((err) => {
                         this.loading = false;
                     });
 
-                getStat("pvxbody", this.id).then((res) => {
+                getStat("body", this.id).then((res) => {
                     this.stat = res.data;
                 });
-                postStat("pvxbody", this.id);
+                postStat("body", this.id);
             }
         },
         downloadPageQuery(pageIndex) {
@@ -377,23 +402,88 @@ export default {
         getAccessoryList() {
             getAccessoryList(this.id, this.downloadParams)
                 .then((res) => {
-                    const { page, list, has_buy } = res.data.data;
-                    this.has_buy = has_buy ? has_buy : false;
-                    if (has_buy) {
-                        this.downFileList = list;
-                        this.downloadParams.total = page.total;
+                    let data = res.data.data;
+                    this.has_buy = data.has_buy;
+                    if (data.has_buy) {
+                        this.downFileList = data.list;
+                        this.downloadParams.total = data.page.total;
+                    }
+                    if (!this.post.remark && this.downFileList && this.downFileList.length) {
+                        this.rightShow = "data";
                     }
                 })
                 .finally(() => {
                     this.loading = false;
                 });
         },
-        getDownUrl(uuid) {
+        getDownUrl(uuid, filename) {
             getDownUrl(this.id, uuid).then((res) => {
-                window.location.href = resolveImagePath(res.data.data?.url);
+                // window.location.href = resolveImagePath(res.data.data?.url);
+                this.downloadfile(res.data.data?.url, filename);
             });
         },
-        facePay() {
+        downloadfile(url, filename) {
+            this.getBlob(url).then((blob) => {
+                this.saveAs(blob, filename);
+            });
+        },
+        getBlob(url) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("GET", url, true);
+                xhr.responseType = "blob";
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        resolve(xhr.response);
+                    }
+                };
+
+                xhr.send();
+            });
+        },
+        saveAs(blob, filename) {
+            if (window.navigator.msSaveOrOpenBlob) {
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                const link = document.createElement("a");
+                const body = document.querySelector("body");
+
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                // fix Firefox
+                link.style.display = "none";
+                body.appendChild(link);
+
+                link.click();
+                body.removeChild(link);
+
+                window.URL.revokeObjectURL(link.href);
+            }
+        },
+        downloadAll() {
+            if (this.downFileList.length === 1) {
+                const item = this.downFileList[0];
+                this.getDownUrl(item.uuid, item.name);
+                return;
+            }
+            const urlArr = [];
+            this.downFileList.forEach((item) => {
+                urlArr.push(getDownUrl(this.id, item.uuid));
+            });
+            let p = Promise.all(urlArr);
+            let downloadFiles = [];
+            p.then((arr) => {
+                downloadFiles = arr.map((item, index) => {
+                    return {
+                        name: this.downFileList[index].name,
+                        url: item.data.data?.url,
+                    };
+                });
+                downloadZip(downloadFiles, `body_${this.id}.zip`, "url", "name");
+            });
+        },
+        bodyPay() {
             if (!User.isLogin()) {
                 User.toLogin();
                 return;
@@ -406,7 +496,7 @@ export default {
                 .then(() => {
                     let res = this.post;
                     let params = {
-                        postType: "pvxbody",
+                        postType: "body",
                         PostId: res.id,
                         priceType: res.price_type,
                         priceCount: res.price_count,
@@ -421,7 +511,7 @@ export default {
                             // 轮询接口
                             let setIntervalId = setInterval(
                                 loopPayStatus(payid).then((d) => {
-                                    this.getPayFaceStatus(d.data.data.pay_status, setIntervalId);
+                                    this.getPayBodyStatus(d.data.data.pay_status, setIntervalId);
                                 }, 1000)
                             );
                         })
@@ -445,7 +535,7 @@ export default {
                 })
                 .catch(() => {});
         },
-        getPayFaceStatus(pay_status, setIntervalId) {
+        getPayBodyStatus(pay_status, setIntervalId) {
             if (pay_status == 1) {
                 this.payBtnLoading = false;
                 clearInterval(setIntervalId);
@@ -464,9 +554,11 @@ export default {
                 });
             }
         },
-        getRandomFaceList() {
+        getRandomBodyList() {
             const { user_id } = this.post;
-            getRandomBody({ user_id, limit: 8 }).then((res) => {
+            const listWidth = this.$refs.singleRef?.clientWidth - 120;
+            const limit = Math.floor(listWidth / 190);
+            getRandomBody({ user_id, limit }).then((res) => {
                 if (res.data.data.list && res.data.data.list.length > 0) {
                     this.randomList = res.data.data.list;
                 }
@@ -475,9 +567,9 @@ export default {
         getRandomList() {
             const { body_type, client, user_id } = this.post;
             getRandomFaceAndBody({ body_type, client, user_id, limit: 8 }).then((res) => {
-                const { pvxbody, faceList } = res.data.data;
-                this.pvxbody = pvxbody;
-                this.faceList = faceList || [];
+                const { face, pvxbodyList } = res.data.data;
+                this.face = face;
+                this.pvxbodyList = pvxbodyList || [];
             });
         },
         showPic(url) {

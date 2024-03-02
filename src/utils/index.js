@@ -17,3 +17,13 @@ export function isPhone() {
     );
     return mobile !== null;
 }
+
+// 多字段排序 - 数值
+export function sortBy(filed1, filed2) {
+    return function (a, b) {
+        if (a[filed1] === b[filed1]) {
+            return a[filed2] - b[filed2];
+        }
+        return a[filed1] - b[filed1];
+    };
+}

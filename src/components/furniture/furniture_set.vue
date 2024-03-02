@@ -52,22 +52,28 @@ export default {
 
 <style lang="less" scoped>
 .m-furniture-set {
+    .r(10px);
+    padding: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
+    transition: 0.3s ease-out;
+    &:hover {
+        border: 1px solid #E86F00;
+        box-shadow: 0px 0px 10px 0px #E86F0066;
+        background: #E86F001A;
+    }
     .u-item {
         .flex;
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
         padding: 10px;
-        background-color: #fff;
         transition: all 0.1s ease-in-out;
         width: 140px;
         height: 200px;
         border-radius: 10px;
         box-sizing: border-box;
         overflow: hidden;
-        &:hover {
-            filter: brightness(110%) saturate(120%);
-        }
         .u-image {
             background-image: url("../../assets/img/horse_item_bg_sm.jpg");
             background-position: center;

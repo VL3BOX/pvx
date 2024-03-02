@@ -5,28 +5,28 @@
         target="_blank"
         v-reporter="{ data: { href: '/face/' + item.id, ...reporter }, caller: 'face_index' }"
     >
-        <div class="m-img">
-            <img class="u-pic" :src="showThumb(imgLink)" loading="lazy" />
-            <div class="u-mask"></div>
-            <div class="m-mark-left">
+        <el-image class="u-img" :src="showThumb(imgLink)" fit="cover"></el-image>
+        <div class="m-tags">
+            <div class="m-tag-left">
                 <template v-if="client === 'std'">
-                    <i class="u-mark u-mark--type u-new-face" v-if="item.is_new_face">{{ $t('写实') }}</i>
-                    <i class="u-mark u-mark--type" v-else>{{ $t('写意') }}</i>
+                    <i class="u-tag u-tag--type u-new-face" v-if="item.is_new_face">{{ $t('写实') }}</i>
+                    <i class="u-tag u-tag--type" v-else>{{ $t('写意') }}</i>
                 </template>
-                <i class="u-mark u-mark--new" v-if="!!item.is_unlimited">{{ $t('可新建') }}</i>
+                <i class="u-tag u-tag--new" v-if="!!item.is_unlimited">{{ $t('可新建') }}</i>
             </div>
-            <i class="u-mark u-mark--star" v-if="!!item.star">
-                <img :src="require('@/assets/img/face/star.svg')" alt="">
+
+            <i class="u-tag u-tag--star" v-if="!!item.star">
+                <img :src="require('@/assets/img/face/star.svg')" alt="" />推荐
             </i>
-            <i class="u-mark u-mark--pay" v-if="!!~~item.price_type && !!item.price_count">
-                <img :src="require('@/assets/img/face/coin.svg')" alt="">
+            <i class="u-tag u-tag--pay" v-if="!!~~item.price_type && !!item.price_count">
+                <img :src="require('@/assets/img/face/coin.svg')" alt="" />{{ item.price_count }}
             </i>
         </div>
 
         <div class="m-op">
             <div class="u-title">{{ item.title }}</div>
             <div class="m-author" @click.stop="onAuthorClick">
-                <img class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
+                <el-image class="u-avatar" :src="showAvatar(item.user_avatar)" :alt="author" />
                 <span class="u-name"> {{ item.author_name || "匿名" }} </span>
             </div>
         </div>

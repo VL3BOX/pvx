@@ -56,6 +56,7 @@ export default {
 	.flex;
 	flex-wrap: wrap;
 	align-items: center;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 	.u-item {
 		.db;
 		transition: all 0.1s ease-in-out;

@@ -69,5 +69,18 @@ export default {
             background-color: @activeColor;
         }
     }
+    .u-search .u-search-input input {
+        background-color: #fff;
+    }
+}
+@media screen and(max-width:@phone) {
+    .m-price-tabs {
+        flex-direction: row;
+        gap: 10px;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+        padding: 10px 15px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    }
 }
 </style>

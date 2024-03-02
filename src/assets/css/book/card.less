@@ -1,47 +1,45 @@
 .m-book-card {
-    .u-book-info {
-        position: relative;
-        width: 190px;
-        height: 280px;
-        cursor: pointer;
-        background-position: center;
+    .r(10px);
+    .w(190px); 
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    .u-book-info { 
+        .pr;
+        .size(100%,280px);
+        .pointer;
+        background-position: top right;
         background-repeat: no-repeat;
-        background-size: 100% 100%;
+        background-size: contain;
         transition: all 0.5s;
         .dbi;
+        background-image: url("../../img/book/line.png");
         .title {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 200px;
-            text-align: center;
+            .pa;
+            .lt(20px);
+            .size(50px,200px);
+            .bold;
+            .fz(14px);
+            .flex;
+            align-items: center;
+            justify-content: center;
             writing-mode: vertical-lr;
             letter-spacing: 5px;
-            font-weight: 700;
-            font-size: 14px;
             color: #000;
             box-sizing: border-box;
-            padding: 20px 0 20px 15px;
-            transition: all 0.5s;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            background: url("../../img/book/title.png") center center no-repeat;
+            background-size: contain;
         }
         &.u-profession-bg--9 {
-            background-image: url("../../img/book/profession-9.png");
+            background-color: #947d2e;
         }
         &.u-profession-bg--10 {
-            background-image: url("../../img/book/profession-10.png");
+            background-color: #194372;
         }
         &.u-profession-bg--11 {
-            background-image: url("../../img/book/profession-11.png");
-        }
-        &:hover {
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
-            // .title {
-            //     transform: scale(1.1);
-            // }
+            background-color: #324148;
         }
     }
     .u-desc-info {
@@ -49,14 +47,14 @@
         .flex;
         .pr;
         .mt(10px);
-        .size(190px,52px);
+        .size(100%,52px);
         .r(10px);
         .fz(12px);
-        color: #000;
+        background-color: #f1f1f1;
+        color: rgba(0, 0, 0, 0.85);
         justify-content: center;
         align-items: center;
         padding: 10px 17px;
-        background-color: #fff;
         box-sizing: border-box;
         opacity: 1;
         word-break: break-all;
@@ -66,16 +64,19 @@
             transition: all 0.5s;
         }
         .desc-title {
-            .pa; 
+            .pa;
             .full;
-            .flex; 
+            .flex;
             .tm(0);
             justify-content: center;
-            align-items: center; 
+            align-items: center;
             transition: all 0.5s;
         }
     }
     &:hover {
+        .u-book-info{
+            box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.85);
+        }
         .u-desc-info {
             .desc {
                 opacity: 0;
@@ -87,9 +88,9 @@
     }
 }
 
-@media screen and (max-width: @phone) {
-    .m-book-card {
-        width: 100%;
-        text-align: center;
-    }
-}
+// @media screen and (max-width: @phone) {
+//     .m-book-card {
+//         width: 100%;
+//         text-align: center;
+//     }
+// }

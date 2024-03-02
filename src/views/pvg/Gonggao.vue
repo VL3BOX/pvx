@@ -1,14 +1,7 @@
 <template>
     <div class="p-gonggao">
-        <div class="m-gonggao-tabs m-common-tabs">
-            <template v-for="tab in tabs">
-                <div :key="tab.key" class="u-tab" @click="go(tab)" :class="active === tab.key && 'active'">
-                    {{ tab.label }}
-                </div>
-            </template>
-        </div>
+        <CommonToolbar class="m-gonggao-tabs" color="#53b27f" :types="tabs" @update="updateToolbar" />
         <div class="m-content">
-            <!-- <component :is="tab"></component> -->
             <router-view></router-view>
         </div>
     </div>
@@ -16,30 +9,24 @@
 
 <script>
 import { getMyFocusServers, getAllServers } from "@/service/server.js";
-// import Daily from "@/components/gonggao/Daily.vue";
-// import Calendar from "@/components/gonggao/Calendar.vue";
-// import Server from "@/components/gonggao/Server.vue";
+import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "Gonggao",
-    // components: {
-    //     Daily,
-    //     Calendar,
-    //     Server,
-    // },
+    components: { CommonToolbar },
     data() {
         const { t } = this.$i18n;
         return {
             tabs: [
                 {
-                    key: "daily",
+                    value: "daily",
                     label: t('速览'),
                 },
                 {
-                    key: "calendar",
+                    value: "calendar",
                     label: t('日历'),
                 },
                 {
-                    key: "server",
+                    value: "server",
                     label: t('开服状态'),
                 },
             ],
@@ -80,11 +67,6 @@ export default {
         },
     },
     methods: {
-        go(tab) {
-            this.$router.push({
-                path: `/gonggao/${tab.key}`,
-            });
-        },
         // 获取服务器列表
         loadAllServers() {
             getAllServers().then((res) => {
@@ -117,6 +99,12 @@ export default {
             });
             this.$store.commit("setFavList", favList);
         },
+        updateToolbar(data) {
+            const { type } = data;
+            this.$router.push({
+                path: `/gonggao/${type}`,
+            });
+        },
     },
     created() {
         this.loadAllServers();
@@ -125,21 +113,10 @@ export default {
 </script>
 
 <style lang="less">
-@import "~@/assets/css/common/tabs.less";
-.m-gonggao-tabs {
-    .u-tab {
-        &.active,
-        &:hover {
-            background-color: @priceColor;
-        }
-    }
-}
-.p-gonggao .m-content {
+.p-gonggao {
     .pt(20px);
-}
-@media screen and (max-width: @phone) {
-    .p-gonggao .m-content {
-        .pt(64px);
+    .m-content {
+        .pt(20px);
     }
 }
 </style>

@@ -4,7 +4,7 @@
         <img class="u-suffix" src="@/assets/img/adventure_bg.png" />
         <div class="u-content" id="task-box">
             <div class="u-item u-task-name">
-                <img :src="getImg()" />
+                <img :src="getImg(info)" />
                 <div class="u-info-box">
                     <span class="u-title">{{ info.szName }}</span>
                 </div>
@@ -73,8 +73,7 @@ export default {
         imgUrl(link) {
             return this.__imgRoot + `adventure/${this.client}/${link}.png`;
         },
-        getImg() {
-            const info = this.info;
+        getImg(info) { 
             const type = info.szRewardType;
             if (type === "school" || type === "camp") {
                 return this.toSpecial(info);
@@ -96,9 +95,11 @@ export default {
         loadData() {
             getAdventureTask(this.id).then((res) => {
                 let list = [];
+                console.log( res.data)
                 res.data.forEach((e) => {
                     if (e.szFramePath) {
                         let k = e.szFramePath?.replace(/\\/g, "/");
+                        console.log(k)
                         e.imgurl = this.imgNameTga(k);
                         list.push(e);
                     }

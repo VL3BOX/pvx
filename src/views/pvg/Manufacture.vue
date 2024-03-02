@@ -1,22 +1,7 @@
 <template>
-    <div class="m-manufacture">
-        <div class="m-manufacture-tabs m-common-tabs">
-            <span
-                :class="['u-tab', item.name == craftName ? 'active' : '']"
-                v-for="(item, i) in craftList"
-                :key="i"
-                @click="changeCraft(i)"
-                >{{ item.name }}</span
-            >
-            <div class="u-search">
-                <el-input
-                    :placeholder="$t('搜索') + craftName + $t('配方')"
-                    v-model.lazy="search"
-                    suffix-icon="el-icon-search"
-                    class="u-search-input"
-                />
-            </div>
-        </div>
+    <div class="m-manufacture"> 
+        <CommonToolbar color="#07ad36" search :active="active" :types="craftList" @update="updateToolbar" />
+
         <div class="m-manufacture-body">
             <!-- 配方 -->
             <div class="m-manufacture-box">
@@ -48,14 +33,14 @@ import { getCraftJson, getManufactures } from "@/service/manufacture";
 import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import { craft_types } from "@/assets/data/manufacture.json";
-
+import CommonToolbar from "@/components/common/toolbar.vue";
 import Recipe from "@/components/manufacture/Recipe.vue";
 import Cart from "@/components/manufacture/Cart.vue";
 import MyList from "@/components/manufacture/MyList.vue";
 
 export default {
     name: "Manufacture",
-    components: { Recipe, Cart, MyList },
+    components: { Recipe, Cart, MyList, CommonToolbar },
     data: function () {
         return {
             craftList: [],
@@ -68,6 +53,7 @@ export default {
             craftTypes: craft_types,
             server: "蝶恋花",
             cartItem: {},
+            active: "",
         };
     },
     computed: {
@@ -87,8 +73,16 @@ export default {
             getCraftJson()
                 .then((res) => {
                     const { std, origin } = res.data;
-                    this.craftList = this.client == "std" ? this.toCraftList(std) : this.toCraftList(origin);
+                    const list = this.client == "std" ? this.toCraftList(std) : this.toCraftList(origin);
+                    this.craftList =
+                        list.map((item) => {
+                            item.value = item.key;
+                            item.label = item.name;
+                            return item;
+                        }) || [];
                     if (this.craftList.length) this.index = 0;
+                    this.active = this.craftList[0].value;
+            
                 })
                 .finally(() => {
                     this.loading = false;
@@ -132,11 +126,16 @@ export default {
         },
         // 切换技艺
         changeCraft(i) {
-            this.index = i;
+            this.index = this.craftList.findIndex((item) => item.value == i);
         },
         // 选择新添配方
         addCartItem(item) {
             this.cartItem = item;
+        },
+        updateToolbar(data) {
+            const { type, search } = data;
+            this.search = search;
+            this.changeCraft(type);
         },
     },
 
@@ -165,14 +164,6 @@ export default {
 <style lang="less">
 @import "~@/assets/css/common/tabs.less";
 
-.m-manufacture-tabs {
-    .u-tab {
-        &.active,
-        &:hover {
-            background-color: #07ad36;
-        }
-    }
-}
 .m-manufacture-body {
     .pt(20px);
     .flex;
@@ -181,8 +172,10 @@ export default {
     gap: 20px;
 }
 @media screen and (max-width: @phone) {
-    .m-manufacture-body {
-        .pt(110px);
+    .m-manufacture-tabs {
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 }
 .m-manufacture-title {

@@ -1,84 +1,63 @@
 .m-face-item {
-    .pr;
     .flex;
     .pointer;
     .r(10px);
-    .size(200px,264px);
+    .size(190px,280px);
+    flex-shrink: 0;
     flex-direction: column;
+    padding: 15px;
     gap: 10px;
-    padding: 20px;
     box-sizing: border-box;
     background: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-out;
     &.noName {
-        .h(234px);
-        background: rgba(36, 41, 46, 0.05);
+        .h(250px);
         .m-op .m-author {
             .none;
         }
     }
     &:hover {
-        animation: dissolve 300ms ease-out;
-        background-color: #786cbb;
-        .m-op {
-            .u-title,
-            .m-author .u-name {
-                color: #fff;
-            }
-        }
+        background: rgba(222, 216, 255, 0.5);
+        border: 2px solid #6b52ff;
+        box-shadow: 0px 0px 10px #6b52ff;
     }
 
-    .m-img {
-        .pr;
+    .u-img {
         .size(160px);
         .r(10px);
-        .u-pic {
-            .pr;
-            .full;
-            .r(10px);
-            object-fit: cover;
+    }
+    .m-tags {
+        .flex;
+        .h(20px);
+        .fz(12px,18px);
+        color: #fff;
+        justify-content: space-between;
+        .m-tag-left {
+            .flex;
+            gap: 4px;
         }
-        .u-mask {
-            .pa;
-            .lt(0);
-            .size(100%);
-            content: "";
-            .r(10px);
-            background: linear-gradient(180deg, #000000 -72.19%, rgba(0, 0, 0, 0) 29.69%),
-            linear-gradient(0deg, #E1E1E100, #E1E1E100);
-        }
-        .m-mark-left {
-            .pa;
-            .lt(10px);
-            .u-mark {
-                .mr(4px)
-            }
-        }
-        .m-mark-right {
-            .pa;
-            .rt(10px);
+        .m-tag-right {
+            .flex;
             max-width: 72px;
-            .u-mark {
-                .ml(4px)
-            }
+            gap: 4px;
         }
-        .u-mark {
-            .dbi;
-            .bold(400);
-            .fz(12px,16px);
-            .z(6);
+        .u-tag {
+            .flex;
             .r(3px);
-            .x;
-            color: #fff;
-            padding: 2px 8px;
+            align-items: center;
+            padding: 0 5px;
+            gap: 2px;
             font-style: normal;
         }
-        .u-mark--new {
+        .u-tag--new {
             background-color: #ff7991;
         }
-        .u-mark--type {
-            background-color: #23ABE5;
+        .u-tag--type {
+            background-color: #23abe5;
             &.u-new-face {
-                background-color: #53B27F;
+                background-color: #53b27f;
             }
         }
         .u-icon-star:before {
@@ -87,25 +66,22 @@
             vertical-align: middle;
             line-height: 20px;
         }
-        .u-mark--star {
-            .pa;
-            .rt(10px);
+        .u-tag--star {
             background-color: @faceColor;
             padding: 3px;
             display: flex;
-            img{
+            img {
                 .size(14px);
             }
         }
-        .u-mark--pay {
-            .pa;
-            .rt(10px);
+        .u-tag--pay {
             background-color: #ffad31;
             padding: 3px;
             display: flex;
-            img{
+            img {
                 .size(14px);
-            }}
+            }
+        }
         .u-icon-coin:before {
             vertical-align: middle;
             line-height: 20px;
@@ -116,13 +92,14 @@
         flex-direction: column;
         gap: 10px;
         .u-title {
-            .fz(18px,26px);
+            .bold;
+            .fz(16px,24px);
             .break(1);
             color: #000;
         }
         .m-author {
             .flex;
-            .fz(12px,1.5);
+            .fz(12px,18px);
             .nobreak;
             gap: 4px;
             align-items: center;
@@ -139,11 +116,13 @@
             }
         }
     }
-    // body
-    &.m-body-item {
+    body &.m-body-item {
         .size(200px,368px);
         .m-img {
             .size(160px,264px);
+        }
+        .u-pic {
+            .full;
         }
         &.noName {
             .h(340px);
@@ -173,17 +152,5 @@
                 }
             }
         }
-    }
-}
-
-
-@keyframes dissolve {
-    0% {
-        background-color: #e1dfdf;
-        color: #606266;
-    }
-    100% {
-        background-color: #786cbb;
-        color: #fff;
     }
 }

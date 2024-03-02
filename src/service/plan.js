@@ -31,9 +31,9 @@ function searchItemsID(params) {
         });
 }
 // 获取我的清单
-function getMyPlans(params) {
+function getMyPlans() {
     return $cms()
-        .get(`/api/cms/app/item-plan/mine`, { params })
+        .get(`/api/cms/app/item-plan/mine`, { params: { no_page: 1, _no_cache: 1 } })
         .then((res) => {
             return res.data.data;
         });

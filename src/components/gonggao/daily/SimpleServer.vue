@@ -1,29 +1,30 @@
 <template>
     <div class="m-simple-server">
         <div class="m-my-server">
-            <div class="u-server-title">
-                <div class="u-name">{{ myServer.main_server }}</div>
-                <div class="u-status" :class="myServer.connect_state_class">
-                    {{ myServer.connect_state_name }}
+            <div class="m-server-header">
+                <div class="u-server-title">常用</div>
+                <div class="m-status">
+                    <div class="u-status is-open">良好</div>
+                    <div class="u-status is-busy">繁忙</div>
+                    <div class="u-status is-full-load">爆满</div>
+                    <div class="u-status">维护</div>
                 </div>
             </div>
-            <div class="u-server-ip">
-                IP:{{
-                    myServer.ip_address && myServer.ip_port
-                        ? `${myServer.ip_address}${myServer.ip_port ? ":" + myServer.ip_port : ""}`
-                        : "0.0.0.0"
-                }}
-            </div>
-            <div class="u-server-time">
-                <span>{{ $t('最近维护时间') }}:</span
-                >{{ myServer.maintain_time ? formateTime(myServer.maintain_time * 1000) : "-" }}
+            <div class="m-fav-list">
+                <div class="m-server-item" v-for="item in list" :key="item.main_server">
+                    <div class="u-name">{{ item.main_server }}</div>
+                    <div class="u-zone">{{ item.zone_name }}</div>
+                    <div class="u-status" :class="item.connect_state_class"></div>
+                </div>
             </div>
         </div>
-        <div class="m-fav-servers">
-            <div class="m-server-item" v-for="item in list" :key="item.main_server">
-                <div class="u-name">{{ item.main_server }}</div>
-                <div class="u-status" :class="item.connect_state_class">
-                    {{ item.connect_state_name }}
+        <div class="m-all-servers">
+            <div class="u-server-title">全部服务器</div>
+            <div class="m-server-list">
+                <div class="m-server-item" v-for="item in serverList" :key="item.main_server">
+                    <el-tooltip :class="{ on: item.connect_state }" effect="dark" :content="item.main_server">
+                        <div class="u-status" :class="item.connect_state_class"></div>
+                    </el-tooltip>
                 </div>
             </div>
         </div>
@@ -88,7 +89,7 @@ export default {
                     list = favList.concat(remainServerList.splice(0, 3 - len));
                 }
             }
-            return list;
+            return [this.myServer].concat(list);
         },
     },
     watch: {

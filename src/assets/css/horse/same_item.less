@@ -1,95 +1,66 @@
 .same-item {
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 20px;
-    width: 482px;
-    height: 160px;
-    border-radius: 10px;
-    color: #24292e;
-    background-color: #ffffff;
-    cursor: pointer;
+    .flex;
+    .r(10px);
+    .pointer;
+    .size(190px, 128px);
+    flex-direction: column;
     box-sizing: border-box;
-    .gradient-right {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 20%;
-        border-radius: 10px;
-        z-index: 0;
-        opacity: 0;
-        background-image: linear-gradient(to left, @active-color, rgba(0, 0, 0, 0));
-        transition-property: opacity;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 0.3s;
-    }
-    &:last-child {
-        margin-right: 0;
+    padding: 20px 15px;
+    color: #24292e;
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    border: 1px solid #fff;
+    transition: 0.3s ease-out;
+    &:hover {
+        border: 1px solid #e86f00;
+        box-shadow: 0 0 10px 0 rgba(232, 111, 0, 0.4);
+        background-color: rgba(232, 111, 0, 0.1);
+        .info-item .u-more {
+            background-color: #fff;
+        }
     }
     .img-wrap {
-        width: 120px;
-        height: 120px;
+        .size(48px);
+        .r(10px);
+        flex-shrink: 0;
         background-image: url("../../img/horse_item_bg_sm.jpg");
-        border-radius: 10px;
         transition: all 0.5s;
-        border-radius: 10px;
         box-sizing: border-box;
         .u-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 10px;
+            .full;
+            .r(10px);
             box-sizing: border-box;
         }
     }
-    &:hover {
-        .img-wrap {
-            transform: scale(1.05);
-        }
-        .gradient-right {
-            opacity: 0.3;
-        }
-    }
+
     .info-wrap {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-left: 10px;
-        width: 320px;
-        height: 120px;
-        .info-item {
-            font-size: 20px;
-            font-weight: 700;
-            &.name {
-                height: 26px;
-                line-height: 26px;
-                &:first-of-type {
-                    margin-top: 2px;
-                    margin-bottom: 10px;
-                }
-            }
-            &.u-attr-wrap {
-                position: relative;
-                margin-top: 14px;
-                width: 100%;
-                overflow-y: hidden;
-                overflow-x: auto;
-                z-index: 1;
-                .u-attr-icon {
-                    width: 40px;
-                    height: 40px;
-                    overflow: hidden;
-                }
-                .u-attr-content {
-                    display: -webkit-inline-box;
-                    .u-attr {
-                        margin-right: 10px;
-                    }
-                }
-            }
+        .flex;
+        .w(100%);
+        gap: 10px;
+    }
+
+    .info-item {
+        .flex;
+        gap: 10px;
+        align-items: center;
+        &.name {
+            .break(1);
+        }
+        .u-attr-icon {
+            .size(30px);
+            .clip;
+            flex-shrink: 0;
+        }
+        .u-more {
+            .flex;
+            .r(5px);
+            .size(100%,30px);
+            font-weight: 400;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background-color: #f3f4f5;
         }
     }
 }
