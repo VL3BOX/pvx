@@ -5,8 +5,8 @@
         <template v-if="active === -1">
             <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box" :class="{ none: !item.list.length }">
                 <div class="u-type">
-                    <div class="u-title">{{ item.label + "脸型" }}</div>
-                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                    <div class="u-title">{{ $t(item.label + "脸型") }}</div> <!-- i18n:assets/data/body_types -->
+                    <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
                 </div>
 
                 <CommonList :class="{ search: tabsData.name }" :data="{ ...itemData, type: item.value }" @update:load="handleLoad">
@@ -18,7 +18,7 @@
         </template>
         <div class="m-face-box" v-else>
             <div class="m-face-title u-type">
-                <div class="u-title">{{ typeName + "脸型" }}</div>
+                <div class="u-title">{{ $t(typeName + "脸型") }}</div> <!-- i18n:assets/data/body_types -->
             </div>
             <div class="m-face-list--all">
                 <faceItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />

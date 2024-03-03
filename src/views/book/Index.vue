@@ -41,7 +41,7 @@
             </template>
             <div class="m-book-list" v-else>
                 <div class="u-type u-all-type">
-                    <div class="u-title">{{ typeName }}</div>
+                    <div class="u-title">{{ $t(typeName) }}</div> <!-- i18n -->
                     <div v-if="active !== 0" class="m-operate">
                         <div
                             class="m-item"
@@ -50,7 +50,7 @@
                             v-for="item in showTypes"
                             @click="showType = item.value"
                         >
-                            {{ item.label }}
+                            {{ $t(item.label) }}
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                     @click="appendPage"
                     :loading="loading"
                     icon="el-icon-arrow-down"
-                    >加载更多</el-button
+                    >{{ $t('加载更多') }}</el-button
                 >
                 <el-pagination
                     class="m-archive-pages"

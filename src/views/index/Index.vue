@@ -2,7 +2,7 @@
     <div class="p-index">
         <div class="m-index-category" v-for="(menu, index) in menus" :key="index" :class="'index' + index">
             <div class="u-index-category-title">
-                {{ menu.label }}
+                {{ $t(menu.label) }} <!-- i18n:assets/data/menus -->
             </div>
             <div class="m-child-category-list">
                 <a
@@ -13,8 +13,8 @@
                     :target="submenu.target || '_self'"
                     :key="i"
                 >
-                    <img :src="getNavIcon(submenu.key)" class="u-img" :alt="submenu.label" />
-                    <span class="u-text">{{ submenu.label }}</span>
+                    <img :src="getNavIcon(submenu.key)" class="u-img" :alt="$t(submenu.label)" /> <!-- i18n:assets/data/menus -->
+                    <span class="u-text">{{ $t(submenu.label) }}</span> <!-- i18n:assets/data/menus -->
                 </a>
             </div>
         </div>

@@ -3,8 +3,8 @@
         <template v-slot:prepend>
             <div class="m-toolbar-item">
                 <el-select v-model="mapId" :class="{ active: mapId }" filterable class="u-select" clearable>
-                    <el-option :label="t('全部地图')" value=""></el-option>
-                    <el-option v-for="item in mapList" :key="item.value" :label="item.label" :value="item.value">
+                    <el-option :label="$t('全部地图')" value=""></el-option>
+                    <el-option v-for="item in mapList" :key="item.value" :label="$t(item.label)" :value="item.value">
                     </el-option>
                     <template #prefix> {{ $t('地图') }} </template>
                 </el-select>
@@ -12,7 +12,7 @@
                     <el-option
                         v-for="(item, index) in Source"
                         :key="'laiyuan' + index"
-                        :label="item.name"
+                        :label="$t(item.name)"
                         :value="item.source"
                     >
                     </el-option>

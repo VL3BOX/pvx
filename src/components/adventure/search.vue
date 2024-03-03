@@ -3,7 +3,7 @@
         <div class="m-adventure-mark">
             <span class="u-mark" v-for="(item, i) in marks" :key="i" @click="changeMark(i)">
                 <b :class="i == index ? 'active' : ''"></b>
-                <span>{{ item.name }}</span>
+                <span>{{ $t(item.name) }}</span> <!-- i18n:assets/data/adventure_class -->
             </span>
         </div>
         <div class="u-input">

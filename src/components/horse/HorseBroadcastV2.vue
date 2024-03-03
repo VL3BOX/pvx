@@ -1,9 +1,9 @@
 <template>
     <div class="m-horse-broadcast">
         <div class="m-horse-broadcast__header">
-            <div class="u-title">抓马播报</div>
-            <el-select class="u-select" v-model="server" placeholder="请选择服务器" size="mini">
-                <el-option v-for="serve in servers" :key="serve" :label="serve" :value="serve"></el-option>
+            <div class="u-title">{{ $t('抓马播报') }}</div>
+            <el-select class="u-select" v-model="server" :placeholder="$t('请选择服务器')" size="mini">
+                <el-option v-for="serve in servers" :key="serve" :label="$t(serve)" :value="serve"></el-option>
             </el-select>
         </div>
         <div class="m-horse-broadcast__list" v-if="listData.length && listData[active].map_id">
@@ -35,12 +35,12 @@
                             </div>
                         </div>
                     </div>
-                    <span v-else class="m-horse no-horse">本周赤兔尚未刷新</span>
+                    <span v-else class="m-horse no-horse">{{ $t('本周赤兔尚未刷新') }}</span>
                 </div>
             </div>
         </div>
 
-        <div v-else class="w-no-data">{{ server }} 暂无播报</div>
+        <div v-else class="w-no-data">{{ $t(server) + $t('暂无播报') }}</div>
     </div>
 </template>
 

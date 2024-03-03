@@ -4,8 +4,8 @@
         <template v-if="active === -1">
             <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box" :class="{ none: !item.list.length }">
                 <div class="u-type">
-                    <div class="u-title">{{ item.label + "体型" }}</div>
-                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
+                    <div class="u-title">{{ $t(item.label + "体型") }}</div> <!-- i18n:assets/data/body_types -->
+                    <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
                 </div>
 
                 <CommonList :class="{ search: tabsData.name }" :data="{ ...itemData, type: item.value }" @update:load="handleLoad">
@@ -17,13 +17,13 @@
         </template>
         <div class="m-face-box" v-else>
             <div class="m-face-title u-type">
-                <div class="u-title">{{ typeName + "体型" }}</div>
+                <div class="u-title">{{ $t(typeName + "体型") }}</div> <!-- i18n:assets/data/body_types -->
             </div>
             <div class="m-face-list--all">
                 <bodyItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
             </div>
             <el-button class="m-archive-more" v-show="hasNextPage" type="primary" @click="appendPage" :loading="loading" icon="el-icon-arrow-down"
-                >加载更多</el-button
+                >{{ $t('加载更多') }}</el-button
             >
             <el-pagination
                 class="m-archive-pages"

@@ -10,7 +10,7 @@
             >
                 <template v-if="item.list.length">
                     <div class="u-type">
-                        <div class="u-title">{{ item.label + "奇遇" }}</div>
+                        <div class="u-title">{{ $t(item.label + "奇遇") }}</div> <!-- i18n:assets/data/adventure_class -->
                         <div class="u-all" @click="setActive(item.value)">{{ $t('查看全部') }}</div>
                     </div>
 
@@ -33,7 +33,7 @@
         </template>
         <div class="m-adventure-list" v-else>
             <div class="u-type u-all-type">
-                <div class="u-title">{{ typeName + "奇遇" }}</div>
+                <div class="u-title">{{ $t(typeName + "奇遇") }}</div> <!-- i18n:assets/data/adventure_class -->
             </div>
             <div class="m-face-list--all" v-if="subList.length">
                 <AdventureItem

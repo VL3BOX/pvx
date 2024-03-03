@@ -15,7 +15,7 @@
                         <div class="info-item u-desc">
                             <span>
                                 
-                                {{ $t('分类:') + displayType }}
+                                {{ $t('分类:') + $t(displayType) }}
                             </span>
                             <span>{{ $t('品质:') + item.Level }}</span>
                             <span v-if="type !== '2'">{{ $t('跑速:') + speedName }}</span>

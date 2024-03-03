@@ -12,7 +12,7 @@
                         <div class="filter-content">
                             <div class="filter-item" v-for="(sItem, i) in searchType" :key="i">
                                 <div class="check-box-wrapper">
-                                    <div class="name">{{ sItem.name }}</div>
+                                    <div class="name">{{ $t(sItem.name) }}</div>
                                     <el-checkbox-group v-model="searchType[i].checked">
                                         <el-checkbox-button
                                             v-for="option in sItem.list"
@@ -24,7 +24,7 @@
                             </div>
                             <el-row>
                                 <el-col :offset="20" :span="4">
-                                    <el-button size="mini" type="info" plain @click="reset">重置</el-button>
+                                    <el-button size="mini" type="info" plain @click="reset">{{ $t('重置') }}</el-button>
                                 </el-col>
                             </el-row>
                         </div>
@@ -45,9 +45,9 @@
                     <template v-if="item.list && item.list.length">
                         <div class="u-type">
                             <div class="u-title">
-                                {{ item.name }}
+                                {{ $t(item.name) }}
                             </div>
-                            <div class="u-all" @click="clickTabs(item.value)">查看全部</div>
+                            <div class="u-all" @click="clickTabs(item.value)">{{ $t('查看全部') }}</div>
                         </div>
 
                         <CommonList :data="{ ...itemData, type: item.type }" @update:load="handleLoad">

@@ -11,7 +11,7 @@
                 :key="i"
                 @click="changeType(item.value)"
             >
-                {{ item.label }}
+                {{ $t(item.label) }} <!-- i18n:assets/data/face_types -->
             </div>
         </div>
         <slot name="prepend"></slot>
@@ -19,7 +19,7 @@
             <slot name="filter"></slot>
             <div class="u-search">
                 <el-input
-                    placeholder="请输入搜索内容"
+                    :placeholder="$t('请输入搜索内容')"
                     v-model="title"
                     suffix-icon="el-icon-search"
                     class="u-search-input"

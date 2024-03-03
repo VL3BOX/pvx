@@ -29,9 +29,9 @@
                             <img svg-inline :src="require(`../assets/img/nav/${item.key}2.svg`)" class="u-icon-hover" />
                         </div>
 
-                        <span>{{ item.label }}</span>
+                        <span>{{ $t(item.label) }}</span> <!-- i18n:assets/data/menus -->
                     </a>
-                    <div v-show="navStatus === 1" class="u-nav-label">{{ item.label }}</div>
+                    <div v-show="navStatus === 1" class="u-nav-label">{{ $t(item.label) }}</div> <!-- i18n:assets/data/menus -->
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@
         <template v-if="!showAllList">
             <div v-for="(item, index) in list_type" :key="'l' + index">
                 <div class="m-pet-title u-type" v-if="item.list.length > 0">
-                    <div class="u-title">{{ item.name }}</div>
+                    <div class="u-title">{{ $t(item.name) }}</div>
                     <div class="u-all" @click="setActive(item.class)">{{ $t('查看全部') }}</div>
                 </div>
                 <div class="m-pet-list">
@@ -35,7 +35,7 @@
         </template>
         <template v-else>
             <div class="m-pet-title u-type">
-                <div class="u-title">{{ typeName }}</div>
+                <div class="u-title">{{ $t(typeName) }}</div>
             </div>
             <div class="m-pet-list">
                 <pet-item v-for="pet in list" :key="pet.id" :petObject="pet" />
