@@ -43,7 +43,7 @@
         </div>
         <Thx
             class="m-thx"
-            :postId="[id]"
+            :postId="id"
             :postType="type"
             :postTitle="wiki_post.source.Name"
             :userId="author_id"
