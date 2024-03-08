@@ -17,6 +17,7 @@ export function getInfo (params) {
   return $.get(`/reputation`, { params });
 }
 
+// 已弃用
 export function getReputationLinkedAchievement () {
   return axios.get(`https://data.jx3box.com/pvx/reputation/output/reputation_std_achivement.json`);
 }
