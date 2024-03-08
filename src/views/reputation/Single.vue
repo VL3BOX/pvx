@@ -153,7 +153,7 @@ import levelList from "@/assets/data/reputation_level.json";
 
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 
-import { getInfo, getReputationLinkedAchievement } from "@/service/reputation";
+import { getInfo } from "@/service/reputation";
 
 export default {
     name: "reputationSingle",
@@ -179,7 +179,6 @@ export default {
                 szDesc: "",
             },
             loading: false,
-            achievements: {},
         };
     },
     computed: {
@@ -190,7 +189,8 @@ export default {
             return parseInt(this.$route.params.id);
         },
         achievement_id() {
-            return this.achievements[this.id];
+            // 目前只对应了声望最高等级的成就
+            return this.reputation.achievement?.[0]?.ID;
         },
         showReward: function () {
             return this.reputation.RewardItems;
@@ -311,11 +311,6 @@ export default {
                 }
             },
         },
-    },
-    mounted() {
-        getReputationLinkedAchievement().then((res) => {
-            this.achievements = res.data;
-        });
     },
 };
 </script>
