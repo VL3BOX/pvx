@@ -36,7 +36,7 @@
             <!-- 历史版本 -->
             <WikiRevisions :type="type" :source-id="id" />
         </div>
-        <div class="m-wiki-post-empty" v-else>
+        <div class="m-wiki-post-empty" v-if="(!wiki_post || !wiki_post.post) && id">
             <i class="el-icon-s-opportunity"></i>
             <span>暂无攻略，我要</span>
             <a class="s-link" :href="publish_url(`${type}/${id}`)">完善攻略</a>
