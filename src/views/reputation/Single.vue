@@ -52,7 +52,7 @@
                     </div>
                     <div class="detail-wrap" v-if="reputation.servant">
                         <div class="sub-title sub-name">
-                            {{ reputation.servant.szNpcName }}
+                            {{ reputation.servant && reputation.servant.szNpcName }}
                         </div>
                         <div class="u-desc" v-html="reputation.servant.szDescBrief"></div>
                         <div class="u-desc" v-html="reputation.servant.szDescPersonality.replace(/\\n/g, '<br>')"></div>
@@ -75,7 +75,13 @@
             </div>
             <div
                 class="map-wrapper"
-                v-if="reputation.szMapNames && reputation.szMapNames.length && !reputation.hiddenMap"
+                v-if="
+                    reputation.szMapNames &&
+                    reputation.szMapNames.length &&
+                    reputation.Guides &&
+                    reputation.Guides.length &&
+                    !reputation.hiddenMap
+                "
             >
                 <div class="title">
                     声望商人
