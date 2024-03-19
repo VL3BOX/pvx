@@ -3,7 +3,7 @@
         <PvxSearch class="m-exam-search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)">
             <a
                 v-if="publishText"
-                class="u-search-btn u-publish"
+                class="u-search-btn"
                 :class="`u-publish__${search.type}`"
                 :href="publishLink"
                 slot="default"
