@@ -89,7 +89,7 @@ let store = {
             state.serverList = list;
         },
         setGoodsType(state, data) {
-            state.systemGoodsType = data;
+            state.systemGoodsType = data || "";
         },
     },
 
