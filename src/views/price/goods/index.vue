@@ -176,8 +176,7 @@ export default {
             this.getMyFollowGoodsPrice();
         },
     },
-    created() {
-        this.$store.dispatch("loadItemKeys");
+    mounted () {
         if (User.isLogin() && this.client === "std") {
             getUserInfo().then((res) => {
                 this.server = res.data?.data?.jx3_server || "梦江南";
@@ -191,7 +190,7 @@ export default {
                 this.getMyFollowList();
             }
         }
-    },
+    }
 };
 </script>
 <style lang="less">

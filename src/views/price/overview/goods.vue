@@ -149,7 +149,6 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch("loadItemKeys");
         if (User.isLogin()) {
             this.getSystemGoodsData();
             this.getMyFollowList();

@@ -33,7 +33,7 @@ export default {
     },
     mounted() {
         this.params.currentTab = this.$route.query.tab || "";
-    },
+    }
 };
 </script>
 <style lang="less">
