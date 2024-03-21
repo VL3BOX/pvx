@@ -25,7 +25,7 @@
 <script>
 import server_cn from "@jx3box/jx3box-data/data/server/server_cn.json";
 import server_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
-import systemGoodsType from "@/assets/data/systemGoodsType.json";
+
 import {
     getSystemGoodsData,
     getServerPriceData,
@@ -44,7 +44,6 @@ export default {
     data() {
         return {
             server: "",
-            systemGoodsType,
             systemGoodsData: [], // 系统关注物品
             priceMap: {}, // 物品id和价格的映射
             myFollowData: [], // 我的关注清单id
@@ -56,6 +55,9 @@ export default {
     computed: {
         client() {
             return this.$store.state.client;
+        },
+        systemGoodsType() {
+            return this.$store.state.systemGoodsType;
         },
         serverList() {
             return this.client == "std" ? server_cn : server_origin;
@@ -96,9 +98,7 @@ export default {
     },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData({
-                key: systemGoodsType.join(","),
-            }).then((res) => {
+            getSystemGoodsData({ key: this.systemGoodsType }).then((res) => {
                 this.systemGoodsData = res.data.data;
                 this.getServerPriceData();
             });
@@ -177,6 +177,7 @@ export default {
         },
     },
     created() {
+        this.$store.dispatch("loadItemKeys");
         if (User.isLogin() && this.client === "std") {
             getUserInfo().then((res) => {
                 this.server = res.data?.data?.jx3_server || "梦江南";

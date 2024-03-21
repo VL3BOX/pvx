@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { getOther, getItemsPrice, getUserInfo } from "@/service/manufacture";
 import { cloneDeep } from "lodash";
 import User from "@jx3box/jx3box-common/js/user";
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc";
 
 Vue.use(Vuex);
 
@@ -24,6 +25,8 @@ let store = {
         uid: User.getInfo().uid || 0,
         isLogin: User.isLogin(),
         isExpand: true,
+
+        systemGoodsType: "",
     },
     mutations: {
         SET_STATE: (state, payload) => {
@@ -84,6 +87,9 @@ let store = {
         },
         setServerList(state, list) {
             state.serverList = list;
+        },
+        setGoodsType(state, data) {
+            state.systemGoodsType = data;
         },
     },
 
@@ -150,6 +156,12 @@ let store = {
                     commit("setServer", res.data?.data?.jx3_server);
                 });
             }
+        },
+        loadItemKeys({ state, commit }) {
+            const key = state.client == "std" ? "pvx-item-price-std" : "pvx-item-price-origin";
+            getBreadcrumb(key).then((res) => {
+                commit("setGoodsType", res);
+            });
         },
     },
 };

@@ -32,13 +32,12 @@
 </template>
 <script>
 import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
-import systemGoodsType from "@/assets/data/systemGoodsType.json";
 import { getSystemGoodsData, getServerPriceData, getMyFollowList, setMyFollowList } from "@/service/price.js"; // 系统关注物品类型
 import { getItemPlanID } from "@/service/plan.js";
 import myGoodList from "../goods/myGoodList.vue";
 import myGoodsDialog from "../goods/myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
-
+import { getBreadcrumb } from "@jx3box/jx3box-common/js/api_misc";
 export default {
     props: {
         server: {},
@@ -47,7 +46,6 @@ export default {
     data() {
         return {
             server_std,
-            systemGoodsType,
             systemGoodsData: [], // 系统关注物品
             priceMap: {}, // 物品id和价格的映射
             myFollowData: [], // 我的关注清单id
@@ -57,11 +55,17 @@ export default {
             isLogin: User.isLogin(),
         };
     },
+    computed: {
+        client() {
+            return this.$store.state.client;
+        },
+        systemGoodsType() {
+            return this.$store.state.systemGoodsType;
+        },
+    },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData({
-                key: systemGoodsType.join(","),
-            }).then((res) => {
+            getSystemGoodsData({ key: this.systemGoodsType }).then((res) => {
                 this.systemGoodsData = res.data.data;
                 this.getServerPriceData();
             });
@@ -145,6 +149,7 @@ export default {
         },
     },
     mounted() {
+        this.$store.dispatch("loadItemKeys");
         if (User.isLogin()) {
             this.getSystemGoodsData();
             this.getMyFollowList();
