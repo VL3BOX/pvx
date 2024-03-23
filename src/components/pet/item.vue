@@ -6,7 +6,7 @@
         target="_blank"
     >
         <div class="m-info">
-            <el-image class="u-icon" :src="iconLink(petObject.IconID)" fit="fit"></el-image>
+            <el-image class="u-icon" :src="iconLink(petObject.IconID, client)" fit="fit"></el-image>
             <div class="u-text">
                 <div class="u-name">{{ petObject.Name }}</div>
                 <div class="u-rate">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { iconLink, extractTextContent } from "@jx3box/jx3box-common/js/utils";
+import { extractTextContent } from "@jx3box/jx3box-common/js/utils";
 import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     props: {
@@ -39,13 +39,17 @@ export default {
 
     computed: {
         client() {
+            return "origin";
             return this.$store.state.client;
         },
     },
     methods: {
-        iconLink,
+        iconLink(id, client) {
+            let icon = client == "std" ? "icon" : "origin_icon";
+            return `${__iconPath}${icon}/${id}.png`;
+        },
         renderTextHtml: function (Text) {
-            let result = Text; 
+            let result = Text;
             const matches = Text.match(/<Text>(.*?)<\/text>/gims);
             if (!matches) return Text;
             for (let match of matches) {
