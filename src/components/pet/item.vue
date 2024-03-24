@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { extractTextContent } from "@jx3box/jx3box-common/js/utils";
+import { extractTextContent, iconLink } from "@jx3box/jx3box-common/js/utils";
 import { __iconPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     props: {
@@ -38,16 +38,12 @@ export default {
     },
 
     computed: {
-        client() {
-            return "origin";
+        client() { 
             return this.$store.state.client;
         },
     },
     methods: {
-        iconLink(id, client) {
-            let icon = client == "std" ? "icon" : "origin_icon";
-            return `${__iconPath}${icon}/${id}.png`;
-        },
+        iconLink,
         renderTextHtml: function (Text) {
             let result = Text;
             const matches = Text.match(/<Text>(.*?)<\/text>/gims);
