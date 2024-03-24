@@ -158,7 +158,7 @@ let store = {
             }
         },
         loadItemKeys({ state, commit }) {
-            const key = state.client !== "std" ? "pvx-item-price-std" : "pvx-item-price-origin";
+            const key = state.client == "std" ? "pvx-item-price-std" : "pvx-item-price-origin";
             getBreadcrumb(key).then((res) => {
                 commit("setGoodsType", res);
             });
