@@ -1,13 +1,25 @@
 .m-common-toolbar {
-    .flex;
-    .r(10px);
-    gap: 10px;
-    background-color: #fff;
-    min-height: 60px;
-    align-items: center;
     box-sizing: border-box;
-    padding: 10px 15px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    .m-toolbar-tool {
+        .flex;
+        .r(10px);
+        min-height: 60px;
+        align-items: center;
+        box-sizing: border-box;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        padding: 0 15px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .m-toolbar-box {
+        .flex;
+        .r(10px);
+        gap: 10px;
+        min-height: 60px;
+        align-items: center;
+        padding: 0 15px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    }
     .m-toolbar-item {
         .flex;
         gap: 10px;
@@ -91,8 +103,6 @@
             min-width: 158px;
             box-sizing: border-box;
         }
-        // _______end
-        // filter
         .u-filter {
             .pointer;
             .size(40px);
@@ -115,11 +125,20 @@
 
 @media screen and (max-width: @ipad) {
     .m-common-toolbar {
-        padding: 0;
-        height: auto;
-        flex-direction: column;
-        box-shadow: 0 0 0 0;
-        gap: 30px;
+        .m-toolbar-tool {
+            padding: 0;
+        }
+        .m-common-toolbar {
+            box-shadow: 0 0 0 0;
+        }
+        .m-toolbar-box {
+            padding: 0;
+            height: auto;
+            flex-direction: column;
+            padding: 0;
+            box-shadow: 0 0 0 0;
+            gap: 10px;
+        }
         .m-toolbar-item {
             .flex;
             .r(10px);

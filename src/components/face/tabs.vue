@@ -33,16 +33,16 @@
                 </el-popover>
             </div>
         </template>
-        <template v-slot:append>
+        <template v-slot:tool>
             <div class="m-toolbar-item m-toolbar-publish">
-                <a :href="link.data" target="_blank">
-                    <el-button type="primary" size="medium" class="u-analysis"> 数据解析 </el-button>
-                </a>
                 <a :href="publish_link(link.key)" target="_blank">
                     <div class="u-face-publish">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
                         <span>发布作品</span>
                     </div>
+                </a>
+                <a :href="link.data" target="_blank">
+                    <el-button type="primary" size="medium" class="u-analysis"> 数据解析 </el-button>
                 </a>
             </div>
         </template>
@@ -192,21 +192,26 @@ export default {
         }
     }
 }
-@media screen and (max-width: @ipad) {
+.m-toolbar-publish {
+    .flex;
+    gap: 20px;
+}
+@media screen and (max-width: @phone) {
     .m-face-tabs {
         .m-toolbar-publish {
+            flex-wrap: wrap;
             order: -1;
             justify-content: space-between;
         }
     }
 }
-@media screen and (max-width: @phone) {
-    .m-face-tabs .m-toolbar-item {
-        &.m-toolbar-publish {
-            a:first-child {
-                order: 2;
-            }
-        }
-    }
-}
+// @media screen and (max-width: @phone) {
+//     .m-face-tabs .m-toolbar-item {
+//         &.m-toolbar-publish {
+//             a:first-child {
+//                 order: 2;
+//             }
+//         }
+//     }
+// }
 </style>

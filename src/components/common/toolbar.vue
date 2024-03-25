@@ -1,32 +1,38 @@
 <template>
     <div class="m-common-toolbar">
-        <slot name="prefix"></slot>
-        <div class="m-toolbar-item" v-if="types.length">
-            <div
-                class="u-item"
-                :style="style(item.value)"
-                @mouseover="handleMouseOver(item.value)"
-                @mouseout="handleMouseOut"
-                v-for="(item, i) in types"
-                :key="i"
-                @click="changeType(item.value)"
-            >
-                {{ item.label }}
-            </div>
+        <!-- 判断是否启用了slot、解决m-toolbar-tool 样式占用问题 -->
+        <div v-if="toolIsUsed" class="m-toolbar-tool">
+            <slot name="tool"></slot>
         </div>
-        <slot name="prepend"></slot>
-        <div class="m-toolbar-item m-toolbar-search" v-if="search">
-            <slot name="filter"></slot>
-            <div class="u-search">
-                <el-input
-                    placeholder="请输入搜索内容"
-                    v-model="title"
-                    suffix-icon="el-icon-search"
-                    class="u-search-input"
-                />
+        <div class="m-toolbar-box">
+            <slot name="prefix"></slot>
+            <div class="m-toolbar-item" v-if="types.length">
+                <div
+                    class="u-item"
+                    :style="style(item.value)"
+                    @mouseover="handleMouseOver(item.value)"
+                    @mouseout="handleMouseOut"
+                    v-for="(item, i) in types"
+                    :key="i"
+                    @click="changeType(item.value)"
+                >
+                    {{ item.label }}
+                </div>
             </div>
+            <slot name="prepend"></slot>
+            <div class="m-toolbar-item m-toolbar-search" v-if="search">
+                <slot name="filter"></slot>
+                <div class="u-search">
+                    <el-input
+                        placeholder="请输入搜索内容"
+                        v-model="title"
+                        suffix-icon="el-icon-search"
+                        class="u-search-input"
+                    />
+                </div>
+            </div>
+            <slot name="append"></slot>
         </div>
-        <slot name="append"></slot>
     </div>
 </template>
 
@@ -59,6 +65,9 @@ export default {
         };
     },
     computed: {
+        toolIsUsed() {
+            return !!this.$slots.tool; // 如果tool插槽被使用，返回true，否则返回false
+        },
         params() {
             const _params = {
                 type: this.type,

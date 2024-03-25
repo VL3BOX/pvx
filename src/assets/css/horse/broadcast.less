@@ -49,11 +49,14 @@
         }
         .m-list {
             .flex;
+            flex: 1;
             flex-direction: column;
             flex-wrap: wrap;
-            gap: 3px;
+            column-gap: 40px;
+            row-gap: 5px;
             .m-item {
                 .pr;
+                width: calc(50% - 20px);
                 &:nth-child(4n-3)::after {
                     content: "";
                     .pa;
@@ -68,10 +71,10 @@
                 .flex;
                 .pointer;
                 .r(10px);
-                .mr(40px);
+                // .mr(40px);
                 .bold;
                 .fz(14px);
-                .size(288px,43px);
+                .size(auto,43px);
                 background-color: #f5f5f5;
                 align-items: center;
                 padding: 0 10px;
@@ -132,6 +135,9 @@
             .w(100%);
         }
         .m-list {
+            .m-item {
+                width: 100%;
+            }
             .m-horse {
                 .w(100%);
                 box-sizing: border-box;

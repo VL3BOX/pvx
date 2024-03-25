@@ -1,6 +1,6 @@
 <template>
     <CommonToolbar search color="#d16400" :active="active" :types="list" @update="updateToolbar">
-        <template v-slot:prepend>
+        <template v-slot:tool>
             <div class="m-toolbar-item">
                 <el-select v-model="mapId" :class="{ active: mapId }" filterable class="u-select" clearable>
                     <el-option label="全部地图" value=""></el-option>
