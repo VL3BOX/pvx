@@ -10,7 +10,7 @@
         </div>
         <template v-if="!isOrigin">
             <div class="m-daily-item">
-                <div class="u-title">日常&福缘</div>
+                <div class="u-title">家园声望&福缘</div>
                 <SimpleDaily class="m-daily-content" :activities="activities"></SimpleDaily>
             </div>
             <div class="m-daily-item">
@@ -20,15 +20,15 @@
                 </div>
                 <SimpleCelebrity :type="currentCelebrity" class="m-daily-content"></SimpleCelebrity>
             </div>
-            <div class="m-daily-item">
+            <!-- <div class="m-daily-item">
                 <div class="u-title">武林通鉴</div>
                 <SimpleWeek class="m-daily-content" :activities="activities"></SimpleWeek>
-            </div>
-            <div class="m-daily-item">
+            </div> -->
+            <!-- <div class="m-daily-item">
                 <div class="u-title">家园</div>
                 <SimpleReputation :activities="activities"></SimpleReputation>
                 <SimpleFurniture :furniture="currentFurniture" :nextFurniture="nextFurniture"></SimpleFurniture>
-            </div>
+            </div> -->
             <div class="m-daily-item">
                 <div class="u-title">抓马播报</div>
                 <SimpleHorse class="m-daily-content"></SimpleHorse>
@@ -43,10 +43,10 @@ import { getFurniture, getDailyFromOs } from "@/service/gonggao";
 import SimpleNotice from "./daily/SimpleNotice.vue";
 import SimpleServer from "./daily/SimpleServer.vue";
 import SimpleDaily from "./daily/SimpleDaily.vue";
-import SimpleWeek from "./daily/SimpleWeek.vue";
+// import SimpleWeek from "./daily/SimpleWeek.vue";
 import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
-import SimpleReputation from "./daily/SimpleReputation.vue";
-import SimpleFurniture from "./daily/SimpleFurniture.vue";
+// import SimpleReputation from "./daily/SimpleReputation.vue";
+// import SimpleFurniture from "./daily/SimpleFurniture.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
 import dailyKeys from "@/assets/data/daily_keys.json";
 export default {
@@ -55,10 +55,10 @@ export default {
         SimpleNotice,
         SimpleServer,
         SimpleDaily,
-        SimpleReputation,
+        // SimpleReputation,
         SimpleCelebrity,
-        SimpleWeek,
-        SimpleFurniture,
+        // SimpleWeek,
+        // SimpleFurniture,
         SimpleHorse,
     },
     data() {
