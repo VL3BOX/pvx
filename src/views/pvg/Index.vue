@@ -46,9 +46,6 @@ export default {
             this.navStatusClass = navStatusClass;
         },
     },
-    mounted () {
-        this.$store.dispatch("loadItemKeys");
-    }
 };
 </script>
 

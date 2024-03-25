@@ -56,9 +56,6 @@ export default {
         client() {
             return this.$store.state.client;
         },
-        systemGoodsType() {
-            return this.$store.state.systemGoodsType;
-        },
         serverList() {
             return this.client == "std" ? server_cn : server_origin;
         },
@@ -98,7 +95,7 @@ export default {
     },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData({ key: this.systemGoodsType }).then((res) => {
+            getSystemGoodsData({ client: this.client }).then((res) => {
                 this.systemGoodsData = res.data.data;
                 this.getServerPriceData();
             });
