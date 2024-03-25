@@ -59,13 +59,10 @@ export default {
         client() {
             return this.$store.state.client;
         },
-        systemGoodsType() {
-            return this.$store.state.systemGoodsType;
-        },
     },
     methods: {
         getSystemGoodsData() {
-            getSystemGoodsData({ key: this.systemGoodsType }).then((res) => {
+            getSystemGoodsData({ client: this.client }).then((res) => {
                 this.systemGoodsData = res.data.data;
                 this.getServerPriceData();
             });
@@ -149,7 +146,6 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch("loadItemKeys");
         if (User.isLogin()) {
             this.getSystemGoodsData();
             this.getMyFollowList();

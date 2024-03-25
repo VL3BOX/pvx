@@ -1,6 +1,6 @@
 <template>
     <div class="m-simple-daily">
-        <div class="m-daily-wrap">
+        <!-- <div class="m-daily-wrap">
             <div class="m-simple-daily-item" :class="item.isDone && 'is-done'" v-for="item in daily" :key="item.name">
                 <div class="u-name">
                     <span>{{ item.name }}</span>
@@ -16,20 +16,23 @@
                     <span class="u-desc">{{ (meirentu && meirentu.name) || "今日暂无画像" }}</span>
                 </div>
             </el-tooltip>
-        </div>
+        </div> -->
+        <Reputation></Reputation>
         <SimplePet></SimplePet>
     </div>
 </template>
 
 <script>
-import { getMeirentu } from "@/service/gonggao";
+// import { getMeirentu } from "@/service/gonggao";
 import dayjs from "@/plugins/day";
-import dailyKeys from "@/assets/data/daily_keys.json";
+// import dailyKeys from "@/assets/data/daily_keys.json";
 import SimplePet from "./SimplePet";
+import Reputation from "./Reputation";
 export default {
     name: "SimpleDaily",
     components: {
         SimplePet,
+        Reputation,
     },
     props: {
         activities: {
@@ -39,7 +42,7 @@ export default {
     },
     data() {
         return {
-            meirentu: {},
+            // meirentu: {},
         };
     },
     computed: {
@@ -79,15 +82,15 @@ export default {
         },
     },
     methods: {
-        // 获取美人图
-        loadMeirentu() {
-            getMeirentu(this.server).then((res) => {
-                this.meirentu = res.data?.data || {};
-            });
-        },
+        // // 获取美人图
+        // loadMeirentu() {
+        //     getMeirentu(this.server).then((res) => {
+        //         this.meirentu = res.data?.data || {};
+        //     });
+        // },
     },
     mounted() {
-        this.loadMeirentu();
+        // this.loadMeirentu();
     },
 };
 </script>
