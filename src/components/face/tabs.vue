@@ -33,8 +33,21 @@
                 </el-popover>
             </div>
         </template>
-        <template v-slot:tool>
+        <template v-if="!isMininote" v-slot:append>
             <div class="m-toolbar-item m-toolbar-publish">
+                <a :href="link.data" target="_blank">
+                    <el-button type="primary" size="medium" class="u-analysis"> 数据解析 </el-button>
+                </a>
+                <a :href="publish_link(link.key)" target="_blank">
+                    <div class="u-face-publish">
+                        <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
+                        <span>发布作品</span>
+                    </div>
+                </a>
+            </div>
+        </template>
+        <template v-if="isMininote" v-slot:tool>
+            <div class="m-toolbar-item">
                 <a :href="publish_link(link.key)" target="_blank">
                     <div class="u-face-publish">
                         <img svg-inline src="@/assets/img/face/face-publish.svg" class="u-img" />
@@ -68,7 +81,7 @@ export default {
             is_new_face: -1,
             title: "",
             filterOpen: false,
-            isPhone: document.documentElement.clientWidth <= 1024 ? true : false,
+            screenWidth: window.innerWidth,
         };
     },
     computed: {
@@ -86,6 +99,10 @@ export default {
         client() {
             return this.$store.state.client;
         },
+        isMininote() {
+            const w = this.screenWidth;
+            return w <= 1280;
+        },
     },
 
     methods: {
@@ -100,6 +117,9 @@ export default {
             this.title = search;
             this.$emit("setActive", type);
         },
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        },
     },
     watch: {
         params: {
@@ -108,6 +128,12 @@ export default {
             }, 50),
             deep: true,
         },
+    },
+    mounted() {
+        window.addEventListener("resize", this.handleResize);
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.handleResize);
     },
 };
 </script>
@@ -192,14 +218,9 @@ export default {
         }
     }
 }
-.m-toolbar-publish {
-    .flex;
-    gap: 20px;
-}
-@media screen and (max-width: @phone) {
+@media screen and (max-width: @ipad) {
     .m-face-tabs {
         .m-toolbar-publish {
-            flex-wrap: wrap;
             order: -1;
             justify-content: space-between;
         }

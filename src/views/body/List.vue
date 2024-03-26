@@ -1,16 +1,36 @@
 <template>
     <div class="p-face-list" v-loading="loading" ref="listRef">
-        <faceTabs @change="handleBodyTabChange" :body_types="list" :link="link" :active="active" @setActive="setActive" />
+        <faceTabs
+            @change="handleBodyTabChange"
+            :body_types="list"
+            :link="link"
+            :active="active"
+            @setActive="setActive"
+        />
         <template v-if="active === -1">
-            <div v-for="(item, index) in list" :key="'l' + index" class="m-face-box" :class="{ none: !item.list.length }">
+            <div
+                v-for="(item, index) in list"
+                :key="'l' + index"
+                class="m-face-box"
+                :class="{ none: !item.list.length }"
+            >
                 <div class="u-type">
                     <div class="u-title">{{ item.label + "体型" }}</div>
                     <div class="u-all" @click="setActive(item.value)">查看全部</div>
                 </div>
 
-                <CommonList :class="{ search: tabsData.name }" :data="{ ...itemData, type: item.value }" @update:load="handleLoad">
+                <CommonList
+                    :class="{ search: tabsData.name }"
+                    :data="{ ...itemData, type: item.value }"
+                    @update:load="handleLoad"
+                >
                     <div class="m-common-list">
-                        <bodyItem v-for="item in item.list" :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
+                        <bodyItem
+                            v-for="item in item.list"
+                            :key="item.id"
+                            :item="item"
+                            :reporter="{ aggregate: listId(list) }"
+                        />
                     </div>
                 </CommonList>
             </div>
@@ -20,9 +40,20 @@
                 <div class="u-title">{{ typeName + "体型" }}</div>
             </div>
             <div class="m-face-list--all">
-                <bodyItem v-for="item in subList" :key="item.id" :item="item" :reporter="{ aggregate: listId(subList) }" />
+                <bodyItem
+                    v-for="item in subList"
+                    :key="item.id"
+                    :item="item"
+                    :reporter="{ aggregate: listId(subList) }"
+                />
             </div>
-            <el-button class="m-archive-more" v-show="hasNextPage" type="primary" @click="appendPage" :loading="loading" icon="el-icon-arrow-down"
+            <el-button
+                class="m-archive-more"
+                v-show="hasNextPage"
+                type="primary"
+                @click="appendPage"
+                :loading="loading"
+                icon="el-icon-arrow-down"
                 >加载更多</el-button
             >
             <el-pagination

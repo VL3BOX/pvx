@@ -48,6 +48,7 @@
                 </div>
             </div>
         </div>
+
         <div v-else class="w-no-data">{{ server }} 暂无播报</div>
     </div>
 </template>
@@ -111,7 +112,8 @@ export default {
             }
         },
         listData() {
-            let column = Math.floor((document.body.clientWidth - 430) / 350);
+            let column = Math.floor((document.body.clientWidth - 460) / 350);
+            console.log(column);
             let list = this.list || [];
             const arr = this.isPhone ? [] : new Array(column * 4 - 1 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));

@@ -1,8 +1,7 @@
 <template>
     <div class="m-common-toolbar">
-        <!-- 判断是否启用了slot、解决m-toolbar-tool 样式占用问题 -->
-        <div v-if="toolIsUsed" class="m-toolbar-tool">
-            <slot name="tool"></slot>
+        <div class="m-toolbar-tool">
+            <slot name="tool"> </slot>
         </div>
         <div class="m-toolbar-box">
             <slot name="prefix"></slot>
