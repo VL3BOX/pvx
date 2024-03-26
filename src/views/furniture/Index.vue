@@ -11,7 +11,7 @@
             <template slot="default">
                 <div class="u-furniture-select" :class="version && 'is-selected'">
                     <label v-if="!isPhone">庐园广记</label>
-                    <el-select v-model="version" clearable :placeholder="isPhone ? '庐园广记' : ''">
+                    <el-select v-model="version" :placeholder="isPhone ? '庐园广记' : ''">
                         <el-option
                             v-for="item in versions"
                             :key="item.nDlcID"
@@ -247,7 +247,6 @@ export default {
         },
         categoryFlat() {
             let arr = [];
-
             Object.entries(categoryCss).forEach(([key, value]) => {
                 value.forEach((item) => {
                     arr.push({
@@ -299,8 +298,6 @@ export default {
                 this.childActive = "";
                 this.active = "";
                 this.getFurnitureSet();
-            } else {
-                this.$refs.search.formData.nCatag1Index = this.search.match ? "" : "1";
             }
         },
         search: {

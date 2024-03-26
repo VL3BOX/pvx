@@ -22,7 +22,7 @@
                             v-for="typeItem in item.options.filter((rItem) => !rItem.link)"
                             :key="typeItem.type"
                             :label="typeItem.type"
-                        >{{ typeItem.name }}</el-radio-button
+                            >{{ typeItem.name }}</el-radio-button
                         >
                     </el-radio-group>
                     <template v-if="item.options.filter((rItem) => rItem.link).length">
@@ -32,7 +32,7 @@
                             class="type-item"
                             v-for="typeItem in item.options.filter((rItem) => rItem.link)"
                             :key="typeItem.type"
-                        >{{ typeItem.name }}</a
+                            >{{ typeItem.name }}</a
                         >
                     </template>
                 </template>
@@ -91,8 +91,8 @@
                                                 customLabel === option.label
                                                     ? customLabel
                                                     : option.label.indexOf("·") > -1
-                                                        ? option.label.split("·")[1]
-                                                        : option.label
+                                                    ? option.label.split("·")[1]
+                                                    : option.label
                                             }}
                                         </el-checkbox-button>
                                     </el-checkbox-group>
@@ -106,7 +106,7 @@
                                             v-for="radioItem in fItem.options"
                                             :key="radioItem.type"
                                             :label="radioItem.key"
-                                        >{{ radioItem.value }}</el-radio-button
+                                            >{{ radioItem.value }}</el-radio-button
                                         >
                                     </el-radio-group>
                                 </div>
@@ -130,7 +130,6 @@
                         v-model="formData[item.key]"
                         :multiple="item.multiple"
                         :collapse-tags="item.multiple"
-                        clearable
                         :filterable="item.filterable"
                         :placeholder="!item.noPlaceholder ? `请${item.remote ? '输入' : '选择'}${item.name}` : '请选择'"
                         :remote="Boolean(item.remote)"
