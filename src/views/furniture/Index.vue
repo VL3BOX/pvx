@@ -408,7 +408,7 @@ export default {
             });
         },
         getData() {
-            this.version = "";
+            // this.version = "";
             this.setList = [];
             const params = deleteNull(this.params);
             this.loading = true;

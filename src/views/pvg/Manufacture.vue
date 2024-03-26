@@ -1,5 +1,5 @@
 <template>
-    <div class="m-manufacture"> 
+    <div class="m-manufacture">
         <CommonToolbar color="#07ad36" search :active="active" :types="craftList" @update="updateToolbar" />
 
         <div class="m-manufacture-body">
@@ -82,7 +82,6 @@ export default {
                         }) || [];
                     if (this.craftList.length) this.index = 0;
                     this.active = this.craftList[0].value;
-            
                 })
                 .finally(() => {
                     this.loading = false;
@@ -164,6 +163,9 @@ export default {
 <style lang="less">
 @import "~@/assets/css/common/tabs.less";
 
+.m-manufacture .m-common-toolbar .m-toolbar-item .u-search .u-search-input input {
+    background: #fff !important;
+}
 .m-manufacture-body {
     .pt(20px);
     .flex;

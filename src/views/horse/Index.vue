@@ -13,7 +13,7 @@
                     <el-popover
                         ref="popover"
                         :placement="isPhone ? 'right' : 'bottom'"
-                        :width="isPhone ? '100%' : '420px'"
+                        :width="!isPhone && 420"
                         trigger="click"
                     >
                         <div class="filter-content">
