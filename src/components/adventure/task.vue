@@ -71,7 +71,7 @@ export default {
             return link.match(/(\S*)Adventure\/(\S*)\.tga/)[2];
         },
         imgUrl(link) {
-            return this.__imgRoot + `adventure/${this.client}/${link}.png`;
+            return this.__imgRoot + `adventure/std/${link}.png`;
         },
         getImg(info) { 
             const type = info.szRewardType;
