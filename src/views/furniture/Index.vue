@@ -247,6 +247,7 @@ export default {
         },
         categoryFlat() {
             let arr = [];
+
             Object.entries(categoryCss).forEach(([key, value]) => {
                 value.forEach((item) => {
                     arr.push({
@@ -295,9 +296,12 @@ export default {
             if (this.version) {
                 this.$refs.search.reset();
                 this.$refs.search.formData.nCatag1Index = "";
+                this.$refs.search.formData.name = "";
                 this.childActive = "";
                 this.active = "";
                 this.getFurnitureSet();
+            } else if (this.search.name) {
+                this.$refs.search.formData.nCatag1Index = "1";
             }
         },
         search: {
@@ -405,7 +409,7 @@ export default {
             });
         },
         getData() {
-            // this.version = "";
+            this.version = "";
             this.setList = [];
             const params = deleteNull(this.params);
             this.loading = true;

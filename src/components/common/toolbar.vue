@@ -64,9 +64,6 @@ export default {
         };
     },
     computed: {
-        toolIsUsed() {
-            return !!this.$slots.tool; // 如果tool插槽被使用，返回true，否则返回false
-        },
         params() {
             const _params = {
                 type: this.type,
@@ -99,6 +96,9 @@ export default {
             handler: function (obj) {
                 this.$emit("update", obj);
             },
+        },
+        active(v) {
+            this.changeType(v);
         },
         types: {
             immediate: true,

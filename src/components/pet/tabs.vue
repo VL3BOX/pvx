@@ -81,7 +81,6 @@ export default {
         },
         isMininote() {
             const w = this.screenWidth;
-            console.log(1);
             return w <= 1280;
         },
     },

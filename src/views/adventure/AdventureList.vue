@@ -174,7 +174,7 @@ export default {
         active: {
             immediate: true,
             handler: function (val) {
-                this.per = val == "all" ? this.count : this.count * 3; 
+                this.per = val == "all" ? this.count : this.count * 3;
                 this.page = 1;
             },
         },
@@ -245,7 +245,6 @@ export default {
         },
         // 搜索toolbar传值
         onSearch(params) {
-            console.log(params)
             this.page = 1;
             this.tabsData = params;
         },
