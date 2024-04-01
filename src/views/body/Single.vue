@@ -25,11 +25,11 @@
                 <div class="u-author">
                     <img class="u-avatar" :src="showAvatar(post.user_avatar)" :alt="post.user_avatar_frame" />
                     <a class="u-name" :href="authorLink(post.user_id)" target="_blank" v-if="!!post.original">{{
-                            post.display_name
-                        }}</a>
+                        post.display_name
+                    }}</a>
                     <a class="u-name" :href="post.author_link" target="_blank" v-else-if="post.author_link">{{
-                            post.author_name
-                        }}</a>
+                        post.author_name
+                    }}</a>
                     <span class="u-name" v-else>{{ post.author_name }}</span>
                     <time class="u-time">{{ post.updated_at }}</time>
                     <a class="u-edit" v-if="canEdit" :href="editLink('body', post.id)" target="_blank">
@@ -43,8 +43,8 @@
                     <i class="u-original" v-if="!!post.original">原创</i>
                     <i class="u-client" :class="post.client || 'std'">{{ showClientLabel(post.client) }}</i>
                     <i class="u-bodytype" :class="'u-bodytype-' + post.body_type" v-if="post.body_type">{{
-                            showBodyTypeLabel(post.body_type)
-                        }}</i>
+                        showBodyTypeLabel(post.body_type)
+                    }}</i>
                 </div>
             </div>
             <a :href="tvLink" target="_blank" class="m-topic" v-if="topicText">{{ topicText }}</a>
@@ -112,13 +112,13 @@
                     <span
                         @click="rightShow = 'desc'"
                         :style="rightShow === 'data' ? 'color: #c2c5c7;cursor: pointer;' : ''"
-                    >说明</span
+                        >说明</span
                     >
                     <span
                         @click="rightShow = 'data'"
                         v-if="downFileList && downFileList.length"
                         :style="rightShow === 'desc' ? 'color: #c2c5c7;cursor: pointer;' : ''"
-                    >数据列表</span
+                        >数据列表</span
                     >
                 </div>
                 <div
@@ -230,7 +230,7 @@ export default {
     components: {
         Bodydat,
         Comment,
-        bodyItem ,
+        bodyItem,
         authorItem,
     },
     data: function () {

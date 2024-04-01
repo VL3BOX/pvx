@@ -5,32 +5,29 @@
             <template v-if="active === 0">
                 <div v-for="(item, i) in list" :key="item.label + i" class="m-book-list">
                     <template v-if="item.list.length">
-                        <div class="u-type" :class="{ reading: item.id === 8 }">
-                            <div class="u-title">
-                                【{{ item.label }}】
-                                <span
-                                    >共<b>{{ item.total }} </b>本{{ item.label }}</span
-                                >
-                            </div>
-                            <div class="u-all" @click="clickTabs(item.id)" v-if="item.id !== 8">查看全部</div>
-                        </div>
-
-                        <CommonList
+                        <CardBannerList
+                            v-if="item.id !== 8"
+                            :count="count"
+                            :minw="190"
                             :data="{ ...itemData, type: item.id }"
                             @update:load="handleLoad"
-                            v-if="item.id !== 8"
+                            :items="item.list"
                         >
-                            <div class="m-common-list">
-                                <BookCard
-                                    :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
-                                    v-for="(item, index) in item.list"
-                                    :key="index + Math.random()"
-                                    :item="item"
-                                    :reporter="{ aggregate: listId(item.list) }"
-                                    @click="setItem(item)"
-                                />
-                            </div>
-                        </CommonList>
+                            <template v-slot:title>
+                                <div>
+                                    【{{ item.label }}】
+                                    <span class="u-tips">
+                                        共<b>{{ item.total }} </b>本{{ item.label }}
+                                    </span>
+                                </div>
+                            </template>
+                            <template v-slot:action>
+                                <div @click="clickTabs(item.id)" v-if="item.id !== 8">查看全部</div>
+                            </template>
+                            <template v-slot="{ item }">
+                                <BookCard :item="item" :reporter="{ aggregate: listId(list) }" @click="setItem(item)" />
+                            </template>
+                        </CardBannerList>
                         <list-cross v-else key="recentRead" ref="recentRead" :list="item.list" :radius="10" :gap="20">
                             <template v-slot="data">
                                 <BookCard :item="data.item"></BookCard>
@@ -39,60 +36,62 @@
                     </template>
                 </div>
             </template>
-            <div class="m-book-list" v-else>
-                <div class="u-type u-all-type">
-                    <div class="u-title">{{ typeName }}</div>
-                    <div v-if="active !== 0" class="m-operate">
-                        <div
-                            class="m-item"
-                            :class="showType === item.value && 'active'"
-                            :key="item.value + Math.random()"
-                            v-for="item in showTypes"
-                            @click="showType = item.value"
-                        >
-                            {{ item.label }}
+            <div v-else class="m-book-all">
+                <div class="m-book-list">
+                    <div class="u-type u-all-type">
+                        <div class="u-title">{{ typeName }}</div>
+                        <div v-if="active !== 0" class="m-operate">
+                            <div
+                                class="m-item"
+                                :class="showType === item.value && 'active'"
+                                :key="item.value + Math.random()"
+                                v-for="item in showTypes"
+                                @click="showType = item.value"
+                            >
+                                {{ item.label }}
+                            </div>
                         </div>
                     </div>
+                    <template v-if="subList.length">
+                        <div class="m-book-list--card" v-if="showType === 'card'">
+                            <BookCard
+                                v-for="item in subList"
+                                :key="item.ID + Math.random()"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </div>
+                        <div class="m-book-list--list" v-if="showType === 'list'">
+                            <ListHead></ListHead>
+                            <BookItem
+                                v-for="item in subList"
+                                :key="item.ID + Math.random()"
+                                :item="item"
+                                :reporter="{ aggregate: listId(subList) }"
+                            />
+                        </div>
+                    </template>
+                    <el-button
+                        class="m-archive-more"
+                        v-show="hasNextPage"
+                        type="primary"
+                        plain
+                        @click="appendPage"
+                        :loading="loading"
+                        icon="el-icon-arrow-down"
+                        >加载更多</el-button
+                    >
+                    <el-pagination
+                        class="m-archive-pages"
+                        background
+                        layout="total, prev, pager, next, jumper"
+                        :hide-on-single-page="true"
+                        :page-size="per"
+                        :total="total"
+                        :current-page="page"
+                        @current-change="changePage"
+                    ></el-pagination>
                 </div>
-                <template v-if="subList.length">
-                    <div class="m-book-list--card" v-if="showType === 'card'">
-                        <BookCard
-                            v-for="item in subList"
-                            :key="item.ID + Math.random()"
-                            :item="item"
-                            :reporter="{ aggregate: listId(subList) }"
-                        />
-                    </div>
-                    <div class="m-book-list--list" v-if="showType === 'list'">
-                        <ListHead></ListHead>
-                        <BookItem
-                            v-for="item in subList"
-                            :key="item.ID + Math.random()"
-                            :item="item"
-                            :reporter="{ aggregate: listId(subList) }"
-                        />
-                    </div>
-                </template>
-                <el-button
-                    class="m-archive-more"
-                    v-show="hasNextPage"
-                    type="primary"
-                    plain
-                    @click="appendPage"
-                    :loading="loading"
-                    icon="el-icon-arrow-down"
-                    >加载更多</el-button
-                >
-                <el-pagination
-                    class="m-archive-pages"
-                    background
-                    layout="total, prev, pager, next, jumper"
-                    :hide-on-single-page="true"
-                    :page-size="per"
-                    :total="total"
-                    :current-page="page"
-                    @current-change="changePage"
-                ></el-pagination>
             </div>
         </div>
     </div>
@@ -100,7 +99,7 @@
 
 <script>
 import ListCross from "@/components/ListCross.vue";
-import CommonList from "@/components/common/list.vue";
+import CardBannerList from "@/components/common/card_banner_list.vue";
 import CommonToolbar from "@/components/common/toolbar.vue";
 import professions from "@/assets/data/book_profession.json";
 import { isPhone } from "@/utils/index";
@@ -113,7 +112,7 @@ import { getList } from "@/service/book";
 
 export default {
     name: "Index",
-    components: { CommonList, CommonToolbar, BookCard, BookItem, ListHead, ListCross },
+    components: { CardBannerList, CommonToolbar, BookCard, BookItem, ListHead, ListCross },
     data() {
         return {
             loading: false,

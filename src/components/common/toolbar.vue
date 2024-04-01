@@ -97,9 +97,6 @@ export default {
                 this.$emit("update", obj);
             },
         },
-        active(v) {
-            this.changeType(v);
-        },
         types: {
             immediate: true,
             deep: true,

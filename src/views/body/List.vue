@@ -14,25 +14,24 @@
                 class="m-face-box"
                 :class="{ none: !item.list.length }"
             >
-                <div class="u-type">
-                    <div class="u-title">{{ item.label + "体型" }}</div>
-                    <div class="u-all" @click="setActive(item.value)">查看全部</div>
-                </div>
-
-                <CommonList
+                <CardBannerList
                     :class="{ search: tabsData.name }"
+                    :count="count"
+                    :minw="200"
                     :data="{ ...itemData, type: item.value }"
                     @update:load="handleLoad"
+                    :items="item.list"
                 >
-                    <div class="m-common-list">
-                        <bodyItem
-                            v-for="item in item.list"
-                            :key="item.id"
-                            :item="item"
-                            :reporter="{ aggregate: listId(list) }"
-                        />
-                    </div>
-                </CommonList>
+                    <template v-slot:title>
+                        <div>{{ item.label + "体型" }}</div>
+                    </template>
+                    <template v-slot:action>
+                        <div @click="setActive(item.value)">查看全部</div>
+                    </template>
+                    <template v-slot="{ item }">
+                        <bodyItem :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
+                    </template>
+                </CardBannerList>
             </div>
         </template>
         <div class="m-face-box" v-else>
@@ -73,7 +72,7 @@
     </div>
 </template>
 <script>
-import CommonList from "@/components/common/list.vue";
+import CardBannerList from "@/components/common/card_banner_list.vue";
 import faceTabs from "@/components/face/tabs";
 import bodyItem from "@/components/body/item";
 import { isPhone } from "@/utils/index";
@@ -82,7 +81,7 @@ import { getBodyList, getSliders } from "@/service/body";
 
 export default {
     name: "face",
-    components: { CommonList, faceTabs, bodyItem },
+    components: { CardBannerList, faceTabs, bodyItem },
     data() {
         return {
             loading: false,
@@ -197,7 +196,6 @@ export default {
                     this.list[index].page = page.index || 1;
                     this.list[index].pages = page.pageTotal || 1;
                     if (this.active !== -1) this.page = page.index || 1;
-
                     this.total = page.total;
                 })
                 .finally(() => {

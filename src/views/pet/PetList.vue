@@ -196,6 +196,7 @@ export default {
             this.page = 1;
             document.documentElement.scrollTop = 0;
             this.typeName = this.getTypeName();
+            this.Type = [...Type];
         },
         getTypeName() {
             let type = this.Type.filter((item) => item.class == this.active);

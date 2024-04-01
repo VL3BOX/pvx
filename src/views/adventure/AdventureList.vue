@@ -9,25 +9,24 @@
                 :class="`m-adventure-list-${index}`"
             >
                 <template v-if="item.list.length">
-                    <div class="u-type">
-                        <div class="u-title">{{ item.label + "奇遇" }}</div>
-                        <div class="u-all" @click="setActive(item.value)">查看全部</div>
-                    </div>
-
-                    <CommonList
+                    <CardBannerList
                         :class="{ search: tabsData.name }"
+                        :count="count"
+                        :minw="212"
                         :data="{ ...itemData, type: item.value }"
                         @update:load="handleLoad"
+                        :items="item.list"
                     >
-                        <div class="m-common-list">
-                            <AdventureItem
-                                v-for="item in item.list"
-                                :key="item.id"
-                                :item="item"
-                                :reporter="{ aggregate: listId(list) }"
-                            />
-                        </div>
-                    </CommonList>
+                        <template v-slot:title>
+                            <div>{{ item.label + "奇遇" }}</div>
+                        </template>
+                        <template v-slot:action>
+                            <div @click="setActive(item.value)">查看全部</div>
+                        </template>
+                        <template v-slot="{ item }">
+                            <AdventureItem :key="item.id" :item="item" :reporter="{ aggregate: listId(list) }" />
+                        </template>
+                    </CardBannerList>
                 </template>
             </div>
         </template>
@@ -70,7 +69,7 @@
 </template>
 
 <script>
-import CommonList from "@/components/common/list.vue";
+import CardBannerList from "@/components/common/card_banner_list.vue";
 import AdventureTabs from "@/components/adventure/tabs.vue";
 import AdventureItem from "@/components/adventure/item.vue";
 import { getAdventures } from "@/service/adventure";
@@ -80,7 +79,7 @@ import dayjs from "@/plugins/day";
 export default {
     name: "adventureList",
     props: [],
-    components: { AdventureTabs, AdventureItem, CommonList },
+    components: { CardBannerList, AdventureTabs, AdventureItem },
     data: function () {
         return {
             loading: false,

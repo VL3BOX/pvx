@@ -1,8 +1,10 @@
 @import "./pop.less";
 .m-horse-card {
     .pointer;
-    .size(200px,289px);
+    // .size(200px,289px);
     .r(10px);
+    display: block;
+    height: 289px;
     background-color: #fff;
     box-sizing: border-box;
     border: 1px solid #fff;
@@ -78,7 +80,7 @@
 }
 
 @media screen and (max-width: @phone) {
-    .m-horse-card {   
+    .m-horse-card {
         flex-shrink: 0;
     }
 }

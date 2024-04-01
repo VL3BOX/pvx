@@ -1,6 +1,7 @@
 <template>
     <div class="horse-home-wrapper">
         <CommonToolbar
+            ref="toolbar"
             class="m-horse-tabs"
             :active="active"
             color="#d16400"
@@ -50,35 +51,27 @@
                 <!-- 普通坐骑、奇趣坐骑、马具 -->
                 <div v-for="(item, i) in typeList" :key="i" class="m-list-wrapper">
                     <template v-if="item.list && item.list.length">
-                        <div class="u-type">
-                            <div class="u-title">
-                                {{ item.name }}
-                            </div>
-                            <div class="u-all" @click="clickTabs(item.value)">查看全部</div>
-                        </div>
-
-                        <CommonList :data="{ ...itemData, type: item.type }" @update:load="handleLoad">
-                            <div class="m-common-list">
+                        <CardBannerList
+                            :count="count"
+                            :data="{ ...itemData, type: item.type }"
+                            @update:load="handleLoad"
+                            :items="item.list"
+                        >
+                            <template v-slot:title>
+                                <div>{{ item.name }}</div>
+                            </template>
+                            <template v-slot:action>
+                                <div @click="clickTabs(item.value)" :v="item.value">查看全部</div>
+                            </template>
+                            <template v-slot="{ item: _item }">
                                 <template v-if="item.type !== 2">
-                                    <HorseCard
-                                        :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
-                                        v-for="item in item.list"
-                                        :key="item.ID"
-                                        :item="item"
-                                        :reporter="{ aggregate: listId(item.list) }"
-                                    />
+                                    <HorseCard :key="_item.ID" :item="_item" :reporter="{ aggregate: listId(list) }" />
                                 </template>
                                 <template v-else>
-                                    <SameItem
-                                        :style="!isPhone ? `width: calc(100% / ${count} - 20px)` : ''"
-                                        v-for="item in item.list"
-                                        :key="item.ID"
-                                        :item="item"
-                                        :reporter="{ aggregate: listId(item.list) }"
-                                    />
+                                    <SameItem :key="_item.ID" :item="_item" :reporter="{ aggregate: listId(list) }" />
                                 </template>
-                            </div>
-                        </CommonList>
+                            </template>
+                        </CardBannerList>
                     </template>
                 </div>
             </template>
@@ -157,7 +150,6 @@
 <script>
 import { getHorses, getFeeds, getAttrs } from "@/service/horse";
 import { list, searchType, showTypes } from "@/assets/data/horse.json";
-import CommonList from "@/components/common/list.vue";
 import CommonToolbar from "@/components/common/toolbar.vue";
 import HorseBroadcastV2 from "@/components/horse/HorseBroadcastV2";
 import HorseCard from "@/components/horse/HorseCard";
@@ -167,9 +159,11 @@ import HorseItem from "@/components/horse/HorseItem";
 import { omit, cloneDeep, concat } from "lodash";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 import { isPhone } from "@/utils/index";
+import CardBannerList from "@/components/common/card_banner_list.vue";
+
 export default {
     name: "HorseHome",
-    components: { SameItem, HorseCard, HorseBroadcastV2, CommonList, CommonToolbar, ListHead, HorseItem },
+    components: { SameItem, HorseCard, HorseBroadcastV2, CardBannerList, CommonToolbar, ListHead, HorseItem },
     data() {
         return {
             loading: false,
@@ -254,6 +248,8 @@ export default {
                 e.page = 1;
                 return e;
             });
+            console.log();
+            this.$refs.toolbar.changeType(type);
             this.page = 1;
         },
         loadInfoData() {
